@@ -39,7 +39,7 @@ public class InstanceSettings implements IInstanceSettings {
     private int consulPort;
 
     /** Zookeeper hostname info for microservices */
-    @Value("#{systemEnvironment['sitewhere.zookeeper.host'] ?: 'localhost'}")
+    @Value("#{systemEnvironment['sitewhere.zookeeper.host'] ?: 'zookeeper'}")
     private String zookeeperHost;
 
     /** Zookeeper port info for microservices */
@@ -75,7 +75,7 @@ public class InstanceSettings implements IInstanceSettings {
     private String publicHostname;
 
     /** Microservice publicly resolvable hostname */
-    @Value("#{systemEnvironment['sitewhere.k8s.pod.ip'] ?: '#{null}'}")
+    @Value("#{systemEnvironment['sitewhere.k8s.pod.ip'] ?: null}")
     private String kubernetesPodAddress;
 
     /*
