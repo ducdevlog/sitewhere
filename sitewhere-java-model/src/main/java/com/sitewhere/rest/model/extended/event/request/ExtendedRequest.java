@@ -22,4 +22,12 @@ public class ExtendedRequest extends MetadataProvider
 	public String getData() {
 		return data;
 	}
+
+	public void setRequestType(String requestType) {
+		this.requestType = requestType;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
 }

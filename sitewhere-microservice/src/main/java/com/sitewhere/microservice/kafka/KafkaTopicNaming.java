@@ -23,6 +23,9 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
     /** Separator used to partition topic name */
     protected static final String SEPARATOR = ".";
 
+	/** Template used to insert additional data to topic */
+	protected static final String TEMPLATE = "{}";
+
     /** Global topic indicator */
     protected static final String GLOBAL_INDICATOR = "global";
 
@@ -46,6 +49,9 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
 
     /** Topic suffix for events that could not be decoded for a tenant */
     protected static final String TENANT_TOPIC_EVENT_SOURCE_FAILED_DECODE_EVENTS = "event-source-failed-decode-events";
+
+	/** Topic suffix for extend events decoded by event source for a tenant */
+	protected static final String TENANT_TOPIC_EVENT_SOURCE_EXTENDED_EVENTS = "event-source-extended-events";
 
     /** Topic suffix for events that should be reprocessed */
     protected static final String TENANT_TOPIC_INBOUND_REPROCESS_EVENTS = "inbound-reprocess-events";
@@ -155,7 +161,16 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
 	return getTenantPrefix(tenant) + TENANT_TOPIC_EVENT_SOURCE_DECODED_EVENTS;
     }
 
-    /*
+	/*
+	 * @see com.sitewhere.microservice.spi.kafka.IKafkaTopicNaming#
+	 * getEventSourceDecodedEventsTopic(com.sitewhere.spi.tenant.ITenant)
+	 */
+	@Override
+	public String getEventSourceExtendedEventsTopic(ITenant tenant) {
+		return getTenantPrefix(tenant) + TENANT_TOPIC_EVENT_SOURCE_EXTENDED_EVENTS + SEPARATOR + TEMPLATE;
+	}
+
+	/*
      * @see com.sitewhere.spi.microservice.kafka.IKafkaTopicNaming#
      * getEventSourceFailedDecodeTopic(com.sitewhere.spi.tenant.ITenant)
      */

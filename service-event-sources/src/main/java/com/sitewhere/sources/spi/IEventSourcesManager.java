@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.sitewhere.sources.kafka.DecodedEventsProducer;
 import com.sitewhere.sources.kafka.DeviceRegistrationEventsProducer;
+import com.sitewhere.sources.kafka.ExtendedEventsProducer;
 import com.sitewhere.sources.kafka.FailedDecodeEventsProducer;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.server.lifecycle.ITenantEngineLifecycleComponent;
@@ -36,6 +37,13 @@ public interface IEventSourcesManager extends ITenantEngineLifecycleComponent {
      * @return
      */
     public DecodedEventsProducer getDecodedEventsProducer();
+
+    /**
+     * Get Kafka producer for extended events.
+     *
+     * @return
+     */
+    public ExtendedEventsProducer getExtendedEventsProducer();
 
     /**
      * Get Kafka producer for events that could not be decoded.

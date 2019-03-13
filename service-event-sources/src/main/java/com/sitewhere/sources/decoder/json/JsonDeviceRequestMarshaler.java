@@ -24,6 +24,7 @@ import com.sitewhere.rest.model.device.event.request.DeviceMeasurementCreateRequ
 import com.sitewhere.rest.model.device.event.request.DeviceRegistrationRequest;
 import com.sitewhere.rest.model.device.request.DeviceStreamCreateRequest;
 import com.sitewhere.rest.model.device.streaming.request.DeviceStreamDataCreateRequest;
+import com.sitewhere.rest.model.extended.event.request.ExtendedRequest;
 import com.sitewhere.sources.DecodedDeviceRequest;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandResponseCreateRequest;
@@ -32,6 +33,7 @@ import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStreamCreateRequest;
 import com.sitewhere.spi.device.streaming.request.IDeviceStreamDataCreateRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedRequest;
 
 /**
  * Custom marshaler for converting JSON payloads to {@link DecodedDeviceRequest}
@@ -153,6 +155,14 @@ public class JsonDeviceRequestMarshaler extends JsonDeserializer<DecodedDeviceRe
 		    DeviceCommandResponseCreateRequest.class);
 	    decoded.setRequest(req);
 	    return decoded;
+	}
+	case ExtendedEvent: {
+		DecodedDeviceRequest<IExtendedRequest> decoded = new DecodedDeviceRequest<>();
+		decoded.setDeviceToken(deviceToken);
+		decoded.setOriginator(originator);
+		IExtendedRequest req = MAPPER.treeToValue(json, ExtendedRequest.class);
+		decoded.setRequest(req);
+		return decoded;
 	}
 	default: {
 	    throw new JsonMappingException("Unhandled event type: " + type.name());
