@@ -19,7 +19,7 @@ public class ExtendedRequest extends MetadataProvider
 	}
 
 	@Override
-	public String getData() {
+	public Object getData() {
 		return data;
 	}
 
