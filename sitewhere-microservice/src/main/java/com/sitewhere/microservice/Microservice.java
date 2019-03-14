@@ -230,7 +230,7 @@ public abstract class Microservice<T extends IFunctionIdentifier> extends Lifecy
 	// Record start time.
 	this.startTime = System.currentTimeMillis();
 	getServiceDiscoveryProvider().registerService();
-	getMicroserviceAnalytics().sendMicroserviceStarted(this);
+//	getMicroserviceAnalytics().sendMicroserviceStarted(this);
 
 	// Start sending heartbeats.
 	getMicroserviceHeartbeatService().execute(new Heartbeat());
