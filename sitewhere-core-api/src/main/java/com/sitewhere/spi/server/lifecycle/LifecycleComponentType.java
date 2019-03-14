@@ -128,6 +128,9 @@ public enum LifecycleComponentType {
     /** Script template manager */
     ScriptTemplateManager,
 
+    /** OpenHAB rule manager */
+    OpenHabRuleManager,
+
     /** Unclassified component */
     Other,
 }

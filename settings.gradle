@@ -18,6 +18,7 @@ include ':service-streaming-media'
 include ':service-tenant-management'
 include ':service-user-management'
 include ':service-web-rest'
+include ':service-openhab-rule'
 
 include ':sitewhere-cassandra'
 include ':sitewhere-communication'
@@ -54,6 +55,7 @@ project(':service-streaming-media').projectDir = "$rootDir/service-streaming-med
 project(':service-tenant-management').projectDir = "$rootDir/service-tenant-management" as File
 project(':service-user-management').projectDir = "$rootDir/service-user-management" as File
 project(':service-web-rest').projectDir = "$rootDir/service-web-rest" as File
+project(':service-openhab-rule').projectDir = "$rootDir/service-openhab-rule" as File
 
 project(':sitewhere-cassandra').projectDir = "$rootDir/sitewhere-cassandra" as File
 project(':sitewhere-communication').projectDir = "$rootDir/sitewhere-communication" as File
