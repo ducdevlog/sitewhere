@@ -9,7 +9,7 @@
 package com.sitewhere.spi.extended.event.kafka;
 
 
-import com.sitewhere.spi.extended.event.request.IExtendedRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedCreateRequest;
 
 import java.io.Serializable;
 
@@ -40,5 +40,5 @@ public interface IExtendedRequestPayload extends Serializable {
 	 *
 	 * @return
 	 */
-	public IExtendedRequest getExtendedRequest();
+	public IExtendedCreateRequest getExtendedRequest();
 }

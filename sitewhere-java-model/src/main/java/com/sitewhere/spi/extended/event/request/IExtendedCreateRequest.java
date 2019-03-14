@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 
-public interface IExtendedRequest extends IMetadataProvider, Serializable {
+public interface IExtendedCreateRequest extends IMetadataProvider, Serializable {
 	String getRequestType();
 	Object getData();
 	Date getUpdateDate();

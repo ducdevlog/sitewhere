@@ -11,15 +11,14 @@ package com.sitewhere.rest.model.extended.event.request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sitewhere.rest.model.common.MetadataProvider;
-import com.sitewhere.spi.extended.event.request.IExtendedRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedCreateRequest;
 
-import java.time.Instant;
 import java.util.Date;
 
 
 @JsonInclude(Include.NON_NULL)
-public class ExtendedRequest extends MetadataProvider
-		implements IExtendedRequest {
+public class ExtendedCreateRequest extends MetadataProvider
+		implements IExtendedCreateRequest {
 
 	private String requestType;
 	private Object data;

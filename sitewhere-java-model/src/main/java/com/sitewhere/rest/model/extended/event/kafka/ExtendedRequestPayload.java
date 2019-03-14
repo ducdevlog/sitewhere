@@ -9,7 +9,7 @@
 package com.sitewhere.rest.model.extended.event.kafka;
 
 import com.sitewhere.spi.extended.event.kafka.IExtendedRequestPayload;
-import com.sitewhere.spi.extended.event.request.IExtendedRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedCreateRequest;
 
 public class ExtendedRequestPayload implements IExtendedRequestPayload {
 
@@ -23,7 +23,7 @@ public class ExtendedRequestPayload implements IExtendedRequestPayload {
 	private String originator;
 
 	/** Event create request */
-	private IExtendedRequest extendedRequest;
+	private IExtendedCreateRequest extendedRequest;
 
 	@Override
 	public String getSourceId() {
@@ -41,7 +41,7 @@ public class ExtendedRequestPayload implements IExtendedRequestPayload {
 	}
 
 	@Override
-	public IExtendedRequest getExtendedRequest() {
+	public IExtendedCreateRequest getExtendedRequest() {
 		return extendedRequest;
 	}
 
@@ -57,7 +57,7 @@ public class ExtendedRequestPayload implements IExtendedRequestPayload {
 		this.originator = originator;
 	}
 
-	public void setExtendedRequest(IExtendedRequest extendedRequest) {
+	public void setExtendedRequest(IExtendedCreateRequest extendedRequest) {
 		this.extendedRequest = extendedRequest;
 	}
 }
