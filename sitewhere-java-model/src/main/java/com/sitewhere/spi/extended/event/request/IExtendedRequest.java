@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 public interface IExtendedRequest extends IMetadataProvider, Serializable {
 	String getRequestType();
-	String getData();
+	Object getData();
 }

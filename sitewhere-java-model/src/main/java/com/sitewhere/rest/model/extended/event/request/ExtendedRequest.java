@@ -11,7 +11,7 @@ public class ExtendedRequest extends MetadataProvider
 		implements IExtendedRequest {
 
 	private String requestType;
-	private String data;
+	private Object data;
 
 	@Override
 	public String getRequestType() {
@@ -19,7 +19,7 @@ public class ExtendedRequest extends MetadataProvider
 	}
 
 	@Override
-	public String getData() {
+	public Object getData() {
 		return data;
 	}
 

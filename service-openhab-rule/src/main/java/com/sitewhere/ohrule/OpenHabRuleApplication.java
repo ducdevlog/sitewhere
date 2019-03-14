@@ -20,4 +20,4 @@ public class OpenHabRuleApplication extends MicroserviceApplication<IOpenHabRule
 	public static void main(String[] args) {
 		SpringApplication.run(OpenHabRuleApplication.class, args);
 	}
-
+}
