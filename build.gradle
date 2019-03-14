@@ -5,7 +5,7 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
 		classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
-		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
 		classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
 		classpath 'com.bmuschko:gradle-docker-plugin:4.3.0'
 		classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
@@ -17,6 +17,8 @@ buildscript {
 ext {
     git = org.ajoberstar.grgit.Grgit.open(currentDir: file('.'))
 }
+
+ext['grpc.version'] = '1.16.1'
 
 ext['git.revision'] = ext.git.head().id
 ext['git.revision.abbrev'] = ext.git.head().abbreviatedId

@@ -2,8 +2,12 @@ description = 'SiteWhere GRPC Client Support'
 
 dependencies {
     compile project(':sitewhere-core')
-    
-    compile group: 'com.sitewhere', name: 'sitewhere-grpc-asset-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
+    compile group: 'io.grpc', name: 'grpc-core', version: '1.19.0'
+    compile group: 'io.grpc', name: 'grpc-netty', version: '1.19.0'
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.19.0'
+    compile group: 'io.grpc', name: 'grpc-all', version: '1.19.0'
+
+    /*compile group: 'com.sitewhere', name: 'sitewhere-grpc-asset-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-batch-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-device-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-device-state', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
@@ -12,9 +16,11 @@ dependencies {
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-schedule-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-stream-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-tenant-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
-    compile group: 'com.sitewhere', name: 'sitewhere-grpc-user-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
+    compile group: 'com.sitewhere', name: 'sitewhere-grpc-user-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"*/
 	
     compile group: 'org.ehcache', name: 'ehcache', version: '3.6.1'
+    compile fileTree(include: ['*.jar'], dir: '../libs')
+
 }
 
 license {
