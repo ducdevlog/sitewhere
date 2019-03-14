@@ -6,6 +6,8 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.19.0'
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.19.0'
     compile group: 'io.grpc', name: 'grpc-all', version: '1.19.0'
+    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.7.0'
+
 
     /*compile group: 'com.sitewhere', name: 'sitewhere-grpc-asset-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
     compile group: 'com.sitewhere', name: 'sitewhere-grpc-batch-management', version: "${rootProject.ext['sitewhere.grpc.api.version']}"
