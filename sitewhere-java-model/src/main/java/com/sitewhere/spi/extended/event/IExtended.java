@@ -6,16 +6,13 @@
  * LICENSE.txt file.
  */
 
-package com.sitewhere.spi.extended.event.request;
-
-import com.sitewhere.spi.common.IMetadataProvider;
+package com.sitewhere.spi.extended.event;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Date;
 
-public interface IExtendedCreateRequest extends IMetadataProvider, Serializable {
-	String getRequestType();
-	String getData();
-	Date getUpdateDate();
+public interface IExtended extends Serializable {
+    String getRequestType();
+    String getData();
+    Date getUpdateDate();
 }

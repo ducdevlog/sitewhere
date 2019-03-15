@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.sitewhere.grpc.client.device.DeviceModelMarshaler;
 import com.sitewhere.grpc.client.event.EventModelMarshaler;
+import com.sitewhere.grpc.client.extended.ExtendedModelMarshaler;
 import com.sitewhere.rest.model.device.event.kafka.DeviceRegistrationPayload;
 import com.sitewhere.rest.model.device.event.kafka.InboundEventPayload;
 import com.sitewhere.rest.model.extended.event.kafka.ExtendedRequestPayload;
@@ -27,7 +28,7 @@ import com.sitewhere.sources.spi.IInboundEventSource;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.request.IDeviceEventCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest;
-import com.sitewhere.spi.extended.event.request.IExtendedRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedCreateRequest;
 import com.sitewhere.spi.server.lifecycle.ICompositeLifecycleStep;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleStatus;
@@ -186,16 +187,14 @@ public class EventSourcesManager extends TenantEngineLifecycleComponent implemen
 	    } else {
 		getLogger().warn("Producer not started. Unable to add device registration event to topic.");
 	    }
-	} else if (decoded.getRequest() instanceof IExtendedRequest) {
+	} else if (decoded.getRequest() instanceof IExtendedCreateRequest) {
 		if (getExtendedEventsProducer().getLifecycleStatus() == LifecycleStatus.Started) {
 			ExtendedRequestPayload payload = new ExtendedRequestPayload();
 			payload.setSourceId(sourceId);
 			payload.setDeviceToken(decoded.getDeviceToken());
 			payload.setOriginator(decoded.getOriginator());
-			payload.setExtendedRequest((IExtendedRequest) decoded.getRequest());
-			// TODO: Implement convert payload to gRPC format before publish to kafka
-			getExtendedEventsProducer().send(decoded.getDeviceToken(),null);
-//					DeviceModelMarshaler.buildDeviceRegistrationPayloadMessage(payload));
+			payload.setExtendedRequest((IExtendedCreateRequest) decoded.getRequest());
+			getExtendedEventsProducer().send(decoded.getDeviceToken(), ExtendedModelMarshaler.buildInboundExtendedPayloadMessage(payload));
 		} else {
 			getLogger().warn("Producer not started. Unable to add extended event to topic.");
 		}

@@ -21,7 +21,7 @@ public class ExtendedCreateRequest extends MetadataProvider
 		implements IExtendedCreateRequest {
 
 	private String requestType;
-	private Object data;
+	private String data;
 	private Date updateDate;
 
 	@Override
@@ -30,7 +30,7 @@ public class ExtendedCreateRequest extends MetadataProvider
 	}
 
 	@Override
-	public Object getData() {
+	public String getData() {
 		return data;
 	}
 
