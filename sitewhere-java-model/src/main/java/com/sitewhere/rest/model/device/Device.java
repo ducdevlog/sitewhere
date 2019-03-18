@@ -9,6 +9,7 @@ package com.sitewhere.rest.model.device;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sitewhere.rest.model.common.PersistentEntity;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceElementMapping;
+import com.sitewhere.spi.device.IListItemName;
 import com.sitewhere.spi.device.element.IDeviceElementSchema;
 
 /**
@@ -46,6 +48,16 @@ public class Device extends PersistentEntity implements IDevice {
 
     /** Status indicator */
     private String status;
+
+
+    /** Gateway id of Device*/
+    private String gatewayId;
+
+    /** Gateway map Item Channel Link*/
+    private Map<String, IListItemName> itemChannelLink;
+
+    /** Action delete*/
+    private boolean delete;
 
     /*
      * @see com.sitewhere.spi.device.IDevice#getDeviceTypeId()
@@ -124,5 +136,32 @@ public class Device extends PersistentEntity implements IDevice {
 
     public void setStatus(String status) {
 	this.status = status;
+    }
+
+    @Override
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
+    }
+
+    @Override
+    public Map<String, IListItemName> getItemChannelLink() {
+        return itemChannelLink;
+    }
+
+    public void setItemChannelLink(Map<String, IListItemName> itemChannelLink) {
+        this.itemChannelLink = itemChannelLink;
+    }
+
+    @Override
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

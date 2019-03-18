@@ -8,9 +8,11 @@
 package com.sitewhere.spi.device.request;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sitewhere.spi.common.request.IPersistentEntityCreateRequest;
 import com.sitewhere.spi.device.IDeviceElementMapping;
+import com.sitewhere.spi.device.IListItemName;
 
 /**
  * Interface for arguments needed to create a device.
@@ -60,4 +62,25 @@ public interface IDeviceCreateRequest extends IPersistentEntityCreateRequest {
      * @return
      */
     public String getStatus();
+
+    /**
+     * Get gateway Id.
+     *
+     * @return
+     */
+    public String getGatewayId();
+
+    /**
+     * Get map Item Channel Link.
+     *
+     * @return
+     */
+    public Map<String, IListItemName> getItemChannelLink();
+
+    /**
+     * Get action delete.
+     *
+     * @return
+     */
+    public boolean isDelete();
 }

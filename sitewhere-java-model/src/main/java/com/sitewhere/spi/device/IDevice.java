@@ -8,6 +8,7 @@
 package com.sitewhere.spi.device;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.sitewhere.spi.common.IPersistentEntity;
@@ -62,4 +63,25 @@ public interface IDevice extends IPersistentEntity {
      * @return
      */
     public String getStatus();
+
+    /**
+     * Get gateway Id.
+     *
+     * @return
+     */
+    public String getGatewayId();
+
+    /**
+     * Get map Item Channel Link.
+     *
+     * @return
+     */
+    public Map<String, IListItemName> getItemChannelLink();
+
+    /**
+     * Get action delete.
+     *
+     * @return
+     */
+    public boolean isDelete();
 }
