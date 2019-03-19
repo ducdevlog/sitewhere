@@ -1060,7 +1060,7 @@ public class DeviceModelConverter {
 				for (String itemName : api.getItemChannelLink().get(channel)) {
 					listItemName.addItemNames(itemName);
 				}
-				grpc.getItemChannelLinkMap().put(channel, listItemName.build());
+				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
 
@@ -1143,7 +1143,7 @@ public class DeviceModelConverter {
 				for (String itemName : api.getItemChannelLink().get(channel)) {
 					listItemName.addItemNames(itemName);
 				}
-				grpc.getItemChannelLinkMap().put(channel, listItemName.build());
+				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
 
@@ -1222,7 +1222,7 @@ public class DeviceModelConverter {
 				for (String itemName : api.getItemChannelLink().get(channel)) {
 					listItemName.addItemNames(itemName);
 				}
-				grpc.getItemChannelLinkMap().put(channel, listItemName.build());
+				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
 
