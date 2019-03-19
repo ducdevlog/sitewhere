@@ -75,7 +75,7 @@ public interface IDeviceCreateRequest extends IPersistentEntityCreateRequest {
      *
      * @return
      */
-    public Map<String, IListItemName> getItemChannelLink();
+    public Map<String, List<String>> getItemChannelLink();
 
     /**
      * Get action delete.
