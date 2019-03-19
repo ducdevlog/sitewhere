@@ -54,7 +54,7 @@ public class Device extends PersistentEntity implements IDevice {
     private String gatewayId;
 
     /** Gateway map Item Channel Link*/
-    private Map<String, IListItemName> itemChannelLink;
+    private Map<String, List<String>> itemChannelLink;
 
     /** Action delete*/
     private boolean delete;
@@ -148,11 +148,11 @@ public class Device extends PersistentEntity implements IDevice {
     }
 
     @Override
-    public Map<String, IListItemName> getItemChannelLink() {
+    public Map<String, List<String>> getItemChannelLink() {
         return itemChannelLink;
     }
 
-    public void setItemChannelLink(Map<String, IListItemName> itemChannelLink) {
+    public void setItemChannelLink(Map<String, List<String>> itemChannelLink) {
         this.itemChannelLink = itemChannelLink;
     }
 

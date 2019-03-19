@@ -1176,11 +1176,11 @@ public class DeviceModelConverter {
 	api.setDeviceElementMappings(
 		DeviceModelConverter.asApiDeviceElementMappings(grpc.getDeviceElementMappingsList()));
 		api.setGatewayId(grpc.hasGatewayId() ? grpc.getGatewayId().getValue() : null);
-		Map<String, IListItemName> listItemNameMap = new HashMap<>();
+		Map<String, List<String>> listItemNameMap = new HashMap<>();
 		for (String channel : grpc.getItemChannelLinkMap().keySet()) {
 			GListItemName list = grpc.getItemChannelLinkMap().get(channel);
-			ListItemName listItemName = new ListItemName();
-			listItemName.setItemNames(list.getItemNamesList());
+			List<String> listItemName = new ArrayList<>();
+			listItemName.addAll(list.getItemNamesList());
 			listItemNameMap.put(channel, listItemName);
 		}
 		api.setItemChannelLink(listItemNameMap);
@@ -1219,7 +1219,7 @@ public class DeviceModelConverter {
 		if (api.getItemChannelLink() != null) {
 			for (String channel : api.getItemChannelLink().keySet()) {
 				GListItemName.Builder listItemName = GListItemName.newBuilder();
-				for (String itemName : api.getItemChannelLink().get(channel).getItemNames()) {
+				for (String itemName : api.getItemChannelLink().get(channel)) {
 					listItemName.addItemNames(itemName);
 				}
 				grpc.getItemChannelLinkMap().put(channel, listItemName.build());
