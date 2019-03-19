@@ -2,10 +2,10 @@ description = 'SiteWhere GRPC Client Support'
 
 dependencies {
     compile project(':sitewhere-core')
-    compile group: 'io.grpc', name: 'grpc-core', version: "${rootProject.ext['grpc.version']}"
-    compile group: 'io.grpc', name: 'grpc-netty', version: "${rootProject.ext['grpc.version']}"
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: "${rootProject.ext['grpc.version']}"
-    compile group: 'io.grpc', name: 'grpc-all', version: "${rootProject.ext['grpc.version']}"
+    compile group: 'io.grpc', name: 'grpc-core', version: '1.16.1'
+    compile group: 'io.grpc', name: 'grpc-netty', version: '1.16.1'
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.16.1'
+    compile group: 'io.grpc', name: 'grpc-all', version: '1.16.1'
     compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.3.0'
 
 
