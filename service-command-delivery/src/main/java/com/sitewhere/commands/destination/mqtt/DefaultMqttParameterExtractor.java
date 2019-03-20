@@ -64,7 +64,11 @@ public class DefaultMqttParameterExtractor extends TenantEngineLifecycleComponen
 
 	Map<String, String> values = new HashMap<>();
 	values.put("tenant", getTenantEngine().getTenant().getToken());
-	values.put("device", nesting.getGateway().getToken());
+	if (nesting.getGateway().getGatewayId() == null) {
+        values.put("device", nesting.getGateway().getToken());
+    } else {
+        values.put("device", nesting.getGateway().getGatewayId());
+    }
 	values.put("assignment", assignment.getToken());
 
 	String commandTopic = StrSubstitutor.replace(getCommandTopicExpr(), values);
