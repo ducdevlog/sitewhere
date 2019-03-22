@@ -51,8 +51,11 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	/** Property for hardware id */
 	public static final String PROP_HARDWARE_ID = "hardwareId";
 
-	/** Property for gateway id */
+	/** Property for item channel link */
 	public static final String PROP_ITEM_CHANNEL_LINK = "itemChannelLink";
+
+	/** Property for configuration gateway */
+	public static final String PROP_CONFIGURATION_GATEWAY = "configurationGateway";
 
     /*
      * (non-Javadoc)
@@ -88,6 +91,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		target.append(PROP_GATEWAY_ID, source.getGatewayId());
 		target.append(PROP_HARDWARE_ID, source.getHardwareId());
 		target.append(PROP_ITEM_CHANNEL_LINK, source.getItemChannelLink());
+		target.append(PROP_CONFIGURATION_GATEWAY, source.getConfigurationGateway());
 
 	// Save nested list of mappings.
 	List<Document> mappings = new ArrayList<Document>();
@@ -115,6 +119,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		String gatewayId = (String) source.get(PROP_GATEWAY_ID);
 		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
 		Object itemChannelLink = (Object) source.get(PROP_ITEM_CHANNEL_LINK);
+		Map<String, String> configurationGateway = (Map<String, String>) source.get(PROP_ITEM_CHANNEL_LINK);
 
 	target.setDeviceTypeId(typeId);
 	target.setParentDeviceId(parentDeviceId);
@@ -129,6 +134,8 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	} catch (Exception ex) {
 		ex.printStackTrace();
 	}
+
+	target.setConfigurationGateway(configurationGateway);
 
 	List<Document> mappings = (List<Document>) source.get(PROP_DEVICE_ELEMENT_MAPPINGS);
 	if (mappings != null) {

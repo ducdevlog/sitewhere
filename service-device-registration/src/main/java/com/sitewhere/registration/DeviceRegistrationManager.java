@@ -138,6 +138,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setGatewayId(request.getGatewayId());
 	    deviceCreate.setHardwareId(request.getHardwareId());
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
+	    deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {

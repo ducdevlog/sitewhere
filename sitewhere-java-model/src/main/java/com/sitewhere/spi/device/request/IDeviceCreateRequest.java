@@ -85,6 +85,13 @@ public interface IDeviceCreateRequest extends IPersistentEntityCreateRequest {
     public Map<String, List<String>> getItemChannelLink();
 
     /**
+     * Get map Configuration Gateway.
+     *
+     * @return
+     */
+    public Map<String, String> getConfigurationGateway();
+
+    /**
      * Get action delete.
      *
      * @return

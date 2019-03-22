@@ -586,6 +586,7 @@ public class DeviceManagementPersistence extends Persistence {
 	device.setGatewayId(request.getGatewayId());
 	device.setHardwareId(request.getHardwareId());
 	device.setItemChannelLink(request.getItemChannelLink());
+	device.setConfigurationGateway(request.getConfigurationGateway());
 	return device;
     }
 
@@ -630,6 +631,9 @@ public class DeviceManagementPersistence extends Persistence {
 		}
 	if (request.getItemChannelLink() != null) {
 		target.setItemChannelLink(request.getItemChannelLink());
+	}
+	if (request.getConfigurationGateway() != null) {
+		target.setConfigurationGateway(request.getConfigurationGateway());
 	}
     }
 

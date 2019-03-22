@@ -1016,6 +1016,7 @@ public class DeviceModelConverter {
 			listItemNameMap.put(channel, listItemName);
 		}
 		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
 		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	api.setMetadata(grpc.getMetadataMap());
 	api.setCustomerToken(grpc.hasCustomerToken() ? grpc.getCustomerToken().getValue() : null);
@@ -1069,6 +1070,10 @@ public class DeviceModelConverter {
 			}
 		}
 
+		if (api.getConfigurationGateway() != null) {
+			grpc.putAllConfigurationGateway(api.getConfigurationGateway());
+		}
+
 		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
 
 	if (api.getMetadata() != null) {
@@ -1109,6 +1114,7 @@ public class DeviceModelConverter {
 			listItemNameMap.put(channel, listItemName);
 		}
 		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
 		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	api.setMetadata(grpc.getMetadataMap());
 	return api;
@@ -1155,7 +1161,9 @@ public class DeviceModelConverter {
 				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
-
+		if (api.getConfigurationGateway() != null) {
+			grpc.putAllConfigurationGateway(api.getConfigurationGateway());
+		}
 		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
 
 	grpc.addAllDeviceElementMappings(
@@ -1194,6 +1202,7 @@ public class DeviceModelConverter {
 			listItemNameMap.put(channel, listItemName);
 		}
 		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
 		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
@@ -1239,7 +1248,9 @@ public class DeviceModelConverter {
 				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
-
+		if (api.getConfigurationGateway() != null) {
+			grpc.putAllConfigurationGateway(api.getConfigurationGateway());
+		}
 		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
 
 	grpc.addAllDeviceElementMappings(

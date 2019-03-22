@@ -56,6 +56,9 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
     /** Gateway map Item Channel Link*/
     private Map<String, List<String>> itemChannelLink;
 
+    /** Gateway map Configuration Gateway*/
+    private Map<String, String> configurationGateway;
+
     /** Action delete*/
     private boolean delete;
 
@@ -154,6 +157,14 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
         this.itemChannelLink = itemChannelLink;
     }
 
+    public Map<String, String> getConfigurationGateway() {
+        return configurationGateway;
+    }
+
+    public void setConfigurationGateway(Map<String, String> configurationGateway) {
+        this.configurationGateway = configurationGateway;
+    }
+
     @Override
     public boolean isDelete() {
         return delete;
@@ -188,6 +199,7 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 	    request.setGatewayId("");
 	    request.setHardwareId("");
 	    request.setItemChannelLink(null);
+	    request.setConfigurationGateway(null);
 	    request.setDelete(false);
 	}
 

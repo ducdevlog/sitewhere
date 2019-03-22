@@ -60,6 +60,9 @@ public class Device extends PersistentEntity implements IDevice {
     /** Gateway map Item Channel Link*/
     private Map<String, List<String>> itemChannelLink;
 
+    /** Gateway map Configuration Gateway*/
+    private Map<String, String> configurationGateway;
+
     /** Action delete*/
     @JsonIgnore
     private boolean delete;
@@ -176,5 +179,13 @@ public class Device extends PersistentEntity implements IDevice {
 
     public void setHardwareId(String hardwareId) {
         this.hardwareId = hardwareId;
+    }
+
+    public Map<String, String> getConfigurationGateway() {
+        return configurationGateway;
+    }
+
+    public void setConfigurationGateway(Map<String, String> configurationGateway) {
+        this.configurationGateway = configurationGateway;
     }
 }

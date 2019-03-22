@@ -86,6 +86,13 @@ public interface IDevice extends IPersistentEntity {
     public Map<String, List<String>> getItemChannelLink();
 
     /**
+     * Get map configuration OpenHab.
+     *
+     * @return
+     */
+    public Map<String, String> getConfigurationGateway();
+
+    /**
      * Get action delete.
      *
      * @return
