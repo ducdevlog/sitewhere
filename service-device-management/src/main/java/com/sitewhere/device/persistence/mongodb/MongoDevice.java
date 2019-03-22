@@ -118,8 +118,8 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	UUID assignmentId = (UUID) source.get(PROP_ASSIGNMENT_ID);
 		String gatewayId = (String) source.get(PROP_GATEWAY_ID);
 		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
-		Object itemChannelLink = (Object) source.get(PROP_ITEM_CHANNEL_LINK);
-		Map<String, String> configurationGateway = (Map<String, String>) source.get(PROP_ITEM_CHANNEL_LINK);
+		Object itemChannelLink = source.get(PROP_ITEM_CHANNEL_LINK);
+		Object configurationGateway = source.get(PROP_ITEM_CHANNEL_LINK);
 
 	target.setDeviceTypeId(typeId);
 	target.setParentDeviceId(parentDeviceId);
@@ -135,7 +135,13 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		ex.printStackTrace();
 	}
 
-	target.setConfigurationGateway(configurationGateway);
+		try {
+			Map<String, String> configurationGatewayMap = (Map<String, String>) configurationGateway;
+			target.setConfigurationGateway(configurationGatewayMap);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 
 	List<Document> mappings = (List<Document>) source.get(PROP_DEVICE_ELEMENT_MAPPINGS);
 	if (mappings != null) {
