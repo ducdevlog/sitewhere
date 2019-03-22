@@ -1248,9 +1248,9 @@ public class DeviceModelConverter {
 				grpc.putItemChannelLink(channel, listItemName.build());
 			}
 		}
-		if (api.getConfigurationGateway() != null) {
+		/*if (api.getConfigurationGateway() != null) {
 			grpc.putAllConfigurationGateway(api.getConfigurationGateway());
-		}
+		}*/
 		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
 
 	grpc.addAllDeviceElementMappings(
