@@ -48,6 +48,9 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	/** Property for gateway id */
 	public static final String PROP_GATEWAY_ID = "gatewayId";
 
+	/** Property for hardware id */
+	public static final String PROP_HARDWARE_ID = "hardwareId";
+
 	/** Property for gateway id */
 	public static final String PROP_ITEM_CHANNEL_LINK = "itemChannelLink";
 
@@ -83,6 +86,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.append(PROP_ASSIGNMENT_ID, source.getDeviceAssignmentId());
 
 		target.append(PROP_GATEWAY_ID, source.getGatewayId());
+		target.append(PROP_HARDWARE_ID, source.getHardwareId());
 		target.append(PROP_ITEM_CHANNEL_LINK, source.getItemChannelLink());
 
 	// Save nested list of mappings.
@@ -109,6 +113,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	String comments = (String) source.get(PROP_COMMENTS);
 	UUID assignmentId = (UUID) source.get(PROP_ASSIGNMENT_ID);
 		String gatewayId = (String) source.get(PROP_GATEWAY_ID);
+		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
 		Object itemChannelLink = (Object) source.get(PROP_ITEM_CHANNEL_LINK);
 
 	target.setDeviceTypeId(typeId);
@@ -117,6 +122,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.setComments(comments);
 	target.setDeviceAssignmentId(assignmentId);
 	target.setGatewayId(gatewayId);
+	target.setHardwareId(hardwareId);
 	try {
 		Map<String, List<String>> itemChannelLinkView = (Map<String, List<String>>) itemChannelLink;
 		target.setItemChannelLink(itemChannelLinkView);

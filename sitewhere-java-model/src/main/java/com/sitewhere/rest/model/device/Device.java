@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sitewhere.rest.model.common.PersistentEntity;
@@ -53,10 +54,14 @@ public class Device extends PersistentEntity implements IDevice {
     /** Gateway id of Device*/
     private String gatewayId;
 
+    /** Hardware id of Device*/
+    private String hardwareId;
+
     /** Gateway map Item Channel Link*/
     private Map<String, List<String>> itemChannelLink;
 
     /** Action delete*/
+    @JsonIgnore
     private boolean delete;
 
     /*
@@ -163,5 +168,13 @@ public class Device extends PersistentEntity implements IDevice {
 
     public void setDelete(boolean delete) {
         this.delete = delete;
+    }
+
+    public String getHardwareId() {
+        return hardwareId;
+    }
+
+    public void setHardwareId(String hardwareId) {
+        this.hardwareId = hardwareId;
     }
 }

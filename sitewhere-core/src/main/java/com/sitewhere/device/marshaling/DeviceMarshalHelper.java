@@ -76,6 +76,7 @@ public class DeviceMarshalHelper {
 	result.setStatus(source.getStatus());
 	result.setComments(source.getComments());
 		result.setGatewayId(source.getGatewayId());
+		result.setHardwareId(source.getHardwareId());
 		result.setItemChannelLink(source.getItemChannelLink());
 
 	PersistentEntity.copy(source, result);

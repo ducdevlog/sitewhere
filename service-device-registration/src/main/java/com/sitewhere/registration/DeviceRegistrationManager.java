@@ -135,6 +135,9 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setParentDeviceToken(request.getParentDeviceToken());
 	    deviceCreate.setComments(request.getComments() != null ? request.getComments()
 		    : "Device created by on-demand registration.");
+	    deviceCreate.setGatewayId(request.getGatewayId());
+	    deviceCreate.setHardwareId(request.getHardwareId());
+	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
 	    deviceCreate.setMetadata(request.getMetadata());
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {

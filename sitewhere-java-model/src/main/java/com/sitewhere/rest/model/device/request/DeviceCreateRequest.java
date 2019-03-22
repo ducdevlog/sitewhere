@@ -50,6 +50,9 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
     /** Gateway id of Device*/
     private String gatewayId;
 
+    /** Hardware id of Device*/
+    private String hardwareId;
+
     /** Gateway map Item Channel Link*/
     private Map<String, List<String>> itemChannelLink;
 
@@ -134,6 +137,15 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
     }
 
     @Override
+    public String getHardwareId() {
+        return hardwareId;
+    }
+
+    public void setHardwareId(String hardwareId) {
+        this.hardwareId = hardwareId;
+    }
+
+    @Override
     public Map<String, List<String>> getItemChannelLink() {
         return itemChannelLink;
     }
@@ -174,6 +186,7 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 	    request.setStatus(null);
 	    request.setComments("");
 	    request.setGatewayId("");
+	    request.setHardwareId("");
 	    request.setItemChannelLink(null);
 	    request.setDelete(false);
 	}

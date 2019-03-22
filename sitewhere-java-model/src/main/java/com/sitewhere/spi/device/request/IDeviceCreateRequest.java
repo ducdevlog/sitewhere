@@ -71,6 +71,13 @@ public interface IDeviceCreateRequest extends IPersistentEntityCreateRequest {
     public String getGatewayId();
 
     /**
+     * Get hardware Id.
+     *
+     * @return
+     */
+    public String getHardwareId();
+
+    /**
      * Get map Item Channel Link.
      *
      * @return

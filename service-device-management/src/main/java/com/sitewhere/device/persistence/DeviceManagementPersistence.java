@@ -584,6 +584,7 @@ public class DeviceManagementPersistence extends Persistence {
 	device.setComments(request.getComments());
 	device.setStatus(request.getStatus());
 	device.setGatewayId(request.getGatewayId());
+	device.setHardwareId(request.getHardwareId());
 	device.setItemChannelLink(request.getItemChannelLink());
 	return device;
     }
@@ -624,6 +625,9 @@ public class DeviceManagementPersistence extends Persistence {
 	if (request.getGatewayId() != null) {
 		target.setGatewayId(request.getGatewayId());
 	}
+		if (request.getHardwareId() != null) {
+			target.setHardwareId(request.getHardwareId());
+		}
 	if (request.getItemChannelLink() != null) {
 		target.setItemChannelLink(request.getItemChannelLink());
 	}
