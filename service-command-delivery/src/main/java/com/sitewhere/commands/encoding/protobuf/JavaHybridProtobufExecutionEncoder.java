@@ -54,7 +54,7 @@ public class JavaHybridProtobufExecutionEncoder extends ProtobufExecutionEncoder
 	    out.writeObject(parameterValues);
 	    out.writeObject(new DeviceEventOriginator(execution.getInvocation()));
 	    out.flush();
-	    getLogger().debug("Custom command being encoded length:\n\n" + encoded.toByteArray().length);
+	    getLogger().info("Custom command being encoded length:\n\n" + encoded.toByteArray().length);
 	    return encoded.toByteArray();
 	} catch (IOException e) {
 	    throw new SiteWhereException("Unable to encode command.", e);
