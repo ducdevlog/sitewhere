@@ -451,7 +451,9 @@ public class DeviceModelConverter {
 	    grpc.setDeviceElementSchema(DeviceModelConverter.asGrpcDeviceElementSchema(api.getDeviceElementSchema()));
 	}
 	grpc.putAllMetadata(api.getMetadata());
-	grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
+	if	(api.getReversedMessageType() != null) {
+		grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
+	}
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
     }
@@ -492,7 +494,9 @@ public class DeviceModelConverter {
 	}
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
-	grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
+		if	(api.getReversedMessageType() != null) {
+			grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
+		}
 	return grpc.build();
     }
 
