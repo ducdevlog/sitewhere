@@ -35,6 +35,9 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
     /** Measurement value */
     private double value;
 
+	/** Measurement value String*/
+	private String valueString;
+
     public DeviceMeasurementCreateRequest() {
 	setEventType(DeviceEventType.Measurement);
     }
@@ -65,7 +68,15 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
 	this.value = value;
     }
 
-    public static class Builder extends DeviceEventCreateRequest.Builder<DeviceMeasurementCreateRequest> {
+	public String getValueString() {
+		return valueString;
+	}
+
+	public void setValueString(String valueString) {
+		this.valueString = valueString;
+	}
+
+	public static class Builder extends DeviceEventCreateRequest.Builder<DeviceMeasurementCreateRequest> {
 
 	private DeviceMeasurementCreateRequest request = new DeviceMeasurementCreateRequest();
 
@@ -77,6 +88,13 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
 	    request.setValue(value);
 	    return this;
 	}
+
+        public Builder measurement(String name, double value, String valueString) {
+            request.setName(name);
+            request.setValue(value);
+            request.setValueString(valueString);
+            return this;
+        }
 
 	public Builder metadata(String name, String value) {
 	    if (request.getMetadata() == null) {

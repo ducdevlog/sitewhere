@@ -44,6 +44,9 @@ public interface ISolrFields {
     /** Measurement value */
     public static final String MX_VALUE = "mxValue";
 
+    /** Measurement value string */
+    public static final String MX_VALUE_STRING = "mxValueString";
+
     /** Location */
     public static final String LOCATION = "location";
 

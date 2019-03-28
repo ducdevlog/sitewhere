@@ -31,6 +31,9 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
     /** Measurement value */
     private Double value;
 
+    /** Measurement value String*/
+    private String valueString;
+
     public DeviceMeasurement() {
 	super(DeviceEventType.Measurement);
     }
@@ -57,5 +60,14 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
 
     public void setValue(Double value) {
 	this.value = value;
+    }
+
+    @Override
+    public String getValueString() {
+        return valueString;
+    }
+
+    public void setValueString(String valueString) {
+        this.valueString = valueString;
     }
 }

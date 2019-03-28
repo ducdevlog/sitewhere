@@ -48,4 +48,11 @@ public class DeviceMeasurementsWithAsset extends DeviceEventWithAsset implements
     public Double getValue() {
 	return ((IDeviceMeasurement) getWrapped()).getValue();
     }
+
+    @Override
+    public String getValueString() {
+        return ((IDeviceMeasurement) getWrapped()).getValueString();
+    }
+
+
 }

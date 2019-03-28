@@ -120,6 +120,7 @@ public class JsonDeviceRequestMarshaler extends JsonDeserializer<DecodedDeviceRe
 	    decoded.setDeviceToken(deviceToken);
 	    decoded.setOriginator(originator);
 	    IDeviceMeasurementCreateRequest req = MAPPER.treeToValue(json, DeviceMeasurementCreateRequest.class);
+
 	    decoded.setRequest(req);
 	    return decoded;
 	}

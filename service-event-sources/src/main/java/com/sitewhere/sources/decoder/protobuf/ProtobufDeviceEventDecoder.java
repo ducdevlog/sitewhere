@@ -173,6 +173,7 @@ public class ProtobufDeviceEventDecoder extends TenantEngineLifecycleComponent i
 
 		request.setName(dm.getMeasurementName().getValue());
 		request.setValue(dm.getMeasurementValue().getValue());
+		request.setValueString(dm.getMeasurementValueString().getValue());
 
 		if (dm.hasUpdateState()) {
 		    request.setUpdateState(dm.getUpdateState().getValue());

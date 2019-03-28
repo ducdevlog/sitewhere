@@ -4,7 +4,7 @@ dependencies {
 	compile project(':sitewhere-core')
     
      // Protobuf device API.
-    compile group: 'com.sitewhere', name: 'sitewhere-device-protobuf', version:'2.0.1'
+    //compile group: 'com.sitewhere', name: 'sitewhere-device-protobuf', version:'2.0.1'
     
      // CoAP dependencies.
     compile group: 'org.eclipse.californium', name: 'californium-core', version:'1.0.4'
@@ -14,6 +14,8 @@ dependencies {
     compile group: 'org.fusesource.hawtdispatch', name: 'hawtdispatch', version:'1.22'
 	
 	compile group: 'com.google.protobuf', name: 'protobuf-java', version: "${rootProject.ext['protobuf.version']}"
+
+    compile fileTree(include: ['*.jar'], dir: '../libs')
 }
 
 test {

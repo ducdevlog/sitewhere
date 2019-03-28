@@ -29,4 +29,6 @@ public interface IDeviceMeasurementCreateRequest extends IDeviceEventCreateReque
      * @return
      */
     public double getValue();
+
+    public String getValueString();
 }
