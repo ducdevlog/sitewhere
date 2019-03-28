@@ -1,6 +1,7 @@
 /bin
 /deploy
 /target
+**/out/
 
 ### Gradle ###
 build

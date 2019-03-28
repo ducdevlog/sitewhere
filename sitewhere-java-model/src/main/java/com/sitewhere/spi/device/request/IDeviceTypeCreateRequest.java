@@ -10,6 +10,7 @@ package com.sitewhere.spi.device.request;
 import com.sitewhere.spi.common.IAccessible;
 import com.sitewhere.spi.common.request.IBrandedEntityCreateRequest;
 import com.sitewhere.spi.device.DeviceContainerPolicy;
+import com.sitewhere.spi.device.ReversedMessageType;
 import com.sitewhere.spi.device.element.IDeviceElementSchema;
 
 /**
@@ -32,4 +33,11 @@ public interface IDeviceTypeCreateRequest extends IAccessible, IBrandedEntityCre
      * @return
      */
     public IDeviceElementSchema getDeviceElementSchema();
+
+    /**
+     * Get type of message that indicate size of message to devices.
+     *
+     * @return
+     */
+    ReversedMessageType getReversedMessageType();
 }

@@ -16,6 +16,7 @@ import com.sitewhere.rest.model.device.element.DeviceElementSchema;
 import com.sitewhere.rest.model.device.element.DeviceSlot;
 import com.sitewhere.rest.model.device.element.DeviceUnit;
 import com.sitewhere.spi.device.DeviceContainerPolicy;
+import com.sitewhere.spi.device.ReversedMessageType;
 import com.sitewhere.spi.device.element.IDeviceElementSchema;
 import com.sitewhere.spi.device.request.IDeviceTypeCreateRequest;
 
@@ -41,6 +42,9 @@ public class DeviceTypeCreateRequest extends BrandedEntityCreateRequest implemen
 
     /** Device element schema for specifications that support nested devices */
     private DeviceElementSchema deviceElementSchema;
+
+	/** Indicate the size of message that be returned back to devices */
+    private ReversedMessageType reversedMessageType;
 
     /*
      * @see com.sitewhere.spi.device.request.IDeviceTypeCreateRequest#getName()
@@ -93,6 +97,15 @@ public class DeviceTypeCreateRequest extends BrandedEntityCreateRequest implemen
     public void setDeviceElementSchema(DeviceElementSchema deviceElementSchema) {
 	this.deviceElementSchema = deviceElementSchema;
     }
+
+	@Override
+	public ReversedMessageType getReversedMessageType() {
+		return reversedMessageType;
+	}
+
+	public void setReversedMessageType(ReversedMessageType reversedMessageType) {
+		this.reversedMessageType = reversedMessageType;
+	}
 
     public static class Builder {
 

@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import com.sitewhere.rest.model.common.PersistentEntity;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.device.ReversedMessageType;
 import com.sitewhere.spi.device.command.ICommandParameter;
 import com.sitewhere.spi.device.command.IDeviceCommand;
 
@@ -40,6 +41,9 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 
     /** Parameter list */
     private List<CommandParameter> parameters = new ArrayList<CommandParameter>();
+
+	/** Indicate the size of message that be returned back to devices */
+	private ReversedMessageType reversedMessageType;
 
     /*
      * @see com.sitewhere.spi.device.command.IDeviceCommand#getDeviceTypeId()
@@ -110,7 +114,16 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 	this.parameters = parameters;
     }
 
-    /**
+	@Override
+	public ReversedMessageType getReversedMessageType() {
+		return reversedMessageType;
+	}
+
+	public void setReversedMessageType(ReversedMessageType reversedMessageType) {
+		this.reversedMessageType = reversedMessageType;
+	}
+
+	/**
      * Create a copy of an SPI object. Used by web services for marshaling.
      * 
      * @param input
@@ -125,6 +138,7 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 	result.setName(input.getName());
 	result.setNamespace(input.getNamespace());
 	result.setDescription(input.getDescription());
+	result.setReversedMessageType(input.getReversedMessageType());
 	for (ICommandParameter inparam : input.getParameters()) {
 	    CommandParameter param = new CommandParameter();
 	    param.setName(inparam.getName());

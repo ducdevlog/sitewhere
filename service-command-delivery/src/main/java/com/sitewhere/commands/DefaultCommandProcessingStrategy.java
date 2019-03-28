@@ -8,6 +8,7 @@
 package com.sitewhere.commands;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.sitewhere.commands.routing.CommandRoutingLogic;
 import com.sitewhere.commands.spi.ICommandExecutionBuilder;
@@ -18,12 +19,14 @@ import com.sitewhere.commands.spi.kafka.IUndeliveredCommandInvocationsProducer;
 import com.sitewhere.commands.spi.microservice.ICommandDeliveryMicroservice;
 import com.sitewhere.commands.spi.microservice.ICommandDeliveryTenantEngine;
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiChannel;
+import com.sitewhere.rest.model.device.command.DeviceCommand;
 import com.sitewhere.server.lifecycle.CompositeLifecycleStep;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
+import com.sitewhere.spi.device.IDeviceType;
 import com.sitewhere.spi.device.command.IDeviceCommand;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
@@ -63,6 +66,10 @@ public class DefaultCommandProcessingStrategy extends TenantEngineLifecycleCompo
 	getLogger().debug("Command processing strategy handling invocation.");
 	IDeviceCommand command = getDeviceManagementApiChannel().getDeviceCommandByToken(invocation.getCommandToken());
 	if (command != null) {
+		IDeviceType deviceType = getDeviceManagementApiChannel().getDeviceType(context.getDeviceTypeId());
+		if (deviceType != null) {
+			((DeviceCommand) command).setReversedMessageType(deviceType.getReversedMessageType());
+		}
 	    IDeviceCommandExecution execution = getCommandExecutionBuilder().createExecution(command, invocation);
 	    List<IDeviceAssignment> assignments = getCommandTargetResolver().resolveTargets(invocation);
 	    for (IDeviceAssignment assignment : assignments) {

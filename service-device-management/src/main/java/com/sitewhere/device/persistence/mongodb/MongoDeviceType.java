@@ -7,6 +7,7 @@
  */
 package com.sitewhere.device.persistence.mongodb;
 
+import com.sitewhere.spi.device.ReversedMessageType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bson.Document;
@@ -43,6 +44,9 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
     /** Property for device element schema */
     public static final String PROP_DEVICE_ELEMENT_SCHEMA = "elsc";
 
+	/** Property for indicating the size of message send back to devices */
+	public static final String PROP_REVERSED_MESSAGE_TYPE_SCHEMA = "reversedMessageType";
+
     /*
      * (non-Javadoc)
      * 
@@ -73,6 +77,7 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 	target.append(PROP_NAME, source.getName());
 	target.append(PROP_DESCRIPTION, source.getDescription());
 	target.append(PROP_CONTAINER_POLICY, source.getContainerPolicy().name());
+	target.append(PROP_REVERSED_MESSAGE_TYPE_SCHEMA, source.getReversedMessageType().name());
 
 	MongoBrandedEntity.toDocument(source, target);
 
@@ -99,12 +104,17 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 	String description = (String) source.get(PROP_DESCRIPTION);
 	String containerPolicy = (String) source.get(PROP_CONTAINER_POLICY);
 	Binary schemaBytes = (Binary) source.get(PROP_DEVICE_ELEMENT_SCHEMA);
+	String reversedMessageType = (String) source.get(PROP_REVERSED_MESSAGE_TYPE_SCHEMA);
 
 	target.setName(name);
 	target.setDescription(description);
 
 	if (containerPolicy != null) {
 	    target.setContainerPolicy(DeviceContainerPolicy.valueOf(containerPolicy));
+	}
+
+	if (reversedMessageType != null) {
+		target.setReversedMessageType(ReversedMessageType.valueOf(reversedMessageType));
 	}
 
 	// Unmarshal device element schema.

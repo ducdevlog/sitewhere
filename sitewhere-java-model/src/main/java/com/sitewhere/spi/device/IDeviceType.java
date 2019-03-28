@@ -31,4 +31,11 @@ public interface IDeviceType extends IBrandedEntity, IAccessible {
      * @return
      */
     public IDeviceElementSchema getDeviceElementSchema();
+
+    /**
+     * Get type of message that indicate size of message to devices.
+     *
+     * @return
+     */
+    ReversedMessageType getReversedMessageType();
 }

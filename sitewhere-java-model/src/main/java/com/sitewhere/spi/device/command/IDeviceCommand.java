@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.sitewhere.spi.common.IAccessible;
 import com.sitewhere.spi.common.IPersistentEntity;
+import com.sitewhere.spi.device.ReversedMessageType;
 
 /**
  * A parameterized command issued to a device.
@@ -40,4 +41,11 @@ public interface IDeviceCommand extends IPersistentEntity, IAccessible {
      * @return
      */
     public List<ICommandParameter> getParameters();
+
+    /**
+     * Get type of message that indicate size of message to devices.
+     *
+     * @return
+     */
+    ReversedMessageType getReversedMessageType();
 }
