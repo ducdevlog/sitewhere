@@ -422,6 +422,7 @@ public class EventModelConverter {
 	DeviceMeasurement api = new DeviceMeasurement();
 	api.setName(grpc.getName());
 	api.setValue(grpc.getValue());
+	api.setValueString(grpc.getValueString().getValue());
 	EventModelConverter.copyApiDeviceEvent(grpc.getEvent(), api);
 	return api;
     }
@@ -437,6 +438,7 @@ public class EventModelConverter {
 	GDeviceMeasurement.Builder grpc = GDeviceMeasurement.newBuilder();
 	grpc.setName(api.getName());
 	grpc.setValue(api.getValue());
+	grpc.setValueString(GOptionalString.newBuilder().setValue(api.getValueString()));
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEvent(api));
 	return grpc.build();
     }
