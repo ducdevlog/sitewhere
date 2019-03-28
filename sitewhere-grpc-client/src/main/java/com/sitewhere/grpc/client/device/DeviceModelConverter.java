@@ -79,6 +79,7 @@ import com.sitewhere.grpc.model.DeviceModel.GZone;
 import com.sitewhere.grpc.model.DeviceModel.GZoneCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GZoneSearchCriteria;
 import com.sitewhere.grpc.model.DeviceModel.GZoneSearchResults;
+import com.sitewhere.grpc.model.DeviceModel.GDeviceTypeReversedMessageType;
 import com.sitewhere.rest.model.area.Area;
 import com.sitewhere.rest.model.area.AreaType;
 import com.sitewhere.rest.model.area.Zone;
@@ -184,6 +185,18 @@ public class DeviceModelConverter {
 	return null;
     }
 
+	public static ReversedMessageType asApiDeviceReversedMessageType(GDeviceTypeReversedMessageType grpc)
+			throws SiteWhereException {
+		switch (grpc) {
+			case FULL:
+				return ReversedMessageType.FULL;
+			case MINIMAL:
+				return ReversedMessageType.MINIMAL;
+			default:
+				throw new SiteWhereException("Unknown device reversed message type: " + grpc);
+		}
+	}
+
     /**
      * Convert device container policy from API to GRPC.
      * 
@@ -201,6 +214,17 @@ public class DeviceModelConverter {
 	}
 	throw new SiteWhereException("Unknown device container policy: " + api.name());
     }
+
+	public static GDeviceTypeReversedMessageType asGrpcDeviceTypeReversedMessageType(ReversedMessageType api)
+			throws SiteWhereException {
+		switch (api) {
+			case FULL:
+				return GDeviceTypeReversedMessageType.FULL;
+			case MINIMAL:
+				return GDeviceTypeReversedMessageType.MINIMAL;
+		}
+		throw new SiteWhereException("Unknown device container policy: " + api.name());
+	}
 
     /**
      * Convert device slot from GRPC to API.
@@ -398,6 +422,7 @@ public class DeviceModelConverter {
 	api.setContainerPolicy(DeviceModelConverter.asApiDeviceContainerPolicy(grpc.getContainerPolicy()));
 	api.setDeviceElementSchema(DeviceModelConverter.asApiDeviceElementSchema(grpc.getDeviceElementSchema()));
 	api.setMetadata(grpc.getMetadataMap());
+		api.setReversedMessageType(DeviceModelConverter.asApiDeviceReversedMessageType(grpc.getReversedMessageType()));
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
 	return api;
     }
@@ -426,6 +451,7 @@ public class DeviceModelConverter {
 	    grpc.setDeviceElementSchema(DeviceModelConverter.asGrpcDeviceElementSchema(api.getDeviceElementSchema()));
 	}
 	grpc.putAllMetadata(api.getMetadata());
+	grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
     }
@@ -445,6 +471,7 @@ public class DeviceModelConverter {
 	api.setDeviceElementSchema(DeviceModelConverter.asApiDeviceElementSchema(grpc.getDeviceElementSchema()));
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
+		api.setReversedMessageType(DeviceModelConverter.asApiDeviceReversedMessageType(grpc.getReversedMessageType()));
 	return api;
     }
 
@@ -465,6 +492,7 @@ public class DeviceModelConverter {
 	}
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
+	grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
 	return grpc.build();
     }
 
