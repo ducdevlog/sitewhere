@@ -341,7 +341,7 @@ public class EventModelConverter {
 	DeviceMeasurementCreateRequest api = new DeviceMeasurementCreateRequest();
 	api.setName(grpc.getName());
 	api.setValue(grpc.getValue());
-	api.setValueString(String.valueOf(grpc.getValue()));
+	api.setValueString(grpc.getValueString().getValue());
 	EventModelConverter.copyApiDeviceEventCreateRequest(grpc.getEvent(), api);
 	return api;
     }
