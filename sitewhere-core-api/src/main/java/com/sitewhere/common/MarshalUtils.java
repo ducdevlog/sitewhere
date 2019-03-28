@@ -7,6 +7,7 @@
  */
 package com.sitewhere.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -21,6 +22,7 @@ public class MarshalUtils {
 
     // Enable pretty printing on the mapper.
     static {
+		MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	PRETTY_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
