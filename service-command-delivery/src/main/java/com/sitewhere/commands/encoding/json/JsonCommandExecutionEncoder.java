@@ -20,6 +20,7 @@ import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 import org.apache.commons.lang3.SerializationUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Objects;
 
@@ -48,7 +49,8 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
     public byte[] encode(IDeviceCommandExecution command, IDeviceNestingContext nested, IDeviceAssignment assignment)
 	    throws SiteWhereException {
 		EncodedCommandExecution encoded = null;
-		IDeviceCommandExecution cloneCommand = SerializationUtils.clone(command);
+		IDeviceCommandExecution cloneCommand = new DeviceCommandExecution();
+		BeanUtils.copyProperties(command, cloneCommand);
 		if (command.getCommand().getReversedMessageType() != ReversedMessageType.MINIMAL) {
 			encoded = new EncodedCommandExecution(cloneCommand, nested, assignment);
 		} else {
