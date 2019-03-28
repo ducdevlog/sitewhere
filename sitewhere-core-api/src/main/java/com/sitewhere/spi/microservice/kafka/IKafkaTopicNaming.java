@@ -84,6 +84,15 @@ public interface IKafkaTopicNaming {
      */
     public String getEventSourceFailedDecodeTopic(ITenant tenant);
 
+	/**
+	 * Get name for topic that contains extended events that have been decoded from
+	 * event sources.
+	 *
+	 * @param tenant
+	 * @return
+	 */
+	public String getEventSourceExtendedEventsTopic(ITenant tenant);
+
     /**
      * Get topic for inbound events that were sent for out-of-band processing, then
      * returned to be reprocessed.

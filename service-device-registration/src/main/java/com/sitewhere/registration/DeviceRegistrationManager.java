@@ -135,12 +135,19 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setParentDeviceToken(request.getParentDeviceToken());
 	    deviceCreate.setComments(request.getComments() != null ? request.getComments()
 		    : "Device created by on-demand registration.");
+	    deviceCreate.setGatewayId(request.getGatewayId());
+	    deviceCreate.setHardwareId(request.getHardwareId());
+	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
+	    deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 	    return getDeviceManagement().createDevice(deviceCreate);
-	} else {
-	    getLogger().info("Found existing device registration. Updating device information.");
-	    return getDeviceManagement().updateDevice(device.getId(), request);
-	}
+	} else if (request.isDelete()) {
+			getLogger().info("Found existing device registration. Delete device information.");
+			return getDeviceManagement().deleteDevice(device.getId());
+		} else {
+			getLogger().info("Found existing device registration. Updating device information.");
+			return getDeviceManagement().updateDevice(device.getId(), request);
+		}
     }
 
     /*

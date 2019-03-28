@@ -9,11 +9,13 @@ package com.sitewhere.rest.model.device.request;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.sitewhere.rest.model.common.request.PersistentEntityCreateRequest;
 import com.sitewhere.spi.device.IDeviceElementMapping;
+import com.sitewhere.spi.device.IListItemName;
 import com.sitewhere.spi.device.request.IDeviceCreateRequest;
 
 /**
@@ -44,6 +46,21 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 
     /** Device status indicator */
     private String status;
+
+    /** Gateway id of Device*/
+    private String gatewayId;
+
+    /** Hardware id of Device*/
+    private String hardwareId;
+
+    /** Gateway map Item Channel Link*/
+    private Map<String, List<String>> itemChannelLink;
+
+    /** Gateway map Configuration Gateway*/
+    private Map<String, String> configurationGateway;
+
+    /** Action delete*/
+    private boolean delete;
 
     /*
      * @see
@@ -113,6 +130,50 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 	this.comments = comments;
     }
 
+    @Override
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
+    }
+
+    @Override
+    public String getHardwareId() {
+        return hardwareId;
+    }
+
+    public void setHardwareId(String hardwareId) {
+        this.hardwareId = hardwareId;
+    }
+
+    @Override
+    public Map<String, List<String>> getItemChannelLink() {
+        return itemChannelLink;
+    }
+
+    public void setItemChannelLink(Map<String, List<String>> itemChannelLink) {
+        this.itemChannelLink = itemChannelLink;
+    }
+
+    public Map<String, String> getConfigurationGateway() {
+        return configurationGateway;
+    }
+
+    public void setConfigurationGateway(Map<String, String> configurationGateway) {
+        this.configurationGateway = configurationGateway;
+    }
+
+    @Override
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
     /*
      * @see com.sitewhere.spi.device.request.IDeviceCreateRequest#getStatus()
      */
@@ -135,6 +196,11 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 	    request.setToken(token);
 	    request.setStatus(null);
 	    request.setComments("");
+	    request.setGatewayId("");
+	    request.setHardwareId("");
+	    request.setItemChannelLink(null);
+	    request.setConfigurationGateway(null);
+	    request.setDelete(false);
 	}
 
 	public Builder withComment(String comments) {

@@ -75,6 +75,11 @@ public class DeviceMarshalHelper {
 	result.setParentDeviceId(source.getParentDeviceId());
 	result.setStatus(source.getStatus());
 	result.setComments(source.getComments());
+		result.setGatewayId(source.getGatewayId());
+		result.setHardwareId(source.getHardwareId());
+		result.setItemChannelLink(source.getItemChannelLink());
+		result.setConfigurationGateway(source.getConfigurationGateway());
+
 	PersistentEntity.copy(source, result);
 
 	// Copy device element mappings.

@@ -9,6 +9,7 @@ package com.sitewhere.device.persistence.mongodb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bson.Document;
@@ -44,6 +45,18 @@ public class MongoDevice implements MongoConverter<IDevice> {
     /** Property for current assignment */
     public static final String PROP_ASSIGNMENT_ID = "asid";
 
+	/** Property for gateway id */
+	public static final String PROP_GATEWAY_ID = "gatewayId";
+
+	/** Property for hardware id */
+	public static final String PROP_HARDWARE_ID = "hardwareId";
+
+	/** Property for item channel link */
+	public static final String PROP_ITEM_CHANNEL_LINK = "itemChannelLink";
+
+	/** Property for configuration gateway */
+	public static final String PROP_CONFIGURATION_GATEWAY = "configurationGateway";
+
     /*
      * (non-Javadoc)
      * 
@@ -75,6 +88,11 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.append(PROP_COMMENTS, source.getComments());
 	target.append(PROP_ASSIGNMENT_ID, source.getDeviceAssignmentId());
 
+		target.append(PROP_GATEWAY_ID, source.getGatewayId());
+		target.append(PROP_HARDWARE_ID, source.getHardwareId());
+		target.append(PROP_ITEM_CHANNEL_LINK, source.getItemChannelLink());
+		target.append(PROP_CONFIGURATION_GATEWAY, source.getConfigurationGateway());
+
 	// Save nested list of mappings.
 	List<Document> mappings = new ArrayList<Document>();
 	for (IDeviceElementMapping mapping : source.getDeviceElementMappings()) {
@@ -98,12 +116,32 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	String status = (String) source.get(PROP_STATUS);
 	String comments = (String) source.get(PROP_COMMENTS);
 	UUID assignmentId = (UUID) source.get(PROP_ASSIGNMENT_ID);
+		String gatewayId = (String) source.get(PROP_GATEWAY_ID);
+		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
+		Object itemChannelLink = source.get(PROP_ITEM_CHANNEL_LINK);
+		Object configurationGateway = source.get(PROP_CONFIGURATION_GATEWAY);
 
 	target.setDeviceTypeId(typeId);
 	target.setParentDeviceId(parentDeviceId);
 	target.setStatus(status);
 	target.setComments(comments);
 	target.setDeviceAssignmentId(assignmentId);
+	target.setGatewayId(gatewayId);
+	target.setHardwareId(hardwareId);
+	try {
+		Map<String, List<String>> itemChannelLinkView = (Map<String, List<String>>) itemChannelLink;
+		target.setItemChannelLink(itemChannelLinkView);
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+
+		try {
+			Map<String, String> configurationGatewayMap = (Map<String, String>) configurationGateway;
+			target.setConfigurationGateway(configurationGatewayMap);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 
 	List<Document> mappings = (List<Document>) source.get(PROP_DEVICE_ELEMENT_MAPPINGS);
 	if (mappings != null) {

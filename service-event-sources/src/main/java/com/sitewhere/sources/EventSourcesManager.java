@@ -12,12 +12,15 @@ import java.util.Map;
 
 import com.sitewhere.grpc.client.device.DeviceModelMarshaler;
 import com.sitewhere.grpc.client.event.EventModelMarshaler;
+import com.sitewhere.grpc.client.extended.ExtendedModelMarshaler;
 import com.sitewhere.rest.model.device.event.kafka.DeviceRegistrationPayload;
 import com.sitewhere.rest.model.device.event.kafka.InboundEventPayload;
+import com.sitewhere.rest.model.extended.event.kafka.ExtendedRequestPayload;
 import com.sitewhere.server.lifecycle.CompositeLifecycleStep;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.sources.kafka.DecodedEventsProducer;
 import com.sitewhere.sources.kafka.DeviceRegistrationEventsProducer;
+import com.sitewhere.sources.kafka.ExtendedEventsProducer;
 import com.sitewhere.sources.kafka.FailedDecodeEventsProducer;
 import com.sitewhere.sources.spi.IDecodedDeviceRequest;
 import com.sitewhere.sources.spi.IEventSourcesManager;
@@ -25,6 +28,7 @@ import com.sitewhere.sources.spi.IInboundEventSource;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.request.IDeviceEventCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest;
+import com.sitewhere.spi.extended.event.request.IExtendedCreateRequest;
 import com.sitewhere.spi.server.lifecycle.ICompositeLifecycleStep;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleStatus;
@@ -47,6 +51,9 @@ public class EventSourcesManager extends TenantEngineLifecycleComponent implemen
 
     /** Kafka producer for device registation events from event sources */
     private DeviceRegistrationEventsProducer deviceRegistrationEventsProducer;
+
+	/** Kafka producer for encoded events from event sources */
+	private ExtendedEventsProducer extendedEventsProducer;
 
     /*
      * @see com.sitewhere.server.lifecycle.LifecycleComponent#initialize(com.
@@ -87,6 +94,7 @@ public class EventSourcesManager extends TenantEngineLifecycleComponent implemen
 	this.decodedEventsProducer = new DecodedEventsProducer();
 	this.failedDecodeEventsProducer = new FailedDecodeEventsProducer();
 	this.deviceRegistrationEventsProducer = new DeviceRegistrationEventsProducer();
+	this.extendedEventsProducer = new ExtendedEventsProducer();
     }
 
     /*
@@ -179,6 +187,17 @@ public class EventSourcesManager extends TenantEngineLifecycleComponent implemen
 	    } else {
 		getLogger().warn("Producer not started. Unable to add device registration event to topic.");
 	    }
+	} else if (decoded.getRequest() instanceof IExtendedCreateRequest) {
+		if (getExtendedEventsProducer().getLifecycleStatus() == LifecycleStatus.Started) {
+			ExtendedRequestPayload payload = new ExtendedRequestPayload();
+			payload.setSourceId(sourceId);
+			payload.setDeviceToken(decoded.getDeviceToken());
+			payload.setOriginator(decoded.getOriginator());
+			payload.setExtendedRequest((IExtendedCreateRequest) decoded.getRequest());
+			getExtendedEventsProducer().send(decoded.getDeviceToken(), ExtendedModelMarshaler.buildInboundExtendedPayloadMessage(payload));
+		} else {
+			getLogger().warn("Producer not started. Unable to add extended event to topic.");
+		}
 	}
     }
 
@@ -222,7 +241,16 @@ public class EventSourcesManager extends TenantEngineLifecycleComponent implemen
 	this.decodedEventsProducer = decodedEventsProducer;
     }
 
-    /*
+	/*
+	 * @see
+	 * com.sitewhere.sources.spi.IEventSourcesManager#getDecodedEventsProducer()
+	 */
+	@Override
+	public ExtendedEventsProducer getExtendedEventsProducer() {
+		return extendedEventsProducer;
+	}
+
+	/*
      * @see
      * com.sitewhere.sources.spi.IEventSourcesManager#getFailedDecodeEventsProducer(
      * )

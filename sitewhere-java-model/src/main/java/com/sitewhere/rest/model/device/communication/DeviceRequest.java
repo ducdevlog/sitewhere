@@ -84,6 +84,9 @@ public class DeviceRequest {
 	DeviceStreamData,
 
 	/** Send a command acknowledgement */
-	Acknowledge
+	Acknowledge,
+
+	/** Send a extended event */
+		ExtendedEvent
     }
 }

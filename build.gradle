@@ -18,6 +18,8 @@ ext {
     git = org.ajoberstar.grgit.Grgit.open(currentDir: file('.'))
 }
 
+ext['grpc.version'] = '1.16.1'
+
 ext['git.revision'] = ext.git.head().id
 ext['git.revision.abbrev'] = ext.git.head().abbreviatedId
 

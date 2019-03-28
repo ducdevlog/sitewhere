@@ -7,10 +7,7 @@
  */
 package com.sitewhere.grpc.client.device;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.model.CommonModel.GDeviceAlarmState;
@@ -19,6 +16,7 @@ import com.sitewhere.grpc.model.CommonModel.GOptionalBoolean;
 import com.sitewhere.grpc.model.CommonModel.GOptionalDouble;
 import com.sitewhere.grpc.model.CommonModel.GOptionalString;
 import com.sitewhere.grpc.model.CommonModel.GParameterType;
+import com.sitewhere.grpc.model.DeviceModel;
 import com.sitewhere.grpc.model.DeviceModel.GArea;
 import com.sitewhere.grpc.model.DeviceModel.GAreaCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GAreaSearchCriteria;
@@ -66,6 +64,7 @@ import com.sitewhere.grpc.model.DeviceModel.GDeviceRegistrationRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceSearchCriteria;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceSearchResults;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceSlot;
+import com.sitewhere.grpc.model.DeviceModel.GListItemName;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatus;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatusCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatusSearchCriteria;
@@ -90,12 +89,7 @@ import com.sitewhere.rest.model.customer.Customer;
 import com.sitewhere.rest.model.customer.CustomerType;
 import com.sitewhere.rest.model.customer.request.CustomerCreateRequest;
 import com.sitewhere.rest.model.customer.request.CustomerTypeCreateRequest;
-import com.sitewhere.rest.model.device.Device;
-import com.sitewhere.rest.model.device.DeviceAlarm;
-import com.sitewhere.rest.model.device.DeviceAssignment;
-import com.sitewhere.rest.model.device.DeviceElementMapping;
-import com.sitewhere.rest.model.device.DeviceStatus;
-import com.sitewhere.rest.model.device.DeviceType;
+import com.sitewhere.rest.model.device.*;
 import com.sitewhere.rest.model.device.command.CommandParameter;
 import com.sitewhere.rest.model.device.command.DeviceCommand;
 import com.sitewhere.rest.model.device.element.DeviceElementSchema;
@@ -133,14 +127,7 @@ import com.sitewhere.spi.customer.ICustomer;
 import com.sitewhere.spi.customer.ICustomerType;
 import com.sitewhere.spi.customer.request.ICustomerCreateRequest;
 import com.sitewhere.spi.customer.request.ICustomerTypeCreateRequest;
-import com.sitewhere.spi.device.DeviceAlarmState;
-import com.sitewhere.spi.device.DeviceContainerPolicy;
-import com.sitewhere.spi.device.IDevice;
-import com.sitewhere.spi.device.IDeviceAlarm;
-import com.sitewhere.spi.device.IDeviceAssignment;
-import com.sitewhere.spi.device.IDeviceElementMapping;
-import com.sitewhere.spi.device.IDeviceStatus;
-import com.sitewhere.spi.device.IDeviceType;
+import com.sitewhere.spi.device.*;
 import com.sitewhere.spi.device.command.ICommandParameter;
 import com.sitewhere.spi.device.command.IDeviceCommand;
 import com.sitewhere.spi.device.command.ParameterType;
@@ -1019,6 +1006,18 @@ public class DeviceModelConverter {
 	api.setComments(grpc.hasComments() ? grpc.getComments().getValue() : null);
 	api.setDeviceElementMappings(
 		DeviceModelConverter.asApiDeviceElementMappings(grpc.getDeviceElementMappingsList()));
+		api.setGatewayId(grpc.hasGatewayId() ? grpc.getGatewayId().getValue() : null);
+		api.setHardwareId(grpc.hasHardwareId() ? grpc.getHardwareId().getValue() : null);
+		Map<String, List<String>> listItemNameMap = new HashMap<>();
+		for (String channel : grpc.getItemChannelLinkMap().keySet()) {
+			GListItemName list = grpc.getItemChannelLinkMap().get(channel);
+			List<String> listItemName = new ArrayList<>();
+			listItemName.addAll(list.getItemNamesList());
+			listItemNameMap.put(channel, listItemName);
+		}
+		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
+		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	api.setMetadata(grpc.getMetadataMap());
 	api.setCustomerToken(grpc.hasCustomerToken() ? grpc.getCustomerToken().getValue() : null);
 	api.setAreaToken(grpc.hasAreaToken() ? grpc.getAreaToken().getValue() : null);
@@ -1052,6 +1051,33 @@ public class DeviceModelConverter {
 	}
 	grpc.addAllDeviceElementMappings(
 		DeviceModelConverter.asGrpcDeviceElementMappings(api.getDeviceElementMappings()));
+
+		if (api.getGatewayId() != null) {
+			grpc.setGatewayId(GOptionalString.newBuilder().setValue(api.getGatewayId()));
+		}
+
+		if (api.getHardwareId() != null) {
+			grpc.setHardwareId(GOptionalString.newBuilder().setValue(api.getHardwareId()));
+		}
+
+		if (api.getItemChannelLink() != null) {
+			for (String channel : api.getItemChannelLink().keySet()) {
+				GListItemName.Builder listItemName = GListItemName.newBuilder();
+				for (String itemName : api.getItemChannelLink().get(channel)) {
+					listItemName.addItemNames(itemName);
+				}
+				grpc.putItemChannelLink(channel, listItemName.build());
+			}
+		}
+
+		if (api.getConfigurationGateway() != null) {
+			for (String key : api.getConfigurationGateway().keySet()) {
+				grpc.putConfigurationGateway(key, api.getConfigurationGateway().get(key));
+			}
+		}
+
+		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
+
 	if (api.getMetadata() != null) {
 	    grpc.putAllMetadata(api.getMetadata());
 	}
@@ -1080,6 +1106,18 @@ public class DeviceModelConverter {
 	api.setComments(grpc.hasComments() ? grpc.getComments().getValue() : null);
 	api.setDeviceElementMappings(
 		DeviceModelConverter.asApiDeviceElementMappings(grpc.getDeviceElementMappingsList()));
+		api.setGatewayId(grpc.hasGatewayId() ? grpc.getGatewayId().getValue() : null);
+		api.setHardwareId(grpc.hasHardwareId() ? grpc.getHardwareId().getValue() : null);
+		Map<String, List<String>> listItemNameMap = new HashMap<>();
+		for (String channel : grpc.getItemChannelLinkMap().keySet()) {
+			GListItemName list = grpc.getItemChannelLinkMap().get(channel);
+			List<String> listItemName = new ArrayList<>();
+			listItemName.addAll(list.getItemNamesList());
+			listItemNameMap.put(channel, listItemName);
+		}
+		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
+		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	api.setMetadata(grpc.getMetadataMap());
 	return api;
     }
@@ -1108,6 +1146,30 @@ public class DeviceModelConverter {
 	if (api.getComments() != null) {
 	    grpc.setComments(GOptionalString.newBuilder().setValue(api.getComments()));
 	}
+
+		if (api.getGatewayId() != null) {
+			grpc.setGatewayId(GOptionalString.newBuilder().setValue(api.getGatewayId()));
+		}
+		if (api.getHardwareId() != null) {
+			grpc.setHardwareId(GOptionalString.newBuilder().setValue(api.getHardwareId()));
+		}
+
+		if (api.getItemChannelLink() != null) {
+			for (String channel : api.getItemChannelLink().keySet()) {
+				GListItemName.Builder listItemName = GListItemName.newBuilder();
+				for (String itemName : api.getItemChannelLink().get(channel)) {
+					listItemName.addItemNames(itemName);
+				}
+				grpc.putItemChannelLink(channel, listItemName.build());
+			}
+		}
+		if (api.getConfigurationGateway() != null) {
+			for (String key : api.getConfigurationGateway().keySet()) {
+				grpc.putConfigurationGateway(key, api.getConfigurationGateway().get(key));
+			}
+		}
+		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
+
 	grpc.addAllDeviceElementMappings(
 		DeviceModelConverter.asGrpcDeviceElementMappings(api.getDeviceElementMappings()));
 	if (api.getMetadata() != null) {
@@ -1134,6 +1196,18 @@ public class DeviceModelConverter {
 	api.setComments(grpc.hasComments() ? grpc.getComments().getValue() : null);
 	api.setDeviceElementMappings(
 		DeviceModelConverter.asApiDeviceElementMappings(grpc.getDeviceElementMappingsList()));
+		api.setGatewayId(grpc.hasGatewayId() ? grpc.getGatewayId().getValue() : null);
+		api.setHardwareId(grpc.hasHardwareId() ? grpc.getHardwareId().getValue() : null);
+		Map<String, List<String>> listItemNameMap = new HashMap<>();
+		for (String channel : grpc.getItemChannelLinkMap().keySet()) {
+			GListItemName list = grpc.getItemChannelLinkMap().get(channel);
+			List<String> listItemName = new ArrayList<>();
+			listItemName.addAll(list.getItemNamesList());
+			listItemNameMap.put(channel, listItemName);
+		}
+		api.setItemChannelLink(listItemNameMap);
+		api.setConfigurationGateway(grpc.getConfigurationGatewayMap());
+		api.setDelete(grpc.hasDelete() ? grpc.getDelete().getValue() : false);
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
     }
@@ -1160,6 +1234,31 @@ public class DeviceModelConverter {
 	if (api.getComments() != null) {
 	    grpc.setComments(GOptionalString.newBuilder().setValue(api.getComments()).build());
 	}
+
+		if (api.getGatewayId() != null) {
+			grpc.setGatewayId(GOptionalString.newBuilder().setValue(api.getGatewayId()));
+		}
+
+		if (api.getHardwareId() != null) {
+			grpc.setHardwareId(GOptionalString.newBuilder().setValue(api.getHardwareId()));
+		}
+
+		if (api.getItemChannelLink() != null) {
+			for (String channel : api.getItemChannelLink().keySet()) {
+				GListItemName.Builder listItemName = GListItemName.newBuilder();
+				for (String itemName : api.getItemChannelLink().get(channel)) {
+					listItemName.addItemNames(itemName);
+				}
+				grpc.putItemChannelLink(channel, listItemName.build());
+			}
+		}
+		if (api.getConfigurationGateway() != null) {
+			for (String key : api.getConfigurationGateway().keySet()) {
+				grpc.putConfigurationGateway(key, api.getConfigurationGateway().get(key));
+			}
+		}
+		grpc.setDelete(GOptionalBoolean.newBuilder().setValue(api.isDelete()));
+
 	grpc.addAllDeviceElementMappings(
 		DeviceModelConverter.asGrpcDeviceElementMappings(api.getDeviceElementMappings()));
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
