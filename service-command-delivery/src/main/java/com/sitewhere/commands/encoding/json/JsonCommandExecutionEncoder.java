@@ -10,13 +10,18 @@ package com.sitewhere.commands.encoding.json;
 import com.sitewhere.commands.encoding.EncodedCommandExecution;
 import com.sitewhere.commands.spi.ICommandExecutionEncoder;
 import com.sitewhere.common.MarshalUtils;
+import com.sitewhere.rest.model.device.command.DeviceCommandExecution;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
+import com.sitewhere.spi.device.ReversedMessageType;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+import org.apache.commons.lang3.SerializationUtils;
+
+import java.util.Objects;
 
 /**
  * Implementation of {@link ICommandExecutionEncoder} that sends commands in
@@ -42,7 +47,14 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
     @Override
     public byte[] encode(IDeviceCommandExecution command, IDeviceNestingContext nested, IDeviceAssignment assignment)
 	    throws SiteWhereException {
-	EncodedCommandExecution encoded = new EncodedCommandExecution(command, nested, assignment);
+		EncodedCommandExecution encoded = null;
+		IDeviceCommandExecution cloneCommand = SerializationUtils.clone(command);
+		if (command.getCommand().getReversedMessageType() != ReversedMessageType.MINIMAL) {
+			encoded = new EncodedCommandExecution(cloneCommand, nested, assignment);
+		} else {
+			((DeviceCommandExecution) cloneCommand).setInvocation(null);
+			encoded = new EncodedCommandExecution(cloneCommand, null, null);
+		}
 	getLogger().debug("Custom command being encoded:\n\n" + MarshalUtils.marshalJsonAsPrettyString(encoded));
 	return MarshalUtils.marshalJson(encoded);
     }

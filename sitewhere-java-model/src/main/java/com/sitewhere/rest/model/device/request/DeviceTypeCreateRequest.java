@@ -60,7 +60,7 @@ public class DeviceTypeCreateRequest extends BrandedEntityCreateRequest implemen
 
     /*
      * @see
-     * com.sitewhere.spi.device.request.IDeviceTypeCreateRequest#getDescription()
+     * com.sitewhere.spi.device.request.IwCreateRequest#getDescription()
      */
     @Override
     public String getDescription() {
