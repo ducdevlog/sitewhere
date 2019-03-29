@@ -942,7 +942,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     @Override
     public IDeviceAssignment deleteDeviceAssignment(UUID id) throws SiteWhereException {
 	Document existing = assertDeviceAssignment(id);
-	DeviceManagementPersistence.deviceAssignmentDeleteLogic(MongoDeviceAssignment.fromDocument(existing));
+	//DeviceManagementPersistence.deviceAssignmentDeleteLogic(MongoDeviceAssignment.fromDocument(existing));
 	MongoCollection<Document> assignments = getMongoClient().getDeviceAssignmentsCollection();
 	MongoPersistence.delete(assignments, existing);
 	return MongoDeviceAssignment.fromDocument(existing);
