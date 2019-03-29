@@ -26,6 +26,12 @@ public class MongoDeviceMeasurement implements MongoConverter<IDeviceMeasurement
     /** Attribute name for measurement value */
     public static final String PROP_VALUE = "mxvl";
 
+    /** Attribute name for measurement value String */
+    public static final String PROP_VALUE_STRING = "valueString";
+
+    /** Attribute name for measurement unit String */
+    public static final String PROP_UNIT = "unit";
+
     /*
      * (non-Javadoc)
      * 
@@ -57,6 +63,8 @@ public class MongoDeviceMeasurement implements MongoConverter<IDeviceMeasurement
 
 	target.append(PROP_NAME, source.getName());
 	target.append(PROP_VALUE, source.getValue());
+	target.append(PROP_VALUE_STRING, source.getValueString());
+	    target.append(PROP_UNIT, source.getUnit());
     }
 
     /**
@@ -71,9 +79,13 @@ public class MongoDeviceMeasurement implements MongoConverter<IDeviceMeasurement
 
 	String name = (String) source.get(PROP_NAME);
 	Double value = (Double) source.get(PROP_VALUE);
+        String valueStr = (String) source.get(PROP_VALUE_STRING);
+        String unit = (String) source.get(PROP_UNIT);
 
 	target.setName(name);
 	target.setValue(value);
+	target.setValueString(valueStr);
+	target.setUnit(unit);
     }
 
     /**

@@ -158,9 +158,11 @@ public class SiteWhereSolrFactory {
 
 	String name = (String) document.get(ISolrFields.MX_NAME);
 	Double value = (Double) document.get(ISolrFields.MX_VALUE);
+		String valueString = (String) document.get(ISolrFields.MX_VALUE_STRING);
 
 	mx.setName(name);
 	mx.setValue(value);
+	mx.setValueString(valueString);
 
 	addFieldsFromEventDocument(document, mx);
 	return mx;

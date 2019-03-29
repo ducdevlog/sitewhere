@@ -77,7 +77,9 @@ public class ProtobufDeviceEventEncoder implements IDeviceEventEncoder<byte[]> {
 	    
 	    payloadBuilder.setMeasurementName(GOptionalString.newBuilder().setValue(measurements.getName()));
 	    payloadBuilder.setMeasurementValue(GOptionalDouble.newBuilder().setValue(measurements.getValue()));
-	    
+	    payloadBuilder.setMeasurementValueString(GOptionalString.newBuilder().setValue(measurements.getValueString()));
+		payloadBuilder.setMeasurementUnit(GOptionalString.newBuilder().setValue(measurements.getUnit()));
+
 	    // Write to byte-stream
 	    ByteArrayOutputStream out = new ByteArrayOutputStream();
 	    headerBuilder.build().writeDelimitedTo(out);

@@ -29,4 +29,13 @@ public interface IDeviceMeasurement extends IDeviceEvent, Serializable {
      * @return
      */
     public Double getValue();
+
+    /**
+     * Get measurement value String.
+     *
+     * @return
+     */
+    public String getValueString();
+
+    public String getUnit();
 }

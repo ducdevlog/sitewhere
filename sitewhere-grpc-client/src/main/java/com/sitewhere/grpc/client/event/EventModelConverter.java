@@ -341,6 +341,8 @@ public class EventModelConverter {
 	DeviceMeasurementCreateRequest api = new DeviceMeasurementCreateRequest();
 	api.setName(grpc.getName());
 	api.setValue(grpc.getValue());
+	api.setValueString(grpc.getValueString().getValue());
+	api.setUnit(grpc.getUnit().getValue());
 	EventModelConverter.copyApiDeviceEventCreateRequest(grpc.getEvent(), api);
 	return api;
     }
@@ -357,6 +359,8 @@ public class EventModelConverter {
 	GDeviceMeasurementCreateRequest.Builder grpc = GDeviceMeasurementCreateRequest.newBuilder();
 	grpc.setName(api.getName());
 	grpc.setValue(api.getValue());
+	grpc.setValueString(GOptionalString.newBuilder().setValue(api.getValueString()));
+	grpc.setUnit(GOptionalString.newBuilder().setValue(api.getUnit()));
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEventCreateRequest(api));
 	return grpc.build();
     }
@@ -420,6 +424,8 @@ public class EventModelConverter {
 	DeviceMeasurement api = new DeviceMeasurement();
 	api.setName(grpc.getName());
 	api.setValue(grpc.getValue());
+	api.setValueString(grpc.getValueString().getValue());
+	api.setUnit(grpc.getUnit());
 	EventModelConverter.copyApiDeviceEvent(grpc.getEvent(), api);
 	return api;
     }
@@ -435,6 +441,8 @@ public class EventModelConverter {
 	GDeviceMeasurement.Builder grpc = GDeviceMeasurement.newBuilder();
 	grpc.setName(api.getName());
 	grpc.setValue(api.getValue());
+	grpc.setValueString(GOptionalString.newBuilder().setValue(api.getValueString()));
+	grpc.setUnit(api.getUnit());
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEvent(api));
 	return grpc.build();
     }
