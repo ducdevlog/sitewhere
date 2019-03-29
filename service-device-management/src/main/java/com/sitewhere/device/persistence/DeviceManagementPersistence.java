@@ -468,7 +468,7 @@ public class DeviceManagementPersistence extends Persistence {
     /**
      * Common logic for creating new device status and populating it from request.
      * 
-     * @param spec
+     * @param deviceType
      * @param request
      * @param existing
      * @return
@@ -550,7 +550,7 @@ public class DeviceManagementPersistence extends Persistence {
      * Checks whether a command is already in the given list (same name and
      * namespace).
      * 
-     * @param command
+     * @param status
      * @param existing
      * @throws SiteWhereException
      */
@@ -1026,8 +1026,7 @@ public class DeviceManagementPersistence extends Persistence {
     /**
      * Common logic for creating a device group based on an incoming request.
      * 
-     * @param source
-     * @param uuid
+     * @param request
      * @return
      * @throws SiteWhereException
      */
