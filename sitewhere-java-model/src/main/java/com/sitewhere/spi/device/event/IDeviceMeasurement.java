@@ -36,4 +36,6 @@ public interface IDeviceMeasurement extends IDeviceEvent, Serializable {
      * @return
      */
     public String getValueString();
+
+    public String getUnit();
 }

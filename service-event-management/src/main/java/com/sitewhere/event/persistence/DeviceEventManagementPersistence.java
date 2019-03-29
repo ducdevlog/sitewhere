@@ -111,6 +111,7 @@ public class DeviceEventManagementPersistence extends Persistence {
 	measurements.setName(request.getName());
 	measurements.setValue(request.getValue());
 	measurements.setValueString(request.getValueString());
+	measurements.setUnit(request.getUnit());
 	return measurements;
     }
 

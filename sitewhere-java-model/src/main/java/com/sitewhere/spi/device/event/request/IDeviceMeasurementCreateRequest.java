@@ -31,4 +31,6 @@ public interface IDeviceMeasurementCreateRequest extends IDeviceEventCreateReque
     public double getValue();
 
     public String getValueString();
+
+    public String getUnit();
 }

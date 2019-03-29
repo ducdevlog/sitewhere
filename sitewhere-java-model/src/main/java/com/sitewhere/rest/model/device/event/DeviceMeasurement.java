@@ -34,6 +34,9 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
     /** Measurement value String*/
     private String valueString;
 
+    /** Measurement unit*/
+    private String unit;
+
     public DeviceMeasurement() {
 	super(DeviceEventType.Measurement);
     }
@@ -69,5 +72,13 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
 
     public void setValueString(String valueString) {
         this.valueString = valueString;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
     }
 }

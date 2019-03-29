@@ -38,7 +38,10 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
 	/** Measurement value String*/
 	private String valueString;
 
-    public DeviceMeasurementCreateRequest() {
+	/** Measurement unit*/
+	private String unit;
+
+	public DeviceMeasurementCreateRequest() {
 	setEventType(DeviceEventType.Measurement);
     }
 
@@ -76,7 +79,15 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
 		this.valueString = valueString;
 	}
 
-	public static class Builder extends DeviceEventCreateRequest.Builder<DeviceMeasurementCreateRequest> {
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public static class Builder extends DeviceEventCreateRequest.Builder<DeviceMeasurementCreateRequest> {
 
 	private DeviceMeasurementCreateRequest request = new DeviceMeasurementCreateRequest();
 

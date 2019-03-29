@@ -54,5 +54,8 @@ public class DeviceMeasurementsWithAsset extends DeviceEventWithAsset implements
         return ((IDeviceMeasurement) getWrapped()).getValueString();
     }
 
-
+    @Override
+    public String getUnit() {
+        return ((IDeviceMeasurement) getWrapped()).getUnit();
+    }
 }
