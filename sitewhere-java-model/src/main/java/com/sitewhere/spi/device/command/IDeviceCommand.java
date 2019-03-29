@@ -48,4 +48,11 @@ public interface IDeviceCommand extends IPersistentEntity, IAccessible {
      * @return
      */
     ReversedMessageType getReversedMessageType();
+
+    /**
+     * Get route that indicate the topic of command, config, ...
+     *
+     * @return
+     */
+    String getCommandRoute();
 }

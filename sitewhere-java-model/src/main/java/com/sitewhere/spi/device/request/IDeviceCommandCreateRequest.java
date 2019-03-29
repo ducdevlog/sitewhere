@@ -53,4 +53,11 @@ public interface IDeviceCommandCreateRequest extends IPersistentEntityCreateRequ
      * @return
      */
     public List<ICommandParameter> getParameters();
+
+    /**
+     * Get route that indicate the topic of command, config, ...
+     *
+     * @return
+     */
+    String getCommandRoute();
 }

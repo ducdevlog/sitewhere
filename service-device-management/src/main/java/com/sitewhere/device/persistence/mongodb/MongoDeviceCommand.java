@@ -40,6 +40,9 @@ public class MongoDeviceCommand implements MongoConverter<IDeviceCommand> {
     /** Property for command description */
     public static final String PROP_DESCRIPTION = "desc";
 
+	/** Property for routing command */
+	public static final String PROP_COMMAND_ROUTE = "commandRoute";
+
     /** Property for command parameters list */
     public static final String PROP_PARAMETERS = "parm";
 
@@ -83,6 +86,7 @@ public class MongoDeviceCommand implements MongoConverter<IDeviceCommand> {
 	target.append(PROP_NAMESPACE, source.getNamespace());
 	target.append(PROP_NAME, source.getName());
 	target.append(PROP_DESCRIPTION, source.getDescription());
+	target.append(PROP_COMMAND_ROUTE, source.getCommandRoute());
 
 	// Create parameters list.
 	List<Document> params = new ArrayList<Document>();
@@ -110,11 +114,13 @@ public class MongoDeviceCommand implements MongoConverter<IDeviceCommand> {
 	String namespace = (String) source.get(PROP_NAMESPACE);
 	String name = (String) source.get(PROP_NAME);
 	String desc = (String) source.get(PROP_DESCRIPTION);
+	String commandRoute	= (String) source.get(PROP_COMMAND_ROUTE);
 
 	target.setDeviceTypeId(deviceTypeId);
 	target.setNamespace(namespace);
 	target.setName(name);
 	target.setDescription(desc);
+	target.setCommandRoute(commandRoute);
 
 	List<Document> params = (List<Document>) source.get(PROP_PARAMETERS);
 	if (params != null) {

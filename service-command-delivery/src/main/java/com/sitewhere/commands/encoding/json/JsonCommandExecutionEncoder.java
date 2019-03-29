@@ -11,6 +11,7 @@ import com.sitewhere.commands.encoding.EncodedCommandExecution;
 import com.sitewhere.commands.spi.ICommandExecutionEncoder;
 import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.rest.model.device.command.DeviceCommandExecution;
+import com.sitewhere.rest.model.device.command.MinimalDeviceCommandExecution;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceAssignment;
@@ -52,13 +53,12 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 		IDeviceCommandExecution cloneCommand = new DeviceCommandExecution();
 		BeanUtils.copyProperties(command, cloneCommand);
 		if (command.getCommand().getReversedMessageType() != ReversedMessageType.MINIMAL) {
-			encoded = new EncodedCommandExecution(cloneCommand, nested, assignment);
-		} else {
-			((DeviceCommandExecution) cloneCommand).setInvocation(null);
-			encoded = new EncodedCommandExecution(cloneCommand, null, null);
+			encoded = new EncodedCommandExecution(command, nested, assignment);
+			return MarshalUtils.marshalJson(encoded);
 		}
-	getLogger().debug("Custom command being encoded:\n\n" + MarshalUtils.marshalJsonAsPrettyString(encoded));
-	return MarshalUtils.marshalJson(encoded);
+		MinimalDeviceCommandExecution minimalCommand = MinimalDeviceCommandExecution.of(command);
+		getLogger().debug("Custom command being encoded:\n\n" + MarshalUtils.marshalJsonAsPrettyString(encoded));
+		return MarshalUtils.marshalJson(minimalCommand);
     }
 
     /*

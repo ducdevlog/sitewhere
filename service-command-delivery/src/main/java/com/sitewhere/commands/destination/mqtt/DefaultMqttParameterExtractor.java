@@ -10,6 +10,7 @@ package com.sitewhere.commands.destination.mqtt;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import com.sitewhere.commands.spi.ICommandDeliveryParameterExtractor;
@@ -33,7 +34,7 @@ public class DefaultMqttParameterExtractor extends TenantEngineLifecycleComponen
 	implements ICommandDeliveryParameterExtractor<MqttParameters> {
 
     /** Default command topic */
-    public static final String DEFAULT_COMMAND_TOPIC = "SiteWhere/${tenant}/command/${device}";
+    public static final String DEFAULT_COMMAND_TOPIC = "SiteWhere/${tenant}/${command}/${device}";
 
     /** Default system topic */
     public static final String DEFAULT_SYSTEM_TOPIC = "SiteWhere/${tenant}/system/${device}";
@@ -70,6 +71,12 @@ public class DefaultMqttParameterExtractor extends TenantEngineLifecycleComponen
         values.put("device", nesting.getGateway().getGatewayId());
     }
 	values.put("assignment", assignment.getToken());
+
+	String commandRoute = "command";
+	if (StringUtils.isNotEmpty(execution.getCommand().getCommandRoute())) {
+		commandRoute = execution.getCommand().getCommandRoute();
+	}
+	values.put("command", commandRoute);
 
 	String commandTopic = StrSubstitutor.replace(getCommandTopicExpr(), values);
 	params.setCommandTopic(commandTopic);

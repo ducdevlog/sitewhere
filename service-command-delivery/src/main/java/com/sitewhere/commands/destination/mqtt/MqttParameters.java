@@ -20,6 +20,9 @@ public class MqttParameters {
     /** MQTT topic for sending system messages */
     private String systemTopic;
 
+	/** MQTT topic for sending config messages */
+	private String configTopic;
+
     public String getCommandTopic() {
 	return commandTopic;
     }
@@ -35,4 +38,12 @@ public class MqttParameters {
     public void setSystemTopic(String systemTopic) {
 	this.systemTopic = systemTopic;
     }
+
+	public String getConfigTopic() {
+		return configTopic;
+	}
+
+	public void setConfigTopic(String configTopic) {
+		this.configTopic = configTopic;
+	}
 }

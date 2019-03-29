@@ -45,6 +45,9 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 	/** Indicate the size of message that be returned back to devices */
 	private ReversedMessageType reversedMessageType;
 
+	/** Indicate the topic of command, config, ... */
+	private String commandRoute;
+
     /*
      * @see com.sitewhere.spi.device.command.IDeviceCommand#getDeviceTypeId()
      */
@@ -123,6 +126,15 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 		this.reversedMessageType = reversedMessageType;
 	}
 
+	@Override
+	public String getCommandRoute() {
+		return commandRoute;
+	}
+
+	public void setCommandRoute(String commandRoute) {
+		this.commandRoute = commandRoute;
+	}
+
 	/**
      * Create a copy of an SPI object. Used by web services for marshaling.
      * 
@@ -139,6 +151,7 @@ public class DeviceCommand extends PersistentEntity implements IDeviceCommand {
 	result.setNamespace(input.getNamespace());
 	result.setDescription(input.getDescription());
 	result.setReversedMessageType(input.getReversedMessageType());
+	result.setCommandRoute(input.getCommandRoute());
 	for (ICommandParameter inparam : input.getParameters()) {
 	    CommandParameter param = new CommandParameter();
 	    param.setName(inparam.getName());

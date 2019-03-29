@@ -45,6 +45,9 @@ public class DeviceCommandCreateRequest extends PersistentEntityCreateRequest im
     /** Command parameters */
     private List<CommandParameter> parameters = new ArrayList<CommandParameter>();
 
+	/** Indicate the route of command */
+    private String commandRoute;
+
     /*
      * @see com.sitewhere.spi.device.request.IDeviceCommandCreateRequest#
      * getDeviceTypeToken()
@@ -102,7 +105,16 @@ public class DeviceCommandCreateRequest extends PersistentEntityCreateRequest im
 	this.description = description;
     }
 
-    /*
+	@Override
+	public String getCommandRoute() {
+		return commandRoute;
+	}
+
+	public void setCommandRoute(String commandRoute) {
+		this.commandRoute = commandRoute;
+	}
+
+	/*
      * (non-Javadoc)
      * 
      * @see com.sitewhere.spi.device.request.IDeviceCommandCreateRequest#
