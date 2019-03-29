@@ -53,12 +53,6 @@ public class MinimalDeviceCommandExecution implements IMinimalDeviceCommandExecu
 		minimalCommand.request = new HashMap<>();
 		minimalCommand.request.put(PROP_REQUEST_NAME, command.getCommand().getName());
 		minimalCommand.request.putAll(command.getParameters());
-		if (command.getCommand().getCreatedDate() != null) {
-			minimalCommand.eventDate =
-					Instant.ofEpochMilli(command.getCommand().getCreatedDate().getTime())
-							.atZone(ZoneId.systemDefault())
-							.toLocalDateTime();
-		}
 		return minimalCommand;
 	}
 }
