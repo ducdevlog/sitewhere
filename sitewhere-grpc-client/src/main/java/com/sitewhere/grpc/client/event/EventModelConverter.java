@@ -105,6 +105,7 @@ import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStateChangeCreateRequest;
 import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Convert device event entities between SiteWhere API model and GRPC model.
@@ -359,8 +360,10 @@ public class EventModelConverter {
 	GDeviceMeasurementCreateRequest.Builder grpc = GDeviceMeasurementCreateRequest.newBuilder();
 	grpc.setName(api.getName());
 	grpc.setValue(api.getValue());
-	grpc.setValueString(api.getValueString());
-	grpc.setUnit(api.getUnit());
+		if (StringUtils.isNoneEmpty(api.getValueString()))
+			grpc.setValueString(api.getValueString());
+		if (StringUtils.isNoneEmpty(api.getUnit()))
+			grpc.setUnit(api.getUnit());
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEventCreateRequest(api));
 	return grpc.build();
     }
@@ -441,8 +444,10 @@ public class EventModelConverter {
 	GDeviceMeasurement.Builder grpc = GDeviceMeasurement.newBuilder();
 	grpc.setName(api.getName());
 	grpc.setValue(api.getValue());
-	grpc.setValueString(api.getValueString());
-	grpc.setUnit(api.getUnit());
+        if (StringUtils.isNoneEmpty(api.getValueString()))
+            grpc.setValueString(api.getValueString());
+        if (StringUtils.isNoneEmpty(api.getUnit()))
+            grpc.setUnit(api.getUnit());
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEvent(api));
 	return grpc.build();
     }
