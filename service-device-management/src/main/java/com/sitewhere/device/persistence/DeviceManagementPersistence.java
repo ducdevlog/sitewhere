@@ -767,14 +767,17 @@ public class DeviceManagementPersistence extends Persistence {
      */
     public static DeviceAssignment deviceAssignmentCreateLogic(IDeviceAssignmentCreateRequest request,
 	    ICustomer customer, IArea area, IAsset asset, IDevice device) throws SiteWhereException {
+    	if (asset == null && device == null && customer == null) {
+    		throw new SiteWhereSystemException(ErrorCode.InvalidDeviceAssignmentToken, ErrorLevel.ERROR);
+		}
 	DeviceAssignment assignment = new DeviceAssignment();
 	Persistence.entityCreateLogic(request, assignment);
 
 	assignment.setCustomerId(customer != null ? customer.getId() : null);
 	assignment.setAreaId(area != null ? area.getId() : null);
 	assignment.setAssetId(asset != null ? asset.getId() : null);
-	assignment.setDeviceId(device.getId());
-	assignment.setDeviceTypeId(device.getDeviceTypeId());
+	assignment.setDeviceId(device != null ? device.getId() : null);
+	assignment.setDeviceTypeId(device != null ? device.getDeviceTypeId() : null);
 	assignment.setActiveDate(new Date());
 	assignment.setStatus(request.getStatus() != null ? request.getStatus() : DeviceAssignmentStatus.Active);
 

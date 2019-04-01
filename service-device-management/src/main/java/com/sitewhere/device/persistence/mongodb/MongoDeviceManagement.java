@@ -851,11 +851,18 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     @Override
     public IDeviceAssignment createDeviceAssignment(IDeviceAssignmentCreateRequest request) throws SiteWhereException {
 	// Verify device is not already assigned.
-	IDevice existing = getDeviceByToken(request.getDeviceToken());
-	if (existing.getDeviceAssignmentId() != null) {
-	    throw new SiteWhereSystemException(ErrorCode.DeviceAlreadyAssigned, ErrorLevel.ERROR);
-	}
-	Document deviceDb = assertDevice(existing.getId());
+		IDevice existing = null;
+		Document deviceDb = null;
+		if (request.getDeviceToken() != null) {
+			existing = getDeviceByToken(request.getDeviceToken());
+			if (existing == null) {
+				throw new SiteWhereSystemException(ErrorCode.InvalidDeviceId, ErrorLevel.ERROR);
+			}
+			if (existing.getDeviceAssignmentId() != null) {
+				throw new SiteWhereSystemException(ErrorCode.DeviceAlreadyAssigned, ErrorLevel.ERROR);
+			}
+			deviceDb = assertDevice(existing.getId());
+		}
 
 	// Look up customer if specified.
 	ICustomer customer = null;
@@ -897,10 +904,12 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	MongoPersistence.insert(assignments, created, ErrorCode.DuplicateDeviceAssignment);
 
 	// Update device to point to created assignment.
-	MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
-	Document query = new Document(MongoPersistentEntity.PROP_TOKEN, request.getDeviceToken());
-	deviceDb.put(MongoDevice.PROP_ASSIGNMENT_ID, newAssignment.getId());
-	MongoPersistence.update(devices, query, deviceDb);
+		if (deviceDb != null) {
+			MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
+			Document query = new Document(MongoPersistentEntity.PROP_TOKEN, request.getDeviceToken());
+			deviceDb.put(MongoDevice.PROP_ASSIGNMENT_ID, newAssignment.getId());
+			MongoPersistence.update(devices, query, deviceDb);
+		}
 
 	return newAssignment;
     }
