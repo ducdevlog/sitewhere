@@ -101,7 +101,7 @@ public class DeviceAssignmentMarshalHelper {
 
 	// Add device information.
 	result.setDeviceId(source.getDeviceId());
-	if (isIncludeDevice()) {
+	if ((isIncludeDevice()) && (source.getDeviceId() != null)) {
 	    IDevice device = getDeviceManagement().getDevice(source.getDeviceId());
 	    if (device != null) {
 		result.setDevice(getDeviceHelper().convert(device, assetManagement));
