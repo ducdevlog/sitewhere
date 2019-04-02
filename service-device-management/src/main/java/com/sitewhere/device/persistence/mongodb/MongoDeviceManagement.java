@@ -1158,6 +1158,20 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	return MongoPersistence.search(IDeviceAssignment.class, assignments, query, sort, criteria, LOOKUP);
     }
 
+	public ISearchResults<IDeviceAssignment> listAssets(IDeviceAssignmentSearchCriteria criteria) throws SiteWhereException {
+		MongoCollection<Document> assignments = getMongoClient().getDeviceAssignmentsCollection();
+		Document query = new Document();
+		query.append(MongoDeviceAssignment.PROP_DEVICE_ID, criteria.getDeviceId());
+		if ((criteria.getCustomerIds() != null) && (criteria.getCustomerIds().size() > 0)) {
+			query.append(MongoDeviceAssignment.PROP_CUSTOMER_ID, new Document("$in", criteria.getCustomerIds()));
+		}
+		if ((criteria.getAssetIds() != null) && (criteria.getAssetIds().size() > 0)) {
+			query.append(MongoDeviceAssignment.PROP_ASSET_ID, new Document("$in", criteria.getAssetIds()));
+		}
+		Document sort = new Document(MongoDeviceAssignment.PROP_ACTIVE_DATE, -1);
+		return MongoPersistence.search(IDeviceAssignment.class, assignments, query, sort, criteria, LOOKUP);
+	}
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#endDeviceAssignment(java.util.

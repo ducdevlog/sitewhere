@@ -375,6 +375,10 @@ public class DeviceManagementDecorator extends TenantEngineLifecycleComponentDec
 	return getDelegate().listDeviceAssignments(criteria);
     }
 
+    public ISearchResults<IDeviceAssignment> listAssets(IDeviceAssignmentSearchCriteria criteria) throws SiteWhereException {
+        return getDelegate().listAssets(criteria);
+    }
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#endDeviceAssignment(java.util.

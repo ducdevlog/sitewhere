@@ -1483,6 +1483,22 @@ public class DeviceManagementApiChannel extends MultitenantApiChannel<DeviceMana
 	}
     }
 
+	public ISearchResults<IDeviceAssignment> listAssets(IDeviceAssignmentSearchCriteria criteria) throws SiteWhereException {
+		try {
+			GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getListAssetsMethod());
+			GListDeviceAssignmentsRequest.Builder grequest = GListDeviceAssignmentsRequest.newBuilder();
+			grequest.setCriteria(DeviceModelConverter.asGrpcDeviceAssignmentSearchCriteria(criteria));
+			GListDeviceAssignmentsResponse gresponse = getGrpcChannel().getBlockingStub()
+					.listAssets(grequest.build());
+			ISearchResults<IDeviceAssignment> response = DeviceModelConverter
+					.asApiDeviceAssignmentSearchResults(gresponse.getResults());
+			GrpcUtils.logClientMethodResponse(DeviceManagementGrpc.getListAssetsMethod(), response);
+			return response;
+		} catch (Throwable t) {
+			throw GrpcUtils.handleClientMethodException(DeviceManagementGrpc.getListDeviceAssignmentsMethod(), t);
+		}
+	}
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#createDeviceAlarm(com.sitewhere.

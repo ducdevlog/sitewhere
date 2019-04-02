@@ -10,6 +10,7 @@ package com.sitewhere.spi.device;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.rest.model.search.device.DeviceAssignmentSearchCriteria;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.area.IArea;
 import com.sitewhere.spi.area.IAreaType;
@@ -355,6 +356,8 @@ public interface IDeviceManagement extends ITenantEngineLifecycleComponent {
      */
     public ISearchResults<IDeviceAssignment> listDeviceAssignments(IDeviceAssignmentSearchCriteria criteria)
 	    throws SiteWhereException;
+
+    public ISearchResults<IDeviceAssignment> listAssets(IDeviceAssignmentSearchCriteria assignmentSearchCriteria) throws SiteWhereException;
 
     /**
      * Ends a device assignment.
