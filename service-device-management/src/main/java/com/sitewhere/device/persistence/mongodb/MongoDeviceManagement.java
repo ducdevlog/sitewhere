@@ -1159,7 +1159,8 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     }
 
 	public ISearchResults<IDeviceAssignment> listAssets(IDeviceAssignmentSearchCriteria criteria) throws SiteWhereException {
-		MongoCollection<Document> assignments = getMongoClient().getDeviceAssignmentsCollection();
+		getLogger().info("Asset search criteria:\n\n" + MarshalUtils.marshalJsonAsPrettyString(criteria));
+    	MongoCollection<Document> assignments = getMongoClient().getDeviceAssignmentsCollection();
 		Document query = new Document();
 		query.append(MongoDeviceAssignment.PROP_DEVICE_ID, criteria.getDeviceId());
 		if ((criteria.getCustomerIds() != null) && (criteria.getCustomerIds().size() > 0)) {
