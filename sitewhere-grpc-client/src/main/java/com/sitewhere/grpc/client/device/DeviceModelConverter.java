@@ -1753,8 +1753,8 @@ public class DeviceModelConverter {
     public static DeviceAssignment asApiDeviceAssignment(GDeviceAssignment grpc) throws SiteWhereException {
 	DeviceAssignment api = new DeviceAssignment();
 	api.setStatus(CommonModelConverter.asApiDeviceAssignmentStatus(grpc.getStatus()));
-	api.setDeviceId(CommonModelConverter.asApiUuid(grpc.getDeviceId()));
-	api.setDeviceTypeId(CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()));
+	api.setDeviceId(grpc.hasDeviceId() ? CommonModelConverter.asApiUuid(grpc.getDeviceId()) : null);
+	api.setDeviceTypeId(grpc.hasDeviceTypeId() ? CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()) : null);
 	api.setCustomerId(grpc.hasCustomerId() ? CommonModelConverter.asApiUuid(grpc.getCustomerId()) : null);
 	api.setAreaId(grpc.hasAreaId() ? CommonModelConverter.asApiUuid(grpc.getAreaId()) : null);
 	api.setAssetId(grpc.hasAssetId() ? CommonModelConverter.asApiUuid(grpc.getAssetId()) : null);
@@ -1774,8 +1774,10 @@ public class DeviceModelConverter {
     public static GDeviceAssignment asGrpcDeviceAssignment(IDeviceAssignment api) throws SiteWhereException {
 	GDeviceAssignment.Builder grpc = GDeviceAssignment.newBuilder();
 	grpc.setStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getStatus()));
-	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
-	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
+	if (api.getDeviceId() != null) {
+		grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
+		grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
+	}
 	if (api.getAreaId() != null) {
 	    grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
 	}
