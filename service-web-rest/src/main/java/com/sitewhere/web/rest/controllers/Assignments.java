@@ -239,6 +239,7 @@ public class Assignments extends RestControllerBase {
 	    @ApiParam(value = "Limit by customer token", required = false) @RequestParam(required = false) String customerToken,
 	    @ApiParam(value = "Limit by area token", required = false) @RequestParam(required = false) String areaToken,
 	    @ApiParam(value = "Limit by asset token", required = false) @RequestParam(required = false) String assetToken,
+	    @ApiParam(value = "List asset", required = false) @RequestParam(defaultValue = "false") boolean isListAsset,
 	    @ApiParam(value = "Include device information", required = false) @RequestParam(defaultValue = "false") boolean includeDevice,
 	    @ApiParam(value = "Include customer information", required = false) @RequestParam(defaultValue = "false") boolean includeCustomer,
 	    @ApiParam(value = "Include area information", required = false) @RequestParam(defaultValue = "false") boolean includeArea,
@@ -280,8 +281,13 @@ public class Assignments extends RestControllerBase {
 	}
 
 	// Perform search.
-	ISearchResults<IDeviceAssignment> matches = getDeviceManagement().listDeviceAssignments(criteria);
-	DeviceAssignmentMarshalHelper helper = new DeviceAssignmentMarshalHelper(getDeviceManagement());
+		ISearchResults<IDeviceAssignment> matches = null;
+		if (isListAsset) {
+			matches = getDeviceManagement().listAssets(criteria);
+		} else {
+			matches = getDeviceManagement().listDeviceAssignments(criteria);
+		}
+		DeviceAssignmentMarshalHelper helper = new DeviceAssignmentMarshalHelper(getDeviceManagement());
 	helper.setIncludeDevice(includeDevice);
 	helper.setIncludeCustomer(includeCustomer);
 	helper.setIncludeArea(includeArea);
@@ -293,73 +299,6 @@ public class Assignments extends RestControllerBase {
 	}
 	return new SearchResults<IDeviceAssignment>(results, matches.getNumResults());
     }
-
-	/**
-	 * List assignments matching criteria.
-	 *
-	 * @param deviceToken
-	 * @param areaToken
-	 * @param assetToken
-	 * @param includeDevice
-	 * @param includeArea
-	 * @param includeAsset
-	 * @param page
-	 * @param pageSize
-	 * @return
-	 * @throws SiteWhereException
-	 */
-	@GetMapping(value = "/listAsset")
-	@ApiOperation(value = "List Asset matching criteria")
-	public ISearchResults<IDeviceAssignment> listAssetAssignments(
-			@ApiParam(value = "Limit by device token", required = false) @RequestParam(required = false) String deviceToken,
-			@ApiParam(value = "Limit by customer token", required = false) @RequestParam(required = false) String customerToken,
-			@ApiParam(value = "Limit by asset token", required = false) @RequestParam(required = false) String assetToken,
-			@ApiParam(value = "Include device information", required = false) @RequestParam(defaultValue = "false") boolean includeDevice,
-			@ApiParam(value = "Include customer information", required = false) @RequestParam(defaultValue = "false") boolean includeCustomer,
-			@ApiParam(value = "Include asset information", required = false) @RequestParam(defaultValue = "false") boolean includeAsset,
-			@ApiParam(value = "Page number", required = false) @RequestParam(required = false, defaultValue = "1") int page,
-			@ApiParam(value = "Page size", required = false) @RequestParam(required = false, defaultValue = "100") int pageSize)
-			throws SiteWhereException {
-		// Build criteria.
-		DeviceAssignmentSearchCriteria criteria = new DeviceAssignmentSearchCriteria(page, pageSize);
-		if (deviceToken != null) {
-			IDevice device = getDeviceManagement().getDeviceByToken(deviceToken);
-			if (device == null) {
-				throw new SiteWhereSystemException(ErrorCode.InvalidDeviceToken, ErrorLevel.ERROR);
-			}
-			criteria.setDeviceId(device.getId());
-		}
-
-		// If limiting by customer, look up customer and contained customers.
-		if (customerToken != null) {
-			List<UUID> customerIds = Customers.resolveCustomerIds(customerToken, true, getDeviceManagement());
-			criteria.setCustomerIds(customerIds);
-		}
-
-		// If limiting by asset, look up asset.
-		if (assetToken != null) {
-			IAsset asset = getAssetManagement().getAssetByToken(assetToken);
-			if (asset == null) {
-				throw new SiteWhereSystemException(ErrorCode.InvalidAssetToken, ErrorLevel.ERROR);
-			}
-			List<UUID> assetIds = new ArrayList<>();
-			assetIds.add(asset.getId());
-			criteria.setAssetIds(assetIds);
-		}
-
-		// Perform search.
-		ISearchResults<IDeviceAssignment> matches = getDeviceManagement().listAssets(criteria);
-		DeviceAssignmentMarshalHelper helper = new DeviceAssignmentMarshalHelper(getDeviceManagement());
-		helper.setIncludeDevice(includeDevice);
-		helper.setIncludeCustomer(includeCustomer);
-		helper.setIncludeAsset(includeAsset);
-
-		List<IDeviceAssignment> results = new ArrayList<>();
-		for (IDeviceAssignment assn : matches.getResults()) {
-			results.add(helper.convert(assn, getAssetManagement()));
-		}
-		return new SearchResults<IDeviceAssignment>(results, matches.getNumResults());
-	}
 
     /**
      * List device measurement events for multiple assignments.
