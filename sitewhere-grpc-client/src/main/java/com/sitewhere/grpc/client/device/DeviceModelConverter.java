@@ -2612,7 +2612,9 @@ public class DeviceModelConverter {
 	grpc.addAllBounds(CommonModelConverter.asGrpcLocations(api.getBounds()));
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
-	grpc.setGatewayId(api.getGatewayId());
+	if (api.getGatewayId() != null) {
+		grpc.setGatewayId(api.getGatewayId());
+	}
 	return grpc.build();
     }
 
