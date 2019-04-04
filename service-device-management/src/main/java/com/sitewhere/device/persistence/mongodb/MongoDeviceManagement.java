@@ -1595,7 +1595,22 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	return null;
     }
 
-    /*
+	@Override
+	public IArea getAreaByGatewayId(String gatewayId) throws SiteWhereException {
+		Document dbArea = getAreaDocumentByGatewayId(gatewayId);
+		if (dbArea != null) {
+			return MongoArea.fromDocument(dbArea);
+		}
+		return null;
+	}
+
+	private Document getAreaDocumentByGatewayId(String gatewayId) throws SiteWhereException{
+		MongoCollection<Document> areas = getMongoClient().getAreasCollection();
+		Document query = new Document(MongoPersistentEntity.PROP_GATEWAY_ID, gatewayId);
+		return areas.find(query).first();
+	}
+
+	/*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#getAreaChildren(java.lang.String)
      */
