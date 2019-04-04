@@ -40,6 +40,8 @@ public class MongoPersistentEntity {
     /** Property for user that updated entity */
     public static final String PROP_UPDATED_BY = "upby";
 
+    public static final String PROP_GATEWAY_ID = "gatewayId";
+
     /**
      * Copy information from SPI into Mongo {@link Document}.
      * 
