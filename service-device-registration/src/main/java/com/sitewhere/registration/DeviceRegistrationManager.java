@@ -210,16 +210,24 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
      * @throws SiteWhereException
      */
     protected IArea getAreaFor(IDeviceRegistrationPayload registration) throws SiteWhereException {
-	String areaToken = registration.getDeviceRegistrationRequest().getAreaToken();
-	if (areaToken != null) {
-	    IArea override = getDeviceManagement().getAreaByToken(areaToken);
-	    if (override == null) {
-		throw new SiteWhereException("Registration request specified invalid area token.");
-	    }
-	    return override;
-	} else if (isUseDefaultArea()) {
-	    return getDefaultArea();
-	}
+    	String gatewayId = registration.getDeviceRegistrationRequest().getGatewayId();
+    	if (gatewayId != null) {
+			IArea override = getDeviceManagement().getAreaByGatewayId(gatewayId);
+			if (override != null) {
+				return override;
+			} else {
+				String areaToken = registration.getDeviceRegistrationRequest().getAreaToken();
+				if (areaToken != null) {
+					override = getDeviceManagement().getAreaByToken(areaToken);
+					if (override == null) {
+						throw new SiteWhereException("Registration request specified invalid area token.");
+					}
+					return override;
+				} else if (isUseDefaultArea()) {
+					return getDefaultArea();
+				}
+			}
+		}
 	return null;
     }
 

@@ -384,6 +384,15 @@ public class DeviceManagementRouter extends DeviceManagementGrpc.DeviceManagemen
 	}
     }
 
+	@Override
+	public void getAreaByGatewayId(GGetAreaByGatewayIdRequest request,
+							   StreamObserver<GGetAreaByGatewayIdResponse> responseObserver) {
+		DeviceManagementGrpc.DeviceManagementImplBase engine = getTenantImplementation(responseObserver);
+		if (engine != null) {
+			engine.getAreaByGatewayId(request, responseObserver);
+		}
+	}
+
     /*
      * @see
      * com.sitewhere.grpc.service.DeviceManagementGrpc.DeviceManagementImplBase#

@@ -538,6 +538,21 @@ public class DeviceManagementApiChannel extends MultitenantApiChannel<DeviceMana
 	}
     }
 
+	@Override
+	public IArea getAreaByGatewayId(String gatewayId) throws SiteWhereException {
+		try {
+			GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getGetAreaByGatewayIdMethod());
+			GGetAreaByGatewayIdRequest.Builder grequest = GGetAreaByGatewayIdRequest.newBuilder();
+			grequest.setGatewayId(gatewayId);
+			GGetAreaByGatewayIdResponse gresponse = getGrpcChannel().getBlockingStub().getAreaByGatewayId(grequest.build());
+			IArea response = (gresponse.hasArea()) ? DeviceModelConverter.asApiArea(gresponse.getArea()) : null;
+			GrpcUtils.logClientMethodResponse(DeviceManagementGrpc.getGetAreaByGatewayIdMethod(), response);
+			return response;
+		} catch (Throwable t) {
+			throw GrpcUtils.handleClientMethodException(DeviceManagementGrpc.getGetAreaByGatewayIdMethod(), t);
+		}
+	}
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#getAreaChildren(java.lang.String)

@@ -624,6 +624,7 @@ public interface IDeviceManagement extends ITenantEngineLifecycleComponent {
      * @throws SiteWhereException
      */
     public IArea getAreaByToken(String token) throws SiteWhereException;
+    public IArea getAreaByGatewayId(String gatewayId) throws SiteWhereException;
 
     /**
      * Get list of areas that are children of the given area.

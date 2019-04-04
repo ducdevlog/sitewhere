@@ -645,6 +645,24 @@ public class DeviceManagementImpl extends DeviceManagementGrpc.DeviceManagementI
 	}
     }
 
+	@Override
+	public void getAreaByGatewayId(GGetAreaByGatewayIdRequest request, StreamObserver<GGetAreaByGatewayIdResponse> responseObserver) {
+		try {
+			GrpcUtils.handleServerMethodEntry(this, DeviceManagementGrpc.getGetAreaByGatewayIdMethod());
+			IArea apiResult = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
+			GGetAreaByGatewayIdResponse.Builder response = GGetAreaByGatewayIdResponse.newBuilder();
+			if (apiResult != null) {
+				response.setArea(DeviceModelConverter.asGrpcArea(apiResult));
+			}
+			responseObserver.onNext(response.build());
+			responseObserver.onCompleted();
+		} catch (Throwable e) {
+			GrpcUtils.handleServerMethodException(DeviceManagementGrpc.getGetAreaByGatewayIdMethod(), e, responseObserver);
+		} finally {
+			GrpcUtils.handleServerMethodExit(DeviceManagementGrpc.getGetAreaByGatewayIdMethod());
+		}
+	}
+
     /*
      * @see
      * com.sitewhere.grpc.service.DeviceManagementGrpc.DeviceManagementImplBase#
