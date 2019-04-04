@@ -655,6 +655,12 @@ public class DeviceManagementDecorator extends TenantEngineLifecycleComponentDec
 	return getDelegate().getAreaByToken(token);
     }
 
+    @Override
+    public IArea getAreaByGatewayId(String gatewayId) throws SiteWhereException {
+        return getDelegate().getAreaByGatewayId(gatewayId);
+    }
+
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#getAreaChildren(java.lang.String)
