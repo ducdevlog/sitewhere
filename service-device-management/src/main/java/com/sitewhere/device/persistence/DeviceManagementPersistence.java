@@ -248,6 +248,7 @@ public class DeviceManagementPersistence extends Persistence {
 	area.setDescription(request.getDescription());
 	area.setImageUrl(request.getImageUrl());
 	area.setBounds(Location.copy(request.getBounds()));
+	area.setGatewayId(request.getGatewayId());
 
 	return area;
     }
@@ -273,6 +274,9 @@ public class DeviceManagementPersistence extends Persistence {
 	}
 	if (request.getBounds() != null) {
 	    target.setBounds(Location.copy(request.getBounds()));
+	}
+	if (request.getGatewayId() != null) {
+		target.setGatewayId(request.getGatewayId());
 	}
     }
 

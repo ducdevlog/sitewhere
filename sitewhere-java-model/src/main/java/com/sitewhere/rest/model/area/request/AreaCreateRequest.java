@@ -40,6 +40,8 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
     /** Site description */
     private String description;
 
+    private String gatewayId;
+
     /** Locations that define area boundaries */
     private List<Location> bounds = new ArrayList<Location>();
 
@@ -115,6 +117,7 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
 	    request.setName(name);
 	    request.setDescription("");
 	    request.setImageUrl("https://s3.amazonaws.com/sitewhere-demo/broken-link.png");
+	    request.setGatewayId("");
 	}
 
 	public Builder withDescription(String description) {
@@ -143,5 +146,14 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
 	public AreaCreateRequest build() {
 	    return request;
 	}
+    }
+
+    @Override
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
     }
 }

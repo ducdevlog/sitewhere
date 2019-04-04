@@ -43,6 +43,8 @@ public class Area extends BrandedEntity implements IArea {
     /** Image URL */
     private String imageUrl;
 
+    private String gatewayId;
+
     /** Area boundary coordinates */
     private List<Location> bounds = new ArrayList<Location>();
 
@@ -116,5 +118,13 @@ public class Area extends BrandedEntity implements IArea {
 
     public void setBounds(List<Location> bounds) {
 	this.bounds = bounds;
+    }
+
+    public String getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(String gatewayId) {
+        this.gatewayId = gatewayId;
     }
 }

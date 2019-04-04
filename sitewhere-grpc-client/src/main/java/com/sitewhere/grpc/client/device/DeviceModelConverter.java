@@ -2461,7 +2461,11 @@ public class DeviceModelConverter {
 	api.setDescription(grpc.hasDescription() ? grpc.getDescription().getValue() : null);
 	api.setBounds(CommonModelConverter.asApiLocations(grpc.getBoundsList()));
 	api.setMetadata(grpc.getMetadataMap());
+	if (grpc.getGatewayId() != null) {
+		api.setGatewayId(grpc.getGatewayId());
+	}
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
+	api.setGatewayId(grpc.getGatewayId());
 	return api;
     }
 
@@ -2494,6 +2498,9 @@ public class DeviceModelConverter {
 	}
 	if (api.getMetadata() != null) {
 	    grpc.putAllMetadata(api.getMetadata());
+	}
+	if (api.getGatewayId() != null) {
+		grpc.setGatewayId(api.getGatewayId());
 	}
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
@@ -2568,6 +2575,7 @@ public class DeviceModelConverter {
 	api.setBounds(CommonModelConverter.asApiLocations(grpc.getBoundsList()));
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
+	api.setGatewayId(grpc.getGatewayId());
 	return api;
     }
 
@@ -2604,6 +2612,7 @@ public class DeviceModelConverter {
 	grpc.addAllBounds(CommonModelConverter.asGrpcLocations(api.getBounds()));
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
+	grpc.setGatewayId(api.getGatewayId());
 	return grpc.build();
     }
 

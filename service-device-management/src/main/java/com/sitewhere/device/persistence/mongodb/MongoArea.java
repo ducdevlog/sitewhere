@@ -35,6 +35,8 @@ public class MongoArea implements MongoConverter<IArea> {
     /** Property for description */
     public static final String PROP_DESCRIPTION = "desc";
 
+    public static final String PROP_GATEWAY_ID = "gatewayId";
+
     /*
      * (non-Javadoc)
      * 
@@ -66,6 +68,7 @@ public class MongoArea implements MongoConverter<IArea> {
 	target.append(PROP_PARENT_AREA_ID, source.getParentAreaId());
 	target.append(PROP_NAME, source.getName());
 	target.append(PROP_DESCRIPTION, source.getDescription());
+	target.append(PROP_GATEWAY_ID, source.getGatewayId());
 
 	MongoBoundedEntity.saveBounds(source, target);
 	MongoBrandedEntity.toDocument(source, target);
@@ -82,11 +85,13 @@ public class MongoArea implements MongoConverter<IArea> {
 	UUID parentAreaId = (UUID) source.get(PROP_PARENT_AREA_ID);
 	String name = (String) source.get(PROP_NAME);
 	String description = (String) source.get(PROP_DESCRIPTION);
+	String gatewayId = (String) source.get(PROP_GATEWAY_ID);
 
 	target.setAreaTypeId(areaTypeId);
 	target.setParentAreaId(parentAreaId);
 	target.setName(name);
 	target.setDescription(description);
+	target.setGatewayId(gatewayId);
 	target.setBounds(MongoBoundedEntity.loadBounds(source));
 
 	MongoBrandedEntity.fromDocument(source, target);
