@@ -7,15 +7,13 @@
  */
 package com.sitewhere.web.rest.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.rest.model.area.Area;
+import com.sitewhere.rest.model.device.marshaling.MarshaledArea;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -562,6 +560,55 @@ public class Customers extends RestControllerBase {
 	}
 	return new SearchResults<DeviceAssignment>(converted, matches.getNumResults());
     }
+
+	/**
+	 * Find device assignments associated with a customer.
+	 *
+	 * @param customerToken
+	 * @param status
+	 * @return
+	 * @throws SiteWhereException
+	 */
+	@RequestMapping(value = "/{customerToken}/areas", method = RequestMethod.GET)
+	@ApiOperation(value = "List area for a customer")
+	@Secured({ SiteWhereRoles.REST })
+	public ISearchResults<Area> listAreasForCustomer(
+			@ApiParam(value = "Token that identifies customer", required = true) @PathVariable String customerToken,
+			@ApiParam(value = "Limit results to the given status", required = false) @RequestParam(defaultValue = "Active") String status,
+			@ApiParam(value = "Limit by area type token", required = false) @RequestParam(required = false) String areaTypeToken,
+			@ApiParam(value = "Include customer information", required = false) @RequestParam(defaultValue = "false") boolean includeCustomer)
+			throws SiteWhereException {
+
+		DeviceAssignmentSearchCriteria criteria = new DeviceAssignmentSearchCriteria(1, 0);
+		DeviceAssignmentStatus decodedStatus = (status != null) ? DeviceAssignmentStatus.valueOf(status) : null;
+		if (decodedStatus != null) {
+			criteria.setStatus(decodedStatus);
+		}
+		IAreaType areaType = null;
+		if (areaTypeToken != null) {
+			areaType = getDeviceManagement().getAreaTypeByToken(areaTypeToken);
+		}
+		List<UUID> customers = resolveCustomerIds(customerToken, true, getDeviceManagement());
+		criteria.setCustomerIds(customers);
+
+		ISearchResults<IDeviceAssignment> matches = getDeviceManagement().listDeviceAssignments(criteria);
+		Set deptSet = new HashSet<UUID>();
+		List<IDeviceAssignment> results = matches.getResults();
+		List<Area> converted = new ArrayList<Area>();
+		if (results == null)
+			return new SearchResults<Area>(converted, matches.getNumResults());
+
+		results.removeIf(deviceAssignment -> !deptSet.add(deviceAssignment.getAreaId()));
+		for (IDeviceAssignment result : results) {
+			if (result.getAreaId() == null)
+				continue;
+			IArea area = getDeviceManagement().getArea(result.getAreaId());
+			if (area == null)
+				continue;
+			converted.add((Area) area);
+		}
+		return new SearchResults<Area>(converted, matches.getNumResults());
+	}
 
     /**
      * Resolve ids recursively for contained customers based on customer token.
