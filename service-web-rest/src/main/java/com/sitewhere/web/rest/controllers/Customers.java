@@ -605,7 +605,7 @@ public class Customers extends RestControllerBase {
 			IArea area = getDeviceManagement().getArea(result.getAreaId());
 			if (area == null)
 				continue;
-			if (area.getAreaTypeId().equals(areaType.getId()))
+			if (areaType != null && area.getAreaTypeId().equals(areaType.getId()))
 			    converted.add((Area) area);
 		}
 		return new SearchResults<Area>(converted, matches.getNumResults());
