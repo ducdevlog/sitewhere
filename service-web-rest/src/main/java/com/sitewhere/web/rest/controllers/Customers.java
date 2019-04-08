@@ -600,7 +600,6 @@ public class Customers extends RestControllerBase {
 			return new SearchResults<Area>(converted, matches.getNumResults());
 
 		results.removeIf(deviceAssignment -> !deptSet.add(deviceAssignment.getAreaId()));
-		if (areaType != null)
 		for (IDeviceAssignment result : results) {
 			if (result.getAreaId() == null)
 				continue;
