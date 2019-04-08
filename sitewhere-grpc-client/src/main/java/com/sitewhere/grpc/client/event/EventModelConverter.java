@@ -1844,7 +1844,8 @@ public class EventModelConverter {
     public static GPersistedEventPayload asGrpcPersistedEventPayload(IPersistedEventPayload api)
 	    throws SiteWhereException {
 	GPersistedEventPayload.Builder grpc = GPersistedEventPayload.newBuilder();
-	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
+	if	(api.getDeviceId() != null)
+		grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
 	grpc.setEvent(EventModelConverter.asGrpcGenericDeviceEvent(api.getEvent()));
 	return grpc.build();
     }
