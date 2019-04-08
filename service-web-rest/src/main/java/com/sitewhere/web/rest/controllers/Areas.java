@@ -16,6 +16,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -496,6 +497,9 @@ public class Areas extends RestControllerBase {
 	    criteria.setStatus(decodedStatus);
 	}
 	List<UUID> areas = resolveAreaIds(areaToken, true, getDeviceManagement());
+	if (CollectionUtils.isNotEmpty(areas)) {
+		throw new SiteWhereSystemException(ErrorCode.InvalidAreaToken, ErrorLevel.ERROR);
+	}
 	criteria.setAreaIds(areas);
 
 	ISearchResults<IDeviceAssignment> matches = getDeviceManagement().listDeviceAssignments(criteria);
