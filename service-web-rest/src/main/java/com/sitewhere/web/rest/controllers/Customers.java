@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sitewhere.rest.model.area.Area;
 import com.sitewhere.rest.model.device.marshaling.MarshaledArea;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -599,16 +600,20 @@ public class Customers extends RestControllerBase {
 			return new SearchResults<Area>(converted, matches.getNumResults());
 
 		results.removeIf(deviceAssignment -> !deptSet.add(deviceAssignment.getAreaId()));
+		if (areaType != null)
 		for (IDeviceAssignment result : results) {
 			if (result.getAreaId() == null)
 				continue;
 			IArea area = getDeviceManagement().getArea(result.getAreaId());
 			if (area == null)
 				continue;
-			if (areaType != null && area.getAreaTypeId().equals(areaType.getId()))
-			    converted.add((Area) area);
+			if (area.getAreaTypeId() != null && areaType != null && area.getAreaTypeId().equals(areaType.getId())) {
+				converted.add((Area) area);
+			} else if (area.getAreaTypeId() == null) {
+				converted.add((Area) area);
+			}
 		}
-		return new SearchResults<Area>(converted, matches.getNumResults());
+		return new SearchResults<Area>(converted, converted.size());
 	}
 
     /**
