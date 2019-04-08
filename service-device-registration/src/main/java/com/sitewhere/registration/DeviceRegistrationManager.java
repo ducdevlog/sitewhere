@@ -7,6 +7,7 @@
  */
 package com.sitewhere.registration;
 
+import com.sitewhere.common.MarshalUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -120,6 +121,8 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
      */
     protected IDevice getOrCreateDevice(IDeviceRegistrationPayload registration) throws SiteWhereException {
 	IDevice device = getDeviceManagement().getDeviceByToken(registration.getDeviceToken());
+	getLogger().info("registration.getDeviceToken(): " + registration.getDeviceToken());
+	getLogger().info("getOrCreateDevice: " + MarshalUtils.marshalJsonAsPrettyString(device));
 	IDeviceCreateRequest request = registration.getDeviceRegistrationRequest();
 	if (device == null) {
 	    if (!isAllowNewDevices()) {
