@@ -16,6 +16,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.rest.model.device.request.DeviceAssignmentCreateRequest;
+import com.sitewhere.spi.area.IArea;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -97,6 +100,18 @@ public class Devices extends RestControllerBase {
     public IDevice createDevice(@RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest)
 	    throws SiteWhereException {
 	IDevice result = getDeviceManagement().createDevice(request);
+		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
+			IArea area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
+			if (area != null) {
+				DeviceAssignmentCreateRequest assnCreate = new DeviceAssignmentCreateRequest();
+				assnCreate.setDeviceToken(result.getToken());
+				assnCreate.setAreaToken(area.getToken());
+				getDeviceManagement().createDeviceAssignment(assnCreate);
+				DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
+				helper.setIncludeAssignment(true);
+				return helper.convert(result, getAssetManagement());
+			}
+		}
 	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 	helper.setIncludeAssignment(false);
 	return helper.convert(result, getAssetManagement());
