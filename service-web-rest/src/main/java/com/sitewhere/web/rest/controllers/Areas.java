@@ -497,7 +497,7 @@ public class Areas extends RestControllerBase {
 	    criteria.setStatus(decodedStatus);
 	}
 	List<UUID> areas = resolveAreaIds(areaToken, true, getDeviceManagement());
-	if (CollectionUtils.isNotEmpty(areas)) {
+	if (CollectionUtils.isEmpty(areas)) {
 		throw new SiteWhereSystemException(ErrorCode.InvalidAreaToken, ErrorLevel.ERROR);
 	}
 	criteria.setAreaIds(areas);
