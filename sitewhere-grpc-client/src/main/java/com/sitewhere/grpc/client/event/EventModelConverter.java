@@ -311,7 +311,8 @@ public class EventModelConverter {
 	    grpc.setAlternateId(GOptionalString.newBuilder().setValue(api.getAlternateId()).build());
 	}
 	grpc.setEventType(EventModelConverter.asGrpcDeviceEventType(api.getEventType()));
-	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
+	if (api.getDeviceId() != null)
+		grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
 	grpc.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(api.getDeviceAssignmentId()));
 	if (api.getCustomerId() != null) {
 	    grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
