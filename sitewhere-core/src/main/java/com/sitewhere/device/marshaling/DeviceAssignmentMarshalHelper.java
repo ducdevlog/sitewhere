@@ -89,7 +89,6 @@ public class DeviceAssignmentMarshalHelper {
 
 	// If customer is assigned, look it up.
 	result.setCustomerId(source.getCustomerId());
-	LOGGER.info("Customer Id: " + source.getCustomerId());
 	if ((isIncludeCustomer()) && (source.getCustomerId() != null)) {
 	    result.setCustomer(getDeviceManagement().getCustomer(source.getCustomerId()));
 	}
