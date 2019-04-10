@@ -60,7 +60,7 @@ public class DeviceAssignmentMarshalHelper {
      * Convert the SPI object into a model object for marshaling.
      * 
      * @param source
-     * @param manager
+     * @param assetManagement
      * @return
      * @throws SiteWhereException
      */
@@ -89,6 +89,7 @@ public class DeviceAssignmentMarshalHelper {
 
 	// If customer is assigned, look it up.
 	result.setCustomerId(source.getCustomerId());
+	LOGGER.info("Customer Id: " + source.getCustomerId());
 	if ((isIncludeCustomer()) && (source.getCustomerId() != null)) {
 	    result.setCustomer(getDeviceManagement().getCustomer(source.getCustomerId()));
 	}
