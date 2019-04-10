@@ -1637,6 +1637,10 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     public IArea updateArea(UUID id, IAreaCreateRequest request) throws SiteWhereException {
 	IArea area = assertApiArea(id);
 
+		// Look up parent area.
+		IArea parentArea = (request.getParentAreaToken() != null) ? getAreaByToken(request.getParentAreaToken()) : null;
+		((Area)area).setParentAreaId(parentArea != null ? parentArea.getId() : null);
+
 	// Use common update logic.
 	DeviceManagementPersistence.areaUpdateLogic(request, (Area) area);
 
