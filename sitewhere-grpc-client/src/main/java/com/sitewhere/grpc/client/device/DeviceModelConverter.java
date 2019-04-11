@@ -1784,6 +1784,9 @@ public class DeviceModelConverter {
 	if (api.getAssetId() != null) {
 	    grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
 	}
+	if (api.getCustomerId() != null) {
+		grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	}
 	grpc.setActiveDate(CommonModelConverter.asGrpcDate(api.getActiveDate()));
 	grpc.setReleasedDate(CommonModelConverter.asGrpcDate(api.getReleasedDate()));
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
