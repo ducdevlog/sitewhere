@@ -130,7 +130,7 @@ public class Areas extends RestControllerBase {
     /**
      * Update information for an area.
      * 
-     * @param input
+     * @param areaToken
      * @return
      * @throws SiteWhereException
      */
@@ -190,6 +190,9 @@ public class Areas extends RestControllerBase {
 	// Build criteria.
 	AreaSearchCriteria criteria = buildAreaSearchCriteria(page, pageSize, rootOnly, parentAreaToken, areaTypeToken);
 
+	 if	(parentAreaToken != null && criteria.getParentAreaId() == null) {
+		 return new SearchResults<IArea>(new ArrayList<IArea>(), 0);
+	 }
 	// Perform search.
 	ISearchResults<IArea> matches = getDeviceManagement().listAreas(criteria);
 	AreaMarshalHelper helper = new AreaMarshalHelper(getDeviceManagement(), getAssetManagement());
