@@ -7,6 +7,8 @@
  */
 package com.sitewhere.device.marshaling;
 
+import com.sitewhere.rest.model.device.marshaling.MarshaledArea;
+import com.sitewhere.spi.area.IArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +98,13 @@ public class DeviceAssignmentMarshalHelper {
 	// If area is assigned, look it up.
 	result.setAreaId(source.getAreaId());
 	if ((isIncludeArea()) && (source.getAreaId() != null)) {
-	    result.setArea(getDeviceManagement().getArea(source.getAreaId()));
+		MarshaledArea marshaledArea = new MarshaledArea();
+		IArea area = getDeviceManagement().getArea(source.getAreaId());
+		if (area != null) {
+			PersistentEntity.copy(area, marshaledArea);
+			marshaledArea.setAreaType(getDeviceManagement().getAreaType(area.getAreaTypeId()));
+		}
+	    result.setArea(marshaledArea);
 	}
 
 	// Add device information.
