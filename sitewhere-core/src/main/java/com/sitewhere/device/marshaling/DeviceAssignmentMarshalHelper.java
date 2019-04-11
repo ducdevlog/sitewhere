@@ -104,6 +104,7 @@ public class DeviceAssignmentMarshalHelper {
 		IArea area = getDeviceManagement().getArea(source.getAreaId());
 		if (area != null) {
 			PersistentEntity.copy(area, marshaledArea);
+			marshaledArea.setAreaType(getDeviceManagement().getAreaType(area.getAreaTypeId()));
 			marshaledArea.setAreaTypeId(area.getAreaTypeId());
 			marshaledArea.setParentAreaId(area.getParentAreaId());
 			marshaledArea.setName(area.getName());
