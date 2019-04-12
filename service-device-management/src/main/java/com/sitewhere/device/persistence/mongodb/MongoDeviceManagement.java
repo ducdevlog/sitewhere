@@ -278,7 +278,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the device type with the given token. Throws
      * an exception if the token is not valid.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -458,7 +458,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the device command with the given token.
      * Throws an exception if the token is not valid.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -832,7 +832,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Get the {@link Document} containing device information that matches the given
      * id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -951,10 +951,19 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     @Override
     public IDeviceAssignment deleteDeviceAssignment(UUID id) throws SiteWhereException {
 	Document existing = assertDeviceAssignment(id);
+		IDeviceAssignment deviceAssignment = MongoDeviceAssignment.fromDocument(existing);
+		if (deviceAssignment.getDeviceId() != null) {
+			Document deviceDocument = assertDevice(deviceAssignment.getDeviceId());
+			if (deviceDocument != null) {
+				deviceDocument.append(MongoDevice.PROP_ASSIGNMENT_ID, null);
+				MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
+				MongoPersistence.delete(devices, deviceDocument);
+			}
+		}
 	//DeviceManagementPersistence.deviceAssignmentDeleteLogic(MongoDeviceAssignment.fromDocument(existing));
 	MongoCollection<Document> assignments = getMongoClient().getDeviceAssignmentsCollection();
 	MongoPersistence.delete(assignments, existing);
-	return MongoDeviceAssignment.fromDocument(existing);
+	return deviceAssignment;
     }
 
     /*
@@ -1215,7 +1224,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     /**
      * Find the {@link Document} for a device assignment based on unique id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -1988,7 +1997,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the device with the given hardware id. Throws
      * an exception if the hardware id is not found.
      * 
-     * @param hardwareId
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2004,7 +2013,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the assignment with the given token. Throws
      * an exception if the token is not valid.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2020,7 +2029,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return an {@link IDeviceAssignment} for the given token. Throws an exception
      * if the id is not valid.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2063,7 +2072,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Get the DBObject containing customer type information that matches the given
      * id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2125,7 +2134,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     /**
      * Get the DBObject containing customer information that matches the given id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2181,7 +2190,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     /**
      * Get the DBObject containing area type information that matches the given id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2242,7 +2251,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     /**
      * Get the DBObject containing area information that matches the given id.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
@@ -2256,7 +2265,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the area with the given token. Throws an
      * exception if the token is not found.
      * 
-     * @param hardwareId
+     * @param token
      * @return
      * @throws SiteWhereException
      */
@@ -2352,7 +2361,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * Return the {@link Document} for the zone with the given id. Throws an
      * exception if the token is not valid.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
