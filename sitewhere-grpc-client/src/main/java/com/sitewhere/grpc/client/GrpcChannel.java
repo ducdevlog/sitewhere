@@ -46,7 +46,7 @@ public abstract class GrpcChannel<B, A> extends TenantEngineLifecycleComponent i
     protected int port;
 
     /** Indicates whether to use the tracing interceptor */
-    protected boolean useTracingInterceptor = false;
+    protected boolean useTracingInterceptor = true;
 
     /** GRPC managed channe */
     protected ManagedChannel channel;
