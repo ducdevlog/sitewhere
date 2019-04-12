@@ -43,6 +43,7 @@ public class MultitenantGrpcServer extends GrpcServer {
 	builder.bossEventLoopGroup(new NioEventLoopGroup(1));
 	builder.workerEventLoopGroup(new NioEventLoopGroup(100));
 	if (isUseTracingInterceptor()) {
+		getLogger().info("============= ServerTracingInterceptor: buildServer ===============");
 	    builder.intercept(getTracingInterceptor());
 	}
 	return builder.build();
