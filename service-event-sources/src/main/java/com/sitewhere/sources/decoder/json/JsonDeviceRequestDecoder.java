@@ -8,6 +8,7 @@
 package com.sitewhere.sources.decoder.json;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ public class JsonDeviceRequestDecoder extends TenantEngineLifecycleComponent imp
 	    throws EventDecodeException {
 	try {
 	    List<IDecodedDeviceRequest<?>> events = new ArrayList<IDecodedDeviceRequest<?>>();
+	    getLogger().info("decode for device request: " + new String(payload, StandardCharsets.UTF_8));
 	    DecodedDeviceRequest<?> decoded = MAPPER.readValue(payload, DecodedDeviceRequest.class);
 	    events.add(decoded);
 	    return events;
