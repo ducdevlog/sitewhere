@@ -8,6 +8,7 @@
 package com.sitewhere.sources.mqtt;
 
 import java.io.EOFException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -205,6 +206,7 @@ public class MqttInboundEventReceiver extends MqttLifecycleComponent implements 
 	    try {
 		getReceivedEvents().mark();
 		byte[] payload = message.getPayload();
+			getLogger().info("MqttInboundEventReceiver decode for device request: " + new String(payload, StandardCharsets.UTF_8));
 		getEventSource().onEncodedEventReceived(MqttInboundEventReceiver.this, payload, null);
 		message.ack();
 	    } catch (Throwable e) {
