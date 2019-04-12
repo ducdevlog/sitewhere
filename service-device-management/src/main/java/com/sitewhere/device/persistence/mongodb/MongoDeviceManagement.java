@@ -858,9 +858,9 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 			if (existing == null) {
 				throw new SiteWhereSystemException(ErrorCode.InvalidDeviceId, ErrorLevel.ERROR);
 			}
-			if (existing.getDeviceAssignmentId() != null) {
+			/*if (existing.getDeviceAssignmentId() != null) {
 				throw new SiteWhereSystemException(ErrorCode.DeviceAlreadyAssigned, ErrorLevel.ERROR);
-			}
+			}*/
 			deviceDb = assertDevice(existing.getId());
 		}
 
