@@ -114,6 +114,24 @@ public class DeviceAssignmentMarshalHelper {
 			BrandedEntity.copy(area, marshaledArea);
 		}
 	    result.setArea(marshaledArea);
+
+		if (area.getParentAreaId() != null) {
+			MarshaledArea marshaledParentArea = new MarshaledArea();
+			IArea parentArea = getDeviceManagement().getArea(area.getParentAreaId());
+			if (parentArea != null) {
+				PersistentEntity.copy(parentArea, marshaledParentArea);
+				marshaledParentArea.setAreaType(getDeviceManagement().getAreaType(parentArea.getAreaTypeId()));
+				marshaledParentArea.setAreaTypeId(parentArea.getAreaTypeId());
+				marshaledParentArea.setParentAreaId(parentArea.getParentAreaId());
+				marshaledParentArea.setName(parentArea.getName());
+				marshaledParentArea.setDescription(parentArea.getDescription());
+				marshaledParentArea.setBounds(Location.copy(parentArea.getBounds()));
+				marshaledParentArea.setGatewayId(parentArea.getGatewayId());
+				BrandedEntity.copy(parentArea, marshaledParentArea);
+			}
+			result.setParentArea(marshaledParentArea);
+		}
+
 	}
 
 	// Add device information.

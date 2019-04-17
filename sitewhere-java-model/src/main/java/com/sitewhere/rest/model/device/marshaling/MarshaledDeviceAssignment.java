@@ -33,6 +33,9 @@ public class MarshaledDeviceAssignment extends DeviceAssignment {
     /** Assigned area */
     private IArea area;
 
+    /** Assigned area */
+    private IArea parentArea;
+
     /** Associated asset */
     private IAsset asset;
 
@@ -64,6 +67,14 @@ public class MarshaledDeviceAssignment extends DeviceAssignment {
 
     public void setArea(IArea area) {
 	this.area = area;
+    }
+
+    public IArea getParentArea() {
+        return parentArea;
+    }
+
+    public void setParentArea(IArea parentArea) {
+        this.parentArea = parentArea;
     }
 
     public IAsset getAsset() {
