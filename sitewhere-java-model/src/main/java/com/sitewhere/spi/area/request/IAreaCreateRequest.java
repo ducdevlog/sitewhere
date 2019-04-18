@@ -42,4 +42,6 @@ public interface IAreaCreateRequest extends IAccessible, IBrandedEntityCreateReq
     public List<? extends ILocation> getBounds();
 
     public String getGatewayId();
+
+    public String getAddress();
 }

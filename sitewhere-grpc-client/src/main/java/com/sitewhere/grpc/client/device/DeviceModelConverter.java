@@ -2469,6 +2469,7 @@ public class DeviceModelConverter {
 	}
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
 	api.setGatewayId(grpc.getGatewayId());
+	api.setAddress(grpc.hasAddress() ? grpc.getAddress().getValue() : null);
 	return api;
     }
 
@@ -2504,6 +2505,9 @@ public class DeviceModelConverter {
 	}
 	if (api.getGatewayId() != null) {
 		grpc.setGatewayId(api.getGatewayId());
+	}
+	if (api.getAddress() != null) {
+		grpc.setAddress(GOptionalString.newBuilder().setValue(api.getAddress()));
 	}
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
@@ -2579,6 +2583,7 @@ public class DeviceModelConverter {
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
 	api.setGatewayId(grpc.getGatewayId());
+	api.setAddress(grpc.getAddress());
 	return api;
     }
 
@@ -2617,6 +2622,9 @@ public class DeviceModelConverter {
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	if (api.getGatewayId() != null) {
 		grpc.setGatewayId(api.getGatewayId());
+	}
+	if (api.getAddress() != null) {
+		grpc.setAddress(api.getAddress());
 	}
 	return grpc.build();
     }

@@ -94,6 +94,7 @@ public class AreaMarshalHelper {
 	area.setDescription(source.getDescription());
 	area.setBounds(Location.copy(source.getBounds()));
 	area.setGatewayId(source.getGatewayId());
+	area.setAddress(source.getAddress());
 	BrandedEntity.copy(source, area);
 	if (isIncludeAreaType()) {
 	    area.setAreaType(getDeviceManagement().getAreaType(source.getAreaTypeId()));

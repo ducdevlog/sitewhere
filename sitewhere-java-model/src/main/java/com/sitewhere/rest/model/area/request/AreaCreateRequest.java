@@ -42,6 +42,8 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
 
     private String gatewayId;
 
+    private String address;
+
     /** Locations that define area boundaries */
     private List<Location> bounds = new ArrayList<Location>();
 
@@ -118,6 +120,7 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
 	    request.setDescription("");
 	    request.setImageUrl("https://s3.amazonaws.com/sitewhere-demo/broken-link.png");
 	    request.setGatewayId("");
+	    request.setAddress("");
 	}
 
 	public Builder withDescription(String description) {
@@ -155,5 +158,13 @@ public class AreaCreateRequest extends BrandedEntityCreateRequest implements IAr
 
     public void setGatewayId(String gatewayId) {
         this.gatewayId = gatewayId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

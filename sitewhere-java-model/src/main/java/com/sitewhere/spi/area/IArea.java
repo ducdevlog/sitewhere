@@ -55,4 +55,6 @@ public interface IArea extends IBoundedEntity, IBrandedEntity {
     public String getImageUrl();
 
     public String getGatewayId();
+
+    public String getAddress();
 }
