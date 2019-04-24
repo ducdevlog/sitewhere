@@ -69,4 +69,6 @@ public interface IDeviceEventContext {
      * @return
      */
     public Map<String, String> getAssignmentMetadata();
+
+    public String getAssignmentToken();
 }

@@ -75,6 +75,7 @@ public class OutboundPayloadEnrichmentLogic {
 	context.setDeviceMetadata(device.getMetadata());
 	context.setAssignmentStatus(assignment.getStatus());
 	context.setAssignmentMetadata(assignment.getMetadata());
+	context.setAssignmentToken(assignment.getToken());
 
 	// Build enriched payload.
 	EnrichedEventPayload enriched = new EnrichedEventPayload();

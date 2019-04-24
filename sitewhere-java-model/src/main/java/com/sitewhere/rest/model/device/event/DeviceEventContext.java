@@ -43,6 +43,8 @@ public class DeviceEventContext implements IDeviceEventContext {
     /** Device assignment metadata */
     private Map<String, String> assignmentMetadata;
 
+    private String assignmentToken;
+
     /*
      * @see com.sitewhere.spi.device.event.IDeviceEventContext#getDeviceId()
      */
@@ -126,5 +128,13 @@ public class DeviceEventContext implements IDeviceEventContext {
 
     public void setAssignmentMetadata(Map<String, String> assignmentMetadata) {
 	this.assignmentMetadata = assignmentMetadata;
+    }
+
+    public String getAssignmentToken() {
+        return assignmentToken;
+    }
+
+    public void setAssignmentToken(String assignmentToken) {
+        this.assignmentToken = assignmentToken;
     }
 }
