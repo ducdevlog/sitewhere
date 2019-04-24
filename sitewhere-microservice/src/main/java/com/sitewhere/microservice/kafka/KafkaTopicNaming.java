@@ -28,6 +28,7 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
 
     /** Global topic indicator */
     protected static final String GLOBAL_INDICATOR = "global";
+    protected static final String ORGANIZATION_INDICATOR = "viniot";
 
     /** Tenant topic indicator */
     protected static final String TENANT_INDICATOR = "tenant";
@@ -114,6 +115,11 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
     @Override
     public String getTenantPrefix(ITenant tenant) {
 	return getInstancePrefix() + SEPARATOR + TENANT_INDICATOR + SEPARATOR + tenant.getId() + SEPARATOR;
+    }
+
+    @Override
+    public String getTenantRulePrefix(ITenant tenant) {
+        return ORGANIZATION_INDICATOR + SEPARATOR + TENANT_INDICATOR + SEPARATOR + tenant.getId() + SEPARATOR;
     }
 
     /*
@@ -228,7 +234,7 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
 
     @Override
     public String getInboundEnrichedRuleEventsTopic(ITenant tenant) {
-        return getTenantPrefix(tenant) + TENANT_TOPIC_INBOUND_ENRICHED_RULE_EVENTS;
+        return getTenantRulePrefix(tenant) + TENANT_TOPIC_INBOUND_ENRICHED_RULE_EVENTS;
     }
 
     /*

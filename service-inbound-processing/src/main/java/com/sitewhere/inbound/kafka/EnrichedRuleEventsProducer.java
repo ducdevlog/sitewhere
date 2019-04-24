@@ -8,6 +8,7 @@
 package com.sitewhere.inbound.kafka;
 
 import com.sitewhere.inbound.spi.kafka.IEnrichedEventsProducer;
+import com.sitewhere.inbound.spi.kafka.IEnrichedRuleEventsProducer;
 import com.sitewhere.microservice.kafka.AckPolicy;
 import com.sitewhere.microservice.kafka.MicroserviceKafkaProducer;
 import com.sitewhere.spi.SiteWhereException;
@@ -18,7 +19,7 @@ import com.sitewhere.spi.SiteWhereException;
  * 
  * @author Derek
  */
-public class EnrichedRuleEventsProducer extends MicroserviceKafkaProducer implements IEnrichedEventsProducer {
+public class EnrichedRuleEventsProducer extends MicroserviceKafkaProducer implements IEnrichedRuleEventsProducer {
 
     public EnrichedRuleEventsProducer() {
 	super(AckPolicy.FireAndForget);

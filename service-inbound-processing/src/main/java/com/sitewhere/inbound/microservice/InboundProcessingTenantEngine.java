@@ -7,11 +7,7 @@
  */
 package com.sitewhere.inbound.microservice;
 
-import com.sitewhere.inbound.kafka.DecodedEventsConsumer;
-import com.sitewhere.inbound.kafka.EnrichedCommandInvocationsProducer;
-import com.sitewhere.inbound.kafka.EnrichedEventsProducer;
-import com.sitewhere.inbound.kafka.PersistedEventsConsumer;
-import com.sitewhere.inbound.kafka.UnregisteredEventsProducer;
+import com.sitewhere.inbound.kafka.*;
 import com.sitewhere.inbound.spi.kafka.*;
 import com.sitewhere.inbound.spi.microservice.IInboundProcessingTenantEngine;
 import com.sitewhere.inbound.spi.processing.IInboundProcessingConfiguration;
@@ -70,6 +66,7 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 	this.unregisteredDeviceEventsProducer = new UnregisteredEventsProducer();
 	this.persistedEventsConsumer = new PersistedEventsConsumer();
 	this.enrichedEventsProducer = new EnrichedEventsProducer();
+	this.enrichedRuleEventsProducer = new EnrichedRuleEventsProducer();
 	this.enrichedCommandInvocationsProducer = new EnrichedCommandInvocationsProducer();
 
 	// Create step that will initialize components.

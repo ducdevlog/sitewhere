@@ -38,6 +38,8 @@ public interface IKafkaTopicNaming {
      */
     public String getTenantPrefix(ITenant tenant);
 
+    public String getTenantRulePrefix(ITenant tenant);
+
     /**
      * Get topic name for tracking tenant model updates.
      * 
