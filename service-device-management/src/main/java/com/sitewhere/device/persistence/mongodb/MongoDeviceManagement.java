@@ -956,8 +956,9 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 			Document deviceDocument = assertDevice(deviceAssignment.getDeviceId());
 			if (deviceDocument != null) {
 				deviceDocument.append(MongoDevice.PROP_ASSIGNMENT_ID, null);
+				Document query = new Document(MongoPersistentEntity.PROP_ID, deviceAssignment.getDeviceId());
 				MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
-				MongoPersistence.delete(devices, deviceDocument);
+				MongoPersistence.update(devices, query, deviceDocument);
 			}
 		}
 	//DeviceManagementPersistence.deviceAssignmentDeleteLogic(MongoDeviceAssignment.fromDocument(existing));
