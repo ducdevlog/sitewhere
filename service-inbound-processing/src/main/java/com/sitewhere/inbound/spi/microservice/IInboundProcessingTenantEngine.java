@@ -7,11 +7,7 @@
  */
 package com.sitewhere.inbound.spi.microservice;
 
-import com.sitewhere.inbound.spi.kafka.IDecodedEventsConsumer;
-import com.sitewhere.inbound.spi.kafka.IEnrichedCommandInvocationsProducer;
-import com.sitewhere.inbound.spi.kafka.IEnrichedEventsProducer;
-import com.sitewhere.inbound.spi.kafka.IPersistedEventsConsumer;
-import com.sitewhere.inbound.spi.kafka.IUnregisteredEventsProducer;
+import com.sitewhere.inbound.spi.kafka.*;
 import com.sitewhere.spi.microservice.multitenant.IMicroserviceTenantEngine;
 
 /**
@@ -52,6 +48,8 @@ public interface IInboundProcessingTenantEngine extends IMicroserviceTenantEngin
      * @return
      */
     public IEnrichedEventsProducer getEnrichedEventsProducer();
+
+    public IEnrichedRuleEventsProducer getEnrichedRuleEventsProducer();
 
     /**
      * Get Kafka producer that sends enriched command invocations to a topic for

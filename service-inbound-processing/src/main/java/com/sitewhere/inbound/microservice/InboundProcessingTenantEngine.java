@@ -12,11 +12,7 @@ import com.sitewhere.inbound.kafka.EnrichedCommandInvocationsProducer;
 import com.sitewhere.inbound.kafka.EnrichedEventsProducer;
 import com.sitewhere.inbound.kafka.PersistedEventsConsumer;
 import com.sitewhere.inbound.kafka.UnregisteredEventsProducer;
-import com.sitewhere.inbound.spi.kafka.IDecodedEventsConsumer;
-import com.sitewhere.inbound.spi.kafka.IEnrichedCommandInvocationsProducer;
-import com.sitewhere.inbound.spi.kafka.IEnrichedEventsProducer;
-import com.sitewhere.inbound.spi.kafka.IPersistedEventsConsumer;
-import com.sitewhere.inbound.spi.kafka.IUnregisteredEventsProducer;
+import com.sitewhere.inbound.spi.kafka.*;
 import com.sitewhere.inbound.spi.microservice.IInboundProcessingTenantEngine;
 import com.sitewhere.inbound.spi.processing.IInboundProcessingConfiguration;
 import com.sitewhere.microservice.multitenant.MicroserviceTenantEngine;
@@ -48,6 +44,9 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 
     /** Kafka producer for forwarding enriched events */
     private IEnrichedEventsProducer enrichedEventsProducer;
+
+    /** Kafka producer for forwarding enriched events */
+    private IEnrichedRuleEventsProducer enrichedRuleEventsProducer;
 
     /** Kafka producer for forwarding enriched command invocations */
     private IEnrichedCommandInvocationsProducer enrichedCommandInvocationsProducer;
@@ -88,6 +87,8 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 	// Initialize enriched events producer.
 	init.addInitializeStep(this, getEnrichedEventsProducer(), true);
 
+	init.addInitializeStep(this, getEnrichedRuleEventsProducer(), true);
+
 	// Initialize enriched command invocations producer.
 	init.addInitializeStep(this, getEnrichedCommandInvocationsProducer(), true);
 
@@ -115,6 +116,8 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 
 	// Start enriched events producer.
 	start.addStartStep(this, getEnrichedEventsProducer(), true);
+
+	start.addStartStep(this, getEnrichedRuleEventsProducer(), true);
 
 	// Start enriched command invocations producer.
 	start.addStartStep(this, getEnrichedCommandInvocationsProducer(), true);
@@ -153,6 +156,8 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 
 	// Stop enriched events producer.
 	stop.addStopStep(this, getEnrichedEventsProducer());
+
+	stop.addStopStep(this, getEnrichedRuleEventsProducer());
 
 	// Stop enriched command invocations producer.
 	stop.addStopStep(this, getEnrichedCommandInvocationsProducer());
@@ -211,6 +216,14 @@ public class InboundProcessingTenantEngine extends MicroserviceTenantEngine impl
 
     public void setEnrichedEventsProducer(IEnrichedEventsProducer enrichedEventsProducer) {
 	this.enrichedEventsProducer = enrichedEventsProducer;
+    }
+
+    public IEnrichedRuleEventsProducer getEnrichedRuleEventsProducer() {
+        return enrichedRuleEventsProducer;
+    }
+
+    public void setEnrichedRuleEventsProducer(IEnrichedRuleEventsProducer enrichedRuleEventsProducer) {
+        this.enrichedRuleEventsProducer = enrichedRuleEventsProducer;
     }
 
     /*

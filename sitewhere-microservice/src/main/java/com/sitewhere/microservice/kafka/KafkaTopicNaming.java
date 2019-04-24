@@ -68,6 +68,8 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
     /** Topic suffix for events that have been persisted and enriched */
     protected static final String TENANT_TOPIC_INBOUND_ENRICHED_EVENTS = "inbound-enriched-events";
 
+    protected static final String TENANT_TOPIC_INBOUND_ENRICHED_RULE_EVENTS = "inbound-enriched-rule-events";
+
     /** Topic suffix for persisted and enriched command invocations */
     protected static final String TENANT_TOPIC_INBOUND_ENRICHED_COMMAND_INVOCATIONS = "inbound-enriched-command-invocations";
 
@@ -222,6 +224,11 @@ public class KafkaTopicNaming implements IKafkaTopicNaming {
     @Override
     public String getInboundEnrichedEventsTopic(ITenant tenant) {
 	return getTenantPrefix(tenant) + TENANT_TOPIC_INBOUND_ENRICHED_EVENTS;
+    }
+
+    @Override
+    public String getInboundEnrichedRuleEventsTopic(ITenant tenant) {
+        return getTenantPrefix(tenant) + TENANT_TOPIC_INBOUND_ENRICHED_RULE_EVENTS;
     }
 
     /*

@@ -137,6 +137,8 @@ public interface IKafkaTopicNaming {
      */
     public String getInboundEnrichedEventsTopic(ITenant tenant);
 
+    public String getInboundEnrichedRuleEventsTopic(ITenant tenant);
+
     /**
      * Get topic for device command invocations that have been persisted and
      * enriched with device/assignment data.

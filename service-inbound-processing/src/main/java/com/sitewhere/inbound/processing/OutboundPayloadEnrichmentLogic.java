@@ -7,6 +7,7 @@
  */
 package com.sitewhere.inbound.processing;
 
+import com.sitewhere.common.MarshalUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -84,7 +85,7 @@ public class OutboundPayloadEnrichmentLogic {
 	GEnrichedEventPayload grpc = EventModelConverter.asGrpcEnrichedEventPayload(enriched);
 	byte[] message = EventModelMarshaler.buildEnrichedEventPayloadMessage(grpc);
 	getTenantEngine().getEnrichedEventsProducer().send(device.getToken(), message);
-
+	getTenantEngine().getEnrichedRuleEventsProducer().send(device.getToken(), MarshalUtils.marshalJson(enriched));
 	// Send enriched command invocations to topic.
 	if (event.getEventType() == DeviceEventType.CommandInvocation) {
 	    getTenantEngine().getEnrichedCommandInvocationsProducer().send(device.getToken(), message);
