@@ -16,6 +16,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.rest.model.device.request.DeviceAssignmentCreateRequest;
 import com.sitewhere.spi.area.IArea;
 import org.apache.commons.lang3.StringUtils;
@@ -155,6 +156,7 @@ public class Devices extends RestControllerBase {
     public IDevice updateDevice(@ApiParam(value = "Device token", required = true) @PathVariable String deviceToken,
 	    @RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest) throws SiteWhereException {
 	IDevice existing = assertDeviceByToken(deviceToken);
+		getLogger().info("Request:\n\n" + MarshalUtils.marshalJsonAsPrettyString(request));
 	IDevice result = getDeviceManagement().updateDevice(existing.getId(), request);
 	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 	helper.setIncludeAssignment(true);
