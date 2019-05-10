@@ -51,7 +51,7 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
     public byte[] encode(IDeviceCommandExecution command, IDeviceNestingContext nested, IDeviceAssignment assignment)
 	    throws SiteWhereException {
 		EncodedCommandExecution encoded = null;
-		if (command.getCommand().getReversedMessageType() != ReversedMessageType.MINIMAL && StringUtils.isNotEmpty(nested.getGateway().getGatewayId())) {
+		if (command.getCommand().getReversedMessageType() != ReversedMessageType.MINIMAL || StringUtils.isNotEmpty(nested.getGateway().getGatewayId())) {
 			encoded = new EncodedCommandExecution(command, nested, assignment);
 			return MarshalUtils.marshalJson(encoded);
 		}
