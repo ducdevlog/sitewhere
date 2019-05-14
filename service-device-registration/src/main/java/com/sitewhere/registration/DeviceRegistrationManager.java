@@ -8,6 +8,11 @@
 package com.sitewhere.registration;
 
 import com.sitewhere.common.MarshalUtils;
+import com.sitewhere.rest.model.mqtt.MqttUser;
+import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
+import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
+import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
+import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -31,6 +36,8 @@ import com.sitewhere.spi.device.event.kafka.IInboundEventPayload;
 import com.sitewhere.spi.device.request.IDeviceCreateRequest;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+
+import java.util.Arrays;
 
 /**
  * Base logic for {@link IRegistrationManager} implementations.
@@ -143,6 +150,17 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
 	    deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
+
+		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+		mqttUser.setUsername(device.getToken());
+		mqttUser.setPassword(device.getToken());
+		getMqttAclManagement().createMqttUser(mqttUser);
+
+		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+		mqttAcl.setUsername(device.getToken());
+		mqttAcl.setPubSub(Arrays.asList(device.getToken()));
+		getMqttAclManagement().createMqttAcl(mqttAcl);
+
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {
 			getLogger().info("Found existing device registration. Delete device information.");
@@ -432,6 +450,11 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 
     private IDeviceManagement getDeviceManagement() {
 	return ((IDeviceRegistrationMicroservice) getTenantEngine().getMicroservice()).getDeviceManagementApiDemux()
+		.getApiChannel();
+    }
+
+    private IMqttAclManagement getMqttAclManagement() {
+	return ((IDeviceRegistrationMicroservice) getTenantEngine().getMicroservice()).getMqttAclApiDemux()
 		.getApiChannel();
     }
 }

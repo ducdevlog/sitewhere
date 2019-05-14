@@ -52,7 +52,9 @@ public enum MicroserviceIdentifier implements IFunctionIdentifier {
 
     WebRest("web-rest"),
 
-    OpenHabRule("openhab-rule");
+    OpenHabRule("openhab-rule"),
+
+    MqttAcl("mqtt-acl");
 
     /** Path */
     private String path;

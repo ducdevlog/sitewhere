@@ -45,6 +45,8 @@ import com.sitewhere.spi.device.request.IDeviceGroupCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceGroupElementCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceStatusCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceTypeCreateRequest;
+import com.sitewhere.spi.mqtt.IMqttAcl;
+import com.sitewhere.spi.mqtt.IMqttUser;
 import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
@@ -1477,7 +1479,7 @@ public class DeviceManagementApiChannel extends MultitenantApiChannel<DeviceMana
 	}
     }
 
-    /*
+	/*
      * @see com.sitewhere.spi.device.IDeviceManagement#listDeviceAssignments(com.
      * sitewhere.spi.search.device.IDeviceAssignmentSearchCriteria)
      */

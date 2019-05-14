@@ -15,15 +15,7 @@ import com.sitewhere.grpc.client.devicestate.DeviceStateApiDemux;
 import com.sitewhere.grpc.client.event.DeviceEventManagementApiDemux;
 import com.sitewhere.grpc.client.label.LabelGenerationApiDemux;
 import com.sitewhere.grpc.client.schedule.ScheduleManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IAssetManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IBatchManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceEventManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceStateApiDemux;
-import com.sitewhere.grpc.client.spi.client.ILabelGenerationApiDemux;
-import com.sitewhere.grpc.client.spi.client.IScheduleManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.ITenantManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IUserManagementApiDemux;
+import com.sitewhere.grpc.client.spi.client.*;
 import com.sitewhere.grpc.client.tenant.TenantManagementApiDemux;
 import com.sitewhere.grpc.client.user.UserManagementApiDemux;
 import com.sitewhere.microservice.GlobalMicroservice;
@@ -79,6 +71,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
     /** Device state API demux */
     private IDeviceStateApiDemux deviceStateApiDemux;
+
+    /** Device state API demux */
+    private IMqttAclApiDemux mqttAclApiDemux;
 
     /** Aggregates microservice state info into a topology */
     private ITopologyStateAggregator topologyStateAggregator = new TopologyStateAggregator();
