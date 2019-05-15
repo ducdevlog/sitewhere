@@ -19,7 +19,7 @@ public class MqttUser implements IMqttUser {
     private String username;
     private String password;
     private Boolean isSuperUser;
-    private Date create;
+    private Date created;
 
     public void setUsername(String username) {
         this.username = username;
@@ -31,10 +31,6 @@ public class MqttUser implements IMqttUser {
 
     public void setSuperUser(Boolean superUser) {
         isSuperUser = superUser;
-    }
-
-    public void setCreate(Date create) {
-        this.create = create;
     }
 
     @Override
@@ -52,7 +48,11 @@ public class MqttUser implements IMqttUser {
         return isSuperUser;
     }
 
-    public Date getCreate() {
-        return create;
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

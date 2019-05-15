@@ -127,6 +127,26 @@ public class DatastoreConfigurationParser {
 	return null;
     }
 
+	public static DatastoreConfigurationChoice parseMqttAclDatastoreChoice(Element element, ParserContext context) {
+		List<Element> children = DomUtils.getChildElements(element);
+		for (Element child : children) {
+			DeviceManagementDatastoreElements type = DeviceManagementDatastoreElements
+					.getByLocalName(child.getLocalName());
+			if (type == null) {
+				throw new RuntimeException("Unknown datastore element: " + child.getLocalName());
+			}
+			switch (type) {
+				case MongoDBDatastore: {
+					return parseMongoDbDatastore(child, context);
+				}
+				case MongoDBReference: {
+					return parseMongoDbReference(child, context);
+				}
+			}
+		}
+		return null;
+	}
+
     /**
      * Parse configuration for a MongoDB datastore.
      * 

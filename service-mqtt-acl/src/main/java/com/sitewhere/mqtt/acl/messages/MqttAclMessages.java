@@ -5,17 +5,17 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
+package com.sitewhere.mqtt.acl.messages;
 
-package com.sitewhere.spi.mqtt;
+import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
-import java.util.Date;
+/**
+ * @author Jorge Villaverde
+ */
+@BaseName("mqtt-acl")
+@LocaleData({@Locale("en_US")})
+public enum MqttAclMessages {
 
-public interface IMqttUser {
-    public String getUsername();
-
-    public String getPassword();
-
-    public Boolean getSuperUser();
-
-    public Date getCreated();
 }
