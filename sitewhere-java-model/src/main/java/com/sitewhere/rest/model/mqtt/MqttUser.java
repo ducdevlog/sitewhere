@@ -19,7 +19,7 @@ public class MqttUser implements IMqttUser {
     private String username;
     private String password;
     private Boolean isSuperUser;
-    private Date created;
+    private Date created = new Date();
 
     public void setUsername(String username) {
         this.username = username;
