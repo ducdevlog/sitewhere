@@ -10,7 +10,7 @@ dependencies {
 
 apply plugin: 'org.springframework.boot'
 springBoot {
-    mainClassName = 'com.sitewhere.devicestate.MqttAclApplication'
+    mainClassName = 'com.sitewhere.mqtt.acl.MqttAclApplication'
 }
 
 // Keep original jar.
