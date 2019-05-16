@@ -14,6 +14,7 @@ import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
 import com.sitewhere.grpc.client.devicestate.DeviceStateApiDemux;
 import com.sitewhere.grpc.client.event.DeviceEventManagementApiDemux;
 import com.sitewhere.grpc.client.label.LabelGenerationApiDemux;
+import com.sitewhere.grpc.client.mqtt.MqttAclApiDemux;
 import com.sitewhere.grpc.client.schedule.ScheduleManagementApiDemux;
 import com.sitewhere.grpc.client.spi.client.*;
 import com.sitewhere.grpc.client.tenant.TenantManagementApiDemux;
@@ -233,6 +234,8 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
 	// Device state.
 	this.deviceStateApiDemux = new DeviceStateApiDemux(false);
+
+	this.mqttAclApiDemux = new MqttAclApiDemux(false);
     }
 
     /*
