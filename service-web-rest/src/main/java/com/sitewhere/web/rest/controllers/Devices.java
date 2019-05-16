@@ -7,18 +7,17 @@
  */
 package com.sitewhere.web.rest.controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.rest.model.device.request.DeviceAssignmentCreateRequest;
+import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
+import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
 import com.sitewhere.spi.area.IArea;
+import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,6 +100,7 @@ public class Devices extends RestControllerBase {
     public IDevice createDevice(@RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest)
 	    throws SiteWhereException {
 	IDevice result = getDeviceManagement().createDevice(request);
+		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
 			IArea area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
 			if (area != null) {
@@ -108,20 +108,28 @@ public class Devices extends RestControllerBase {
 				assnCreate.setDeviceToken(result.getToken());
 				assnCreate.setAreaToken(area.getToken());
 				getDeviceManagement().createDeviceAssignment(assnCreate);
-				DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 				helper.setIncludeAssignment(true);
-				return helper.convert(result, getAssetManagement());
 			}
+		} else {
+			helper.setIncludeAssignment(false);
 		}
-	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
-	helper.setIncludeAssignment(false);
+		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+		mqttUser.setUsername(result.getToken());
+		mqttUser.setPassword(result.getToken());
+		getMqttAclManagement().createMqttUser(mqttUser);
+
+		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+		mqttAcl.setUsername(result.getToken());
+		mqttAcl.setPubSub(Arrays.asList(result.getToken()));
+		getMqttAclManagement().createMqttAcl(mqttAcl);
+
 	return helper.convert(result, getAssetManagement());
     }
 
     /**
      * Used by AJAX calls to find a device by hardware id.
      * 
-     * @param hardwareId
+     * @param deviceToken
      * @return
      */
     @RequestMapping(value = "/{deviceToken:.+}", method = RequestMethod.GET)
@@ -352,7 +360,6 @@ public class Devices extends RestControllerBase {
      * @param pageSize
      * @param startDate
      * @param endDate
-     * @param servletRequest
      * @return
      * @throws SiteWhereException
      */
@@ -446,7 +453,7 @@ public class Devices extends RestControllerBase {
      * that the token in the URL overrides the one specified in the
      * {@link DeviceEventBatch} object.
      * 
-     * @param request
+     * @param deviceToken
      * @return
      */
     @RequestMapping(value = "/{deviceToken}/batch", method = RequestMethod.POST)
@@ -529,6 +536,10 @@ public class Devices extends RestControllerBase {
     private IDeviceManagement getDeviceManagement() {
 	return getMicroservice().getDeviceManagementApiDemux().getApiChannel();
     }
+
+	private IMqttAclManagement getMqttAclManagement() {
+		return getMicroservice().getMqttAclApiDemux().getApiChannel();
+	}
 
     private IDeviceEventManagement getDeviceEventManagement() {
 	return new BlockingDeviceEventManagement(getMicroservice().getDeviceEventManagementApiDemux().getApiChannel());

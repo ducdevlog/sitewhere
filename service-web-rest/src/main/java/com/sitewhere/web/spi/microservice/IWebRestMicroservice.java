@@ -7,13 +7,7 @@
  */
 package com.sitewhere.web.spi.microservice;
 
-import com.sitewhere.grpc.client.spi.client.IAssetManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IBatchManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceEventManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
-import com.sitewhere.grpc.client.spi.client.IDeviceStateApiDemux;
-import com.sitewhere.grpc.client.spi.client.ILabelGenerationApiDemux;
-import com.sitewhere.grpc.client.spi.client.IScheduleManagementApiDemux;
+import com.sitewhere.grpc.client.spi.client.*;
 import com.sitewhere.grpc.client.spi.provider.ITenantManagementDemuxProvider;
 import com.sitewhere.grpc.client.spi.provider.IUserManagementDemuxProvider;
 import com.sitewhere.spi.microservice.IFunctionIdentifier;
@@ -83,4 +77,6 @@ public interface IWebRestMicroservice<T extends IFunctionIdentifier>
      * @return
      */
     public ITopologyStateAggregator getTopologyStateAggregator();
+
+    public IMqttAclApiDemux getMqttAclApiDemux();
 }

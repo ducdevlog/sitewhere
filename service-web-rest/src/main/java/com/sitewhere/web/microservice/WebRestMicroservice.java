@@ -452,4 +452,13 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
     public void setTopologyStateAggregator(ITopologyStateAggregator topologyStateAggregator) {
 	this.topologyStateAggregator = topologyStateAggregator;
     }
+
+    @Override
+    public IMqttAclApiDemux getMqttAclApiDemux() {
+        return mqttAclApiDemux;
+    }
+
+    public void setMqttAclApiDemux(IMqttAclApiDemux mqttAclApiDemux) {
+        this.mqttAclApiDemux = mqttAclApiDemux;
+    }
 }
