@@ -194,6 +194,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	// Initialize device state API demux.
 	init.addInitializeStep(this, getDeviceStateApiDemux(), true);
 
+        // Initialize device state API demux.
+        init.addInitializeStep(this, getMqttAclApiDemux(), true);
+
 	// Execute initialization steps.
 	init.execute(monitor);
     }
@@ -274,6 +277,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	// Start device state API demux.
 	start.addStartStep(this, getDeviceStateApiDemux(), true);
 
+	    // Start device state API demux.
+	    start.addStartStep(this, getMqttAclApiDemux(), true);
+
 	// Execute startup steps.
 	start.execute(monitor);
     }
@@ -315,6 +321,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
 	// Stop device state API demux.
 	stop.addStopStep(this, getDeviceStateApiDemux());
+
+        // Stop device state API demux.
+        stop.addStopStep(this, getMqttAclApiDemux());
 
 	// Stop topology state aggregator.
 	stop.addStopStep(this, getTopologyStateAggregator());
