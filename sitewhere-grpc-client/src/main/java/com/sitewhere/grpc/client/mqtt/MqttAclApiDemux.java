@@ -28,6 +28,6 @@ public class MqttAclApiDemux extends MultitenantApiDemux<IMqttAclApiChannel<?>>
 
     @Override
     public IMqttAclApiChannel<?> createApiChannel(String host, boolean cacheEnabled) throws SiteWhereException {
-        return null;
+        return new MqttAclApiChannel(this, host, getMicroservice().getInstanceSettings().getGrpcPort());
     }
 }
