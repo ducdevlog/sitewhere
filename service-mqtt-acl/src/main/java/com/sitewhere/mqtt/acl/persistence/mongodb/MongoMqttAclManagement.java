@@ -62,8 +62,8 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
     protected void ensureIndexes() throws SiteWhereException {
         getMongoClient().getMqttAclCollection().createIndex(
                 new BasicDBObject(MongoMqttAcl.PROP_USERNAME, 1), new IndexOptions().unique(true));
-        getMongoClient().getMqttAclCollection()
-                .createIndex(new Document(MongoMqttAcl.PROP_USERNAME, 1));
+        getMongoClient().getMqttUserCollection()
+                .createIndex(new Document(MongoMqttUser.PROP_USERNAME, 1));
     }
 
     public IMqttAclManagementMongoClient getMongoClient() {
