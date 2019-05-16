@@ -22,6 +22,7 @@ import com.sitewhere.spi.mqtt.IMqttAcl;
 import com.sitewhere.spi.mqtt.IMqttUser;
 import com.sitewhere.spi.mqtt.request.IMqttAclCreateRequest;
 import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.stream.Collectors;
 
@@ -43,10 +44,12 @@ public class MqttAclModelConverter {
         GMqttAclCreateRequest.Builder grpc = GMqttAclCreateRequest.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setClientId(api.getClientId());
-        api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
-        api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
-        api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));
-        return grpc.build();
+        if (CollectionUtils.isNotEmpty(grpc.getPublishList()))
+            api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
+        if (CollectionUtils.isNotEmpty(grpc.getSubscribeList()))
+            api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
+        if (CollectionUtils.isNotEmpty(grpc.getPubsubList()))
+            api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));return grpc.build();
     }
 
     public static IMqttUserCreateRequest asApiMqttUserCreateRequest(GMqttUserCreateRequest grpc)
@@ -63,7 +66,7 @@ public class MqttAclModelConverter {
         GMqttUserCreateRequest.Builder grpc = GMqttUserCreateRequest.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setPassword(api.getPassword());
-        grpc.setIsSuperuser(CommonModel.GOptionalBoolean.newBuilder().setValue(api.getSuperUser()).build());
+        grpc.setIsSuperuser(api.getSuperUser() != null ? CommonModel.GOptionalBoolean.newBuilder().setValue(api.getSuperUser()).build() : CommonModel.GOptionalBoolean.newBuilder().setValue(false).build());
         return grpc.build();
     }
 
@@ -71,9 +74,12 @@ public class MqttAclModelConverter {
         GMqttAcl.Builder grpc = GMqttAcl.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setClientId(api.getClientId());
-        api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
-        api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
-        api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));
+        if (CollectionUtils.isNotEmpty(grpc.getPublishList()))
+            api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
+        if (CollectionUtils.isNotEmpty(grpc.getSubscribeList()))
+            api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
+        if (CollectionUtils.isNotEmpty(grpc.getPubsubList()))
+            api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));
         return grpc.build();
     }
 
@@ -92,7 +98,7 @@ public class MqttAclModelConverter {
         MqttAclModel.GMqttUser.Builder grpc = MqttAclModel.GMqttUser.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setPassword(api.getPassword());
-        grpc.setIsSuperuser(CommonModel.GOptionalBoolean.newBuilder().setValue(api.getSuperUser()).build());
+        grpc.setIsSuperuser(api.getSuperUser() != null ? CommonModel.GOptionalBoolean.newBuilder().setValue(api.getSuperUser()).build() : CommonModel.GOptionalBoolean.newBuilder().setValue(false).build());
         return grpc.build();
     }
 
