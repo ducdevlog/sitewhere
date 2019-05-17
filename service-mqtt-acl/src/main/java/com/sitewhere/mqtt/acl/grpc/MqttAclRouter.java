@@ -118,6 +118,36 @@ public class MqttAclRouter extends MqttAclGrpc.MqttAclImplBase
         }
     }
 
+    @Override
+    public void createMqttUser(GCreateMqttUserRequest request, StreamObserver<GCreateMqttUserResponse> responseObserver) {
+        MqttAclGrpc.MqttAclImplBase engine = getTenantImplementation(responseObserver);
+        if (engine != null) {
+            engine.createMqttUser(request, responseObserver);
+        }
+    }
+
+    @Override
+    public void getMqttUser(GGetMqttUserRequest request, StreamObserver<GGetMqttUserResponse> responseObserver) {
+        MqttAclGrpc.MqttAclImplBase engine = getTenantImplementation(responseObserver);
+        if (engine != null) {
+            engine.getMqttUser(request, responseObserver);
+        }
+    }
+
+    public void updateMqttUser(GUpdateMqttUserRequest request, StreamObserver<GUpdateMqttUserResponse> responseObserver) {
+        MqttAclGrpc.MqttAclImplBase engine = getTenantImplementation(responseObserver);
+        if (engine != null) {
+            engine.updateMqttUser(request, responseObserver);
+        }
+    }
+
+    public void deleteMqttUser(GDeleteMqttUserRequest request, StreamObserver<GDeleteMqttUserResponse> responseObserver) {
+        MqttAclGrpc.MqttAclImplBase engine = getTenantImplementation(responseObserver);
+        if (engine != null) {
+            engine.deleteMqttUser(request, responseObserver);
+        }
+    }
+
     protected IMqttAclMicroservice getMicroservice() {
         return microservice;
     }
