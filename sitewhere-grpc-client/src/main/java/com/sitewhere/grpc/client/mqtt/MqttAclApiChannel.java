@@ -8,6 +8,7 @@
 
 package com.sitewhere.grpc.client.mqtt;
 
+import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.MultitenantApiChannel;
 import com.sitewhere.grpc.client.spi.IApiDemux;
@@ -37,6 +38,7 @@ public class MqttAclApiChannel extends MultitenantApiChannel<MqttAclGrpcChannel>
         try {
             GrpcUtils.handleClientMethodEntry(this, MqttAclGrpc.getCreateMqttAclMethod());
             GCreateMqttAclRequest.Builder grequest = GCreateMqttAclRequest.newBuilder();
+            getLogger().info(MarshalUtils.marshalJsonAsPrettyString(request));
             grequest.setRequest(MqttAclModelConverter.asGrpcMqttAclCreateRequest(request));
             GCreateMqttAclResponse gresponse = getGrpcChannel().getBlockingStub().createMqttAcl(grequest.build());
             IMqttAcl response = (gresponse.hasMqttAcl())
