@@ -7,6 +7,7 @@
  */
 package com.sitewhere.mqtt.acl.grpc;
 
+import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.mqtt.MqttAclModelConverter;
 import com.sitewhere.grpc.client.spi.server.IGrpcApiImplementation;
@@ -51,6 +52,8 @@ public class MqttAclImpl extends MqttAclGrpc.MqttAclImplBase implements IGrpcApi
     public void createMqttAcl(GCreateMqttAclRequest request,
                                   StreamObserver<GCreateMqttAclResponse> responseObserver) {
         try {
+            System.out.println("*******************************************");
+            System.out.println(MarshalUtils.marshalJsonAsPrettyString(request));
             GrpcUtils.handleServerMethodEntry(this, MqttAclGrpc.getCreateMqttAclMethod());
             IMqttAclCreateRequest apiRequest = MqttAclModelConverter
                     .asApiMqttAclCreateRequest(request.getRequest());
