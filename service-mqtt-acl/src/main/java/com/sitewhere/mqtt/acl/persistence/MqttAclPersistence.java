@@ -30,13 +30,12 @@ public class MqttAclPersistence {
      * request.
      *
      * @param request
-     * @param device
-     * @param deviceAssignment
      * @return
      * @throws SiteWhereException
      */
     public static MqttAcl mqttAclCreateLogic(IMqttAclCreateRequest request) throws SiteWhereException {
         MqttAcl state = new MqttAcl();
+        state.setId(UUID.randomUUID());
         state.setUsername(request.getUsername());
         state.setClientId(request.getClientId());
         state.setPublish(request.getPublish());
@@ -54,6 +53,7 @@ public class MqttAclPersistence {
     public static MqttUser mqttUserCreateLogic(IMqttUserCreateRequest request)
             throws SiteWhereException {
         MqttUser state = new MqttUser();
+        state.setId(UUID.randomUUID());
         state.setUsername(request.getUsername());
         state.setPassword(request.getPassword());
         state.setSuperUser(request.getSuperUser());
