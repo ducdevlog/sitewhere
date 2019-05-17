@@ -38,7 +38,6 @@ public class MqttAclApiChannel extends MultitenantApiChannel<MqttAclGrpcChannel>
         try {
             GrpcUtils.handleClientMethodEntry(this, MqttAclGrpc.getCreateMqttAclMethod());
             GCreateMqttAclRequest.Builder grequest = GCreateMqttAclRequest.newBuilder();
-            getLogger().info(MarshalUtils.marshalJsonAsPrettyString(request));
             grequest.setRequest(MqttAclModelConverter.asGrpcMqttAclCreateRequest(request));
             GCreateMqttAclResponse gresponse = getGrpcChannel().getBlockingStub().createMqttAcl(grequest.build());
             IMqttAcl response = (gresponse.hasMqttAcl())
