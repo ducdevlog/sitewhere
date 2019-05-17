@@ -52,12 +52,12 @@ public class MqttAclImpl extends MqttAclGrpc.MqttAclImplBase implements IGrpcApi
     public void createMqttAcl(GCreateMqttAclRequest request,
                                   StreamObserver<GCreateMqttAclResponse> responseObserver) {
         try {
-            System.out.println("*******************************************");
-            System.out.println(MarshalUtils.marshalJsonAsPrettyString(request));
             GrpcUtils.handleServerMethodEntry(this, MqttAclGrpc.getCreateMqttAclMethod());
             IMqttAclCreateRequest apiRequest = MqttAclModelConverter
                     .asApiMqttAclCreateRequest(request.getRequest());
             IMqttAcl apiResult = getMqttAclManagement().createMqttAcl(apiRequest);
+            System.out.println("*******************************************");
+            System.out.println(MarshalUtils.marshalJsonAsPrettyString(apiRequest));
             GCreateMqttAclResponse.Builder response = GCreateMqttAclResponse.newBuilder();
             response.setMqttAcl(MqttAclModelConverter.asGrpcMqttAcl(apiResult));
             responseObserver.onNext(response.build());
