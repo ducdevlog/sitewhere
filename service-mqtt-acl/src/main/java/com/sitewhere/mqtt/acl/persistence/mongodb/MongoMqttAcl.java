@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.sitewhere.mongodb.common.MongoPersistentEntity;
 import com.sitewhere.rest.model.mqtt.MqttAcl;
 import com.sitewhere.spi.mqtt.IMqttAcl;
 import org.bson.Document;
@@ -85,7 +86,12 @@ public class MongoMqttAcl implements MongoConverter<IMqttAcl> {
      * @param target
      */
     public static void toDocument(IMqttAcl source, Document target) {
-        //todo implement
+        target.append(PROP_ID, source.getId());
+        target.append(PROP_USERNAME, source.getUsername());
+        target.append(PROP_CLIENT_ID, source.getClientId());
+        target.append(PROP_PUBLISH, source.getPublish());
+        target.append(PROP_SUBSCRIBE, source.getSubscribe());
+        target.append(PROP_PUB_SUB, source.getPubSub());
     }
 
     /**
@@ -96,7 +102,21 @@ public class MongoMqttAcl implements MongoConverter<IMqttAcl> {
      */
     @SuppressWarnings("unchecked")
     public static void fromDocument(Document source, MqttAcl target) {
-        //todo implement
+        UUID id = (UUID) source.get(PROP_ID);
+        String username = (String) source.get(PROP_USERNAME);
+        String clientId = (String) source.get(PROP_CLIENT_ID);
+        Object publish = source.get(PROP_PUBLISH);
+        Object subscribe = source.get(PROP_SUBSCRIBE);
+        Object pubSub = source.get(PROP_PUB_SUB);
+
+        target.setId(id);
+        target.setUsername(username);
+        target.setClientId(clientId);
+        target.setPubSub((List<String>) pubSub);
+        target.setPublish((List<String>) publish);
+        target.setSubscribe((List<String>) subscribe);
+
+        MongoPersistentEntity.fromDocument(source, target);
     }
 
     /**

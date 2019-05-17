@@ -10,8 +10,12 @@ package com.sitewhere.spi.mqtt;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public interface IMqttAcl extends Serializable {
+
+    public UUID getId();
+
     public String getUsername();
 
     public String getClientId();

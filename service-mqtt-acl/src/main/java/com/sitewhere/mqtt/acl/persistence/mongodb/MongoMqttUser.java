@@ -8,9 +8,16 @@
 package com.sitewhere.mqtt.acl.persistence.mongodb;
 
 import com.sitewhere.mongodb.MongoConverter;
+import com.sitewhere.mongodb.common.MongoPersistentEntity;
 import com.sitewhere.rest.model.mqtt.MqttAcl;
+import com.sitewhere.rest.model.mqtt.MqttUser;
 import com.sitewhere.spi.mqtt.IMqttAcl;
+import com.sitewhere.spi.mqtt.IMqttUser;
 import org.bson.Document;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -18,7 +25,7 @@ import org.bson.Document;
  *
  * @author dadams
  */
-public class MongoMqttUser implements MongoConverter<IMqttAcl> {
+public class MongoMqttUser implements MongoConverter<IMqttUser> {
 
     /**
      * Property for id
@@ -38,17 +45,12 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
     /**
      * Property for publish
      */
-    public static final String PROP_PUBLISH = "is_superuser";
+    public static final String PROP_IS_SUPERUSER = "is_superuser";
 
     /**
      * Property for subscribe
      */
-    public static final String PROP_SUBSCRIBE = "created";
-
-    /**
-     * Property for pubsub
-     */
-    public static final String PROP_PUB_SUB = "pubsub";
+    public static final String PROP_CREATED = "created";
 
     /*
      * (non-Javadoc)
@@ -56,7 +58,7 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @see com.sitewhere.mongodb.MongoConverter#convert(java.lang.Object)
      */
     @Override
-    public Document convert(IMqttAcl source) {
+    public Document convert(IMqttUser source) {
         return MongoMqttUser.toDocument(source);
     }
 
@@ -66,7 +68,7 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @see com.sitewhere.mongodb.MongoConverter#convert(org.bson.Document)
      */
     @Override
-    public IMqttAcl convert(Document source) {
+    public IMqttUser convert(Document source) {
         return MongoMqttUser.fromDocument(source);
     }
 
@@ -76,8 +78,12 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @param source
      * @param target
      */
-    public static void toDocument(IMqttAcl source, Document target) {
-        //todo implement
+    public static void toDocument(IMqttUser source, Document target) {
+        target.append(PROP_ID, source.getId());
+        target.append(PROP_USERNAME, source.getUsername());
+        target.append(PROP_PASSWORD, source.getPassword());
+        target.append(PROP_IS_SUPERUSER, source.getSuperUser());
+        target.append(PROP_CREATED, source.getCreated());
     }
 
     /**
@@ -87,8 +93,20 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @param target
      */
     @SuppressWarnings("unchecked")
-    public static void fromDocument(Document source, MqttAcl target) {
-        //todo implement
+    public static void fromDocument(Document source, MqttUser target) {
+        UUID id = (UUID) source.get(PROP_ID);
+        String username = (String) source.get(PROP_USERNAME);
+        String password = (String) source.get(PROP_PASSWORD);
+        Boolean isSuperUser = (Boolean) source.get(PROP_IS_SUPERUSER);
+        Date created = (Date) source.get(PROP_CREATED);
+
+        target.setId(id);
+        target.setUsername(username);
+        target.setPassword(password);
+        target.setSuperUser(isSuperUser);
+        target.setCreated(created);
+
+        MongoPersistentEntity.fromDocument(source, target);
     }
 
     /**
@@ -97,7 +115,7 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @param source
      * @return
      */
-    public static Document toDocument(IMqttAcl source) {
+    public static Document toDocument(IMqttUser source) {
         Document result = new Document();
         MongoMqttUser.toDocument(source, result);
         return result;
@@ -109,8 +127,8 @@ public class MongoMqttUser implements MongoConverter<IMqttAcl> {
      * @param source
      * @return
      */
-    public static MqttAcl fromDocument(Document source) {
-        MqttAcl result = new MqttAcl();
+    public static MqttUser fromDocument(Document source) {
+        MqttUser result = new MqttUser();
         MongoMqttUser.fromDocument(source, result);
         return result;
     }

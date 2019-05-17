@@ -9,17 +9,28 @@
 package com.sitewhere.rest.model.mqtt;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sitewhere.rest.model.common.PersistentEntity;
 import com.sitewhere.spi.mqtt.IMqttUser;
 
 import java.util.Date;
+import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MqttUser implements IMqttUser {
+public class MqttUser extends PersistentEntity implements IMqttUser {
 
+    public UUID id;
     private String username;
     private String password;
     private Boolean isSuperUser;
     private Date created = new Date();
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setUsername(String username) {
         this.username = username;

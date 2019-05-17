@@ -9,17 +9,28 @@
 package com.sitewhere.rest.model.mqtt;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sitewhere.rest.model.common.PersistentEntity;
 import com.sitewhere.spi.mqtt.IMqttAcl;
 
 import java.util.List;
+import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MqttAcl implements IMqttAcl {
+public class MqttAcl extends PersistentEntity implements IMqttAcl {
+    public UUID id;
     private String username;
     private String clientId;
     private List<String> publish;
     private List<String> subscribe;
     private List<String> pubSub;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     @Override
     public String getUsername() {

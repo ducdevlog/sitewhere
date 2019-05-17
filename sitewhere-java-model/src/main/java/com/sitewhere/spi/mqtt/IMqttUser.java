@@ -9,8 +9,11 @@
 package com.sitewhere.spi.mqtt;
 
 import java.util.Date;
+import java.util.UUID;
 
 public interface IMqttUser {
+    public UUID getId();
+
     public String getUsername();
 
     public String getPassword();
