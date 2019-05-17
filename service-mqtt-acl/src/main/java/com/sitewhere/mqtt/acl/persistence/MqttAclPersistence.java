@@ -7,13 +7,16 @@
  */
 package com.sitewhere.mqtt.acl.persistence;
 
+import java.util.Date;
 import java.util.UUID;
 
 import com.sitewhere.rest.model.mqtt.MqttAcl;
+import com.sitewhere.rest.model.mqtt.MqttUser;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.mqtt.request.IMqttAclCreateRequest;
+import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
 
 /**
  * Common methods needed by device state management implementations.
@@ -32,9 +35,13 @@ public class MqttAclPersistence {
      * @return
      * @throws SiteWhereException
      */
-    public static MqttAcl deviceStateCreateLogic(IMqttAclCreateRequest request, IDevice device,
-                                                 IDeviceAssignment deviceAssignment) throws SiteWhereException {
+    public static MqttAcl mqttAclCreateLogic(IMqttAclCreateRequest request) throws SiteWhereException {
         MqttAcl state = new MqttAcl();
+        state.setUsername(request.getUsername());
+        state.setClientId(request.getClientId());
+        state.setPublish(request.getPublish());
+        state.setSubscribe(request.getSubscribe());
+        state.setPubSub(request.getPubSub());
         return state;
     }
 
@@ -42,10 +49,15 @@ public class MqttAclPersistence {
      * Common logic for updating an existing device state object.
      *
      * @param request
-     * @param target
      * @throws SiteWhereException
      */
-    public static void deviceStateUpdateLogic(IMqttAclCreateRequest request, MqttAcl target)
+    public static MqttUser mqttUserCreateLogic(IMqttUserCreateRequest request)
             throws SiteWhereException {
+        MqttUser state = new MqttUser();
+        state.setUsername(request.getUsername());
+        state.setPassword(request.getPassword());
+        state.setSuperUser(request.getSuperUser());
+        state.setCreated(new Date());
+        return state;
     }
 }

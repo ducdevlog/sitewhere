@@ -7,6 +7,11 @@
  */
 package com.sitewhere.mqtt.acl.persistence.mongodb;
 
+import com.mongodb.client.MongoCollection;
+import com.sitewhere.mongodb.MongoPersistence;
+import com.sitewhere.mqtt.acl.persistence.MqttAclPersistence;
+import com.sitewhere.rest.model.mqtt.MqttAcl;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.mqtt.IMqttAcl;
 import com.sitewhere.spi.mqtt.IMqttUser;
 import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
@@ -77,11 +82,23 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
 
     @Override
     public IMqttAcl createMqttAcl(IMqttAclCreateRequest request) throws SiteWhereException {
-        return null;
+        MqttAcl state = MqttAclPersistence.mqttAclCreateLogic(request);
+
+        MongoCollection<Document> states = getMongoClient().getMqttAclCollection();
+        Document created = MongoMqttAcl.toDocument(state);
+        MongoPersistence.insert(states, created, ErrorCode.DuplicateId);
+
+        return MongoMqttAcl.fromDocument(created);
     }
 
     @Override
     public IMqttUser createMqttUser(IMqttUserCreateRequest request) throws SiteWhereException {
-        return null;
+        IMqttUser state = MqttAclPersistence.mqttUserCreateLogic(request);
+
+        MongoCollection<Document> states = getMongoClient().getMqttUserCollection();
+        Document created = MongoMqttUser.toDocument(state);
+        MongoPersistence.insert(states, created, ErrorCode.DuplicateId);
+
+        return MongoMqttUser.fromDocument(created);
     }
 }
