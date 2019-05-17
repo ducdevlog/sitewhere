@@ -32,7 +32,7 @@
 
 				<im:mongodb-configuration id="mqtt"
 										  hostname="${mongodb.host:mongodb}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
-										  databaseName="${mongodb.tenant.prefix:mqtt}"
+										  databaseName="${mongodb.database:mqtt}"
 										  replicaSetName="${mongodb.replicaset:}" />
 
 			</im:mongodb-configurations>
