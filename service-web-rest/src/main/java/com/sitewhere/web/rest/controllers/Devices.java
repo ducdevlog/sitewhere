@@ -121,7 +121,7 @@ public class Devices extends RestControllerBase {
 		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
 		mqttAcl.setUsername(result.getToken());
 		mqttAcl.setClientId(request.getToken());
-		mqttAcl.setPubSub(Arrays.asList(result.getToken()));
+		mqttAcl.setPubSub(Arrays.asList(new String[]{result.getToken()}));
 		getMqttAclManagement().createMqttAcl(mqttAcl);
 
 	return helper.convert(result, getAssetManagement());
