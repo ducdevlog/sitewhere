@@ -123,7 +123,7 @@ public class Devices extends RestControllerBase {
 		mqttAcl.setClientId(request.getToken());
 		mqttAcl.setPubSub(Arrays.asList(new String[]{result.getToken()}));
 
-		getLogger().info("Request:\n\n" + MarshalUtils.marshalJsonAsPrettyString(mqttAcl));
+		java.lang.System.out.println("Request:\n\n" + MarshalUtils.marshalJsonAsPrettyString(mqttAcl));
 
 		getMqttAclManagement().createMqttAcl(mqttAcl);
 
