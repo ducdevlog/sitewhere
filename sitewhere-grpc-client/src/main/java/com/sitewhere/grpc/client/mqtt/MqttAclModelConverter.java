@@ -44,11 +44,11 @@ public class MqttAclModelConverter {
         GMqttAclCreateRequest.Builder grpc = GMqttAclCreateRequest.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setClientId(api.getClientId());
-        if (CollectionUtils.isNotEmpty(grpc.getPublishList()))
+        if (CollectionUtils.isNotEmpty(api.getPublish()))
             api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
-        if (CollectionUtils.isNotEmpty(grpc.getSubscribeList()))
+        if (CollectionUtils.isNotEmpty(api.getSubscribe()))
             api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
-        if (CollectionUtils.isNotEmpty(grpc.getPubsubList()))
+        if (CollectionUtils.isNotEmpty(api.getPubSub()))
             api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));return grpc.build();
     }
 
