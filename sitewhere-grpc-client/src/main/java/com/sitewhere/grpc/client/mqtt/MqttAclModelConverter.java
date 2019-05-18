@@ -24,6 +24,8 @@ import com.sitewhere.spi.mqtt.request.IMqttAclCreateRequest;
 import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
 import org.apache.commons.collections.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MqttAclModelConverter {
@@ -44,12 +46,28 @@ public class MqttAclModelConverter {
         GMqttAclCreateRequest.Builder grpc = GMqttAclCreateRequest.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setClientId(api.getClientId());
-        if (CollectionUtils.isNotEmpty(api.getPublish()))
-            api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
-        if (CollectionUtils.isNotEmpty(api.getSubscribe()))
-            api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
-        if (CollectionUtils.isNotEmpty(api.getPubSub()))
-            api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));return grpc.build();
+        if (CollectionUtils.isNotEmpty(api.getPublish())) {
+            List<CommonModel.GOptionalString> publishs = new ArrayList<>();
+            for (String publish : api.getPublish()) {
+                publishs.add(CommonModel.GOptionalString.newBuilder().setValue(publish).build());
+            }
+            grpc.addAllPublish(publishs);
+        }
+        if (CollectionUtils.isNotEmpty(api.getSubscribe())) {
+            List<CommonModel.GOptionalString> subscribes = new ArrayList<>();
+            for (String subscribe : api.getSubscribe()) {
+                subscribes.add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build());
+            }
+            grpc.addAllSubscribe(subscribes);
+        }
+        if (CollectionUtils.isNotEmpty(api.getPubSub())) {
+            List<CommonModel.GOptionalString> pubSubs = new ArrayList<>();
+            for (String pubSub : api.getPubSub()) {
+                pubSubs.add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build());
+            }
+            grpc.addAllPubsub(pubSubs);
+        }
+        return grpc.build();
     }
 
     public static IMqttUserCreateRequest asApiMqttUserCreateRequest(GMqttUserCreateRequest grpc)
@@ -74,12 +92,27 @@ public class MqttAclModelConverter {
         GMqttAcl.Builder grpc = GMqttAcl.newBuilder();
         grpc.setUsername(api.getUsername());
         grpc.setClientId(api.getClientId());
-        if (CollectionUtils.isNotEmpty(grpc.getPublishList()))
-            api.getPublish().forEach(publish -> grpc.getPublishList().add(CommonModel.GOptionalString.newBuilder().setValue(publish).build()));
-        if (CollectionUtils.isNotEmpty(grpc.getSubscribeList()))
-            api.getSubscribe().forEach(subscribe -> grpc.getSubscribeList().add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build()));
-        if (CollectionUtils.isNotEmpty(grpc.getPubsubList()))
-            api.getPubSub().forEach(pubSub -> grpc.getPubsubList().add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build()));
+        if (CollectionUtils.isNotEmpty(api.getPublish())) {
+            List<CommonModel.GOptionalString> publishs = new ArrayList<>();
+            for (String publish : api.getPublish()) {
+                publishs.add(CommonModel.GOptionalString.newBuilder().setValue(publish).build());
+            }
+            grpc.addAllPublish(publishs);
+        }
+        if (CollectionUtils.isNotEmpty(api.getSubscribe())) {
+            List<CommonModel.GOptionalString> subscribes = new ArrayList<>();
+            for (String subscribe : api.getSubscribe()) {
+                subscribes.add(CommonModel.GOptionalString.newBuilder().setValue(subscribe).build());
+            }
+            grpc.addAllSubscribe(subscribes);
+        }
+        if (CollectionUtils.isNotEmpty(api.getPubSub())) {
+            List<CommonModel.GOptionalString> pubSubs = new ArrayList<>();
+            for (String pubSub : api.getPubSub()) {
+                pubSubs.add(CommonModel.GOptionalString.newBuilder().setValue(pubSub).build());
+            }
+            grpc.addAllPubsub(pubSubs);
+        }
         return grpc.build();
     }
 
