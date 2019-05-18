@@ -11,6 +11,7 @@ import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.mqtt.MqttAclModelConverter;
 import com.sitewhere.grpc.client.spi.server.IGrpcApiImplementation;
+import com.sitewhere.grpc.model.CommonModel;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.mqtt.acl.spi.microservice.IMqttAclMicroservice;
 import com.sitewhere.spi.microservice.IMicroservice;
@@ -56,8 +57,6 @@ public class MqttAclImpl extends MqttAclGrpc.MqttAclImplBase implements IGrpcApi
             IMqttAclCreateRequest apiRequest = MqttAclModelConverter
                     .asApiMqttAclCreateRequest(request.getRequest());
             IMqttAcl apiResult = getMqttAclManagement().createMqttAcl(apiRequest);
-            System.out.println("*******************************************");
-            System.out.println(MarshalUtils.marshalJsonAsPrettyString(apiRequest));
             GCreateMqttAclResponse.Builder response = GCreateMqttAclResponse.newBuilder();
             response.setMqttAcl(MqttAclModelConverter.asGrpcMqttAcl(apiResult));
             responseObserver.onNext(response.build());
@@ -66,6 +65,22 @@ public class MqttAclImpl extends MqttAclGrpc.MqttAclImplBase implements IGrpcApi
             GrpcUtils.handleServerMethodException(MqttAclGrpc.getCreateMqttAclMethod(), e, responseObserver);
         } finally {
             GrpcUtils.handleServerMethodExit(MqttAclGrpc.getCreateMqttAclMethod());
+        }
+    }
+
+    public void deleteMqttAcl(GDeleteMqttAclRequest request, StreamObserver<GDeleteMqttAclResponse> responseObserver) {
+        try {
+            GrpcUtils.handleServerMethodEntry(this, MqttAclGrpc.getDeleteMqttAclMethod());
+            IMqttAcl apiResult = getMqttAclManagement()
+                    .deleteMqttAcl(request.getUsername().getValue());
+            GDeleteMqttAclResponse.Builder response = GDeleteMqttAclResponse.newBuilder();
+            response.setMqttAcl(MqttAclModelConverter.asGrpcMqttAcl(apiResult));
+            responseObserver.onNext(response.build());
+            responseObserver.onCompleted();
+        } catch (Throwable e) {
+            GrpcUtils.handleServerMethodException(MqttAclGrpc.getDeleteMqttAclMethod(), e, responseObserver);
+        } finally {
+            GrpcUtils.handleServerMethodExit(MqttAclGrpc.getDeleteMqttAclMethod());
         }
     }
 
@@ -85,6 +100,22 @@ public class MqttAclImpl extends MqttAclGrpc.MqttAclImplBase implements IGrpcApi
             GrpcUtils.handleServerMethodException(MqttAclGrpc.getCreateMqttUserMethod(), e, responseObserver);
         } finally {
             GrpcUtils.handleServerMethodExit(MqttAclGrpc.getCreateMqttUserMethod());
+        }
+    }
+
+    public void deleteMqttUser(GDeleteMqttUserRequest request, StreamObserver<GDeleteMqttUserResponse> responseObserver) {
+        try {
+            GrpcUtils.handleServerMethodEntry(this, MqttAclGrpc.getDeleteMqttUserMethod());
+            IMqttUser apiResult = getMqttAclManagement()
+                    .deleteMqttUser(request.getUsername().getValue());
+            GDeleteMqttUserResponse.Builder response = GDeleteMqttUserResponse.newBuilder();
+            response.setMqttUser(MqttAclModelConverter.asGrpcMqttUser(apiResult));
+            responseObserver.onNext(response.build());
+            responseObserver.onCompleted();
+        } catch (Throwable e) {
+            GrpcUtils.handleServerMethodException(MqttAclGrpc.getDeleteMqttUserMethod(), e, responseObserver);
+        } finally {
+            GrpcUtils.handleServerMethodExit(MqttAclGrpc.getDeleteMqttUserMethod());
         }
     }
 

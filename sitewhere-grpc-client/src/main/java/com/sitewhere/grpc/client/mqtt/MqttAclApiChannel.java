@@ -8,11 +8,12 @@
 
 package com.sitewhere.grpc.client.mqtt;
 
-import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.MultitenantApiChannel;
+import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IMqttAclApiChannel;
+import com.sitewhere.grpc.model.CommonModel;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.mqtt.IMqttAcl;
@@ -51,6 +52,24 @@ public class MqttAclApiChannel extends MultitenantApiChannel<MqttAclGrpcChannel>
     }
 
     @Override
+    public IMqttAcl deleteMqttAcl(String username) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, MqttAclGrpc.getDeleteMqttAclMethod());
+            GDeleteMqttAclRequest.Builder grequest = GDeleteMqttAclRequest.newBuilder();
+            grequest.setUsername(CommonModel.GOptionalString.newBuilder().setValue(username));
+            GDeleteMqttAclResponse gresponse = getGrpcChannel().getBlockingStub()
+                    .deleteMqttAcl(grequest.build());
+            IMqttAcl response = (gresponse.hasMqttAcl())
+                    ? MqttAclModelConverter.asApiMqttAcl(gresponse.getMqttAcl())
+                    : null;
+            GrpcUtils.logClientMethodResponse(MqttAclGrpc.getDeleteMqttAclMethod(), response);
+            return response;
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(MqttAclGrpc.getDeleteMqttAclMethod(), t);
+        }
+    }
+
+    @Override
     public IMqttUser createMqttUser(IMqttUserCreateRequest request) throws SiteWhereException {
         try {
             GrpcUtils.handleClientMethodEntry(this, MqttAclGrpc.getCreateMqttUserMethod());
@@ -64,6 +83,24 @@ public class MqttAclApiChannel extends MultitenantApiChannel<MqttAclGrpcChannel>
             return response;
         } catch (Throwable t) {
             throw GrpcUtils.handleClientMethodException(MqttAclGrpc.getCreateMqttAclMethod(), t);
+        }
+    }
+
+    @Override
+    public IMqttUser deleteMqttUser(String username) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, MqttAclGrpc.getDeleteMqttUserMethod());
+            GDeleteMqttUserRequest.Builder grequest = GDeleteMqttUserRequest.newBuilder();
+            grequest.setUsername(CommonModel.GOptionalString.newBuilder().setValue(username));
+            GDeleteMqttUserResponse gresponse = getGrpcChannel().getBlockingStub()
+                    .deleteMqttUser(grequest.build());
+            IMqttUser response = (gresponse.hasMqttUser())
+                    ? MqttAclModelConverter.asApiMqttUser(gresponse.getMqttUser())
+                    : null;
+            GrpcUtils.logClientMethodResponse(MqttAclGrpc.getDeleteMqttUserMethod(), response);
+            return response;
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(MqttAclGrpc.getDeleteMqttUserMethod(), t);
         }
     }
 }

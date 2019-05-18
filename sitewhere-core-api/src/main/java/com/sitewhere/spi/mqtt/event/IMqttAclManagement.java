@@ -24,5 +24,12 @@ public interface IMqttAclManagement extends ITenantEngineLifecycleComponent {
      * @throws SiteWhereException
      */
     public IMqttAcl createMqttAcl(IMqttAclCreateRequest request) throws SiteWhereException;
+
+    public IMqttAcl deleteMqttAcl(String username) throws SiteWhereException;
+
     public IMqttUser createMqttUser (IMqttUserCreateRequest request) throws SiteWhereException;
+
+    public IMqttUser deleteMqttUser(String username) throws SiteWhereException;
+
+
 }
