@@ -11,7 +11,9 @@ import com.mongodb.client.MongoCollection;
 import com.sitewhere.mongodb.MongoPersistence;
 import com.sitewhere.mqtt.acl.persistence.MqttAclPersistence;
 import com.sitewhere.rest.model.mqtt.MqttAcl;
+import com.sitewhere.spi.SiteWhereSystemException;
 import com.sitewhere.spi.error.ErrorCode;
+import com.sitewhere.spi.error.ErrorLevel;
 import com.sitewhere.spi.mqtt.IMqttAcl;
 import com.sitewhere.spi.mqtt.IMqttUser;
 import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
@@ -92,6 +94,14 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
     }
 
     @Override
+    public IMqttAcl deleteMqttAcl(String username) throws SiteWhereException {
+        Document existing = assertMqttAcl(username);
+        MongoCollection<Document> states = getMongoClient().getMqttAclCollection();
+        MongoPersistence.delete(states, existing);
+        return MongoMqttAcl.fromDocument(existing);
+    }
+
+    @Override
     public IMqttUser createMqttUser(IMqttUserCreateRequest request) throws SiteWhereException {
         IMqttUser state = MqttAclPersistence.mqttUserCreateLogic(request);
 
@@ -100,5 +110,41 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
         MongoPersistence.insert(states, created, ErrorCode.DuplicateId);
 
         return MongoMqttUser.fromDocument(created);
+    }
+
+    @Override
+    public IMqttUser deleteMqttUser(String username) throws SiteWhereException {
+        Document existing = assertMqttUser(username);
+        MongoCollection<Document> states = getMongoClient().getMqttUserCollection();
+        MongoPersistence.delete(states, existing);
+        return MongoMqttUser.fromDocument(existing);
+    }
+
+    protected Document assertMqttAcl(String username) throws SiteWhereException {
+        Document match = getMqttAclDocumentByUsername(username);
+        if (match == null) {
+            throw new SiteWhereSystemException(ErrorCode.MqttAclNotFound, ErrorLevel.ERROR);
+        }
+        return match;
+    }
+
+    private Document getMqttAclDocumentByUsername(String username) throws SiteWhereException {
+        MongoCollection<Document> states = getMongoClient().getMqttAclCollection();
+        Document query = new Document(MongoMqttAcl.PROP_USERNAME, username);
+        return states.find(query).first();
+    }
+
+    protected Document assertMqttUser(String username) throws SiteWhereException {
+        Document match = getMqttUserDocumentByUsername(username);
+        if (match == null) {
+            throw new SiteWhereSystemException(ErrorCode.MqttUserNotFound, ErrorLevel.ERROR);
+        }
+        return match;
+    }
+
+    private Document getMqttUserDocumentByUsername(String username) throws SiteWhereException {
+        MongoCollection<Document> states = getMongoClient().getMqttUserCollection();
+        Document query = new Document(MongoMqttUser.PROP_USERNAME, username);
+        return states.find(query).first();
     }
 }

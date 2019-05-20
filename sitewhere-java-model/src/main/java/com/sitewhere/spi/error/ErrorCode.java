@@ -373,6 +373,16 @@ public enum ErrorCode {
     /** Some required data was missing */
     IncompleteData(13010, "Not all required data was provided."),
 
+    /********************
+     * MQTT ACL *
+     ********************/
+
+    /** Request for Mqtt Acl that does not exist */
+    MqttAclNotFound(14000, "Mqtt Acl was not found."),
+
+    /** Request for Mqtt Acl that does not exist */
+    MqttUserNotFound(14010, "Mqtt User was not found."),
+
     /*********
      * OTHER *
      *********/
