@@ -99,6 +99,7 @@ public class Devices extends RestControllerBase {
     @Secured({ SiteWhereRoles.REST })
     public IDevice createDevice(@RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest)
 	    throws SiteWhereException {
+        request.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
 	IDevice result = getDeviceManagement().createDevice(request);
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
@@ -121,7 +122,7 @@ public class Devices extends RestControllerBase {
 		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
 		mqttAcl.setUsername(result.getToken());
 		mqttAcl.setClientId(request.getToken());
-		mqttAcl.setPubSub(Arrays.asList(new String[]{result.getToken()}));
+		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + result.getToken(), "SiteWhere/default/command/" + result.getToken()}));
 		getMqttAclManagement().createMqttAcl(mqttAcl);
 
 	return helper.convert(result, getAssetManagement());
