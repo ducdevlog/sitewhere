@@ -99,7 +99,13 @@ public class Devices extends RestControllerBase {
     @Secured({ SiteWhereRoles.REST })
     public IDevice createDevice(@RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest)
 	    throws SiteWhereException {
-        request.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
+    	if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
+			request.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
+		} else {
+    		Map<String, String> configurations = new HashMap<>();
+    		configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
+    		request.setConfigurationGateway(configurations);
+		}
 	IDevice result = getDeviceManagement().createDevice(request);
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
