@@ -174,13 +174,16 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {
-			getLogger().info("Found existing device registration. Delete device information.");
-			return getDeviceManagement().deleteDevice(device.getId());
-		} else {
-			getLogger().info("Found existing device registration. Updating device information.");
-			return getDeviceManagement().updateDevice(device.getId(), request);
-		}
-    }
+		getLogger().info("Found existing device registration. Delete device information.");
+		getMqttAclManagement().deleteMqttUser(device.getToken());
+
+		getMqttAclManagement().deleteMqttAcl(device.getToken());
+		return getDeviceManagement().deleteDevice(device.getId());
+	} else {
+		getLogger().info("Found existing device registration. Updating device information.");
+		return getDeviceManagement().updateDevice(device.getId(), request);
+	}
+	}
 
     /*
      * @see com.sitewhere.registration.spi.IRegistrationManager#
