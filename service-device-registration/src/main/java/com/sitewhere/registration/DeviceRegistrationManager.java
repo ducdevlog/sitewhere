@@ -8,6 +8,11 @@
 package com.sitewhere.registration;
 
 import com.sitewhere.common.MarshalUtils;
+import com.sitewhere.rest.model.mqtt.MqttUser;
+import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
+import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
+import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
+import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -31,6 +36,10 @@ import com.sitewhere.spi.device.event.kafka.IInboundEventPayload;
 import com.sitewhere.spi.device.request.IDeviceCreateRequest;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base logic for {@link IRegistrationManager} implementations.
@@ -141,8 +150,28 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setGatewayId(request.getGatewayId());
 	    deviceCreate.setHardwareId(request.getHardwareId());
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
-	    deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
+		deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
+		if (deviceCreate.getConfigurationGateway() != null && deviceCreate.getConfigurationGateway().size() > 0) {
+			deviceCreate.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + deviceCreate.getToken());
+			deviceCreate.getConfigurationGateway().put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken());
+		} else {
+			Map<String, String> configurations = new HashMap<>();
+			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
+			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken());
+			deviceCreate.setConfigurationGateway(configurations);
+		}
 	    deviceCreate.setMetadata(request.getMetadata());
+
+		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+		mqttUser.setUsername(device.getToken());
+		mqttUser.setPassword(device.getToken());
+		getMqttAclManagement().createMqttUser(mqttUser);
+
+		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+		mqttAcl.setUsername(device.getToken());
+		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + device.getToken(), "SiteWhere/default/command/" + device.getToken()}));
+		getMqttAclManagement().createMqttAcl(mqttAcl);
+
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {
 			getLogger().info("Found existing device registration. Delete device information.");
@@ -432,6 +461,11 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 
     private IDeviceManagement getDeviceManagement() {
 	return ((IDeviceRegistrationMicroservice) getTenantEngine().getMicroservice()).getDeviceManagementApiDemux()
+		.getApiChannel();
+    }
+
+    private IMqttAclManagement getMqttAclManagement() {
+	return ((IDeviceRegistrationMicroservice) getTenantEngine().getMicroservice()).getMqttAclApiDemux()
 		.getApiChannel();
     }
 }

@@ -57,6 +57,16 @@
 	</xsd:element>
 
 	<!-- Choices for potential device state datastores -->
+	<xsd:element name="mqtt-acl-datastore">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="mongodb-datastore" />
+				<xsd:element ref="mongodb-datastore-reference" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Choices for potential device state datastores -->
 	<xsd:element name="openhab-rule-datastore">
 		<xsd:complexType>
 			<xsd:choice>

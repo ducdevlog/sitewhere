@@ -1,0 +1,10 @@
+{
+  "type": "DeviceAlert",
+  "originator": "device",
+  "deviceToken": "mydevicetoken",
+  "request": {
+    "type": "Warning",
+    "message": "Engine overheat.",
+    "eventDate": "2018-11-03T19:40:03.390Z" //optional
+  }
+}

@@ -30,6 +30,11 @@
 					databaseName="${mongodb.tenant.prefix:tenant-[[tenant.id]]}"
 					replicaSetName="${mongodb.replicaset:}" />
 
+				<im:mongodb-configuration id="mqtt"
+										  hostname="${mongodb.host:mongodb}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
+										  databaseName="${mongodb.database:mqtt}"
+										  replicaSetName="${mongodb.replicaset:}" />
+
 			</im:mongodb-configurations>
 
 			<!-- InfluxDB global configuration management -->

@@ -48,7 +48,9 @@ public enum CommonDatastoreRoleKeys implements IRoleKey {
     CassandraDatastore("cassandra_ds"),
 
     /** Cassandra global reference */
-    CassandraReference("cassandra_ref");
+    CassandraReference("cassandra_ref"),
+
+    MqttAcl("mqtt_acl");
 
     private String id;
 

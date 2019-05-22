@@ -1,0 +1,1 @@
+http\://sitewhere.io/schema/sitewhere/microservice/mqtt-acl=com.sitewhere.mqtt.acl.spring.MqttAclNamespaceHandler

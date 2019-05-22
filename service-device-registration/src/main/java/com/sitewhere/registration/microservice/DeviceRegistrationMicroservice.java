@@ -10,6 +10,7 @@ package com.sitewhere.registration.microservice;
 import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
 import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
+import com.sitewhere.grpc.client.spi.client.IMqttAclApiDemux;
 import com.sitewhere.microservice.multitenant.MultitenantMicroservice;
 import com.sitewhere.registration.configuration.DeviceRegistrationModelProvider;
 import com.sitewhere.registration.spi.microservice.IDeviceRegistrationMicroservice;
@@ -19,6 +20,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.messages.SiteWhereMessage;
 import com.sitewhere.spi.microservice.MicroserviceIdentifier;
 import com.sitewhere.spi.microservice.configuration.model.IConfigurationModel;
+import com.sitewhere.spi.mqtt.IMqttAcl;
 import com.sitewhere.spi.server.lifecycle.ICompositeLifecycleStep;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.tenant.ITenant;
@@ -37,6 +39,8 @@ public class DeviceRegistrationMicroservice
 
     /** Device management API channel */
     private IDeviceManagementApiDemux deviceManagementApiDemux;
+
+    private IMqttAclApiDemux mqttAclApiDemux;
 
     /*
      * @see com.sitewhere.spi.microservice.IMicroservice#getName()
@@ -179,5 +183,13 @@ public class DeviceRegistrationMicroservice
 
     public void setDeviceManagementApiDemux(IDeviceManagementApiDemux deviceManagementApiDemux) {
 	this.deviceManagementApiDemux = deviceManagementApiDemux;
+    }
+
+    public IMqttAclApiDemux getMqttAclApiDemux() {
+        return mqttAclApiDemux;
+    }
+
+    public void setMqttAclApiDemux(IMqttAclApiDemux mqttAclApiDemux) {
+        this.mqttAclApiDemux = mqttAclApiDemux;
     }
 }
