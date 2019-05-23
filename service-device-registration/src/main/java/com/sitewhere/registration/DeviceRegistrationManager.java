@@ -150,16 +150,17 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setGatewayId(request.getGatewayId());
 	    deviceCreate.setHardwareId(request.getHardwareId());
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
-		deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
-		if (deviceCreate.getConfigurationGateway() != null && deviceCreate.getConfigurationGateway().size() > 0) {
-			deviceCreate.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + deviceCreate.getToken() == null ? "default" : deviceCreate.getToken() );
-			deviceCreate.getConfigurationGateway().put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken() == null ? "default" : deviceCreate.getToken());
+		if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
+			request.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken() == null ? "default" : request.getToken() );
+			request.getConfigurationGateway().put("siteWhereCommand", "SiteWhere/default/command/" + request.getToken() == null ? "default" : request.getToken());
+			deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 		} else {
 			Map<String, String> configurations = new HashMap<>();
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
-			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken());
+			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + request.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
 		}
+
 	    deviceCreate.setMetadata(request.getMetadata());
 
 		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
