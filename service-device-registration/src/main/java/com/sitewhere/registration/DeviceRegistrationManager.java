@@ -155,6 +155,8 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 			configurations.putAll(request.getConfigurationGateway());
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken() == null ? "default" : request.getToken() );
 			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + request.getToken() == null ? "default" : request.getToken());
+			configurations.put("username", deviceCreate.getToken());
+			configurations.put("password", deviceCreate.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
 		} else {
 			Map<String, String> configurations = new HashMap<>();
