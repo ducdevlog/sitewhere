@@ -150,7 +150,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setGatewayId(request.getGatewayId());
 	    deviceCreate.setHardwareId(request.getHardwareId());
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
-		if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
+		/*if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
 			Map<String, String> configurations = new HashMap<>();
 			configurations.putAll(request.getConfigurationGateway());
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken() == null ? "default" : request.getToken() );
@@ -163,8 +163,8 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
 			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + request.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
-		}
-
+		}*/
+		deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 
 		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
