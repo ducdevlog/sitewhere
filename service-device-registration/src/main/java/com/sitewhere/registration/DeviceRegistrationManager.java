@@ -168,13 +168,13 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setMetadata(request.getMetadata());
 
 		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
-		mqttUser.setUsername(device.getToken());
-		mqttUser.setPassword(device.getToken());
+		mqttUser.setUsername(deviceCreate.getToken());
+		mqttUser.setPassword(deviceCreate.getToken());
 		getMqttAclManagement().createMqttUser(mqttUser);
 
 		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
-		mqttAcl.setUsername(device.getToken());
-		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + device.getToken(), "SiteWhere/default/command/" + device.getToken()}));
+		mqttAcl.setUsername(deviceCreate.getToken());
+		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + deviceCreate.getToken(), "SiteWhere/default/command/" + deviceCreate.getToken()}));
 		getMqttAclManagement().createMqttAcl(mqttAcl);
 
 	    return getDeviceManagement().createDevice(deviceCreate);
