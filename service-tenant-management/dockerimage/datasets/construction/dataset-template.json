@@ -2,11 +2,6 @@
 	"id": "construction",
 	"name": "Construction Site Example",
 	"initializers": {
-		"assetManagement": [
-			"initializer/assetModel.groovy"
-		],
-		"scheduleManagement": [
-			"initializer/scheduleModel.groovy"
-		]
+
 	}
 }
