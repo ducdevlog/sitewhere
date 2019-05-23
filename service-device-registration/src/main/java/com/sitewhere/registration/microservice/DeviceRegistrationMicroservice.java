@@ -9,6 +9,7 @@ package com.sitewhere.registration.microservice;
 
 import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
 import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
+import com.sitewhere.grpc.client.mqtt.MqttAclApiDemux;
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
 import com.sitewhere.grpc.client.spi.client.IMqttAclApiDemux;
 import com.sitewhere.microservice.multitenant.MultitenantMicroservice;
@@ -106,6 +107,7 @@ public class DeviceRegistrationMicroservice
      */
     protected void waitForDependenciesAvailable() throws ApiChannelNotAvailableException {
 	getDeviceManagementApiDemux().waitForMicroserviceAvailable();
+	getMqttAclApiDemux().waitForMicroserviceAvailable();
 	getLogger().debug("Device management microservice detected as available.");
     }
 
@@ -124,6 +126,7 @@ public class DeviceRegistrationMicroservice
 
 	// Initialize device management API demux.
 	init.addInitializeStep(this, getDeviceManagementApiDemux(), true);
+	init.addInitializeStep(this, getMqttAclApiDemux(), true);
 
 	// Execute initialization steps.
 	init.execute(monitor);
@@ -141,6 +144,7 @@ public class DeviceRegistrationMicroservice
 
 	// Start device mangement API demux.
 	start.addStartStep(this, getDeviceManagementApiDemux(), true);
+	start.addStartStep(this, getMqttAclApiDemux(), true);
 
 	// Execute startup steps.
 	start.execute(monitor);
@@ -158,6 +162,7 @@ public class DeviceRegistrationMicroservice
 
 	// Stop device mangement API demux.
 	stop.addStopStep(this, getDeviceManagementApiDemux());
+	stop.addStopStep(this, getMqttAclApiDemux());
 
 	// Execute shutdown steps.
 	stop.execute(monitor);
@@ -169,6 +174,7 @@ public class DeviceRegistrationMicroservice
     private void createGrpcComponents() {
 	// Device management.
 	this.deviceManagementApiDemux = new DeviceManagementApiDemux(true);
+	this.mqttAclApiDemux = new MqttAclApiDemux(true);
     }
 
     /*
