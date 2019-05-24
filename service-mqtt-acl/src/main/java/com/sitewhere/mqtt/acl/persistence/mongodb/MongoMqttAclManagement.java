@@ -99,7 +99,9 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
 
     @Override
     public IMqttAcl deleteMqttAcl(String username) throws SiteWhereException {
-        Document existing = assertMqttAcl(username);
+        Document existing = getMqttAclDocumentByUsername(username);
+        if (existing == null)
+            return null;
         MongoCollection<Document> states = getMongoClient().getMqttAclCollection();
         MongoPersistence.delete(states, existing);
         return MongoMqttAcl.fromDocument(existing);
@@ -123,7 +125,9 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
 
     @Override
     public IMqttUser deleteMqttUser(String username) throws SiteWhereException {
-        Document existing = assertMqttUser(username);
+        Document existing = getMqttUserDocumentByUsername(username);
+        if (existing == null)
+            return null;
         MongoCollection<Document> states = getMongoClient().getMqttUserCollection();
         MongoPersistence.delete(states, existing);
         return MongoMqttUser.fromDocument(existing);
