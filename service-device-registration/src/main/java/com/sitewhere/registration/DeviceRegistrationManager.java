@@ -162,6 +162,8 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 			Map<String, String> configurations = new HashMap<>();
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + deviceCreate.getToken());
 			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken());
+			configurations.put("username", deviceCreate.getToken());
+			configurations.put("password", deviceCreate.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
 		}
 		//deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
@@ -175,7 +177,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
 		mqttAcl.setUsername(deviceCreate.getToken());
 		mqttAcl.setClientId(deviceCreate.getToken());
-		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + deviceCreate.getToken(), "SiteWhere/default/command/" + deviceCreate.getToken()}));
+		mqttAcl.setPubSub(Arrays.asList("SiteWhere/default/topic/json/" + deviceCreate.getToken(), "SiteWhere/default/command/" + deviceCreate.getToken()));
 		getMqttAclManagement().createMqttAcl(mqttAcl);
 
 	    return getDeviceManagement().createDevice(deviceCreate);
