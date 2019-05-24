@@ -164,7 +164,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 			configurations.put("siteWhereCommand", "SiteWhere/default/command/" + deviceCreate.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
 		}
-		deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
+		//deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 
 		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
