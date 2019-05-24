@@ -84,7 +84,7 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
 
     @Override
     public IMqttAcl createMqttAcl(IMqttAclCreateRequest request) throws SiteWhereException {
-        Document existing = assertMqttAcl(request.getUsername());
+        Document existing = getMqttAclDocumentByUsername(request.getUsername());
         if (existing != null) {
             return MongoMqttAcl.fromDocument(existing);
         }
@@ -107,7 +107,7 @@ public class MongoMqttAclManagement extends TenantEngineLifecycleComponent imple
 
     @Override
     public IMqttUser createMqttUser(IMqttUserCreateRequest request) throws SiteWhereException {
-        Document existing = assertMqttUser(request.getUsername());
+        Document existing = getMqttUserDocumentByUsername(request.getUsername());
         if (existing != null) {
             return MongoMqttUser.fromDocument(existing);
         }
