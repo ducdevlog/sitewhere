@@ -7,15 +7,14 @@
  */
 package com.sitewhere.web.rest.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
+import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
+import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,6 +102,24 @@ public class Areas extends RestControllerBase {
     @PostMapping
     @ApiOperation(value = "Create new area")
     public IArea createArea(@RequestBody AreaCreateRequest input) throws SiteWhereException {
+		Map<String, String> configurations = new HashMap<>();
+		String mqttData = (input.getToken() != null && input.getToken().trim().length() > 0 ) ?  input.getToken() : String.valueOf(((new Date()).getTime()));
+		configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + mqttData);
+		configurations.put("siteWhereCommand", "SiteWhere/default/command/" + mqttData);
+		configurations.put("username", mqttData);
+		configurations.put("password", mqttData);
+
+		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+		mqttUser.setUsername(mqttData);
+		mqttUser.setPassword(mqttData);
+		getMqttAclManagement().createMqttUser(mqttUser);
+
+		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+		mqttAcl.setUsername(mqttData);
+		mqttAcl.setClientId(mqttData);
+		mqttAcl.setPubSub(Arrays.asList("SiteWhere/default/topic/json/" + mqttData, "SiteWhere/default/command/" + mqttData));
+		getMqttAclManagement().createMqttAcl(mqttAcl);
+
 	return getDeviceManagement().createArea(input);
     }
 
@@ -627,4 +644,8 @@ public class Areas extends RestControllerBase {
     private ILabelGeneration getLabelGeneration() {
 	return getMicroservice().getLabelGenerationApiDemux().getApiChannel();
     }
+
+	private IMqttAclManagement getMqttAclManagement() {
+		return getMicroservice().getMqttAclApiDemux().getApiChannel();
+	}
 }
