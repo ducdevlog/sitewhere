@@ -7,6 +7,7 @@
  */
 package com.sitewhere.rest.model.search.area;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.rest.model.search.SearchCriteria;
@@ -27,6 +28,8 @@ public class AreaSearchCriteria extends SearchCriteria implements IAreaSearchCri
 
     /** Only return areas of the given type */
     private UUID areaTypeId;
+
+    private List<String> areaTokens;
 
     public AreaSearchCriteria(int pageNumber, int pageSize) {
 	super(pageNumber, pageSize);
@@ -66,5 +69,14 @@ public class AreaSearchCriteria extends SearchCriteria implements IAreaSearchCri
 
     public void setAreaTypeId(UUID areaTypeId) {
 	this.areaTypeId = areaTypeId;
+    }
+
+    @Override
+    public List<String> getAreaTokens() {
+        return areaTokens;
+    }
+
+    public void setAreaTokens(List<String> areaTokens) {
+        this.areaTokens = areaTokens;
     }
 }

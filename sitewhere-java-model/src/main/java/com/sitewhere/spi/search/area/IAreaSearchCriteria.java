@@ -7,6 +7,7 @@
  */
 package com.sitewhere.spi.search.area;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.spi.search.ISearchCriteria;
@@ -38,4 +39,6 @@ public interface IAreaSearchCriteria extends ISearchCriteria {
      * @return
      */
     public UUID getAreaTypeId();
+
+    public List<String> getAreaTokens();
 }

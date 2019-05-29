@@ -200,6 +200,7 @@ public class Areas extends RestControllerBase {
 	    @ApiParam(value = "Limit to root elements", required = false) @RequestParam(required = false, defaultValue = "true") Boolean rootOnly,
 	    @ApiParam(value = "Limit by parent area token", required = false) @RequestParam(required = false) String parentAreaToken,
 	    @ApiParam(value = "Limit by area type token", required = false) @RequestParam(required = false) String areaTypeToken,
+	    @ApiParam(value = "Limit by list area token", required = false) @RequestParam(required = false) List<String> areaTokens,
 	    @ApiParam(value = "Include area type", required = false) @RequestParam(defaultValue = "false") boolean includeAreaType,
 	    @ApiParam(value = "Include assignments", required = false) @RequestParam(defaultValue = "false") boolean includeAssignments,
 	    @ApiParam(value = "Include zones", required = false) @RequestParam(defaultValue = "false") boolean includeZones,
@@ -207,7 +208,7 @@ public class Areas extends RestControllerBase {
 	    @ApiParam(value = "Page size", required = false) @RequestParam(required = false, defaultValue = "100") int pageSize)
 	    throws SiteWhereException {
 	// Build criteria.
-	AreaSearchCriteria criteria = buildAreaSearchCriteria(page, pageSize, rootOnly, parentAreaToken, areaTypeToken);
+	AreaSearchCriteria criteria = buildAreaSearchCriteria(page, pageSize, rootOnly, parentAreaToken, areaTypeToken, areaTokens);
 
 	 if	(parentAreaToken != null && criteria.getParentAreaId() == null) {
 		 return new SearchResults<IArea>(new ArrayList<IArea>(), 0);
@@ -238,7 +239,7 @@ public class Areas extends RestControllerBase {
      * @throws SiteWhereException
      */
     protected AreaSearchCriteria buildAreaSearchCriteria(int page, int pageSize, boolean rootOnly,
-	    String parentAreaToken, String areaTypeToken) throws SiteWhereException {
+	    String parentAreaToken, String areaTypeToken, List<String> areaTokens) throws SiteWhereException {
 	// Build criteria.
 	AreaSearchCriteria criteria = new AreaSearchCriteria(page, pageSize);
 	criteria.setRootOnly(rootOnly);
@@ -257,6 +258,10 @@ public class Areas extends RestControllerBase {
 	    if (areaType != null) {
 		criteria.setAreaTypeId(areaType.getId());
 	    }
+	}
+
+	if	(CollectionUtils.isNotEmpty(areaTokens)) {
+		criteria.setAreaTokens(areaTokens);
 	}
 
 	return criteria;

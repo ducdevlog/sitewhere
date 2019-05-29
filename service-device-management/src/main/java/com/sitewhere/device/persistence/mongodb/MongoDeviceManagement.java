@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
 
@@ -1678,6 +1679,9 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	}
 	if (criteria.getAreaTypeId() != null) {
 	    query.append(MongoArea.PROP_AREA_TYPE_ID, criteria.getAreaTypeId());
+	}
+	if (CollectionUtils.isNotEmpty(criteria.getAreaTokens())) {
+		query.append(MongoPersistentEntity.PROP_TOKEN, new Document("$in", criteria.getAreaTokens()));
 	}
 	Document sort = new Document(MongoArea.PROP_NAME, 1);
 	return MongoPersistence.search(IArea.class, areas, query, sort, criteria, LOOKUP);

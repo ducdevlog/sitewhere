@@ -157,6 +157,7 @@ import com.sitewhere.spi.search.device.IDeviceCommandSearchCriteria;
 import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
 import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
 import com.sitewhere.spi.search.device.IZoneSearchCriteria;
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Convert device entities between SiteWhere API model and GRPC model.
@@ -2522,6 +2523,7 @@ public class DeviceModelConverter {
 	api.setRootOnly(grpc.hasRootOnly() ? grpc.getRootOnly().getValue() : null);
 	api.setParentAreaId(grpc.hasParentAreaId() ? CommonModelConverter.asApiUuid(grpc.getParentAreaId()) : null);
 	api.setAreaTypeId(grpc.hasAreaTypeId() ? CommonModelConverter.asApiUuid(grpc.getAreaTypeId()) : null);
+	api.setAreaTokens(grpc.getAreaTokensCount() > 0 ? grpc.getAreaTokensList() : null);
 	return api;
     }
 
@@ -2544,6 +2546,9 @@ public class DeviceModelConverter {
 	    grpc.setAreaTypeId(CommonModelConverter.asGrpcUuid(api.getAreaTypeId()));
 	}
 	grpc.setPaging(CommonModelConverter.asGrpcPaging(api));
+	if (CollectionUtils.isNotEmpty(api.getAreaTokens())) {
+		grpc.addAllAreaTokens(api.getAreaTokens());
+	}
 	return grpc.build();
     }
 
