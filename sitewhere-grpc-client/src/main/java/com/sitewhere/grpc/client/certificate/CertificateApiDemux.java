@@ -26,7 +26,7 @@ public class CertificateApiDemux extends MultitenantApiDemux<ICertificateApiChan
 
     @Override
     public IFunctionIdentifier getTargetIdentifier() {
-        return MicroserviceIdentifier.MqttAcl;
+        return MicroserviceIdentifier.Certificate;
     }
 
     @Override
