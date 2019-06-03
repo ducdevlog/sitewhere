@@ -54,7 +54,10 @@ public enum MicroserviceIdentifier implements IFunctionIdentifier {
 
     OpenHabRule("openhab-rule"),
 
-    MqttAcl("mqtt-acl");
+    MqttAcl("mqtt-acl"),
+
+    Certificate("certificate")
+    ;
 
     /** Path */
     private String path;
