@@ -1,12 +1,14 @@
 package com.sitewhere.spi.certificate;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author AnhGV
  * Date 6/3/2019
  */
 public interface ICertificate {
+    public UUID getId();
     // Organization (O)
     public String getOrganization();
     // Organizational Unit (OU)

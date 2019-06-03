@@ -5,6 +5,7 @@ import com.sitewhere.grpc.model.CertificateModel;
 import com.sitewhere.rest.model.certificate.Certificate;
 import com.sitewhere.rest.model.certificate.X509RevokedCertificate;
 import com.sitewhere.rest.model.certificate.request.CertificateCreateRequest;
+import com.sitewhere.spi.certificate.ICertificate;
 import com.sitewhere.spi.certificate.IX509RevokedCertificate;
 import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
 
@@ -24,7 +25,7 @@ public class CertificateModelConverter {
         return grpc.build();
     }
 
-    public static ICertificateCreateRequest asApiCertificate(CertificateModel.GCertificateCreateRequest grpc) {
+    public static ICertificateCreateRequest asApiCertificateCreateRequest(CertificateModel.GCertificateCreateRequest grpc) {
         CertificateCreateRequest api = new CertificateCreateRequest();
         api.setOrganization(grpc.getOrganization());
         api.setOrganizationalUnit(grpc.getOrganizationalUnit());
@@ -36,7 +37,7 @@ public class CertificateModelConverter {
         return api;
     }
 
-    public static CertificateModel.GCertificate asGrpcCertificate(Certificate api) {
+    public static CertificateModel.GCertificate asGrpcCertificate(ICertificate api) {
         CertificateModel.GCertificate.Builder grpc = CertificateModel.GCertificate.newBuilder();
         grpc.setOrganization(api.getOrganization());
         grpc.setOrganizationalUnit(api.getOrganizationalUnit());

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sitewhere.spi.certificate.ICertificate;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author AnhGV
@@ -12,6 +13,7 @@ import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Certificate implements ICertificate {
+    private UUID id;
     // Organization (O)
     private String organization;
     // Organizational Unit (OU)
@@ -38,6 +40,15 @@ public class Certificate implements ICertificate {
     private Date startDate;
     // end Date
     private Date endDate;
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     @Override
     public String getOrganization() {

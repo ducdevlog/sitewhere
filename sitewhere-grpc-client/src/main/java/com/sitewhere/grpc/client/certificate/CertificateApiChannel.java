@@ -13,9 +13,9 @@ import com.sitewhere.grpc.client.MultitenantApiChannel;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.ICertificateApiChannel;
 import com.sitewhere.grpc.service.*;
-import com.sitewhere.rest.model.certificate.Certificate;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.certificate.ICertificate;
+import com.sitewhere.spi.certificate.IX509RevokedCertificate;
 import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
 import com.sitewhere.spi.tracing.ITracerProvider;
 
@@ -67,7 +67,18 @@ public class CertificateApiChannel extends MultitenantApiChannel<CertificateGrpc
     }
 
     @Override
-    public Certificate revokeCertificate(String serialNumber) throws SiteWhereException {
+    public void revokeCertificate(IX509RevokedCertificate ix509RevokedCertificate) throws SiteWhereException {
+    }
+
+    @Override
+    public ICertificate verifyCertificate(String serialNumber) throws SiteWhereException {
         return null;
     }
+
+    @Override
+    public ICertificate getCertificate(String serialNumber) throws SiteWhereException {
+        return null;
+    }
+
+
 }

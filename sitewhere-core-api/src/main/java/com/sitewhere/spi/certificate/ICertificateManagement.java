@@ -8,7 +8,6 @@
 
 package com.sitewhere.spi.certificate;
 
-import com.sitewhere.rest.model.certificate.Certificate;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
 import com.sitewhere.spi.server.lifecycle.ITenantEngineLifecycleComponent;
@@ -25,7 +24,9 @@ public interface ICertificateManagement extends ITenantEngineLifecycleComponent 
 
     public ICertificate createCertificate(ICertificateCreateRequest request) throws SiteWhereException;
 
-    public Certificate revokeCertificate(String serialNumber) throws SiteWhereException;
+    public void revokeCertificate(IX509RevokedCertificate ix509RevokedCertificate) throws SiteWhereException;
 
+    public ICertificate verifyCertificate(String serialNumber) throws SiteWhereException;
 
+    public ICertificate getCertificate(String serialNumber) throws SiteWhereException;
 }
