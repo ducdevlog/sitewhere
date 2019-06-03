@@ -78,7 +78,7 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
     private IMqttAclApiDemux mqttAclApiDemux;
 
     /** Certificate API demux */
-    private ICertificateApiDemux certificateApiDemux;
+    //private ICertificateApiDemux certificateApiDemux;
 
     /** Aggregates microservice state info into a topology */
     private ITopologyStateAggregator topologyStateAggregator = new TopologyStateAggregator();
@@ -203,7 +203,7 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         init.addInitializeStep(this, getMqttAclApiDemux(), true);
 
         // Initialize Certificate API demux.
-        init.addInitializeStep(this, getCertificateApiDemux(), false);
+        //init.addInitializeStep(this, getCertificateApiDemux(), false);
 
 	// Execute initialization steps.
 	init.execute(monitor);
@@ -246,7 +246,7 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	this.mqttAclApiDemux = new MqttAclApiDemux(false);
 
 	// Certificate
-	this.certificateApiDemux = new CertificateApiDemux(false);
+	//this.certificateApiDemux = new CertificateApiDemux(false);
     }
 
     /*
@@ -295,7 +295,7 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	    start.addStartStep(this, getMqttAclApiDemux(), true);
 
         // Start device state API demux.
-        start.addStartStep(this, getCertificateApiDemux(), true);
+        //start.addStartStep(this, getCertificateApiDemux(), true);
 
 	// Execute startup steps.
 	start.execute(monitor);
@@ -343,7 +343,7 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         stop.addStopStep(this, getMqttAclApiDemux());
 
         // Stop device state API demux.
-        stop.addStopStep(this, getCertificateApiDemux());
+        //stop.addStopStep(this, getCertificateApiDemux());
 
 	// Stop topology state aggregator.
 	stop.addStopStep(this, getTopologyStateAggregator());
@@ -487,10 +487,10 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         return mqttAclApiDemux;
     }
 
-    @Override
-    public ICertificateApiDemux getCertificateApiDemux() {
-        return certificateApiDemux;
-    }
+    //@Override
+    //public ICertificateApiDemux getCertificateApiDemux() {
+    //    return certificateApiDemux;
+    //}
 
     public void setMqttAclApiDemux(IMqttAclApiDemux mqttAclApiDemux) {
         this.mqttAclApiDemux = mqttAclApiDemux;
