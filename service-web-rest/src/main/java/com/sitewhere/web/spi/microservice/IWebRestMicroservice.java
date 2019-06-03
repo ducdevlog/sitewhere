@@ -80,5 +80,5 @@ public interface IWebRestMicroservice<T extends IFunctionIdentifier>
 
     public IMqttAclApiDemux getMqttAclApiDemux();
 
-    //public ICertificateApiDemux getCertificateApiDemux();
+    public ICertificateApiDemux getCertificateApiDemux();
 }
