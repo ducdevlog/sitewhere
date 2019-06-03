@@ -7,7 +7,7 @@
  */
 package com.sitewhere.certificate;
 
-import com.sitewhere.certificate.spi.microservice.IDeviceStateMicroservice;
+import com.sitewhere.certificate.spi.microservice.ICertificateMicroservice;
 import com.sitewhere.microservice.MicroserviceApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,10 +19,10 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Derek
  */
 @ComponentScan
-public class CertificateApplication extends MicroserviceApplication<IDeviceStateMicroservice> {
+public class CertificateApplication extends MicroserviceApplication<ICertificateMicroservice> {
 
     @Autowired
-    private IDeviceStateMicroservice microservice;
+    private ICertificateMicroservice microservice;
 
     /**
      * Entry point for Spring Boot.
@@ -40,7 +40,7 @@ public class CertificateApplication extends MicroserviceApplication<IDeviceState
      * com.sitewhere.microservice.spi.IMicroserviceApplication#getMicroservice()
      */
     @Override
-    public IDeviceStateMicroservice getMicroservice() {
+    public ICertificateMicroservice getMicroservice() {
         return microservice;
     }
 }
