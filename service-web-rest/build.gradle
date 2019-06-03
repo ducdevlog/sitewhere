@@ -29,6 +29,7 @@ dependencies {
 	compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
 	compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
     compile group: 'io.springfox', name: 'springfox-swagger2', version:'2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.9.2'
     
     implementation('io.swagger:swagger-annotations:1.5.21') {
         force = true
