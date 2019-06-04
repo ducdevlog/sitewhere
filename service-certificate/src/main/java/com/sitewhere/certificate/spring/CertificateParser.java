@@ -11,7 +11,7 @@ import com.sitewhere.certificate.persistence.mongodb.CertificateManagementMongoC
 import com.sitewhere.certificate.persistence.mongodb.MongoCertificateManagement;
 import com.sitewhere.configuration.datastore.DatastoreConfigurationChoice;
 import com.sitewhere.configuration.datastore.DatastoreConfigurationParser;
-import com.sitewhere.configuration.parser.IDeviceStateManagementParser.Elements;
+import com.sitewhere.configuration.parser.ICertificateManagementParser.Elements;
 import com.sitewhere.spi.microservice.spring.CertificateManagementBeans;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,7 +53,7 @@ public class CertificateParser extends AbstractBeanDefinitionParser {
                 throw new RuntimeException("Unknown device management element: " + child.getLocalName());
             }
             switch (type) {
-                case DeviceStateDatastore: {
+                case CertificateDatastore: {
                     parseCertificateDatastore(child, context);
                     break;
                 }
