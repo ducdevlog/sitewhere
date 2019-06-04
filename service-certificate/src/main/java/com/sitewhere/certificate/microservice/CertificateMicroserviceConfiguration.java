@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 public class CertificateMicroserviceConfiguration {
 
     @Bean
-    public ICertificateMicroservice deviceStateMicroservice() {
+    public ICertificateMicroservice certificateMicroservice() {
         return new CertificateMicroservice();
     }
 
