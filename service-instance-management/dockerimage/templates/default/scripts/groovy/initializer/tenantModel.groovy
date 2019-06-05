@@ -1,7 +1,7 @@
 // Create default tenant if does not exist.
-def tenant = tenantBuilder.getTenantByToken 'default'
+def tenant = tenantBuilder.getTenantByToken 'Smarthome'
 if (tenant == null) {
-	tenant = tenantBuilder.newTenant 'default', 'Default Tenant', 'sitewhere1234567890',
+	tenant = tenantBuilder.newTenant 'Smarthome', 'Default Tenant', 'sitewhere1234567890',
 		'https://s3.amazonaws.com/sitewhere-demo/sitewhere-small.png', 'mongodb', 'construction'
 	tenant.withAuthorizedUserId 'admin' 
 	tenant.withAuthorizedUserId 'noadmin'
