@@ -88,6 +88,9 @@ public class MongoCertificate implements MongoConverter<ICertificate> {
      */
     public static final String PROP_START_DATE = "startDate";
     public static final String PROP_END_DATE = "endDate";
+    private static final String PROP_PRIVATE_KEY = "privateKey";
+    private static final String PROP_PUBLIC_KEY = "publicKey";
+    private static final String PROP_CERTIFICATE_KEY = "certificateKey";
 
     /**
      * Copy information from SPI into Mongo {@link Document}.
@@ -134,6 +137,9 @@ public class MongoCertificate implements MongoConverter<ICertificate> {
         String userId = (String) source.get(PROP_USER_ID);
         Date startDate = (Date) source.get(PROP_START_DATE);
         Date endDate = (Date) source.get(PROP_END_DATE);
+        String privateKey = (String) source.get(PROP_PRIVATE_KEY);
+        String publicKey = (String) source.get(PROP_PUBLIC_KEY);
+        String certificateKey = (String) source.get(PROP_CERTIFICATE_KEY);
 
         target.setId(id);
         target.setOrganization(organization);

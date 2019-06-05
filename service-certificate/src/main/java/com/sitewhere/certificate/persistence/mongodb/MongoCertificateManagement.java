@@ -23,6 +23,7 @@ import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
 import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
 
 /**
@@ -78,7 +79,7 @@ public class MongoCertificateManagement extends TenantEngineLifecycleComponent i
     @Override
     public ICertificate createCertificateRoot(ICertificateCreateRequest request) throws SiteWhereException {
         CertificatePersistence certificatePersistence = new CertificatePersistence();
-        Certificate certificate = certificatePersistence.certificateCreateLogic(request);
+        Certificate certificate = certificatePersistence.certificateCreateLogic(request, null);
         MongoCollection<Document> certificatesCollection = getMongoClient().getCertificatesCollection();
         Document created = MongoCertificate.toDocument(certificate);
         MongoPersistence.insert(certificatesCollection, created, ErrorCode.DuplicateId);
@@ -88,11 +89,21 @@ public class MongoCertificateManagement extends TenantEngineLifecycleComponent i
     @Override
     public ICertificate createCertificate(ICertificateCreateRequest request) throws SiteWhereException {
         CertificatePersistence certificatePersistence = new CertificatePersistence();
-        Certificate certificate = certificatePersistence.certificateCreateLogic(request);
+        Certificate aliasUserIdCertificate = null;
+        if (StringUtils.isNoneEmpty(request.getAliasUserId())) {
+            aliasUserIdCertificate = MongoCertificate.fromDocument(getCertificateFromUserId(request.getAliasUserId()));
+        }
+        Certificate certificate = certificatePersistence.certificateCreateLogic(request, aliasUserIdCertificate);
         MongoCollection<Document> certificatesCollection = getMongoClient().getCertificatesCollection();
         Document created = MongoCertificate.toDocument(certificate);
         MongoPersistence.insert(certificatesCollection, created, ErrorCode.DuplicateId);
         return MongoCertificate.fromDocument(created);
+    }
+
+    protected Document getCertificateFromUserId(String userId) throws SiteWhereException {
+        MongoCollection<Document> states = getMongoClient().getCertificatesCollection();
+        Document query = new Document(MongoCertificate.PROP_USER_ID, userId);
+        return states.find(query).first();
     }
 
     @Override

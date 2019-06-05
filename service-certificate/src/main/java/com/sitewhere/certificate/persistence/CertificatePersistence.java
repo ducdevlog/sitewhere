@@ -17,6 +17,7 @@ import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.state.request.IDeviceStateCreateRequest;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
@@ -25,8 +26,11 @@ import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.openssl.PEMKeyPair;
+import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -35,13 +39,14 @@ import org.bouncycastle.util.io.pem.PemWriter;
 import sun.security.provider.X509Factory;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.cert.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -63,7 +68,7 @@ public class CertificatePersistence {
      * @return
      * @throws SiteWhereException
      */
-    public Certificate certificateCreateLogic(ICertificateCreateRequest request) throws SiteWhereException {
+    public Certificate certificateCreateLogic(ICertificateCreateRequest request, Certificate issueCertificate) throws SiteWhereException {
         Certificate certificate = new Certificate();
         certificate.setId(UUID.randomUUID());
         certificate.setOrganization(request.getOrganization());
@@ -91,19 +96,51 @@ public class CertificatePersistence {
             Date endDate = Date.from(endLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             IssuerData issuer = null;
             if  (certificate.getAliasUserId() != null) {
-                //issuer = validateCertificateAuthority(certificate.getAliasUserId());
+                issuer = validateCertificateAuthority(issueCertificate);
             } else {
                 issuer = new IssuerData(x500name, newKeyPair.getPrivate());
             }
             SubjectData subject = new SubjectData(newKeyPair.getPublic(), x500name, certificate.getSerialNumber(), startDate, endDate);
             certificate.setCertificateKey(generateCertificate(subject, issuer, true));
-            // Save to DB
             certificate.setStartDate(startDate);
             certificate.setEndDate(endDate);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return certificate;
+    }
+
+    private IssuerData validateCertificateAuthority(Certificate issueCertificate) {
+        boolean validDate = true;
+        try {
+            X509Certificate x509Certificate = null;
+            CertificateFactory cf = CertificateFactory.getInstance("X509");
+            InputStream inputStream = new ByteArrayInputStream(issueCertificate.getCertificateKey().getBytes());
+            x509Certificate = (X509Certificate) cf.generateCertificate(inputStream);
+            try {
+                x509Certificate.checkValidity(new Date());
+            } catch (CertificateExpiredException | CertificateNotYetValidException e) {
+                validDate = false;
+            }
+            if (validDate && x509Certificate.getKeyUsage()[5]) {
+                X500Name issuerName = new JcaX509CertificateHolder(x509Certificate).getSubject();
+                final Object parsedPem = new PEMParser(new InputStreamReader(new ByteArrayInputStream(issueCertificate.getPrivateKey().getBytes()))).readObject();;
+                final PrivateKeyInfo keyInfo;
+                if (parsedPem instanceof PEMKeyPair) {
+                    keyInfo = ((PEMKeyPair) parsedPem).getPrivateKeyInfo();
+                } else if (parsedPem instanceof PrivateKeyInfo) {
+                    keyInfo = (PrivateKeyInfo) parsedPem;
+                } else {
+                    throw new UnsupportedOperationException("Unable to parse x509 certificate.");
+                }
+                final PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyInfo.getEncoded());
+                final KeyFactory kf = KeyFactory.getInstance("RSA");
+                return new IssuerData(issuerName, kf.generatePrivate(spec));
+            }
+        } catch (CertificateException | IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
