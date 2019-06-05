@@ -8,31 +8,52 @@ import java.util.UUID;
  * Date 6/3/2019
  */
 public interface ICertificate {
-    public UUID getId();
+    UUID getId();
+
     // Organization (O)
-    public String getOrganization();
+    String getOrganization();
+
     // Organizational Unit (OU)
-    public String getOrganizationalUnit();
+    String getOrganizationalUnit();
+
     // Country (C)
-    public String getCountry();
+    String getCountry();
+
     // State (S)
-    public String getState();
+    String getState();
+
     // Locality (L)
-    public String getLocality();
+    String getLocality();
+
     // Common Name (CN)
-    public String getCommonName();
+    String getCommonName();
+
     // Serial Number
-    public String getSerialNumber();
+    Long getSerialNumber();
+
     // Key size
-    public int getKeySize();
+    int getKeySize();
+
     // surname
-    public String getSurname();
+    String getSurname();
+
     // givenName
-    public String getGivenName();
+    String getGivenName();
+
     // userId
-    public String getUserId();
+    String getUserId();
+
     // start Date
-    public Date getStartDate();
+    Date getStartDate();
+
     // end Date
-    public Date getEndDate();
+    Date getEndDate();
+
+    String getAliasUserId();
+
+    String getPrivateKey();
+
+    String getPublicKey();
+
+    String getCertificateKey();
 }

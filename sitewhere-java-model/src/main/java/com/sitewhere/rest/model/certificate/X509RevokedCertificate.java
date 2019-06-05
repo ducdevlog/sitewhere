@@ -8,7 +8,7 @@ import com.sitewhere.spi.certificate.IX509RevokedCertificate;
  */
 public class X509RevokedCertificate implements IX509RevokedCertificate {
     private byte[] x509Bytes;
-    private String serialNumber;
+    private Long serialNumber;
     private boolean ca;
 
     public byte[] getX509Bytes() {
@@ -19,11 +19,11 @@ public class X509RevokedCertificate implements IX509RevokedCertificate {
         this.x509Bytes = x509Bytes;
     }
 
-    public String getSerialNumber() {
+    public Long getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(Long serialNumber) {
         this.serialNumber = serialNumber;
     }
 

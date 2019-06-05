@@ -6,6 +6,8 @@ dependencies {
 
     // Supported databases.
     compile project(':sitewhere-mongodb')
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.61'
+
 }
 
 apply plugin: 'org.springframework.boot'

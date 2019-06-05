@@ -22,7 +22,7 @@ public class CertificateCreateRequest implements ICertificateCreateRequest {
     // Common Name (CN)
     private String commonName;
     // Serial Number
-    private String serialNumber;
+    private Long serialNumber;
     // Key size
     private int keySize;
     // surname
@@ -31,6 +31,8 @@ public class CertificateCreateRequest implements ICertificateCreateRequest {
     private String givenName;
     // userId
     private String userId;
+
+    private String aliasUserId;
 
     @Override
     public String getOrganization() {
@@ -87,11 +89,11 @@ public class CertificateCreateRequest implements ICertificateCreateRequest {
     }
 
     @Override
-    public String getSerialNumber() {
+    public Long getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(Long serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -129,5 +131,14 @@ public class CertificateCreateRequest implements ICertificateCreateRequest {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String getAliasUserId() {
+        return aliasUserId;
+    }
+
+    public void setAliasUserId(String aliasUserId) {
+        this.aliasUserId = aliasUserId;
     }
 }

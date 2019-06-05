@@ -36,6 +36,11 @@ public class CertificateMicroservice extends MultitenantMicroservice<Microservic
      */
     private static final String NAME = "Certificate";
 
+    /**
+     * Provides server for device management GRPC requests
+     */
+    private ICertificateGrpcServer certificateGrpcServer;
+
     @Override
     public ICertificateGrpcServer getCertificateGrpcServer() {
         return certificateGrpcServer;
@@ -44,12 +49,6 @@ public class CertificateMicroservice extends MultitenantMicroservice<Microservic
     public void setCertificateGrpcServer(ICertificateGrpcServer certificateGrpcServer) {
         this.certificateGrpcServer = certificateGrpcServer;
     }
-
-    /**
-     * Provides server for device management GRPC requests
-     */
-    private ICertificateGrpcServer certificateGrpcServer;
-
     /*
      * @see com.sitewhere.spi.microservice.IMicroservice#getName()
      */

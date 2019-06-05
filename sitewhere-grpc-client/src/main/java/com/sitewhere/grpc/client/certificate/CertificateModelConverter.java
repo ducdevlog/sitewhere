@@ -22,6 +22,10 @@ public class CertificateModelConverter {
         grpc.setLocality(api.getLocality());
         grpc.setCommonName(api.getCommonName());
         grpc.setSerialNumber(api.getSerialNumber());
+        grpc.setSurname(api.getSurname());
+        grpc.setGivenName(api.getGivenName());
+        grpc.setUserId(api.getUserId());
+        grpc.setAliasUserId(api.getAliasUserId());
         return grpc.build();
     }
 
@@ -34,6 +38,10 @@ public class CertificateModelConverter {
         api.setLocality(grpc.getLocality());
         api.setCommonName(grpc.getCommonName());
         api.setSerialNumber(grpc.getSerialNumber());
+        api.setSurname(grpc.getSurname());
+        api.setGivenName(grpc.getGivenName());
+        api.setUserId(grpc.getUserId());
+        api.setAliasUserId(grpc.getAliasUserId());
         return api;
     }
 
@@ -46,6 +54,9 @@ public class CertificateModelConverter {
         grpc.setLocality(api.getLocality());
         grpc.setCommonName(api.getCommonName());
         grpc.setSerialNumber(api.getSerialNumber());
+        grpc.setSurname(api.getSurname());
+        grpc.setGivenName(api.getGivenName());
+        grpc.setUserId(api.getUserId());
         grpc.setStartDate(api.getStartDate().getTime());
         grpc.setEndDate(api.getEndDate().getTime());
         return grpc.build();
@@ -60,6 +71,10 @@ public class CertificateModelConverter {
         api.setLocality(grpc.getLocality());
         api.setCommonName(grpc.getCommonName());
         api.setSerialNumber(grpc.getSerialNumber());
+        api.setSurname(grpc.getSurname());
+        api.setGivenName(grpc.getGivenName());
+        api.setUserId(grpc.getUserId());
+        api.setAliasUserId(grpc.getAliasUserId());
         api.setStartDate(grpc.getStartDate() > 0 ? new Date(grpc.getStartDate()) : null);
         api.setEndDate(grpc.getEndDate() > 0 ? new Date(grpc.getEndDate()) : null);
         return api;

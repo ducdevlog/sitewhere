@@ -7,7 +7,7 @@ package com.sitewhere.spi.certificate;
 public interface IX509RevokedCertificate {
     public byte[] getX509Bytes();
 
-    public String getSerialNumber();
+    public Long getSerialNumber();
 
     public boolean isCa();
 }

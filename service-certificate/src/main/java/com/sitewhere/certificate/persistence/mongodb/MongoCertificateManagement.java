@@ -8,9 +8,11 @@
 package com.sitewhere.certificate.persistence.mongodb;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.IndexOptions;
 import com.sitewhere.certificate.persistence.CertificatePersistence;
 import com.sitewhere.mongodb.IMongoConverterLookup;
+import com.sitewhere.mongodb.MongoPersistence;
 import com.sitewhere.rest.model.certificate.Certificate;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
@@ -18,8 +20,10 @@ import com.sitewhere.spi.certificate.ICertificate;
 import com.sitewhere.spi.certificate.ICertificateManagement;
 import com.sitewhere.spi.certificate.IX509RevokedCertificate;
 import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+import org.bson.Document;
 
 /**
  * Device state management implementation that uses MongoDB for persistence.
@@ -73,14 +77,22 @@ public class MongoCertificateManagement extends TenantEngineLifecycleComponent i
 
     @Override
     public ICertificate createCertificateRoot(ICertificateCreateRequest request) throws SiteWhereException {
-        Certificate certificate = CertificatePersistence.certificateCreateLogic(request);
-
-        return null;
+        CertificatePersistence certificatePersistence = new CertificatePersistence();
+        Certificate certificate = certificatePersistence.certificateCreateLogic(request);
+        MongoCollection<Document> certificatesCollection = getMongoClient().getCertificatesCollection();
+        Document created = MongoCertificate.toDocument(certificate);
+        MongoPersistence.insert(certificatesCollection, created, ErrorCode.DuplicateId);
+        return MongoCertificate.fromDocument(created);
     }
 
     @Override
     public ICertificate createCertificate(ICertificateCreateRequest request) throws SiteWhereException {
-        return null;
+        CertificatePersistence certificatePersistence = new CertificatePersistence();
+        Certificate certificate = certificatePersistence.certificateCreateLogic(request);
+        MongoCollection<Document> certificatesCollection = getMongoClient().getCertificatesCollection();
+        Document created = MongoCertificate.toDocument(certificate);
+        MongoPersistence.insert(certificatesCollection, created, ErrorCode.DuplicateId);
+        return MongoCertificate.fromDocument(created);
     }
 
     @Override

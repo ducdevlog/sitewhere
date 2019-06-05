@@ -27,7 +27,7 @@ public class Certificate implements ICertificate {
     // Common Name (CN)
     private String commonName;
     // Serial Number
-    private String serialNumber;
+    private Long serialNumber;
     // Key size
     private int keySize;
     // surname
@@ -36,10 +36,18 @@ public class Certificate implements ICertificate {
     private String givenName;
     // userId
     private String userId;
+    // Alias User Id
+    private String aliasUserId;
     // start Date
     private Date startDate;
     // end Date
     private Date endDate;
+    // private Key
+    private String privateKey;
+    // public Key
+    private String publicKey;
+    // certificate Key
+    private String certificateKey;
 
     @Override
     public UUID getId() {
@@ -105,11 +113,11 @@ public class Certificate implements ICertificate {
     }
 
     @Override
-    public String getSerialNumber() {
+    public Long getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(Long serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -149,6 +157,14 @@ public class Certificate implements ICertificate {
         this.userId = userId;
     }
 
+    public String getAliasUserId() {
+        return aliasUserId;
+    }
+
+    public void setAliasUserId(String aliasUserId) {
+        this.aliasUserId = aliasUserId;
+    }
+
     @Override
     public Date getStartDate() {
         return startDate;
@@ -165,5 +181,29 @@ public class Certificate implements ICertificate {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public String getCertificateKey() {
+        return certificateKey;
+    }
+
+    public void setCertificateKey(String certificateKey) {
+        this.certificateKey = certificateKey;
     }
 }

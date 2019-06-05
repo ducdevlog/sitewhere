@@ -18,7 +18,7 @@ public interface ICertificateCreateRequest {
     // Common Name (CN)
     public String getCommonName();
     // Serial Number
-    public String getSerialNumber();
+    public Long getSerialNumber();
     // Key size
     public int getKeySize();
     // surname
@@ -27,4 +27,6 @@ public interface ICertificateCreateRequest {
     public String getGivenName();
     // userId
     public String getUserId();
+
+    String getAliasUserId();
 }

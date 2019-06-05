@@ -127,7 +127,7 @@ public class MongoCertificate implements MongoConverter<ICertificate> {
         String state = (String) source.get(PROP_STATE);
         String locality = (String) source.get(PROP_LOCALITY);
         String commonName = (String) source.get(PROP_COMMON_NAME);
-        String serialNumber = (String) source.get(PROP_SERIAL_NUMBER);
+        Long serialNumber = (Long) source.get(PROP_SERIAL_NUMBER);
         Integer keySize = (Integer) source.get(PROP_KEY_SIZE);
         String surname = (String) source.get(PROP_SURNAME);
         String givenName = (String) source.get(PROP_GIVEN_NAME);
