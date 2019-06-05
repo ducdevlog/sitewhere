@@ -26,7 +26,7 @@ public interface ICertificateManagement extends ITenantEngineLifecycleComponent 
 
     public void revokeCertificate(IX509RevokedCertificate ix509RevokedCertificate) throws SiteWhereException;
 
-    public ICertificate verifyCertificate(String serialNumber) throws SiteWhereException;
+    public ICertificate verifyCertificate(long serialNumber) throws SiteWhereException;
 
-    public ICertificate getCertificate(String serialNumber) throws SiteWhereException;
+    public ICertificate getCertificate(long serialNumber) throws SiteWhereException;
 }

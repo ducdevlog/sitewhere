@@ -111,12 +111,12 @@ public class MongoCertificateManagement extends TenantEngineLifecycleComponent i
     }
 
     @Override
-    public ICertificate verifyCertificate(String serialNumber) throws SiteWhereException {
+    public ICertificate verifyCertificate(long serialNumber) throws SiteWhereException {
         return null;
     }
 
     @Override
-    public ICertificate getCertificate(String serialNumber) throws SiteWhereException {
+    public ICertificate getCertificate(long serialNumber) throws SiteWhereException {
         return null;
     }
 }
