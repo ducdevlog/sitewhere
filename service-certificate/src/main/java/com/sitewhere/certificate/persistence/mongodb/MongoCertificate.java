@@ -113,6 +113,9 @@ public class MongoCertificate implements MongoConverter<ICertificate> {
         target.append(PROP_USER_ID, source.getUserId());
         target.append(PROP_START_DATE, source.getStartDate());
         target.append(PROP_END_DATE, source.getEndDate());
+        target.append(PROP_PRIVATE_KEY, source.getPrivateKey());
+        target.append(PROP_PUBLIC_KEY, source.getPublicKey());
+        target.append(PROP_CERTIFICATE_KEY, source.getCertificateKey());
     }
 
     /**
@@ -155,6 +158,9 @@ public class MongoCertificate implements MongoConverter<ICertificate> {
         target.setUserId(userId);
         target.setStartDate(startDate);
         target.setEndDate(endDate);
+        target.setPrivateKey(privateKey);
+        target.setPublicKey(publicKey);
+        target.setCertificateKey(certificateKey);
     }
 
     /**
