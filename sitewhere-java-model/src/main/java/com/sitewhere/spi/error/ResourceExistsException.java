@@ -23,7 +23,8 @@ public class ResourceExistsException extends SiteWhereException {
     private ErrorCode code;
 
     public ResourceExistsException(ErrorCode code) {
-	this.code = code;
+        super(code.getMessage());
+	    this.code = code;
     }
 
     public ErrorCode getCode() {
