@@ -8,6 +8,7 @@ import com.sitewhere.rest.model.certificate.request.CertificateCreateRequest;
 import com.sitewhere.spi.certificate.ICertificate;
 import com.sitewhere.spi.certificate.IX509RevokedCertificate;
 import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -25,7 +26,8 @@ public class CertificateModelConverter {
         grpc.setSurname(api.getSurname());
         grpc.setGivenName(api.getGivenName());
         grpc.setUserId(api.getUserId());
-        grpc.setAliasUserId(api.getAliasUserId());
+        if (StringUtils.isNoneEmpty(api.getAliasUserId()))
+            grpc.setAliasUserId(api.getAliasUserId());
         return grpc.build();
     }
 
