@@ -291,7 +291,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client certificate
-        bis = new BufferedInputStream(new FileInputStream(new ClassPathResource(crtFile, MqttLifecycleComponent.class.getClassLoader()).getFile()));
+        bis = new BufferedInputStream(new ClassPathResource(crtFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream());
         X509Certificate cert = null;
         while (bis.available() > 0) {
             cert = (X509Certificate) cf.generateCertificate(bis);
@@ -299,7 +299,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client private key
-        PEMParser pemParser = new PEMParser(new FileReader(new ClassPathResource(keyFile, MqttLifecycleComponent.class.getClassLoader()).getFile()));
+        PEMParser pemParser = new PEMParser(new InputStreamReader(new ClassPathResource(keyFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream());
         Object object = pemParser.readObject();
         PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder()
                 .build(password.toCharArray());
