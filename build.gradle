@@ -39,6 +39,7 @@ ext['groovy.version'] = '2.4.12'
 ext['mongodb.version'] = '3.4.2'
 ext['solr.version'] = '6.4.0'
 ext['siddhi.version'] = '3.1.2'
+ext['bouncycastle.version'] = '1.61'
 
 apply plugin: 'distribution'
     
