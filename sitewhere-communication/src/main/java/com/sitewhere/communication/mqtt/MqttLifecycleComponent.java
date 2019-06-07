@@ -275,15 +275,12 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         // load CA certificate
         X509Certificate caCert = null;
 
-        BufferedInputStream bis;
-        try (InputStream fis = new ClassPathResource(caCrtFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream()) {
-            bis = new BufferedInputStream(fis);
-        }
+        BufferedInputStream bis = new BufferedInputStream(new ClassPathResource(caCrtFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream());
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
         while (bis.available() > 0) {
             caCert = (X509Certificate) cf.generateCertificate(bis);
-            // System.out.println(caCert.toString());
+            System.out.println(caCert.toString());
         }
 
         // load client certificate
@@ -291,7 +288,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         X509Certificate cert = null;
         while (bis.available() > 0) {
             cert = (X509Certificate) cf.generateCertificate(bis);
-            // System.out.println(caCert.toString());
+            System.out.println(caCert.toString());
         }
 
         // load client private key
