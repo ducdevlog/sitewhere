@@ -21,7 +21,7 @@
 		<!-- Command destinations -->
 		<cd:mqtt-command-destination
 			destinationId="default" hostname="${mqtt.host:localhost}" username="${mqtt.username:admin}" password="${mqtt.password:123456}"
-			port="${mqtt.port:1883}">
+			port="${mqtt.port:8883}" protocol="${mqtt.protocol:tls}>
 		</cd:mqtt-command-destination>
 
 	</cd:command-delivery>
