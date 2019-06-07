@@ -299,7 +299,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client private key
-        PEMParser pemParser = new PEMParser(new InputStreamReader(new ClassPathResource(keyFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream());
+        PEMParser pemParser = new PEMParser(new InputStreamReader(new ClassPathResource(keyFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream()));
         Object object = pemParser.readObject();
         PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder()
                 .build(password.toCharArray());
