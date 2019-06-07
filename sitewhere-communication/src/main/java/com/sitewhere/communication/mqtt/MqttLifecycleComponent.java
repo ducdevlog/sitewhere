@@ -235,7 +235,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         // import certificate from resource
         SSLContext sslContext = null;
         try {
-            sslContext = getSSLContext("classpath:certificate/ca.crt", "classpath:certificate/client.crt", "classpath:certificate/client.key", "");
+            sslContext = getSSLContext("certificate/ca.crt", "certificate/client.crt", "certificate/client.key", "");
         } catch (Exception e) {
             component.getLogger().info("error load certificate from resource");
             e.printStackTrace();
@@ -281,8 +281,10 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         // load CA certificate
         X509Certificate caCert = null;
 
-        FileInputStream fis = new FileInputStream(new ClassPathResource(caCrtFile).getFile());
-        BufferedInputStream bis = new BufferedInputStream(fis);
+        BufferedInputStream bis;
+        try (FileInputStream fis = new FileInputStream(new ClassPathResource(caCrtFile, MqttLifecycleComponent.class.getClassLoader()).getFile())) {
+            bis = new BufferedInputStream(fis);
+        }
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
         while (bis.available() > 0) {
@@ -291,7 +293,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client certificate
-        bis = new BufferedInputStream(new FileInputStream(new ClassPathResource(crtFile).getFile()));
+        bis = new BufferedInputStream(new FileInputStream(new ClassPathResource(crtFile, MqttLifecycleComponent.class.getClassLoader()).getFile()));
         X509Certificate cert = null;
         while (bis.available() > 0) {
             cert = (X509Certificate) cf.generateCertificate(bis);
@@ -299,7 +301,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client private key
-        PEMParser pemParser = new PEMParser(new FileReader(new ClassPathResource(keyFile).getFile()));
+        PEMParser pemParser = new PEMParser(new FileReader(new ClassPathResource(keyFile, MqttLifecycleComponent.class.getClassLoader()).getFile()));
         Object object = pemParser.readObject();
         PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder()
                 .build(password.toCharArray());
