@@ -50,7 +50,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
     /**
      * Default protocol if not set via Spring
      */
-    public static final String DEFAULT_PROTOCOL = "tcp";
+    public static final String DEFAULT_PROTOCOL = "tsl";
 
     /**
      * Default hostname if not set via Spring
@@ -60,7 +60,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
     /**
      * Default port if not set from Spring
      */
-    public static final String DEFAULT_PORT = "1883";
+    public static final String DEFAULT_PORT = "8883";
 
     /**
      * Default connection timeout in seconds
