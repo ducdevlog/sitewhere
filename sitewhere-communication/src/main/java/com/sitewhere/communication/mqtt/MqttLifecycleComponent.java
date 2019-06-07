@@ -50,7 +50,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
     /**
      * Default protocol if not set via Spring
      */
-    public static final String DEFAULT_PROTOCOL = "tsl";
+    public static final String DEFAULT_PROTOCOL = "tls";
 
     /**
      * Default hostname if not set via Spring
