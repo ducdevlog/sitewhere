@@ -235,7 +235,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         // import certificate from resource
         SSLContext sslContext = null;
         try {
-            sslContext = getSSLContext("certificate/ca.crt", "certificate/client.crt", "certificate/client.key", "");
+            sslContext = getSSLContext("/certificate/ca.crt", "/certificate/client.crt", "/certificate/client.key", "");
         } catch (Exception e) {
             component.getLogger().info("error load certificate from resource");
             e.printStackTrace();
