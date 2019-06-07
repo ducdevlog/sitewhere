@@ -7,10 +7,7 @@
  */
 package com.sitewhere.communication.mqtt;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.security.KeyPair;
 import java.security.KeyStore;
@@ -24,6 +21,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
+import jdk.internal.util.xml.impl.Input;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMDecryptorProvider;
 import org.bouncycastle.openssl.PEMEncryptedKeyPair;
@@ -282,7 +280,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         X509Certificate caCert = null;
 
         BufferedInputStream bis;
-        try (FileInputStream fis = new FileInputStream(new ClassPathResource(caCrtFile, MqttLifecycleComponent.class.getClassLoader()).getFile())) {
+        try (InputStream fis = new ClassPathResource(caCrtFile, MqttLifecycleComponent.class.getClassLoader()).getInputStream()) {
             bis = new BufferedInputStream(fis);
         }
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
