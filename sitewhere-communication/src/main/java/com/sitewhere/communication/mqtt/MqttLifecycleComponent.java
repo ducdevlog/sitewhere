@@ -37,6 +37,7 @@ import org.fusesource.mqtt.client.Future;
 import org.fusesource.mqtt.client.FutureConnection;
 import org.fusesource.mqtt.client.MQTT;
 import org.fusesource.mqtt.client.QoS;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
@@ -280,7 +281,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         // load CA certificate
         X509Certificate caCert = null;
 
-        FileInputStream fis = new FileInputStream(caCrtFile);
+        FileInputStream fis = new FileInputStream(new ClassPathResource(caCrtFile).getFile());
         BufferedInputStream bis = new BufferedInputStream(fis);
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
@@ -290,7 +291,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client certificate
-        bis = new BufferedInputStream(new FileInputStream(crtFile));
+        bis = new BufferedInputStream(new FileInputStream(new ClassPathResource(crtFile).getFile()));
         X509Certificate cert = null;
         while (bis.available() > 0) {
             cert = (X509Certificate) cf.generateCertificate(bis);
@@ -298,7 +299,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         }
 
         // load client private key
-        PEMParser pemParser = new PEMParser(new FileReader(keyFile));
+        PEMParser pemParser = new PEMParser(new FileReader(new ClassPathResource(keyFile).getFile()));
         Object object = pemParser.readObject();
         PEMDecryptorProvider decProv = new JcePEMDecryptorProviderBuilder()
                 .build(password.toCharArray());
