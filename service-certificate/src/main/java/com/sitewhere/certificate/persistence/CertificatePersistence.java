@@ -102,9 +102,9 @@ public class CertificatePersistence {
         try {
             // generate private key
             assert newKeyPair != null;
-            certificate.setPrivateKey(generatePrivateKey(newKeyPair));
+            certificate.setPrivateKey(generatePrivateKey(certificate.getId().toString(), newKeyPair));
             // generate public key
-            certificate.setPublicKey(generatePublicKey(newKeyPair));
+            certificate.setPublicKey(generatePublicKey(certificate.getId().toString(), newKeyPair));
             // generate certificate
             Date startDate = new Date();
             LocalDateTime endLocalDateTime = LocalDateTime.of(2050, Month.DECEMBER, 31, 23, 59, 59);
@@ -116,7 +116,7 @@ public class CertificatePersistence {
                 issuer = new IssuerData(x500name, newKeyPair.getPrivate());
             }
             SubjectData subject = new SubjectData(newKeyPair.getPublic(), x500name, certificate.getSerialNumber(), startDate, endDate);
-            certificate.setCertificateKey(generateCertificate(subject, issuer, true));
+            certificate.setCertificateKey(generateCertificate(certificate.getId().toString(), subject, issuer, true));
             certificate.setStartDate(startDate);
             certificate.setEndDate(endDate);
         } catch (IOException e) {
@@ -192,7 +192,7 @@ public class CertificatePersistence {
         }
     }
 
-    private String generateCertificate(SubjectData subjectData, IssuerData issuerData, boolean caRoot) throws IOException {
+    private String generateCertificate(String fileName, SubjectData subjectData, IssuerData issuerData, boolean caRoot) throws IOException {
         try {
             JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
             BouncyCastleProvider bcp = new BouncyCastleProvider();
@@ -216,7 +216,7 @@ public class CertificatePersistence {
             sw.write("\n");
             sw.write(X509Factory.END_CERT);
             sw.close();
-            uploadCertificate(String.valueOf(subjectData.getSerialNumber()), ".crt", sw.toString());
+            uploadCertificate(fileName, ".crt", sw.toString());
             return sw.toString();
         } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException | CertificateException | IOException e) {
             e.printStackTrace();
@@ -224,24 +224,24 @@ public class CertificatePersistence {
         return "";
     }
 
-    private String generatePrivateKey(KeyPair keyPair) throws IOException {
+    private String generatePrivateKey(String fileName, KeyPair keyPair) throws IOException {
         RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
-        return generatePemFile(rsaPrivateKey, ".key", "PRIVATE KEY");
+        return generatePemFile(rsaPrivateKey, fileName, ".key", "PRIVATE KEY");
     }
 
-    private String generatePublicKey(KeyPair keyPair) throws IOException {
+    private String generatePublicKey(String fileName, KeyPair keyPair) throws IOException {
         RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-        return generatePemFile(rsaPublicKey, ".pub", "CERTIFICATE");
+        return generatePemFile(rsaPublicKey, fileName, ".pub", "CERTIFICATE");
     }
 
-    private String generatePemFile(Key key, String suffixName, String description) throws IOException {
+    private String generatePemFile(Key key, String fileName, String suffixName, String description) throws IOException {
         PemObject pemObject = new PemObject(description, key.getEncoded());
         StringWriter stringWriter = new StringWriter();
         PemWriter pemWriter = new PemWriter(stringWriter);
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
         pemWriter.close();
-        uploadCertificate(UUID.randomUUID().toString(), suffixName, stringWriter.toString());
+        uploadCertificate(fileName, suffixName, stringWriter.toString());
         return stringWriter.toString();
     }
 
