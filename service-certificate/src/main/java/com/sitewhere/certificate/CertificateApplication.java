@@ -11,15 +11,15 @@ import com.sitewhere.certificate.spi.microservice.ICertificateMicroservice;
 import com.sitewhere.microservice.MicroserviceApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Spring Boot application for device state management microservice.
  *
  * @author Derek
  */
-@EnableFeignClients
 @ComponentScan
 public class CertificateApplication extends MicroserviceApplication<ICertificateMicroservice> {
 
@@ -44,5 +44,10 @@ public class CertificateApplication extends MicroserviceApplication<ICertificate
     @Override
     public ICertificateMicroservice getMicroservice() {
         return microservice;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

@@ -7,7 +7,6 @@
  */
 package com.sitewhere.certificate.persistence;
 
-import com.sitewhere.certificate.adapter.FileAdapter;
 import com.sitewhere.certificate.persistence.dto.IssuerData;
 import com.sitewhere.certificate.persistence.dto.SubjectData;
 import com.sitewhere.rest.model.certificate.Certificate;
@@ -35,12 +34,22 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import sun.security.provider.X509Factory;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.*;
 import java.security.cert.*;
 import java.security.interfaces.RSAPrivateKey;
@@ -60,11 +69,12 @@ import java.util.UUID;
  */
 @Component
 public class CertificatePersistence {
-    @Autowired
-    private FileAdapter fileAdapter;
-
     private static final int KEY_SIZE = 2048;
-    public static final String BUCKET_NAME_CERTIFICATE = "certificateFiles";
+    private static final String UPLOAD_FILE_ENDPOINT = "http://171.244.38.134:9030/buckets/certificates/files";
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     /**
      * Common logic for creating new device state object and populating it from
      * request.
@@ -100,7 +110,7 @@ public class CertificatePersistence {
             LocalDateTime endLocalDateTime = LocalDateTime.of(2050, Month.DECEMBER, 31, 23, 59, 59);
             Date endDate = Date.from(endLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
             IssuerData issuer = null;
-            if  (certificate.getAliasUserId() != null) {
+            if (certificate.getAliasUserId() != null) {
                 issuer = validateCertificateAuthority(issueCertificate);
             } else {
                 issuer = new IssuerData(x500name, newKeyPair.getPrivate());
@@ -129,7 +139,7 @@ public class CertificatePersistence {
             }
             if (validDate && x509Certificate.getKeyUsage()[5]) {
                 X500Name issuerName = new JcaX509CertificateHolder(x509Certificate).getSubject();
-                final Object parsedPem = new PEMParser(new InputStreamReader(new ByteArrayInputStream(issueCertificate.getPrivateKey().getBytes()))).readObject();;
+                final Object parsedPem = new PEMParser(new InputStreamReader(new ByteArrayInputStream(issueCertificate.getPrivateKey().getBytes()))).readObject();
                 final PrivateKeyInfo keyInfo;
                 if (parsedPem instanceof PEMKeyPair) {
                     keyInfo = ((PEMKeyPair) parsedPem).getPrivateKeyInfo();
@@ -206,7 +216,7 @@ public class CertificatePersistence {
             sw.write("\n");
             sw.write(X509Factory.END_CERT);
             sw.close();
-            fileAdapter.uploadCertificate(BUCKET_NAME_CERTIFICATE, String.valueOf(subjectData.getSerialNumber()), sw.toString());
+            uploadCertificate(String.valueOf(subjectData.getSerialNumber()), ".crt", sw.toString());
             return sw.toString();
         } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException | CertificateException | IOException e) {
             e.printStackTrace();
@@ -216,23 +226,43 @@ public class CertificatePersistence {
 
     private String generatePrivateKey(KeyPair keyPair) throws IOException {
         RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
-        return generatePemFile(rsaPrivateKey, "PRIVATE KEY");
+        return generatePemFile(rsaPrivateKey, ".key", "PRIVATE KEY");
     }
 
     private String generatePublicKey(KeyPair keyPair) throws IOException {
         RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-        return generatePemFile(rsaPublicKey, "CERTIFICATE");
+        return generatePemFile(rsaPublicKey, ".pub", "CERTIFICATE");
     }
 
-    private String generatePemFile(Key key, String description) throws IOException {
+    private String generatePemFile(Key key, String suffixName, String description) throws IOException {
         PemObject pemObject = new PemObject(description, key.getEncoded());
         StringWriter stringWriter = new StringWriter();
         PemWriter pemWriter = new PemWriter(stringWriter);
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
         pemWriter.close();
-        fileAdapter.uploadCertificate(BUCKET_NAME_CERTIFICATE, UUID.randomUUID().toString(), stringWriter.toString());
+        uploadCertificate(UUID.randomUUID().toString(), suffixName, stringWriter.toString());
         return stringWriter.toString();
+    }
+
+    private void uploadCertificate(String fileName, String suffixName, String contentFile) {
+        try {
+            Path tempFile = Files.createTempFile(fileName, suffixName);
+            Files.write(tempFile, contentFile.getBytes());
+            File file = tempFile.toFile();
+            Resource resource = new FileSystemResource(file);
+
+            LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+            map.add("file", resource);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(map, headers);
+            ResponseEntity<String> result = restTemplate.postForEntity(UPLOAD_FILE_ENDPOINT, requestEntity, String.class);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private X500Name generateName(Certificate certificate) {

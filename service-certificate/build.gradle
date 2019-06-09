@@ -8,14 +8,6 @@ dependencies {
     compile project(':sitewhere-mongodb')
     compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.61'
 
-    // Feign client
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.7.RELEASE'
-
-    compile group: 'io.github.openfeign.form', name: 'feign-form', version: '3.8.0'
-    compile group: 'io.github.openfeign.form', name: 'feign-form-spring', version: '3.8.0'
-    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
-
-
 }
 
 apply plugin: 'org.springframework.boot'
