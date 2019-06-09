@@ -258,6 +258,9 @@ public class CertificatePersistence {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<LinkedMultiValueMap<String, Object>>(map, headers);
+            if (restTemplate == null) {
+                restTemplate = new RestTemplate();
+            }
             ResponseEntity<String> result = restTemplate.postForEntity(UPLOAD_FILE_ENDPOINT, requestEntity, String.class);
             System.out.println(result);
         } catch (Exception e) {
