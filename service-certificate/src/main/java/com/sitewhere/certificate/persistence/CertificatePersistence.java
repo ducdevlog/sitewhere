@@ -7,6 +7,7 @@
  */
 package com.sitewhere.certificate.persistence;
 
+import com.sitewhere.certificate.adapter.FileAdapter;
 import com.sitewhere.certificate.persistence.dto.IssuerData;
 import com.sitewhere.certificate.persistence.dto.SubjectData;
 import com.sitewhere.rest.model.certificate.Certificate;
@@ -33,6 +34,8 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import sun.security.provider.X509Factory;
 
 import javax.xml.bind.DatatypeConverter;
@@ -55,8 +58,13 @@ import java.util.UUID;
  *
  * @author Derek
  */
+@Component
 public class CertificatePersistence {
+    @Autowired
+    private FileAdapter fileAdapter;
+
     private static final int KEY_SIZE = 2048;
+    public static final String BUCKET_NAME_CERTIFICATE = "certificateFiles";
     /**
      * Common logic for creating new device state object and populating it from
      * request.
@@ -198,6 +206,7 @@ public class CertificatePersistence {
             sw.write("\n");
             sw.write(X509Factory.END_CERT);
             sw.close();
+            fileAdapter.uploadCertificate(BUCKET_NAME_CERTIFICATE, String.valueOf(subjectData.getSerialNumber()), sw.toString());
             return sw.toString();
         } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException | CertificateException | IOException e) {
             e.printStackTrace();
@@ -222,6 +231,7 @@ public class CertificatePersistence {
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
         pemWriter.close();
+        fileAdapter.uploadCertificate(BUCKET_NAME_CERTIFICATE, UUID.randomUUID().toString(), stringWriter.toString());
         return stringWriter.toString();
     }
 

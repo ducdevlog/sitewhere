@@ -11,6 +11,7 @@ import com.sitewhere.certificate.spi.microservice.ICertificateMicroservice;
 import com.sitewhere.microservice.MicroserviceApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  * @author Derek
  */
+@EnableFeignClients
 @ComponentScan
 public class CertificateApplication extends MicroserviceApplication<ICertificateMicroservice> {
 
