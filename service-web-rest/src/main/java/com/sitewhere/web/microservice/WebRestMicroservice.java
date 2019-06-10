@@ -10,6 +10,7 @@ package com.sitewhere.web.microservice;
 import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
 import com.sitewhere.grpc.client.asset.AssetManagementApiDemux;
 import com.sitewhere.grpc.client.batch.BatchManagementApiDemux;
+import com.sitewhere.grpc.client.certificate.CertificateApiDemux;
 import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
 import com.sitewhere.grpc.client.devicestate.DeviceStateApiDemux;
 import com.sitewhere.grpc.client.event.DeviceEventManagementApiDemux;
@@ -75,6 +76,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
     /** Device state API demux */
     private IMqttAclApiDemux mqttAclApiDemux;
+
+    /** Certificate API demux */
+    private ICertificateApiDemux certificateApiDemux;
 
     /** Aggregates microservice state info into a topology */
     private ITopologyStateAggregator topologyStateAggregator = new TopologyStateAggregator();
@@ -198,6 +202,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         // Initialize device state API demux.
         init.addInitializeStep(this, getMqttAclApiDemux(), true);
 
+        // Initialize Certificate API demux.
+        init.addInitializeStep(this, getCertificateApiDemux(), false);
+
 	// Execute initialization steps.
 	init.execute(monitor);
     }
@@ -235,7 +242,11 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	// Device state.
 	this.deviceStateApiDemux = new DeviceStateApiDemux(false);
 
+	// Mqtt Acl
 	this.mqttAclApiDemux = new MqttAclApiDemux(false);
+
+	// Certificate
+	this.certificateApiDemux = new CertificateApiDemux(false);
     }
 
     /*
@@ -283,6 +294,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 	    // Start device state API demux.
 	    start.addStartStep(this, getMqttAclApiDemux(), true);
 
+        // Start device state API demux.
+        start.addStartStep(this, getCertificateApiDemux(), true);
+
 	// Execute startup steps.
 	start.execute(monitor);
     }
@@ -327,6 +341,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
         // Stop device state API demux.
         stop.addStopStep(this, getMqttAclApiDemux());
+
+        // Stop device state API demux.
+        stop.addStopStep(this, getCertificateApiDemux());
 
 	// Stop topology state aggregator.
 	stop.addStopStep(this, getTopologyStateAggregator());
@@ -468,6 +485,11 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
     @Override
     public IMqttAclApiDemux getMqttAclApiDemux() {
         return mqttAclApiDemux;
+    }
+
+    @Override
+    public ICertificateApiDemux getCertificateApiDemux() {
+        return certificateApiDemux;
     }
 
     public void setMqttAclApiDemux(IMqttAclApiDemux mqttAclApiDemux) {

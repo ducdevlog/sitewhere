@@ -79,4 +79,6 @@ public interface IWebRestMicroservice<T extends IFunctionIdentifier>
     public ITopologyStateAggregator getTopologyStateAggregator();
 
     public IMqttAclApiDemux getMqttAclApiDemux();
+
+    public ICertificateApiDemux getCertificateApiDemux();
 }
