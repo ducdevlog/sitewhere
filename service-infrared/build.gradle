@@ -104,7 +104,7 @@ idea {
 // Start spring boot
 apply plugin: 'org.springframework.boot'
 springBoot {
-    mainClassName = 'com.vin.iot.platform.infrared.SpringBootTemplateApplication'
+    mainClassName = 'com.vin.iot.platform.infrared.SpringBootInfraredApplication'
 }
 
 // Keep original jar.
