@@ -3,14 +3,15 @@ buildscript {
 		maven { url "https://plugins.gradle.org/m2/" }
  	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.7.RELEASE"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.1.5.RELEASE"
 		classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:3.0.3'
-		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
-		classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
 		classpath 'com.bmuschko:gradle-docker-plugin:4.3.0'
 		classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
 		classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
-    	classpath "org.ajoberstar:grgit:2.2.1"
+		classpath "org.ajoberstar:grgit:2.2.1"
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
+		classpath "kr.motd.gradle:sphinx-gradle-plugin:2.2.0"
 	}
 }
 
@@ -40,6 +41,10 @@ ext['mongodb.version'] = '3.4.2'
 ext['solr.version'] = '6.4.0'
 ext['siddhi.version'] = '3.1.2'
 ext['bouncycastle.version'] = '1.61'
+ext['grpc.spring.boot.version'] = '3.0.0'
+ext['swagger.version'] = '2.7.0'
+ext['aspectj.version'] = '1.9.2'
+ext['lombok.version'] = '1.18.8'
 
 apply plugin: 'distribution'
     
