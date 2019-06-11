@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    zookeeper:
+      connect-string: zookeeper:2181
+      config:
+        watch:
+          enabled: true
+
+  application:
+    name: Infrared

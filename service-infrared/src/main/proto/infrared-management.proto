@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.service;
+
+option java_multiple_files = true;
+option java_package = "com.sitewhere.grpc.service";
+option java_outer_classname = "InfraredServices";
+
+import "infrared-model.proto";
+
+// MqttAcl APIs.
+service Infrared {
+
+	// ####################
+	// ### Infrared ###
+	// ####################
+
+	// Get DeviceType.
+	rpc GetDeviceType (GGetDeviceTypeRequest) returns (GGetDeviceTypeResponse) {}
+
+	// Get DeviceTypeBrand.
+	rpc GetDeviceTypeBrand (GGetDeviceTypeBrandRequest) returns (GGetDeviceTypeBrandResponse) {}
+
+	// Get DeviceCodeset.
+	rpc GetDeviceCodeset(GGetDeviceCodesetRequest) returns (GGetDeviceCodesetResponse) {}
+
+	// Get DeviceCodeset.
+	rpc GetIrCodeRaw(GGetIrCodeRawRequest) returns (GGetIrCodeRawResponse) {}
+}
+
+// ####################
+// ### Infrared ###
+// ####################
+
+// Request for get DeviceType.
+message GGetDeviceTypeRequest {
+
+}
+
+message GGetDeviceTypeResponse {
+	repeated com.sitewhere.grpc.model.GDeviceType DeviceType = 1;
+}
+
+// Request for get DeviceTypeBrand.
+message GGetDeviceTypeBrandRequest {
+	string type = 1;
+}
+
+message GGetDeviceTypeBrandResponse {
+	repeated com.sitewhere.grpc.model.GDeviceTypeBrand DeviceTypeBrand = 1;
+}
+
+// Request for get DeviceCodeset.
+message GGetDeviceCodesetRequest {
+	string deviceTypeBrandId = 1;
+}
+
+message GGetDeviceCodesetResponse {
+	repeated com.sitewhere.grpc.model.GDeviceCodeset DeviceCodeset = 1;
+}
+
+// Request for get DeviceCodeset.
+message GGetIrCodeRawRequest {
+	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+}
+
+message GGetIrCodeRawResponse {
+	repeated com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+}
+
+

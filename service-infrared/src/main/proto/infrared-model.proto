@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.model;
+
+option java_outer_classname = "InfraredModel";
+
+import "google/protobuf/struct.proto";
+
+// ####################
+// ### EXTENDED    ###
+// ####################
+
+// Request for creating Device Type.
+message GDeviceTypeCreateRequest {
+	string id = 1;
+	string typeName = 2;
+}
+
+message GDeviceTypeSearchCriteria {
+	repeated string typeName = 1;
+}
+
+message GDeviceType {
+	string id = 1;
+	string typeName = 2;
+	string pageNumber = 3;
+	string pageSize = 4;
+}
+
+// Request for creating Device Type Brand.
+message GDeviceTypeBrandCreateRequest {
+	string id = 1;
+	string type = 2;
+	string brand = 3;
+}
+
+message GDeviceTypeBrandSearchCriteria {
+	repeated string type = 1;
+	repeated string brand = 2;
+	string pageNumber = 3;
+	string pageSize = 4;
+}
+
+
+message GDeviceTypeBrand {
+	string id = 1;
+	string type = 2;
+	string brand = 3;
+}
+
+// Request for creating Device Code set.
+message GDeviceCodesetCreateRequest {
+	string id = 1;
+	string deviceTypeBrandId = 2;
+	string codesetName = 3;
+}
+
+message GDeviceCodesetSearchCriteria {
+	repeated string deviceTypeBrandId = 1;
+	repeated string codesetName = 2;
+	string pageNumber = 3;
+	string pageSize = 4;
+}
+
+message GDeviceCodeset {
+	string id = 1;
+	string deviceTypeBrandId = 2;
+	string codesetName = 3;
+}
+
+// Request for creating IR Code Raw.
+message GIrCodeRawCreateRequest {
+	string id = 1;
+	string codesetName = 2;
+	string functionName = 3;
+	string power = 4;
+	string mode = 5;
+	string fan = 6;
+	string temp = 7;
+	string swing = 8;
+	string timer = 9;
+	string timerDelay = 10;
+	string led = 11;
+	string comfort = 12;
+	string econo = 13;
+	string powerful = 14;
+	string irFreqKhz = 15;
+	string irCode = 16;
+}
+
+message GIrCodeRaw {
+	string id = 1;
+	string codesetName = 2;
+	string functionName = 3;
+	string power = 4;
+	string mode = 5;
+	string fan = 6;
+	string temp = 7;
+	string swing = 8;
+	string timer = 9;
+	string timerDelay = 10;
+	string led = 11;
+	string comfort = 12;
+	string econo = 13;
+	string powerful = 14;
+	string irFreqKhz = 15;
+	string irCode = 16;
+}
+
+
+
+
