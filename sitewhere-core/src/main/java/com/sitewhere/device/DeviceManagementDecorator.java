@@ -44,12 +44,7 @@ import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
 import com.sitewhere.spi.search.customer.ICustomerSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAlarmSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAssignmentSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceCommandSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
-import com.sitewhere.spi.search.device.IZoneSearchCriteria;
+import com.sitewhere.spi.search.device.*;
 
 /**
  * Allows classes to inject themselves as a facade around an existing device
@@ -109,7 +104,7 @@ public class DeviceManagementDecorator extends TenantEngineLifecycleComponentDec
      * search.ISearchCriteria)
      */
     @Override
-    public ISearchResults<IDeviceType> listDeviceTypes(ISearchCriteria criteria) throws SiteWhereException {
+    public ISearchResults<IDeviceType> listDeviceTypes(IDeviceTypeSearchCriteria criteria) throws SiteWhereException {
 	return getDelegate().listDeviceTypes(criteria);
     }
 

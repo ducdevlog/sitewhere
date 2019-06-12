@@ -1037,7 +1037,7 @@ public class DeviceManagementImpl extends DeviceManagementGrpc.DeviceManagementI
 	try {
 	    GrpcUtils.handleServerMethodEntry(this, DeviceManagementGrpc.getListDeviceTypesMethod());
 	    ISearchResults<IDeviceType> apiResult = getDeviceManagement()
-		    .listDeviceTypes(CommonModelConverter.asApiSearchCriteria(request.getCriteria().getPaging()));
+		    .listDeviceTypes(DeviceModelConverter.asApiDeviceTypeSearchCriteria(request.getCriteria()));
 	    GListDeviceTypesResponse.Builder response = GListDeviceTypesResponse.newBuilder();
 	    GDeviceTypeSearchResults.Builder results = GDeviceTypeSearchResults.newBuilder();
 	    for (IDeviceType apiType : apiResult.getResults()) {

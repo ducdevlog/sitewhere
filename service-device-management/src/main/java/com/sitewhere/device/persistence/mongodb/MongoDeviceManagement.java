@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.spi.search.device.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bson.Document;
@@ -86,12 +87,6 @@ import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
 import com.sitewhere.spi.search.customer.ICustomerSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAlarmSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAssignmentSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceCommandSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
-import com.sitewhere.spi.search.device.IZoneSearchCriteria;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 /**
@@ -225,9 +220,12 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
      * search.ISearchCriteria)
      */
     @Override
-    public ISearchResults<IDeviceType> listDeviceTypes(ISearchCriteria criteria) throws SiteWhereException {
+    public ISearchResults<IDeviceType> listDeviceTypes(IDeviceTypeSearchCriteria criteria) throws SiteWhereException {
 	MongoCollection<Document> types = getMongoClient().getDeviceTypesCollection();
 	Document dbCriteria = new Document();
+		if (org.apache.commons.lang3.StringUtils.isNotEmpty(criteria.getParentDeviceTypeToken())) {
+			dbCriteria.put(MongoDeviceType.PROP_PARENT_DEVICE_TYPE_TOKEN, criteria.getParentDeviceTypeToken());
+		}
 	Document sort = new Document(MongoPersistentEntity.PROP_CREATED_DATE, -1);
 	return MongoPersistence.search(IDeviceType.class, types, dbCriteria, sort, criteria, LOOKUP);
     }

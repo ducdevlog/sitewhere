@@ -51,12 +51,7 @@ import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
 import com.sitewhere.spi.search.customer.ICustomerSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAlarmSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAssignmentSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceCommandSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
-import com.sitewhere.spi.search.device.IZoneSearchCriteria;
+import com.sitewhere.spi.search.device.*;
 import com.sitewhere.spi.tracing.ITracerProvider;
 
 /**
@@ -842,11 +837,11 @@ public class DeviceManagementApiChannel extends MultitenantApiChannel<DeviceMana
      * search.ISearchCriteria)
      */
     @Override
-    public ISearchResults<IDeviceType> listDeviceTypes(ISearchCriteria criteria) throws SiteWhereException {
+    public ISearchResults<IDeviceType> listDeviceTypes(IDeviceTypeSearchCriteria criteria) throws SiteWhereException {
 	try {
 	    GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getListDeviceTypesMethod());
 	    GListDeviceTypesRequest.Builder grequest = GListDeviceTypesRequest.newBuilder();
-	    grequest.setCriteria(DeviceModelConverter.asApiDeviceTypeSearchCriteria(criteria));
+	    grequest.setCriteria(DeviceModelConverter.asGrpcDeviceTypeSearchCriteria(criteria));
 	    GListDeviceTypesResponse gresponse = getGrpcChannel().getBlockingStub().listDeviceTypes(grequest.build());
 	    ISearchResults<IDeviceType> results = DeviceModelConverter
 		    .asApiDeviceTypeSearchResults(gresponse.getResults());

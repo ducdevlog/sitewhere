@@ -13,6 +13,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.rest.model.search.device.DeviceTypeSearchCriteria;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -198,12 +200,15 @@ public class DeviceTypes extends RestControllerBase {
     @ApiOperation(value = "List device types that match criteria")
     @Secured({ SiteWhereRoles.REST })
     public ISearchResults<IDeviceType> listDeviceTypes(
+	    @ApiParam(value = "Parent Device Type Token", required = false) @RequestParam(required = false) String parentDeviceTypeToken,
 	    @ApiParam(value = "Include detailed asset information", required = false) @RequestParam(defaultValue = "true") boolean includeAsset,
 	    @ApiParam(value = "Page number", required = false) @RequestParam(required = false, defaultValue = "1") int page,
 	    @ApiParam(value = "Page size", required = false) @RequestParam(required = false, defaultValue = "100") int pageSize,
 	    HttpServletRequest servletRequest) throws SiteWhereException {
-	SearchCriteria criteria = new SearchCriteria(page, pageSize);
-	ISearchResults<IDeviceType> results = getDeviceManagement().listDeviceTypes(criteria);
+		DeviceTypeSearchCriteria deviceTypeSearchCriteria = new DeviceTypeSearchCriteria(page, pageSize);
+		if (StringUtils.isNotEmpty(parentDeviceTypeToken))
+			deviceTypeSearchCriteria.setParentDeviceTypeToken(parentDeviceTypeToken);
+	ISearchResults<IDeviceType> results = getDeviceManagement().listDeviceTypes(deviceTypeSearchCriteria);
 	DeviceTypeMarshalHelper helper = new DeviceTypeMarshalHelper(getDeviceManagement());
 	List<IDeviceType> typesConv = new ArrayList<IDeviceType>();
 	for (IDeviceType type : results.getResults()) {

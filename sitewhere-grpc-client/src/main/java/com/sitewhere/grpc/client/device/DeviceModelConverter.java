@@ -16,7 +16,6 @@ import com.sitewhere.grpc.model.CommonModel.GOptionalBoolean;
 import com.sitewhere.grpc.model.CommonModel.GOptionalDouble;
 import com.sitewhere.grpc.model.CommonModel.GOptionalString;
 import com.sitewhere.grpc.model.CommonModel.GParameterType;
-import com.sitewhere.grpc.model.DeviceModel;
 import com.sitewhere.grpc.model.DeviceModel.GArea;
 import com.sitewhere.grpc.model.DeviceModel.GAreaCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GAreaSearchCriteria;
@@ -111,12 +110,7 @@ import com.sitewhere.rest.model.device.request.DeviceTypeCreateRequest;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.rest.model.search.area.AreaSearchCriteria;
 import com.sitewhere.rest.model.search.customer.CustomerSearchCriteria;
-import com.sitewhere.rest.model.search.device.DeviceAlarmSearchCriteria;
-import com.sitewhere.rest.model.search.device.DeviceAssignmentSearchCriteria;
-import com.sitewhere.rest.model.search.device.DeviceCommandSearchCriteria;
-import com.sitewhere.rest.model.search.device.DeviceSearchCriteria;
-import com.sitewhere.rest.model.search.device.DeviceStatusSearchCriteria;
-import com.sitewhere.rest.model.search.device.ZoneSearchCriteria;
+import com.sitewhere.rest.model.search.device.*;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.area.IArea;
 import com.sitewhere.spi.area.IAreaType;
@@ -151,12 +145,7 @@ import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
 import com.sitewhere.spi.search.customer.ICustomerSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAlarmSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceAssignmentSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceCommandSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
-import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
-import com.sitewhere.spi.search.device.IZoneSearchCriteria;
+import com.sitewhere.spi.search.device.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -383,14 +372,27 @@ public class DeviceModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static GDeviceTypeSearchCriteria asApiDeviceTypeSearchCriteria(ISearchCriteria criteria)
+    public static GDeviceTypeSearchCriteria asGrpcDeviceTypeSearchCriteria(IDeviceTypeSearchCriteria criteria)
 	    throws SiteWhereException {
 	GDeviceTypeSearchCriteria.Builder gcriteria = GDeviceTypeSearchCriteria.newBuilder();
 	if (criteria != null) {
+		if (StringUtils.isNotEmpty(criteria.getParentDeviceTypeToken())) {
+			gcriteria.setParentDeviceTypeToken(criteria.getParentDeviceTypeToken());
+		}
 	    gcriteria.setPaging(CommonModelConverter.asGrpcPaging(criteria));
 	}
 	return gcriteria.build();
     }
+
+	public static DeviceTypeSearchCriteria asApiDeviceTypeSearchCriteria(GDeviceTypeSearchCriteria grpc)
+			throws SiteWhereException {
+		DeviceTypeSearchCriteria criteria = new DeviceTypeSearchCriteria(grpc.getPaging().getPageNumber(),
+				grpc.getPaging().getPageSize());
+		if (StringUtils.isNotEmpty(criteria.getParentDeviceTypeToken())) {
+			criteria.setParentDeviceTypeToken(grpc.getParentDeviceTypeToken());
+		}
+		return criteria;
+	}
 
     /**
      * Convert device type search results from GRPC to API.
