@@ -46,7 +46,22 @@ public class Infrared extends RestControllerBase {
     @RequestMapping(value = "/irCodeRaw", method = RequestMethod.GET)
     @ApiOperation(value = "Get list Infrared Code Raw")
     @Secured({ SiteWhereRoles.REST })
-    public List<IIrCodeRaw> getInfraredDeviceCodeset(@RequestBody IrCodeRaw irCodeRaw) throws SiteWhereException {
+    public List<IIrCodeRaw> getInfraredDeviceCodeset(
+            @ApiParam(value = "Infrared Codeset Name", required = false) @RequestParam String codesetName,
+            @ApiParam(value = "Infrared Function Name", required = false) @RequestParam String functionName,
+            @ApiParam(value = "Infrared power", required = false) @RequestParam String power,
+            @ApiParam(value = "Infrared mode", required = false) @RequestParam String mode,
+            @ApiParam(value = "Infrared fan", required = false) @RequestParam String fan,
+            @ApiParam(value = "Infrared temp", required = false) @RequestParam String temp,
+            @ApiParam(value = "Infrared swing", required = false) @RequestParam String swing,
+            @ApiParam(value = "Infrared timer", required = false) @RequestParam String timer,
+            @ApiParam(value = "Infrared timer Delay", required = false) @RequestParam String timerDelay,
+            @ApiParam(value = "Infrared led", required = false) @RequestParam String led,
+            @ApiParam(value = "Infrared comfort", required = false) @RequestParam String comfort,
+            @ApiParam(value = "Infrared econo", required = false) @RequestParam String econo,
+            @ApiParam(value = "Infrared powerful", required = false) @RequestParam String powerful
+    ) throws SiteWhereException {
+        IrCodeRaw irCodeRaw = new IrCodeRaw(codesetName, functionName, power, mode, fan, temp, swing, timer, timerDelay, led, comfort, econo, powerful);
         return getInfraredManagement().getIrCodeRaw(irCodeRaw);
     }
 
