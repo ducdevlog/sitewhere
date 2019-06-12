@@ -57,7 +57,7 @@ public class InfraredModelConverter {
 
     public static InfraredModel.GIrCodeRaw asGrpcIrCodeRaw(IrCodeRaw api) {
         InfraredModel.GIrCodeRaw.Builder grpc = InfraredModel.GIrCodeRaw.newBuilder();
-        grpc.setId(api.getId());
+        if (StringUtils.isNoneEmpty(api.getId())) grpc.setId(api.getId());
         if (StringUtils.isNoneEmpty(api.getCodesetName())) grpc.setCodesetName(api.getCodesetName());
         if (StringUtils.isNoneEmpty(api.getFunctionName())) grpc.setFunctionName(api.getFunctionName());
         if (StringUtils.isNoneEmpty(api.getPower())) grpc.setPower(api.getPower());
