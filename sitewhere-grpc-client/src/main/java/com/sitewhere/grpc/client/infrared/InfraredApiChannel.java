@@ -95,6 +95,8 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawMethod());
             GIrCodeRawRequest.Builder grequest = GIrCodeRawRequest.newBuilder();
             grequest.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(irCodeRaw));
+            System.out.println("============ :" + irCodeRaw.getCodesetName());
+            System.out.println("============ :" + grequest.getIrCodeRaw().getCodesetName());
             GIrCodeRawResponse gresponse = getGrpcChannel().getBlockingStub().getIrCodeRaw(grequest.build());
             List<IIrCodeRaw> iIrCodeRaws = new ArrayList<>();
             if (gresponse.getIrCodeRawCount() > 0) {
