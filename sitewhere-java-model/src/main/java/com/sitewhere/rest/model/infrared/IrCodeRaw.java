@@ -22,6 +22,9 @@ public class IrCodeRaw implements IIrCodeRaw {
     private String irFreqKhz;
     private String irCode;
 
+    public IrCodeRaw() {
+    }
+
     public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerDelay, String led, String comfort, String econo, String powerful) {
         this.codesetName = codesetName;
         this.functionName = functionName;
