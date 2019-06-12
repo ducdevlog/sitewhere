@@ -13,8 +13,9 @@ import java.util.List;
 
 @Repository
 public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
+
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Override
     public List<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw) {

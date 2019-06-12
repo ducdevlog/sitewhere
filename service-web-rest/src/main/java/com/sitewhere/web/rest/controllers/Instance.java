@@ -72,7 +72,7 @@ public class Instance extends RestControllerBase {
 
     /** Static logger instance */
     @SuppressWarnings("unused")
-    private static Log LOGGER = LogFactory.getLog(Instance.class);
+		private static Log LOGGER = LogFactory.getLog(Instance.class);
 
     /**
      * Get most recent instance topology (includes both global and tenant

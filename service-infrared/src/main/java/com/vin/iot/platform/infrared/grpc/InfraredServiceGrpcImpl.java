@@ -1,9 +1,9 @@
 package com.vin.iot.platform.infrared.grpc;
 
 import com.sitewhere.grpc.service.*;
-import com.vin.iot.platform.infrared.domain.DeviceCodeset;
-import com.vin.iot.platform.infrared.domain.DeviceType;
-import com.vin.iot.platform.infrared.domain.DeviceTypeBrand;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceType;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
 import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.service.DeviceCodesetService;
 import com.vin.iot.platform.infrared.service.DeviceTypeBrandService;
@@ -31,51 +31,51 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
     @Autowired
     private IrCodeRawService irCodeRawService;
 
-    public void getDeviceType(com.sitewhere.grpc.service.GGetDeviceTypeRequest request,
-                              io.grpc.stub.StreamObserver<GGetDeviceTypeResponse> responseObserver) {
+    public void getInfraredDeviceType(com.sitewhere.grpc.service.GGetInfraredDeviceTypeRequest request,
+                              io.grpc.stub.StreamObserver<GGetInfraredDeviceTypeResponse> responseObserver) {
         LOGGER.info("server received {}", request);
-        List<DeviceType> deviceTypes = deviceTypeService.getAllDeviceType();
-        GGetDeviceTypeResponse.Builder response = GGetDeviceTypeResponse.newBuilder();
-        if (CollectionUtils.isNotEmpty(deviceTypes)) {
-            deviceTypes.stream().map(InfraredModelConverter::asGrpcDeviceType).forEach(response::addDeviceType);
+        List<InfraredDeviceType> infraredDeviceTypes = deviceTypeService.getAllDeviceType();
+        GGetInfraredDeviceTypeResponse.Builder response = GGetInfraredDeviceTypeResponse.newBuilder();
+        if (CollectionUtils.isNotEmpty(infraredDeviceTypes)) {
+            infraredDeviceTypes.stream().map(InfraredModelConverter::asGrpcInfraredDeviceType).forEach(response::addInfraredDeviceType);
         }
         LOGGER.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }
 
-    public void getDeviceTypeBrand(com.sitewhere.grpc.service.GGetDeviceTypeBrandRequest request,
-                                   io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetDeviceTypeBrandResponse> responseObserver) {
+    public void getInfraredDeviceTypeBrand(com.sitewhere.grpc.service.GGetInfraredDeviceTypeBrandRequest request,
+                                   io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetInfraredDeviceTypeBrandResponse> responseObserver) {
         LOGGER.info("server received {}", request);
-        List<DeviceTypeBrand> deviceTypeBrands = deviceTypeBrandService.getDeviceTypeBrandByType(request.getType());
-        GGetDeviceTypeBrandResponse.Builder response = GGetDeviceTypeBrandResponse.newBuilder();
-        if (CollectionUtils.isNotEmpty(deviceTypeBrands)) {
-            deviceTypeBrands.stream().map(InfraredModelConverter::asGrpcDeviceTypeBrand).forEach(response::addDeviceTypeBrand);
+        List<InfraredDeviceTypeBrand> infraredDeviceTypeBrands = deviceTypeBrandService.getDeviceTypeBrandByType(request.getType());
+        GGetInfraredDeviceTypeBrandResponse.Builder response = GGetInfraredDeviceTypeBrandResponse.newBuilder();
+        if (CollectionUtils.isNotEmpty(infraredDeviceTypeBrands)) {
+            infraredDeviceTypeBrands.stream().map(InfraredModelConverter::asGrpcInfraredDeviceTypeBrand).forEach(response::addInfraredDeviceTypeBrand);
         }
         LOGGER.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }
 
-    public void getDeviceCodeset(com.sitewhere.grpc.service.GGetDeviceCodesetRequest request,
-                                 io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetDeviceCodesetResponse> responseObserver) {
+    public void getInfraredDeviceCodeset(com.sitewhere.grpc.service.GGetInfraredDeviceCodesetRequest request,
+                                 io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetInfraredDeviceCodesetResponse> responseObserver) {
         LOGGER.info("server received {}", request);
-        List<DeviceCodeset> deviceCodesets = deviceCodesetService.getDeviceCodesetByDeviceTypeBrandId(request.getDeviceTypeBrandId());
-        GGetDeviceCodesetResponse.Builder response = GGetDeviceCodesetResponse.newBuilder();
-        if (CollectionUtils.isNotEmpty(deviceCodesets)) {
-            deviceCodesets.stream().map(InfraredModelConverter::asGrpcDeviceCodeset).forEach(response::addDeviceCodeset);
+        List<InfraredDeviceCodeset> infraredDeviceCodesets = deviceCodesetService.getDeviceCodesetByDeviceTypeBrandId(request.getDeviceTypeBrandId());
+        GGetInfraredDeviceCodesetResponse.Builder response = GGetInfraredDeviceCodesetResponse.newBuilder();
+        if (CollectionUtils.isNotEmpty(infraredDeviceCodesets)) {
+            infraredDeviceCodesets.stream().map(InfraredModelConverter::asGrpcInfraredDeviceCodeset).forEach(response::addInfraredDeviceCodeset);
         }
         LOGGER.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }
 
-    public void getIrCodeRaw(com.sitewhere.grpc.service.GGetIrCodeRawRequest request,
-                             io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetIrCodeRawResponse> responseObserver) {
+    public void getIrCodeRaw(com.sitewhere.grpc.service.GIrCodeRawRequest request,
+                             io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GIrCodeRawResponse> responseObserver) {
         LOGGER.info("server received {}", request);
         IrCodeRaw apiRequest = InfraredModelConverter.asApiGIrCodeRaw(request.getIrCodeRaw());
         List<IrCodeRaw> irCodeRaws = irCodeRawService.getIrCodeRaw(apiRequest);
-        GGetIrCodeRawResponse.Builder response = GGetIrCodeRawResponse.newBuilder();
+        GIrCodeRawResponse.Builder response = GIrCodeRawResponse.newBuilder();
         if (CollectionUtils.isNotEmpty(irCodeRaws)) {
             irCodeRaws.stream().map(InfraredModelConverter::asGrpcIrCodeRaw).forEach(response::addIrCodeRaw);
         }

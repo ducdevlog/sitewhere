@@ -56,7 +56,9 @@ public enum MicroserviceIdentifier implements IFunctionIdentifier {
 
     MqttAcl("mqtt-acl"),
 
-    Certificate("certificate")
+    Certificate("certificate"),
+
+    Infrared("infrared")
     ;
 
     /** Path */

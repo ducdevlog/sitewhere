@@ -7,16 +7,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "device_codeset")
+@Document(collection = "device_type")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceCodeset {
+public class InfraredDeviceType {
     @Field("ID")
     private String id;
-    @Field("DEV_TYPE_BRAND_ID")
-    private String deviceTypeBrandId;
-    @Field("CODESET_NAME")
-    private String codesetName;
+    @Field("TYPE_NAME")
+    private String typeName;
 }

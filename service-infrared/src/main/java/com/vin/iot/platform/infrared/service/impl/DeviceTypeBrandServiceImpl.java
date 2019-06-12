@@ -1,6 +1,6 @@
 package com.vin.iot.platform.infrared.service.impl;
 
-import com.vin.iot.platform.infrared.domain.DeviceTypeBrand;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
 import com.vin.iot.platform.infrared.repository.DeviceTypeBrandRepository;
 import com.vin.iot.platform.infrared.service.DeviceTypeBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class DeviceTypeBrandServiceImpl implements DeviceTypeBrandService {
     private DeviceTypeBrandRepository deviceTypeBrandRepository;
 
     @Override
-    public List<DeviceTypeBrand> getDeviceTypeBrandByType(String type) {
+    public List<InfraredDeviceTypeBrand> getDeviceTypeBrandByType(String type) {
         return deviceTypeBrandRepository.findAllByType(type);
     }
 }

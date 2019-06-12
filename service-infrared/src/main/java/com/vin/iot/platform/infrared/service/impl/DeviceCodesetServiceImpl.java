@@ -1,6 +1,6 @@
 package com.vin.iot.platform.infrared.service.impl;
 
-import com.vin.iot.platform.infrared.domain.DeviceCodeset;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
 import com.vin.iot.platform.infrared.repository.DeviceCodesetRepository;
 import com.vin.iot.platform.infrared.service.DeviceCodesetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class DeviceCodesetServiceImpl implements DeviceCodesetService {
     private DeviceCodesetRepository deviceCodesetRepository;
 
     @Override
-    public List<DeviceCodeset> getDeviceCodesetByDeviceTypeBrandId(String deviceTypeBrandId) {
+    public List<InfraredDeviceCodeset> getDeviceCodesetByDeviceTypeBrandId(String deviceTypeBrandId) {
         return deviceCodesetRepository.findAllByDeviceTypeBrandId(deviceTypeBrandId);
     }
 }

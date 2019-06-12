@@ -16,16 +16,16 @@ service Infrared {
 	// ####################
 
 	// Get DeviceType.
-	rpc GetDeviceType (GGetDeviceTypeRequest) returns (GGetDeviceTypeResponse) {}
+	rpc GetInfraredDeviceType (GGetInfraredDeviceTypeRequest) returns (GGetInfraredDeviceTypeResponse) {}
 
 	// Get DeviceTypeBrand.
-	rpc GetDeviceTypeBrand (GGetDeviceTypeBrandRequest) returns (GGetDeviceTypeBrandResponse) {}
+	rpc GetInfraredDeviceTypeBrand (GGetInfraredDeviceTypeBrandRequest) returns (GGetInfraredDeviceTypeBrandResponse) {}
 
 	// Get DeviceCodeset.
-	rpc GetDeviceCodeset(GGetDeviceCodesetRequest) returns (GGetDeviceCodesetResponse) {}
+	rpc GetInfraredDeviceCodeset(GGetInfraredDeviceCodesetRequest) returns (GGetInfraredDeviceCodesetResponse) {}
 
 	// Get DeviceCodeset.
-	rpc GetIrCodeRaw(GGetIrCodeRawRequest) returns (GGetIrCodeRawResponse) {}
+	rpc GetIrCodeRaw(GIrCodeRawRequest) returns (GIrCodeRawResponse) {}
 }
 
 // ####################
@@ -33,38 +33,38 @@ service Infrared {
 // ####################
 
 // Request for get DeviceType.
-message GGetDeviceTypeRequest {
+message GGetInfraredDeviceTypeRequest {
 
 }
 
-message GGetDeviceTypeResponse {
-	repeated com.sitewhere.grpc.model.GDeviceType DeviceType = 1;
+message GGetInfraredDeviceTypeResponse {
+	repeated com.sitewhere.grpc.model.GInfraredDeviceType InfraredDeviceType = 1;
 }
 
 // Request for get DeviceTypeBrand.
-message GGetDeviceTypeBrandRequest {
+message GGetInfraredDeviceTypeBrandRequest {
 	string type = 1;
 }
 
-message GGetDeviceTypeBrandResponse {
-	repeated com.sitewhere.grpc.model.GDeviceTypeBrand DeviceTypeBrand = 1;
+message GGetInfraredDeviceTypeBrandResponse {
+	repeated com.sitewhere.grpc.model.GInfraredDeviceTypeBrand InfraredDeviceTypeBrand = 1;
 }
 
 // Request for get DeviceCodeset.
-message GGetDeviceCodesetRequest {
+message GGetInfraredDeviceCodesetRequest {
 	string deviceTypeBrandId = 1;
 }
 
-message GGetDeviceCodesetResponse {
-	repeated com.sitewhere.grpc.model.GDeviceCodeset DeviceCodeset = 1;
+message GGetInfraredDeviceCodesetResponse {
+	repeated com.sitewhere.grpc.model.GInfraredDeviceCodeset InfraredDeviceCodeset = 1;
 }
 
 // Request for get DeviceCodeset.
-message GGetIrCodeRawRequest {
+message GIrCodeRawRequest {
 	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
 }
 
-message GGetIrCodeRawResponse {
+message GIrCodeRawResponse {
 	repeated com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
 }
 

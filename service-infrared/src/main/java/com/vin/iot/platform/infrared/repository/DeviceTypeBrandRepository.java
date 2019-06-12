@@ -1,10 +1,10 @@
 package com.vin.iot.platform.infrared.repository;
 
-import com.vin.iot.platform.infrared.domain.DeviceTypeBrand;
+import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface DeviceTypeBrandRepository extends MongoRepository<DeviceTypeBrand, String> {
-    List<DeviceTypeBrand> findAllByType(String type);
+public interface DeviceTypeBrandRepository extends MongoRepository<InfraredDeviceTypeBrand, String> {
+    List<InfraredDeviceTypeBrand> findAllByType(String type);
 }

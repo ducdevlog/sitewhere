@@ -1,10 +1,10 @@
-package com.vin.iot.platform.infrared.grpc;
+package com.sitewhere.grpc.client.infrared;
 
 import com.sitewhere.grpc.model.InfraredModel;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceType;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
-import com.vin.iot.platform.infrared.domain.IrCodeRaw;
+import com.sitewhere.rest.model.infrared.InfraredDeviceType;
+import com.sitewhere.rest.model.infrared.InfraredDeviceCodeset;
+import com.sitewhere.rest.model.infrared.InfraredDeviceTypeBrand;
+import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import org.apache.commons.lang3.StringUtils;
 
 public class InfraredModelConverter {

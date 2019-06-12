@@ -14,6 +14,7 @@ import com.sitewhere.grpc.client.certificate.CertificateApiDemux;
 import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
 import com.sitewhere.grpc.client.devicestate.DeviceStateApiDemux;
 import com.sitewhere.grpc.client.event.DeviceEventManagementApiDemux;
+import com.sitewhere.grpc.client.infrared.InfraredApiDemux;
 import com.sitewhere.grpc.client.label.LabelGenerationApiDemux;
 import com.sitewhere.grpc.client.mqtt.MqttAclApiDemux;
 import com.sitewhere.grpc.client.schedule.ScheduleManagementApiDemux;
@@ -79,6 +80,8 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
     /** Certificate API demux */
     private ICertificateApiDemux certificateApiDemux;
+
+    private IInfraredApiDemux infraredApiDemux;
 
     /** Aggregates microservice state info into a topology */
     private ITopologyStateAggregator topologyStateAggregator = new TopologyStateAggregator();
@@ -205,6 +208,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         // Initialize Certificate API demux.
         init.addInitializeStep(this, getCertificateApiDemux(), false);
 
+        // Initialize Infrared API demux.
+        init.addInitializeStep(this, getInfraredApiDemux(), true);
+
 	// Execute initialization steps.
 	init.execute(monitor);
     }
@@ -247,6 +253,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
 	// Certificate
 	this.certificateApiDemux = new CertificateApiDemux(false);
+
+	// Infrared
+	this.infraredApiDemux = new InfraredApiDemux(false);
     }
 
     /*
@@ -297,6 +306,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
         // Start device state API demux.
         start.addStartStep(this, getCertificateApiDemux(), true);
 
+        // Start Infrared API demux.
+        start.addStartStep(this, getInfraredApiDemux(), true);
+
 	// Execute startup steps.
 	start.execute(monitor);
     }
@@ -344,6 +356,9 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
 
         // Stop device state API demux.
         stop.addStopStep(this, getCertificateApiDemux());
+
+        // Stop Infrared API demux.
+        stop.addStopStep(this, getInfraredApiDemux());
 
 	// Stop topology state aggregator.
 	stop.addStopStep(this, getTopologyStateAggregator());
@@ -490,6 +505,11 @@ public class WebRestMicroservice extends GlobalMicroservice<MicroserviceIdentifi
     @Override
     public ICertificateApiDemux getCertificateApiDemux() {
         return certificateApiDemux;
+    }
+
+    @Override
+    public IInfraredApiDemux getInfraredApiDemux() {
+        return infraredApiDemux;
     }
 
     public void setMqttAclApiDemux(IMqttAclApiDemux mqttAclApiDemux) {
