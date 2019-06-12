@@ -46,6 +46,8 @@ public class DeviceTypeCreateRequest extends BrandedEntityCreateRequest implemen
 	/** Indicate the size of message that be returned back to devices */
     private ReversedMessageType reversedMessageType;
 
+    private String parentDeviceTypeToken;
+
     /*
      * @see com.sitewhere.spi.device.request.IDeviceTypeCreateRequest#getName()
      */
@@ -202,4 +204,13 @@ public class DeviceTypeCreateRequest extends BrandedEntityCreateRequest implemen
 	    return unit;
 	}
     }
+
+	@Override
+	public String getParentDeviceTypeToken() {
+		return parentDeviceTypeToken;
+	}
+
+	public void setParentDeviceTypeToken(String parentDeviceTypeToken) {
+		this.parentDeviceTypeToken = parentDeviceTypeToken;
+	}
 }

@@ -158,6 +158,7 @@ import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
 import com.sitewhere.spi.search.device.IDeviceStatusSearchCriteria;
 import com.sitewhere.spi.search.device.IZoneSearchCriteria;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Convert device entities between SiteWhere API model and GRPC model.
@@ -424,6 +425,7 @@ public class DeviceModelConverter {
 	api.setDeviceElementSchema(DeviceModelConverter.asApiDeviceElementSchema(grpc.getDeviceElementSchema()));
 	api.setMetadata(grpc.getMetadataMap());
 		api.setReversedMessageType(DeviceModelConverter.asApiDeviceReversedMessageType(grpc.getReversedMessageType()));
+		api.setParentDeviceTypeToken(StringUtils.isNotEmpty(grpc.getParentDeviceTypeToken()) ? grpc.getParentDeviceTypeToken() : null);
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
 	return api;
     }
@@ -455,6 +457,10 @@ public class DeviceModelConverter {
 	if	(api.getReversedMessageType() != null) {
 		grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
 	}
+
+	if (StringUtils.isNotEmpty(api.getParentDeviceTypeToken())) {
+		grpc.setParentDeviceTypeToken(api.getParentDeviceTypeToken());
+	}
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
     }
@@ -475,6 +481,7 @@ public class DeviceModelConverter {
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	CommonModelConverter.setBrandingInformation(api, grpc.getBranding());
 		api.setReversedMessageType(DeviceModelConverter.asApiDeviceReversedMessageType(grpc.getReversedMessageType()));
+		api.setParentDeviceTypeToken(StringUtils.isNotEmpty(grpc.getParentDeviceTypeToken()) ? grpc.getParentDeviceTypeToken() : null);
 	return api;
     }
 
@@ -497,6 +504,9 @@ public class DeviceModelConverter {
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 		if	(api.getReversedMessageType() != null) {
 			grpc.setReversedMessageType(DeviceModelConverter.asGrpcDeviceTypeReversedMessageType(api.getReversedMessageType()));
+		}
+		if (StringUtils.isNotEmpty(api.getParentDeviceTypeToken())) {
+			grpc.setParentDeviceTypeToken(api.getParentDeviceTypeToken());
 		}
 	return grpc.build();
     }

@@ -42,6 +42,8 @@ public class DeviceType extends BrandedEntity implements IDeviceType {
     /** Indicate the size of message that be returned back to devices */
     private ReversedMessageType reversedMessageType = ReversedMessageType.FULL;
 
+    private String parentDeviceTypeToken;
+
     /*
      * @see com.sitewhere.spi.device.IDeviceType#getName()
      */
@@ -97,5 +99,13 @@ public class DeviceType extends BrandedEntity implements IDeviceType {
 
     public void setReversedMessageType(ReversedMessageType reversedMessageType) {
         this.reversedMessageType = reversedMessageType;
+    }
+
+    public String getParentDeviceTypeToken() {
+        return parentDeviceTypeToken;
+    }
+
+    public void setParentDeviceTypeToken(String parentDeviceTypeToken) {
+        this.parentDeviceTypeToken = parentDeviceTypeToken;
     }
 }

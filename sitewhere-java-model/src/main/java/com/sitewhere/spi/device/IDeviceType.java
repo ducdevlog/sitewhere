@@ -38,4 +38,6 @@ public interface IDeviceType extends IBrandedEntity, IAccessible {
      * @return
      */
     ReversedMessageType getReversedMessageType();
+
+    public String getParentDeviceTypeToken();
 }

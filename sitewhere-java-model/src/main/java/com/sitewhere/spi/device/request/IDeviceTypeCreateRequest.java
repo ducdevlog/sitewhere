@@ -40,4 +40,6 @@ public interface IDeviceTypeCreateRequest extends IAccessible, IBrandedEntityCre
      * @return
      */
     ReversedMessageType getReversedMessageType();
+
+    public String getParentDeviceTypeToken();
 }

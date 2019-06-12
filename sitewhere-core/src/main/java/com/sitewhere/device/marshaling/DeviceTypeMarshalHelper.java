@@ -49,6 +49,7 @@ public class DeviceTypeMarshalHelper {
 	deviceType.setDescription(source.getDescription());
 	deviceType.setContainerPolicy(source.getContainerPolicy());
 		deviceType.setReversedMessageType(source.getReversedMessageType());
+        deviceType.setParentDeviceTypeToken(source.getParentDeviceTypeToken());
 	deviceType.setDeviceElementSchema((DeviceElementSchema) source.getDeviceElementSchema());
 	BrandedEntity.copy(source, deviceType);
 	return deviceType;

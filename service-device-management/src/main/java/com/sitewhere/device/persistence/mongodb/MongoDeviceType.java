@@ -7,12 +7,6 @@
  */
 package com.sitewhere.device.persistence.mongodb;
 
-import com.sitewhere.spi.device.ReversedMessageType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.bson.Document;
-import org.bson.types.Binary;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sitewhere.mongodb.MongoConverter;
@@ -21,6 +15,12 @@ import com.sitewhere.rest.model.device.DeviceType;
 import com.sitewhere.rest.model.device.element.DeviceElementSchema;
 import com.sitewhere.spi.device.DeviceContainerPolicy;
 import com.sitewhere.spi.device.IDeviceType;
+import com.sitewhere.spi.device.ReversedMessageType;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.bson.Document;
+import org.bson.types.Binary;
 
 /**
  * Used to load or save device specification data to MongoDB.
@@ -46,6 +46,8 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 
 	/** Property for indicating the size of message send back to devices */
 	public static final String PROP_REVERSED_MESSAGE_TYPE_SCHEMA = "reversedMessageType";
+
+	public static final String PROP_PARENT_DEVICE_TYPE_TOKEN = "parentDeviceTypeToken";
 
     /*
      * (non-Javadoc)
@@ -78,6 +80,7 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 	target.append(PROP_DESCRIPTION, source.getDescription());
 	target.append(PROP_CONTAINER_POLICY, source.getContainerPolicy().name());
 	target.append(PROP_REVERSED_MESSAGE_TYPE_SCHEMA, source.getReversedMessageType().name());
+	target.append(PROP_PARENT_DEVICE_TYPE_TOKEN, source.getParentDeviceTypeToken());
 
 	MongoBrandedEntity.toDocument(source, target);
 
@@ -105,6 +108,7 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 	String containerPolicy = (String) source.get(PROP_CONTAINER_POLICY);
 	Binary schemaBytes = (Binary) source.get(PROP_DEVICE_ELEMENT_SCHEMA);
 	String reversedMessageType = (String) source.get(PROP_REVERSED_MESSAGE_TYPE_SCHEMA);
+	String parentDeviceTypeToken = (String)source.get(PROP_PARENT_DEVICE_TYPE_TOKEN);
 
 	target.setName(name);
 	target.setDescription(description);
@@ -115,6 +119,10 @@ public class MongoDeviceType implements MongoConverter<IDeviceType> {
 
 	if (reversedMessageType != null) {
 		target.setReversedMessageType(ReversedMessageType.valueOf(reversedMessageType));
+	}
+
+	if (StringUtils.isNotEmpty(parentDeviceTypeToken)) {
+		target.setParentDeviceTypeToken(parentDeviceTypeToken);
 	}
 
 	// Unmarshal device element schema.
