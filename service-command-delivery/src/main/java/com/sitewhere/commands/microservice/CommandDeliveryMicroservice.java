@@ -12,7 +12,9 @@ import com.sitewhere.commands.spi.microservice.ICommandDeliveryMicroservice;
 import com.sitewhere.commands.spi.microservice.ICommandDeliveryTenantEngine;
 import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
 import com.sitewhere.grpc.client.device.DeviceManagementApiDemux;
+import com.sitewhere.grpc.client.infrared.InfraredApiDemux;
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
+import com.sitewhere.grpc.client.spi.client.IInfraredApiDemux;
 import com.sitewhere.microservice.multitenant.MultitenantMicroservice;
 import com.sitewhere.server.lifecycle.CompositeLifecycleStep;
 import com.sitewhere.spi.SiteWhereException;
@@ -37,6 +39,8 @@ public class CommandDeliveryMicroservice
 
     /** Device management API channel */
     private IDeviceManagementApiDemux deviceManagementApiDemux;
+
+    private IInfraredApiDemux infraredApiDemux;
 
     /*
      * @see com.sitewhere.spi.microservice.IMicroservice#getName()
@@ -103,6 +107,8 @@ public class CommandDeliveryMicroservice
     protected void waitForDependenciesAvailable() throws ApiChannelNotAvailableException {
 	getDeviceManagementApiDemux().waitForMicroserviceAvailable();
 	getLogger().debug("Device management microservice detected as available.");
+        getInfraredApiDemux().waitForMicroserviceAvailable();
+        getLogger().debug("Infrared microservice detected as available.");
     }
 
     /*
@@ -120,6 +126,7 @@ public class CommandDeliveryMicroservice
 
 	// Initialize device management API demux.
 	init.addInitializeStep(this, getDeviceManagementApiDemux(), true);
+	init.addInitializeStep(this, getInfraredApiDemux(), true);
 
 	// Execute initialization steps.
 	init.execute(monitor);
@@ -137,6 +144,7 @@ public class CommandDeliveryMicroservice
 
 	// Start device mangement API demux.
 	start.addStartStep(this, getDeviceManagementApiDemux(), true);
+	start.addStartStep(this, getInfraredApiDemux(), true);
 
 	// Execute startup steps.
 	start.execute(monitor);
@@ -154,6 +162,7 @@ public class CommandDeliveryMicroservice
 
 	// Stop device mangement API demux.
 	stop.addStopStep(this, getDeviceManagementApiDemux());
+	stop.addStopStep(this, getInfraredApiDemux());
 
 	// Execute shutdown steps.
 	stop.execute(monitor);
@@ -165,6 +174,7 @@ public class CommandDeliveryMicroservice
     private void createGrpcComponents() {
 	// Device management.
 	this.deviceManagementApiDemux = new DeviceManagementApiDemux(true);
+	this.infraredApiDemux = new InfraredApiDemux(false);
     }
 
     /*
@@ -178,5 +188,13 @@ public class CommandDeliveryMicroservice
 
     public void setDeviceManagementApiDemux(IDeviceManagementApiDemux deviceManagementApiDemux) {
 	this.deviceManagementApiDemux = deviceManagementApiDemux;
+    }
+
+    public IInfraredApiDemux getInfraredApiDemux() {
+        return infraredApiDemux;
+    }
+
+    public void setInfraredApiDemux(IInfraredApiDemux infraredApiDemux) {
+        this.infraredApiDemux = infraredApiDemux;
     }
 }

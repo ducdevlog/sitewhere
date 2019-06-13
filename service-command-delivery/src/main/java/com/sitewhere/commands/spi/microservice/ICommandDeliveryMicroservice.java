@@ -8,6 +8,7 @@
 package com.sitewhere.commands.spi.microservice;
 
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiDemux;
+import com.sitewhere.grpc.client.spi.client.IInfraredApiDemux;
 import com.sitewhere.spi.microservice.MicroserviceIdentifier;
 import com.sitewhere.spi.microservice.multitenant.IMultitenantMicroservice;
 
@@ -25,4 +26,6 @@ public interface ICommandDeliveryMicroservice
      * @return
      */
     public IDeviceManagementApiDemux getDeviceManagementApiDemux();
+
+    public IInfraredApiDemux getInfraredApiDemux();
 }
