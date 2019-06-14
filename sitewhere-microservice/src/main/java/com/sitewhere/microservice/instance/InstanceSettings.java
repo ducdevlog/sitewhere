@@ -35,7 +35,7 @@ public class InstanceSettings implements IInstanceSettings {
     private String consulHost;
 
     /** Consul port info for microservices */
-    @Value("#{systemEnvironment['sitewhere.consul.port'] ?: '11000'}")
+    @Value("#{systemEnvironment['sitewhere.consul.port'] ?: '8500'}")
     private int consulPort;
 
     /** Zookeeper hostname info for microservices */
@@ -43,7 +43,7 @@ public class InstanceSettings implements IInstanceSettings {
     private String zookeeperHost;
 
     /** Zookeeper port info for microservices */
-    @Value("#{systemEnvironment['sitewhere.zookeeper.port'] ?: '12000'}")
+    @Value("#{systemEnvironment['sitewhere.zookeeper.port'] ?: '2181'}")
     private int zookeeperPort;
 
     /** Kafka bootstrap services configuration for microservices */

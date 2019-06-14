@@ -1,7 +1,7 @@
 spring:
   cloud:
     zookeeper:
-      connect-string: zookeeper:12000
+      connect-string: zookeeper:2181
       config:
         watch:
           enabled: true

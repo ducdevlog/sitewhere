@@ -5,7 +5,7 @@ spring:
         watch:
           enabled: true
       host: consul
-      port: 11000
+      port: 8500
       discovery:
         prefer-ip-address: false
         tags: microservice, infrared
@@ -17,7 +17,7 @@ spring:
       username: viniot
       password: v1niot2019
       host: 171.244.38.134
-      port: 10000
+      port: 27017
       database: ir
 grpc:
   port: 9000
@@ -39,7 +39,7 @@ sitewhere:
 
 #spring.cloud.consul.config.watch.enable=true
 #spring.cloud.consul.host=171.244.38.133
-#spring.cloud.consul.port=11000
+#spring.cloud.consul.port=8500
 #spring.cloud.consul.discovery.prefer-ip-address=true
 #spring.cloud.consul.discovery.tags=template-sitewhere-service
 #spring.cloud.consul.discovery.register-health-check=true
