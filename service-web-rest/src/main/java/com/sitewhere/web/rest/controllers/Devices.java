@@ -120,17 +120,20 @@ public class Devices extends RestControllerBase {
 		} else {
 			helper.setIncludeAssignment(false);
 		}
-		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
-		mqttUser.setUsername(result.getToken());
-		mqttUser.setPassword(result.getToken());
-		getMqttAclManagement().createMqttUser(mqttUser);
+		try {
+			MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+			mqttUser.setUsername(result.getToken());
+			mqttUser.setPassword(result.getToken());
+			getMqttAclManagement().createMqttUser(mqttUser);
 
-		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
-		mqttAcl.setUsername(result.getToken());
-		mqttAcl.setClientId(request.getToken());
-		mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + result.getToken(), "SiteWhere/default/command/" + result.getToken()}));
-		getMqttAclManagement().createMqttAcl(mqttAcl);
-
+			MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+			mqttAcl.setUsername(result.getToken());
+			mqttAcl.setClientId(request.getToken());
+			mqttAcl.setPubSub(Arrays.asList(new String[]{"SiteWhere/default/topic/json/" + result.getToken(), "SiteWhere/default/command/" + result.getToken()}));
+			getMqttAclManagement().createMqttAcl(mqttAcl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	return helper.convert(result, getAssetManagement());
     }
 

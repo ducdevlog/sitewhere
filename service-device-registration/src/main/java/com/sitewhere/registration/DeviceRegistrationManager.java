@@ -169,23 +169,30 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 		//deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 
-		MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
-		mqttUser.setUsername(deviceCreate.getToken());
-		mqttUser.setPassword(deviceCreate.getToken());
-		getMqttAclManagement().createMqttUser(mqttUser);
+		try {
+			MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
+			mqttUser.setUsername(deviceCreate.getToken());
+			mqttUser.setPassword(deviceCreate.getToken());
+			getMqttAclManagement().createMqttUser(mqttUser);
 
-		MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
-		mqttAcl.setUsername(deviceCreate.getToken());
-		mqttAcl.setClientId(deviceCreate.getToken());
-		mqttAcl.setPubSub(Arrays.asList("SiteWhere/default/topic/json/" + deviceCreate.getToken(), "SiteWhere/default/command/" + deviceCreate.getToken()));
-		getMqttAclManagement().createMqttAcl(mqttAcl);
+			MqttAclCreateRequest mqttAcl = new MqttAclCreateRequest();
+			mqttAcl.setUsername(deviceCreate.getToken());
+			mqttAcl.setClientId(deviceCreate.getToken());
+			mqttAcl.setPubSub(Arrays.asList("SiteWhere/default/topic/json/" + deviceCreate.getToken(), "SiteWhere/default/command/" + deviceCreate.getToken()));
+			getMqttAclManagement().createMqttAcl(mqttAcl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	    return getDeviceManagement().createDevice(deviceCreate);
 	} else if (request.isDelete()) {
 		getLogger().info("Found existing device registration. Delete device information.");
-		getMqttAclManagement().deleteMqttUser(device.getToken());
-
-		getMqttAclManagement().deleteMqttAcl(device.getToken());
+		try {
+			getMqttAclManagement().deleteMqttUser(registration.getDeviceToken());
+			getMqttAclManagement().deleteMqttAcl(registration.getDeviceToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return getDeviceManagement().deleteDevice(device.getId());
 	} else {
 		getLogger().info("Found existing device registration. Updating device information.");
