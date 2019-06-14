@@ -222,11 +222,12 @@ public class Devices extends RestControllerBase {
 	    throws SiteWhereException {
 	IDevice existing = assertDeviceByToken(deviceToken);
 	IDevice result = getDeviceManagement().deleteDevice(existing.getId());
-
-		getMqttAclManagement().deleteMqttUser(result.getToken());
-
-		getMqttAclManagement().deleteMqttAcl(result.getToken());
-
+		try {
+			getMqttAclManagement().deleteMqttUser(result.getToken());
+			getMqttAclManagement().deleteMqttAcl(result.getToken());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 	helper.setIncludeAssignment(true);
 	return helper.convert(result, getAssetManagement());
