@@ -16,7 +16,7 @@ spring:
       authentication-database: admin
       username: viniot
       password: v1niot2019
-      host: 171.244.38.134
+      host: mongodb
       port: 27017
       database: ir
 grpc:
