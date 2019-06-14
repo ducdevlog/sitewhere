@@ -18,7 +18,7 @@ public class MongoConfiguration {
     private static final String DEFAULT_HOSTNAME = "localhost";
 
     /** Default port for Mongo */
-    private static final String DEFAULT_PORT = "27017";
+    private static final String DEFAULT_PORT = "10000";
 
     /** Default database name */
     private static final String DEFAULT_DATABASE_NAME = "sitewhere";
