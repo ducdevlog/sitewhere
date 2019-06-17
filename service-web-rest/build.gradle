@@ -39,9 +39,12 @@ dependencies {
     }
  
     // Spring Security
-    compile group: 'org.springframework.security', name: 'spring-security-config'
-    compile group: 'org.springframework.security', name: 'spring-security-web'
-	
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: "1.18.8"
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: "1.18.8"
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 	// Quartz.
     compile group: 'org.quartz-scheduler', name: 'quartz', version:'2.2.2'
 	

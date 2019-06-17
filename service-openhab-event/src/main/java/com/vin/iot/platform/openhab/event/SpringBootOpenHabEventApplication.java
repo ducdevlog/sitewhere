@@ -1,4 +1,4 @@
-package com.vin.iot.platform.infrared;
+package com.vin.iot.platform.openhab.event;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class SpringBootInfraredApplication {
+public class SpringBootOpenHabEventApplication {
     public static void main(String[] args) {
-        new SpringApplicationBuilder(SpringBootInfraredApplication.class)
+        new SpringApplicationBuilder(SpringBootOpenHabEventApplication.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
     }
