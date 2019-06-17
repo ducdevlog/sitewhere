@@ -146,6 +146,16 @@ public class Areas extends RestControllerBase {
 	return helper.convert(existing);
     }
 
+	@GetMapping(value = "/gateway/{gatewayId}")
+	@ApiOperation(value = "Get area by gateway id")
+	public IArea getAreaByToken(
+			@ApiParam(value = "Gateway Id", required = true) @PathVariable String gatewayId)
+			throws SiteWhereException {
+		IArea existing = getDeviceManagement().getAreaByGatewayId(gatewayId);
+		AreaMarshalHelper helper = new AreaMarshalHelper(getDeviceManagement(), getAssetManagement());
+		return helper.convert(existing);
+	}
+
     /**
      * Update information for an area.
      * 
