@@ -27,6 +27,10 @@ public class MarshaledDevice extends Device {
     /** Current device assignment */
     private DeviceAssignment assignment;
 
+    private String areaToken;
+
+    private String areaName;
+
     public DeviceType getDeviceType() {
 	return deviceType;
     }
@@ -41,5 +45,21 @@ public class MarshaledDevice extends Device {
 
     public void setAssignment(DeviceAssignment assignment) {
 	this.assignment = assignment;
+    }
+
+    public String getAreaToken() {
+        return areaToken;
+    }
+
+    public void setAreaToken(String areaToken) {
+        this.areaToken = areaToken;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

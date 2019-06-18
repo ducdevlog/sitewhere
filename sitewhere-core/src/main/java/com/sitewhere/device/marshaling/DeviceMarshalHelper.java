@@ -7,6 +7,7 @@
  */
 package com.sitewhere.device.marshaling;
 
+import com.sitewhere.spi.area.IArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -190,4 +191,11 @@ public class DeviceMarshalHelper {
     public void setDeviceManagement(IDeviceManagement deviceManagement) {
 	this.deviceManagement = deviceManagement;
     }
+
+	public IDevice convert(IDevice device, IAssetManagement assetManagement, IArea area) throws SiteWhereException {
+		MarshaledDevice result = convert(device, assetManagement);
+		result.setAreaName(area.getName());
+		result.setAreaToken(area.getToken());
+		return result;
+	}
 }

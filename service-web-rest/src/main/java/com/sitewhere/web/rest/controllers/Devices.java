@@ -107,9 +107,10 @@ public class Devices extends RestControllerBase {
     		request.setConfigurationGateway(configurations);
 		}
 	IDevice result = getDeviceManagement().createDevice(request);
+		IArea area = null;
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
-			IArea area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
+			area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
 			if (area != null) {
 				DeviceAssignmentCreateRequest assnCreate = new DeviceAssignmentCreateRequest();
 				assnCreate.setDeviceToken(result.getToken());
@@ -134,8 +135,12 @@ public class Devices extends RestControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	return helper.convert(result, getAssetManagement());
-    }
+		if (area != null) {
+			return helper.convert(result, getAssetManagement(), area);
+		} else {
+			return helper.convert(result, getAssetManagement());
+		}
+	}
 
     /**
      * Used by AJAX calls to find a device by hardware id.
@@ -508,7 +513,7 @@ public class Devices extends RestControllerBase {
     /**
      * Gets a device by unique token and throws an exception if not found.
      * 
-     * @param hardwareId
+     * @param token
      * @return
      * @throws SiteWhereException
      */
@@ -523,7 +528,7 @@ public class Devices extends RestControllerBase {
     /**
      * Gets a device assignment by token and throws an exception if not found.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */
