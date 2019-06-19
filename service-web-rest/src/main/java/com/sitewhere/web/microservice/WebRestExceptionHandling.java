@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.spi.SiteWhereException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -138,6 +139,14 @@ public class WebRestExceptionHandling extends ResponseEntityExceptionHandler {
 	HttpStatus responseCode = (e.hasHttpResponseCode()) ? HttpStatus.valueOf(e.getHttpResponseCode())
 		: HttpStatus.BAD_REQUEST;
 	return handleExceptionInternal(e, combined, headers, responseCode, request);
+    }
+
+    @ExceptionHandler(value = { SiteWhereException.class })
+    protected ResponseEntity<Object> handleSiteWhereException(SiteWhereException e, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        //headers.add(ISiteWhereWebConstants.HEADER_SITEWHERE_ERROR, e.getMessage());
+        //headers.add(ISiteWhereWebConstants.HEADER_SITEWHERE_ERROR_CODE, String.valueOf(e.getCode()));
+        return handleExceptionInternal(e, e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     /**
