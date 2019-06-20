@@ -25,6 +25,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.broker.TransportConnector;
@@ -74,13 +75,13 @@ public class ActiveMQBrokerEventReceiver extends InboundEventReceiver<byte[]> {
     @Override
     public void initialize(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getBrokerName() == null) {
-	    throw new SiteWhereException("Broker name must be configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "Broker name must be configured.");
 	}
 	if (getTransportUri() == null) {
-	    throw new SiteWhereException("Transport URI must be configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "Transport URI must be configured.");
 	}
 	if (getQueueName() == null) {
-	    throw new SiteWhereException("Queue name must be configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "Queue name must be configured.");
 	}
 	this.brokerService = new BrokerService();
     }
@@ -104,7 +105,7 @@ public class ActiveMQBrokerEventReceiver extends InboundEventReceiver<byte[]> {
 	    getBrokerService().start();
 	    startConsumers();
 	} catch (Exception e) {
-	    throw new SiteWhereException("Error starting ActiveMQ inbound event receiver.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error starting ActiveMQ inbound event receiver.", e);
 	}
     }
 
@@ -149,7 +150,7 @@ public class ActiveMQBrokerEventReceiver extends InboundEventReceiver<byte[]> {
 	    try {
 		getBrokerService().stop();
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error stopping ActiveMQ broker.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error stopping ActiveMQ broker.", e);
 	    }
 	}
 	stopConsumers();
@@ -209,7 +210,7 @@ public class ActiveMQBrokerEventReceiver extends InboundEventReceiver<byte[]> {
 		Destination destination = getSession().createQueue(getQueueName());
 		this.consumer = getSession().createConsumer(destination);
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error starting ActiveMQ consumer.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error starting ActiveMQ consumer.", e);
 	    }
 	}
 
@@ -219,7 +220,7 @@ public class ActiveMQBrokerEventReceiver extends InboundEventReceiver<byte[]> {
 		getSession().close();
 		getConnection().close();
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error shutting down ActiveMQ consumer.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error shutting down ActiveMQ consumer.", e);
 	    }
 	}
 

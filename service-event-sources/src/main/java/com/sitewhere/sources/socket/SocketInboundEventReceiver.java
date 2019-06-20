@@ -18,6 +18,7 @@ import com.sitewhere.sources.spi.IInboundEventReceiver;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandler;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandlerFactory;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 /**
@@ -73,8 +74,8 @@ public class SocketInboundEventReceiver<T> extends InboundEventReceiver<T> {
 	try {
 	    // Verify handler factory is set, then start it.
 	    if (getHandlerFactory() == null) {
-		throw new SiteWhereException(
-			"No socket interaction handler factory configured for socket event source.");
+		throw new SiteWhereException(ErrorCode.Error,
+				"No socket interaction handler factory configured for socket event source.");
 	    }
 	    startNestedComponent(getHandlerFactory(), monitor, true);
 
@@ -87,7 +88,7 @@ public class SocketInboundEventReceiver<T> extends InboundEventReceiver<T> {
 	    processingService.execute(processing);
 	    getLogger().info("Socket receiver processing started.");
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to bind server socket for event receiver.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to bind server socket for event receiver.", e);
 	}
     }
 
@@ -124,7 +125,7 @@ public class SocketInboundEventReceiver<T> extends InboundEventReceiver<T> {
 	    try {
 		server.close();
 	    } catch (IOException e) {
-		throw new SiteWhereException("Error shutting down server socket for event receiver.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error shutting down server socket for event receiver.", e);
 	    }
 	}
 	if (getHandlerFactory() != null) {

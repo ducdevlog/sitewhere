@@ -24,6 +24,7 @@ import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Implementation of {@link IDeviceEventEncoder} that encodes device events into
@@ -51,7 +52,7 @@ public class ProtobufDeviceEventEncoder implements IDeviceEventEncoder<byte[]> {
 	} else if (event.getRequest() instanceof IDeviceRegistrationRequest) {
 	    return encodeDeviceRegistration((IDecodedDeviceRequest<IDeviceRegistrationRequest>) event);
 	}
-	throw new SiteWhereException("Protobuf encoder encountered unknown event type: " + event.getClass().getName());
+	throw new SiteWhereException(ErrorCode.InvalidParseData, "Protobuf encoder encountered unknown event type: " + event.getClass().getName());
     }
 
     /**

@@ -290,7 +290,7 @@ public class MongoScheduleManagement extends TenantEngineLifecycleComponent impl
 	    Document query = new Document(MongoSchedule.PROP_TOKEN, token);
 	    return collection.find(query).first();
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Connection to MongoDB lost.", e);
 	}
     }
 
@@ -324,7 +324,7 @@ public class MongoScheduleManagement extends TenantEngineLifecycleComponent impl
 	    Document query = new Document(MongoSchedule.PROP_TOKEN, token);
 	    return collection.find(query).first();
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Connection to MongoDB lost.", e);
 	}
     }
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -74,8 +75,8 @@ public class ZkUtils {
 			LOGGER.debug("Created folder for '" + file.getAbsolutePath() + "' in '" + subFile + "'.");
 		    }
 		} catch (Exception e) {
-		    throw new SiteWhereException(
-			    "Unable to copy folder '" + file.getAbsolutePath() + "' into '" + subFile + "'.", e);
+		    throw new SiteWhereException(ErrorCode.Error,
+					"Unable to copy folder '" + file.getAbsolutePath() + "' into '" + subFile + "'.", e);
 		}
 		ZkUtils.copyFolderRecursivelytoZk(curator, zkRoot, root, file);
 	    } else if (file.isFile()) {
@@ -91,8 +92,8 @@ public class ZkUtils {
 			}
 			LOGGER.debug("Created file for '" + file.getAbsolutePath() + "' in '" + subFile + "'.");
 		    } catch (Exception e) {
-			throw new SiteWhereException(
-				"Unable to copy file '" + file.getAbsolutePath() + "' into '" + subFile + "'.", e);
+			throw new SiteWhereException(ErrorCode.Error,
+					"Unable to copy file '" + file.getAbsolutePath() + "' into '" + subFile + "'.", e);
 		    }
 		} catch (IOException e) {
 		    LOGGER.error("Error copying tenant template file to Zk: " + file.getAbsolutePath(), e);
@@ -140,8 +141,8 @@ public class ZkUtils {
 		    IOUtils.write(content, output);
 		    LOGGER.debug("Wrote file for '" + local.getAbsolutePath() + "' from '" + current + "'.");
 		} catch (Exception e) {
-		    throw new SiteWhereException(
-			    "Unable to copy file '" + local.getAbsolutePath() + "' from '" + current + "'.", e);
+		    throw new SiteWhereException(ErrorCode.Error,
+					"Unable to copy file '" + local.getAbsolutePath() + "' from '" + current + "'.", e);
 		} finally {
 		    if (output != null) {
 			try {
@@ -161,7 +162,7 @@ public class ZkUtils {
 			ZkUtils.copyFolderRecursivelyFromZk(curator, zkRoot, root, current + "/" + child);
 		    }
 		} catch (Exception e) {
-		    throw new SiteWhereException("Unable to get children for folder '" + local.getAbsolutePath()
+		    throw new SiteWhereException(ErrorCode.Error, "Unable to get children for folder '" + local.getAbsolutePath()
 			    + "' from '" + current + "'.", e);
 		}
 	    }

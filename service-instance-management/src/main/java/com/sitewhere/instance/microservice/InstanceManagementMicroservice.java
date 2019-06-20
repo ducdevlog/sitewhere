@@ -9,6 +9,7 @@ package com.sitewhere.instance.microservice;
 
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -405,7 +406,7 @@ public class InstanceManagementMicroservice extends GlobalMicroservice<Microserv
 	String templateId = getInstanceSettings().getInstanceTemplateId();
 	IInstanceTemplate template = getInstanceTemplateManager().getInstanceTemplates().get(templateId);
 	if (template == null) {
-	    throw new SiteWhereException("Unable to locate instance template: " + templateId);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to locate instance template: " + templateId);
 	}
 	return template;
     }

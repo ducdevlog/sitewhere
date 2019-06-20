@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.influxdb.dto.Point;
@@ -282,7 +283,7 @@ public class InfluxDbDeviceEvent {
 			String eventType = (String) valueMap.get(EVENT_TYPE);
 			DeviceEventType type = DeviceEventType.valueOf(eventType);
 			if (type == null) {
-			    throw new SiteWhereException("Unknown event type: " + type);
+			    throw new SiteWhereException(ErrorCode.IncompleteData, "Unknown event type: " + type);
 			}
 			try {
 			    switch (type) {
@@ -311,7 +312,7 @@ public class InfluxDbDeviceEvent {
 				break;
 			    }
 			    default: {
-				throw new SiteWhereException("No parser found for type: " + type);
+				throw new SiteWhereException(ErrorCode.InvalidParseData, "No parser found for type: " + type);
 			    }
 			    }
 			} catch (SiteWhereException e) {
@@ -376,10 +377,10 @@ public class InfluxDbDeviceEvent {
 	    if (allowNull) {
 		return null;
 	    }
-	    throw new SiteWhereException("Field value missing: " + field);
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Field value missing: " + field);
 	}
 	if (!(value instanceof String)) {
-	    throw new SiteWhereException("Expected String field but found: " + field.getClass().getName());
+	    throw new SiteWhereException(ErrorCode.InvalidParseData, "Expected String field but found: " + field.getClass().getName());
 	}
 	return (String) value;
     }
@@ -392,14 +393,14 @@ public class InfluxDbDeviceEvent {
      */
     protected static void handleError(QueryResult result) throws SiteWhereException {
 	if (result.getError() != null) {
-	    throw new SiteWhereException("Error performing query: " + result.getError());
+	    throw new SiteWhereException(ErrorCode.Error, "Error performing query: " + result.getError());
 	}
     }
 
     /**
      * Create a map of values that are present.
      * 
-     * @param columns
+     * @param series
      * @param values
      * @return
      */
@@ -545,7 +546,7 @@ public class InfluxDbDeviceEvent {
 	    return EVENT_CUSTOMER;
 	}
 	}
-	throw new SiteWhereException("Unknown index: " + index.name());
+	throw new SiteWhereException(ErrorCode.InvalidParseData, "Unknown index: " + index.name());
     }
 
     /**

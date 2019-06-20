@@ -16,6 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
@@ -77,7 +78,7 @@ public class SolrOutboundConnector extends SerialOutboundConnector {
 	super.start(monitor);
 
 	if (getSolrConfiguration() == null) {
-	    throw new SiteWhereException("No Solr configuration provided.");
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "No Solr configuration provided.");
 	}
 	try {
 	    // Create and start Solr connection.
@@ -89,9 +90,9 @@ public class SolrOutboundConnector extends SerialOutboundConnector {
 	    int pingTime = response.getQTime();
 	    getLogger().info("Solr server location verified. Ping responded in " + pingTime + " ms.");
 	} catch (SolrServerException e) {
-	    throw new SiteWhereException("Ping failed. Verify that Solr server is available.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Ping failed. Verify that Solr server is available.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Exception in ping. Verify that Solr server is available.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Exception in ping. Verify that Solr server is available.", e);
 	}
 	getLogger().info(
 		"Solr event processor indexing events to server at: " + getSolrConfiguration().getSolrServerUrl());
@@ -110,7 +111,7 @@ public class SolrOutboundConnector extends SerialOutboundConnector {
 	try {
 	    queue.put(document);
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Interrupted during indexing.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Interrupted during indexing.", e);
 	}
     }
 
@@ -126,7 +127,7 @@ public class SolrOutboundConnector extends SerialOutboundConnector {
 	try {
 	    queue.put(document);
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Interrupted during indexing.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Interrupted during indexing.", e);
 	}
     }
 
@@ -142,7 +143,7 @@ public class SolrOutboundConnector extends SerialOutboundConnector {
 	try {
 	    queue.put(document);
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Interrupted during indexing.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Interrupted during indexing.", e);
 	}
     }
 

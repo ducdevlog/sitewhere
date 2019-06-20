@@ -25,6 +25,7 @@ import com.sitewhere.spi.device.event.IDeviceEventContext;
 import com.sitewhere.spi.device.event.IDeviceLocation;
 import com.sitewhere.spi.device.event.IDeviceMeasurement;
 import com.sitewhere.spi.device.event.IDeviceStateChange;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 /**
@@ -62,11 +63,11 @@ public class SqsOutboundConnector extends SerialOutboundConnector {
 	config.setMaxErrorRetry(5);
 
 	if (getAccessKey() == null) {
-	    throw new SiteWhereException("Amazon access key not provided.");
+	    throw new SiteWhereException(ErrorCode.Error, "Amazon access key not provided.");
 	}
 
 	if (getSecretKey() == null) {
-	    throw new SiteWhereException("Amazon secret key not provided.");
+	    throw new SiteWhereException(ErrorCode.Error, "Amazon secret key not provided.");
 	}
 
 	sqs = new AmazonSQSClient(new BasicAWSCredentials(getAccessKey(), getSecretKey()), config);

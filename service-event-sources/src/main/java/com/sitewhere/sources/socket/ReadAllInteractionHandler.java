@@ -18,6 +18,7 @@ import com.sitewhere.sources.spi.IInboundEventReceiver;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandler;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandlerFactory;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 /**
@@ -49,7 +50,7 @@ public class ReadAllInteractionHandler extends TenantEngineLifecycleComponent
 	    input.close();
 	    receiver.onEventPayloadReceived(output.toByteArray(), null);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Exception processing request in socket interaction handler.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Exception processing request in socket interaction handler.", e);
 	}
     }
 

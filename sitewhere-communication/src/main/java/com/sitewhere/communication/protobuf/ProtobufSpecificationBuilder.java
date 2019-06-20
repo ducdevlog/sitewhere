@@ -19,6 +19,7 @@ import com.sitewhere.spi.device.IDeviceType;
 import com.sitewhere.spi.device.command.ICommandParameter;
 import com.sitewhere.spi.device.command.IDeviceCommand;
 import com.sitewhere.spi.device.command.ParameterType;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.tenant.ITenant;
 
@@ -215,7 +216,7 @@ public class ProtobufSpecificationBuilder {
 	case UInt64:
 	    return DescriptorProtos.FieldDescriptorProto.Type.TYPE_UINT64;
 	default:
-	    throw new SiteWhereException("Unknown parameter type: " + param.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown parameter type: " + param.name());
 	}
     }
 }

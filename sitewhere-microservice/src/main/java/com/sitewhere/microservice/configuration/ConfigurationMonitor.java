@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.TreeCache;
@@ -120,7 +121,7 @@ public class ConfigurationMonitor extends LifecycleComponent implements IConfigu
 	    getTreeCache().start();
 	    getLogger().info("Configuration manager listening for configuration updates.");
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to start tree cache for configuration monitor.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start tree cache for configuration monitor.", e);
 	}
     }
 

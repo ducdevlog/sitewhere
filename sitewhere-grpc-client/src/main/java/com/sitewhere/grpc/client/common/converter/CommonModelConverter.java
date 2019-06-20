@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.util.StringUtils;
 
 import com.sitewhere.grpc.model.CommonModel;
@@ -415,7 +416,7 @@ public class CommonModelConverter {
 	case ASSN_STATUS_UNSPECIFIED:
 	    return null;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown device assignment status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceAssignedStatus, "Unknown device assignment status: " + grpc.name());
 	}
 	return null;
     }
@@ -440,6 +441,6 @@ public class CommonModelConverter {
 	case Released:
 	    return GDeviceAssignmentStatus.ASSN_STATUS_RELEASED;
 	}
-	throw new SiteWhereException("Unknown device assignment status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDeviceAssignedStatus, "Unknown device assignment status: " + api.name());
     }
 }

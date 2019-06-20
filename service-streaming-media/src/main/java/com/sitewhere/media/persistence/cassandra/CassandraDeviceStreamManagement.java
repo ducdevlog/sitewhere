@@ -15,6 +15,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.streaming.IDeviceStreamData;
 import com.sitewhere.spi.device.streaming.IDeviceStreamDataManagement;
 import com.sitewhere.spi.device.streaming.request.IDeviceStreamDataCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
@@ -44,7 +45,7 @@ public class CassandraDeviceStreamManagement extends TenantEngineLifecycleCompon
     @Override
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getClient() == null) {
-	    throw new SiteWhereException("No Cassandra client configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "No Cassandra client configured.");
 	}
 	getClient().start(monitor);
     }
@@ -57,7 +58,7 @@ public class CassandraDeviceStreamManagement extends TenantEngineLifecycleCompon
     @Override
     public IDeviceStreamData addDeviceStreamData(UUID streamId, IDeviceStreamDataCreateRequest request)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     /*
@@ -66,7 +67,7 @@ public class CassandraDeviceStreamManagement extends TenantEngineLifecycleCompon
      */
     @Override
     public IDeviceStreamData getDeviceStreamData(UUID streamId, long sequenceNumber) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     /*
@@ -77,7 +78,7 @@ public class CassandraDeviceStreamManagement extends TenantEngineLifecycleCompon
     @Override
     public ISearchResults<IDeviceStreamData> listDeviceStreamDataForAssignment(UUID streamId,
 	    IDateRangeSearchCriteria criteria) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     public CassandraClient getClient() {

@@ -37,6 +37,7 @@ import com.sitewhere.spi.device.command.IRegistrationAckCommand;
 import com.sitewhere.spi.device.command.IRegistrationFailureCommand;
 import com.sitewhere.spi.device.command.ISendDeviceStreamDataCommand;
 import com.sitewhere.spi.device.command.ISystemCommand;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 /**
@@ -151,7 +152,7 @@ public class ProtobufExecutionEncoder extends TenantEngineLifecycleComponent
 	    return new byte[0];
 	}
 	}
-	throw new SiteWhereException("Unable to encode command: " + command.getClass().getName());
+	throw new SiteWhereException(ErrorCode.Error, "Unable to encode command: " + command.getClass().getName());
     }
 
     /**
@@ -172,7 +173,7 @@ public class ProtobufExecutionEncoder extends TenantEngineLifecycleComponent
 	    out.close();
 	    return out.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to marshal registration ack to protobuf.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to marshal registration ack to protobuf.", e);
 	}
     }
 
@@ -193,7 +194,7 @@ public class ProtobufExecutionEncoder extends TenantEngineLifecycleComponent
 	    out.close();
 	    return out.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to marshal device stream ack to protobuf.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to marshal device stream ack to protobuf.", e);
 	}
     }
 
@@ -213,7 +214,7 @@ public class ProtobufExecutionEncoder extends TenantEngineLifecycleComponent
 	    out.close();
 	    return out.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to marshal device stream data chunk to protobuf.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to marshal device stream data chunk to protobuf.", e);
 	}
     }
 

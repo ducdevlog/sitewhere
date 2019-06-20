@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.curator.framework.CuratorFramework;
 
@@ -127,7 +128,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	// Resolve tenant template based on template id.
 	ITenantTemplate template = getTemplatesById().get(tenant.getTenantTemplateId());
 	if (template == null) {
-	    throw new SiteWhereException("Tenant template not found: " + tenant.getTenantTemplateId());
+	    throw new SiteWhereException(ErrorCode.Error, "Tenant template not found: " + tenant.getTenantTemplateId());
 	}
 
 	File root = ((ITenantManagementMicroservice<?>) getMicroservice()).getTenantTemplatesRoot();
@@ -145,7 +146,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
      * scripts).
      * 
      * @param curator
-     * @param tenantPath
+     * @param tenant
      * @param root
      * @throws SiteWhereException
      */
@@ -156,7 +157,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	// Copy default content shared by all tenants.
 	File defaultFolder = new File(root, DEFAULT_TENANT_CONTENT_FOLDER);
 	if (!defaultFolder.exists()) {
-	    throw new SiteWhereException("Default folder not found at '" + defaultFolder.getAbsolutePath() + "'.");
+	    throw new SiteWhereException(ErrorCode.Error, "Default folder not found at '" + defaultFolder.getAbsolutePath() + "'.");
 	}
 	ZkUtils.copyFolderRecursivelytoZk(curator, tenantPath, defaultFolder, defaultFolder,
 		Collections.singletonList("scripts"));
@@ -171,7 +172,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
      * 
      * @param curator
      * @param template
-     * @param tenantPath
+     * @param tenant
      * @param root
      * @throws SiteWhereException
      */
@@ -241,14 +242,14 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	    if (scriptFolder.isDirectory()) {
 		File metadata = new File(scriptFolder, SCRIPT_METADATA_FILE);
 		if (!metadata.exists()) {
-		    throw new SiteWhereException(
-			    "Script metadata folder does not contain '" + SCRIPT_METADATA_FILE + "'.");
+		    throw new SiteWhereException(ErrorCode.Error,
+					"Script metadata folder does not contain '" + SCRIPT_METADATA_FILE + "'.");
 		}
 		ScriptTemplate template = readScriptTemplate(metadata);
 		String contentFilename = template.getId() + "." + template.getType();
 		File contentFile = new File(scriptFolder, contentFilename);
 		if (!contentFile.exists()) {
-		    throw new SiteWhereException("Script content not found at: " + contentFilename);
+		    throw new SiteWhereException(ErrorCode.Error, "Script content not found at: " + contentFilename);
 		}
 		byte[] content = readScriptContent(contentFile);
 		ScriptCreateRequest request = new ScriptCreateRequest();
@@ -278,7 +279,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	    TenantTemplate template = MarshalUtils.unmarshalJson(content, TenantTemplate.class);
 	    return template;
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to unmarshal tenant template.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to unmarshal tenant template.", e);
 	}
     }
 
@@ -297,7 +298,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	    ScriptTemplate template = MarshalUtils.unmarshalJson(content, ScriptTemplate.class);
 	    return template;
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to unmarshal script template.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to unmarshal script template.", e);
 	}
     }
 
@@ -314,7 +315,7 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
 	    input = new FileInputStream(file);
 	    return IOUtils.toByteArray(input);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to read script content.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to read script content.", e);
 	}
     }
 
@@ -329,8 +330,8 @@ public class TenantTemplateManager extends LifecycleComponent implements ITenant
     protected File getTenantTemplateFolder(ITenantTemplate template, File root) throws SiteWhereException {
 	File templateFolder = new File(root, template.getId());
 	if (!templateFolder.exists()) {
-	    throw new SiteWhereException(
-		    "Tenant template folder not found at '" + templateFolder.getAbsolutePath() + "'.");
+	    throw new SiteWhereException(ErrorCode.Error,
+				"Tenant template folder not found at '" + templateFolder.getAbsolutePath() + "'.");
 	}
 	return templateFolder;
     }

@@ -16,6 +16,7 @@ import com.sitewhere.spi.device.event.AlertLevel;
 import com.sitewhere.spi.device.event.AlertSource;
 import com.sitewhere.spi.device.event.DeviceEventType;
 import com.sitewhere.spi.device.event.IDeviceAlert;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Handles mapping of device alert event fields to Cassandra records.
@@ -133,7 +134,7 @@ public class CassandraDeviceAlert implements ICassandraEventBinder<IDeviceAlert>
 	    return 1;
 	}
 	default: {
-	    throw new SiteWhereException("Unsupported alert source: " + source.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported alert source: " + source.name());
 	}
 	}
     }
@@ -151,7 +152,7 @@ public class CassandraDeviceAlert implements ICassandraEventBinder<IDeviceAlert>
 	} else if (value == 1) {
 	    return AlertSource.System;
 	}
-	throw new SiteWhereException("Unsupported alert source: " + value);
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported alert source: " + value);
     }
 
     /**
@@ -176,7 +177,7 @@ public class CassandraDeviceAlert implements ICassandraEventBinder<IDeviceAlert>
 	    return 3;
 	}
 	default: {
-	    throw new SiteWhereException("Unsupported alert level: " + level.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported alert level: " + level.name());
 	}
 	}
     }
@@ -198,6 +199,6 @@ public class CassandraDeviceAlert implements ICassandraEventBinder<IDeviceAlert>
 	} else if (value == 3) {
 	    return AlertLevel.Critical;
 	}
-	throw new SiteWhereException("Unsupported alert level: " + value);
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported alert level: " + value);
     }
 }

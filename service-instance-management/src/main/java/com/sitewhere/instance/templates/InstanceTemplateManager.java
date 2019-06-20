@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.io.IOUtils;
 import org.apache.curator.framework.CuratorFramework;
 
@@ -75,12 +76,12 @@ public class InstanceTemplateManager extends LifecycleComponent implements IInst
 	    throws SiteWhereException {
 	IInstanceTemplate template = getInstanceTemplates().get(templateId);
 	if (template == null) {
-	    throw new SiteWhereException("Instance template not found: " + templateId);
+	    throw new SiteWhereException(ErrorCode.Error, "Instance template not found: " + templateId);
 	}
 	File root = getTemplatesRoot();
 	File templateFolder = new File(root, templateId);
 	if (!templateFolder.exists()) {
-	    throw new SiteWhereException("Template folder not found at '" + templateFolder.getAbsolutePath() + "'.");
+	    throw new SiteWhereException(ErrorCode.Error, "Template folder not found at '" + templateFolder.getAbsolutePath() + "'.");
 	}
 	ZkUtils.copyFolderRecursivelytoZk(curator, instancePath, templateFolder, templateFolder);
     }
@@ -94,7 +95,7 @@ public class InstanceTemplateManager extends LifecycleComponent implements IInst
     protected File getTemplatesRoot() throws SiteWhereException {
 	File root = new File(TEMPLATES_ROOT);
 	if (!root.exists()) {
-	    throw new SiteWhereException("Root folder for instance templates not found!");
+	    throw new SiteWhereException(ErrorCode.Error, "Root folder for instance templates not found!");
 	}
 	return root;
     }

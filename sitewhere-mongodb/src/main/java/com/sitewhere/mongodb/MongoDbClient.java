@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.util.StringUtils;
 
 import com.mongodb.MongoClient;
@@ -168,7 +169,7 @@ public abstract class MongoDbClient extends TenantEngineLifecycleComponent
 	String[] ports = getConfiguration().getPort().split(",");
 
 	if (hosts.length != ports.length) {
-	    throw new SiteWhereException("Number of hosts does not match number of ports. Hosts(" + arrayAsString(hosts)
+	    throw new SiteWhereException(ErrorCode.Error, "Number of hosts does not match number of ports. Hosts(" + arrayAsString(hosts)
 		    + ") Ports(" + arrayAsString(ports) + ").");
 	}
 
@@ -177,7 +178,7 @@ public abstract class MongoDbClient extends TenantEngineLifecycleComponent
 	    try {
 		addresses.add(new ServerAddress(hosts[i].trim(), Integer.parseInt(ports[i].trim())));
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Non-numeric port number specified for MQTT broker.");
+		throw new SiteWhereException(ErrorCode.Error, "Non-numeric port number specified for MQTT broker.");
 	    }
 	}
 	return addresses;
@@ -215,7 +216,7 @@ public abstract class MongoDbClient extends TenantEngineLifecycleComponent
      */
     public MongoClient getMongoClient() throws SiteWhereException {
 	if (client == null) {
-	    throw new SiteWhereException("Client is null. Mongo client was not properly initialized.");
+	    throw new SiteWhereException(ErrorCode.Error, "Client is null. Mongo client was not properly initialized.");
 	}
 	return client;
     }

@@ -24,6 +24,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import com.sitewhere.sources.InboundEventReceiver;
@@ -65,10 +66,10 @@ public class ActiveMQClientEventReceiver extends InboundEventReceiver<byte[]> {
     @Override
     public void initialize(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getRemoteUri() == null) {
-	    throw new SiteWhereException("Remote URI must be configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "Remote URI must be configured.");
 	}
 	if (getQueueName() == null) {
-	    throw new SiteWhereException("Queue name must be configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "Queue name must be configured.");
 	}
     }
 
@@ -160,7 +161,7 @@ public class ActiveMQClientEventReceiver extends InboundEventReceiver<byte[]> {
 		Destination destination = getSession().createQueue(getQueueName());
 		this.consumer = getSession().createConsumer(destination);
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error starting ActiveMQ consumer.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error starting ActiveMQ consumer.", e);
 	    }
 	}
 
@@ -170,7 +171,7 @@ public class ActiveMQClientEventReceiver extends InboundEventReceiver<byte[]> {
 		getSession().close();
 		getConnection().close();
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error shutting down ActiveMQ consumer.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error shutting down ActiveMQ consumer.", e);
 	    }
 	}
 

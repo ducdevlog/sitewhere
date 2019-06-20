@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.cal10n.LocLogger;
 import org.slf4j.cal10n.LocLoggerFactory;
 
@@ -149,7 +150,7 @@ public class LifecycleComponent implements ILifecycleComponent {
 	for (ILifecycleComponentParameter<?> parameter : getParameters()) {
 	    // Validate that required parameters were provided.
 	    if ((parameter.isRequired()) && (parameter.getValue() == null)) {
-		throw new SiteWhereException("No value provided for required parameter '" + parameter.getName()
+		throw new SiteWhereException(ErrorCode.Error, "No value provided for required parameter '" + parameter.getName()
 			+ "'. Unable to initialize component.");
 	    }
 	}
@@ -228,7 +229,7 @@ public class LifecycleComponent implements ILifecycleComponent {
     public void initializeNestedComponent(ILifecycleComponent component, ILifecycleProgressMonitor monitor,
 	    boolean require) throws SiteWhereException {
 	if (getMicroservice() == null) {
-	    throw new SiteWhereException("Microservice reference not set in parent component: " + getClass().getName());
+	    throw new SiteWhereException(ErrorCode.Error, "Microservice reference not set in parent component: " + getClass().getName());
 	}
 	component.setMicroservice(getMicroservice());
 	component.lifecycleInitialize(monitor);

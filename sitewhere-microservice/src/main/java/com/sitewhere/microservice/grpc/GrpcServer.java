@@ -17,6 +17,7 @@ import com.sitewhere.grpc.client.common.tracing.ServerTracingInterceptor;
 import com.sitewhere.grpc.client.spi.server.IGrpcServer;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 import io.grpc.BindableService;
@@ -93,7 +94,7 @@ public class GrpcServer extends TenantEngineLifecycleComponent implements IGrpcS
 	    this.server = buildServer();
 	    getLogger().debug("Initialized GRPC server on port " + port + ".");
 	} catch (Throwable e) {
-	    throw new SiteWhereException("Unable to initialize GRPC server.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to initialize GRPC server.", e);
 	}
     }
 
@@ -110,7 +111,7 @@ public class GrpcServer extends TenantEngineLifecycleComponent implements IGrpcS
 	    getServer().start();
 	    getLogger().debug("Started GRPC server on port " + port + ".");
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to start GRPC server.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start GRPC server.", e);
 	}
     }
 

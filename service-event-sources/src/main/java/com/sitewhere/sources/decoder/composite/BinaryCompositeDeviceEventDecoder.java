@@ -13,6 +13,7 @@ import java.util.List;
 import com.sitewhere.sources.spi.ICompositeDeviceEventDecoder;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceManagement;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.tenant.ITenant;
 
 /**
@@ -43,8 +44,8 @@ public class BinaryCompositeDeviceEventDecoder extends CompositeDeviceEventDecod
 	IDeviceManagement devices = getDeviceManagement(getTenantEngine().getTenant());
 	context.setDevice(devices.getDeviceByToken(metadata.getDeviceToken()));
 	if (context.getDevice() == null) {
-	    throw new SiteWhereException(
-		    "Unable to build device context. Device not found for token: " + metadata.getDeviceToken());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceToken,
+                "Unable to build device context. Device not found for token: " + metadata.getDeviceToken());
 	}
 
 	context.setDeviceType(devices.getDeviceType(context.getDevice().getDeviceTypeId()));

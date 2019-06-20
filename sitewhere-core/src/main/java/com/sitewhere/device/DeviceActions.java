@@ -22,6 +22,7 @@ import com.sitewhere.spi.device.command.IDeviceCommand;
 import com.sitewhere.spi.device.event.CommandInitiator;
 import com.sitewhere.spi.device.event.CommandTarget;
 import com.sitewhere.spi.device.event.IDeviceEventManagement;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 
 /**
@@ -82,7 +83,7 @@ public class DeviceActions implements IDeviceActions {
 	    }
 	}
 	if (match == null) {
-	    throw new SiteWhereException("Command not executed. No command found matching: " + commandName);
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Command not executed. No command found matching: " + commandName);
 	}
 	DeviceCommandInvocationCreateRequest create = new DeviceCommandInvocationCreateRequest();
 	create.setCommandToken(match.getToken());

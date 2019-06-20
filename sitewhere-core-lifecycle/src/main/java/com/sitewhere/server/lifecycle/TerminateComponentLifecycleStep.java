@@ -8,6 +8,7 @@
 package com.sitewhere.server.lifecycle;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponent;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.ILifecycleStep;
@@ -43,7 +44,7 @@ public class TerminateComponentLifecycleStep extends ComponentOperationLifecycle
 	    try {
 		getComponent().lifecycleTerminate(monitor);
 	    } catch (Throwable t) {
-		throw new SiteWhereException("Unhandled exception terminating component.", t);
+		throw new SiteWhereException(ErrorCode.Error, "Unhandled exception terminating component.", t);
 	    }
 	}
     }

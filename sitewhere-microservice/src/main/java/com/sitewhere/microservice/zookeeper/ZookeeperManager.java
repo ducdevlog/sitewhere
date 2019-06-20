@@ -9,6 +9,7 @@ package com.sitewhere.microservice.zookeeper;
 
 import java.util.concurrent.TimeUnit;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -79,7 +80,7 @@ public class ZookeeperManager extends LifecycleComponent implements IZookeeperMa
 		    return;
 		}
 	    } catch (InterruptedException e) {
-		throw new SiteWhereException("Interrupted while connecting to Zookeeper.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Interrupted while connecting to Zookeeper.", e);
 	    }
 	}
     }

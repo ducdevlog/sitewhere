@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,7 @@ public class DeviceModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build device registration payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build device registration payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -74,7 +75,7 @@ public class DeviceModelMarshaler {
 	try {
 	    return GDeviceRegistationPayload.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse device registration payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse device registration payload message.", e);
 	}
     }
 

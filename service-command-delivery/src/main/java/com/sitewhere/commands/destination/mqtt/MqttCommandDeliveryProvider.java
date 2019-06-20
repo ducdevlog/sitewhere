@@ -7,6 +7,7 @@
  */
 package com.sitewhere.commands.destination.mqtt;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.fusesource.hawtdispatch.ShutdownException;
 import org.fusesource.mqtt.client.FutureConnection;
 import org.fusesource.mqtt.client.QoS;
@@ -91,7 +92,7 @@ public class MqttCommandDeliveryProvider extends MqttLifecycleComponent
 	    connection.publish(params.getCommandTopic(), encoded, QoS.AT_LEAST_ONCE, false);
 	    getLogger().info("Command published.");
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to publish command to MQTT topic.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to publish command to MQTT topic.", e);
 	}
     }
 
@@ -111,7 +112,7 @@ public class MqttCommandDeliveryProvider extends MqttLifecycleComponent
 	    connection.publish(params.getSystemTopic(), encoded, QoS.AT_LEAST_ONCE, false);
 	    getLogger().info("Command published.");
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to publish command to MQTT topic.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to publish command to MQTT topic.", e);
 	}
     }
 }

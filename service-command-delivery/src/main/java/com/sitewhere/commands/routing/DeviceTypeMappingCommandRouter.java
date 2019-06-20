@@ -22,6 +22,7 @@ import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Implementation of {@link IOutboundCommandRouter} that maps device type ids to
@@ -79,13 +80,13 @@ public class DeviceTypeMappingCommandRouter extends OutboundCommandRouter {
 	    if (getDefaultDestination() != null) {
 		destinationId = getDefaultDestination();
 	    } else {
-		throw new SiteWhereException("No command destination mapping for device type: " + deviceTypeId);
+		throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "No command destination mapping for device type: " + deviceTypeId);
 	    }
 	}
 	ICommandDestination<?, ?> destination = getCommandDestinationsManager().getCommandDestinations()
 		.get(destinationId);
 	if (destination == null) {
-	    throw new SiteWhereException("No destination found for destination id: " + destinationId);
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "No destination found for destination id: " + destinationId);
 	}
 	return destination;
     }

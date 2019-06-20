@@ -32,6 +32,7 @@ import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
 import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
 import com.sitewhere.spi.device.event.IDeviceEventContext;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ICompositeLifecycleStep;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
@@ -75,7 +76,7 @@ public class DefaultCommandProcessingStrategy extends TenantEngineLifecycleCompo
 	    for (IDeviceAssignment assignment : assignments) {
 		IDevice device = getDeviceManagementApiChannel().getDevice(assignment.getDeviceId());
 		if (device == null) {
-		    throw new SiteWhereException("Targeted assignment references device that does not exist.");
+		    throw new SiteWhereException(ErrorCode.InvalidDeviceToken, "Targeted assignment references device that does not exist.");
 		}
 
 		IDeviceNestingContext nesting = NestedDeviceSupport.calculateNestedDeviceInformation(device,
@@ -84,7 +85,7 @@ public class DefaultCommandProcessingStrategy extends TenantEngineLifecycleCompo
 			context, execution, nesting, assignment);
 	    }
 	} else {
-	    throw new SiteWhereException("Invalid command referenced from invocation.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Invalid command referenced from invocation.");
 	}
     }
 
@@ -100,7 +101,7 @@ public class DefaultCommandProcessingStrategy extends TenantEngineLifecycleCompo
 	getLogger().debug("Command processing strategy handling system command invocation.");
 	IDevice device = getDeviceManagementApiChannel().getDeviceByToken(deviceToken);
 	if (device == null) {
-	    throw new SiteWhereException("Targeted assignment references device that does not exist.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceToken, "Targeted assignment references device that does not exist.");
 	}
 	IDeviceAssignment assignment = getDeviceManagementApiChannel()
 		.getDeviceAssignment(device.getDeviceAssignmentId());

@@ -35,6 +35,7 @@ import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStreamCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 /**
@@ -219,8 +220,8 @@ public class ProtobufDeviceEventDecoder extends TenantEngineLifecycleComponent i
 	    }
 	    case UNRECOGNIZED:
 	    default: {
-		throw new SiteWhereException(
-			"Unable to decode message. Type not supported: " + header.getCommand().name());
+		throw new SiteWhereException(ErrorCode.InvalidDataCategory,
+				"Unable to decode message. Type not supported: " + header.getCommand().name());
 	    }
 
 	    // case SEND_DEVICE_STREAM_DATA: {

@@ -21,6 +21,7 @@ import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 import groovy.lang.Binding;
@@ -82,12 +83,12 @@ public class GroovyCommandRouter extends GroovyComponent implements IOutboundCom
 	    ICommandDestination<?, ?> destination = getCommandDestinationsManager().getCommandDestinations()
 		    .get(target);
 	    if (destination == null) {
-		throw new SiteWhereException(
-			"Groovy command router returned invalid command destination: " + destination);
+		throw new SiteWhereException(ErrorCode.Error,
+				"Groovy command router returned invalid command destination: " + destination);
 	    }
 	    return Collections.singletonList(destination);
 	} else {
-	    throw new SiteWhereException("Groovy command router did not return a command destination id.");
+	    throw new SiteWhereException(ErrorCode.Error, "Groovy command router did not return a command destination id.");
 	}
     }
 
@@ -113,7 +114,7 @@ public class GroovyCommandRouter extends GroovyComponent implements IOutboundCom
 	    getLogger().debug("About to route command using script '" + getScriptId() + "'");
 	    return (String) run(binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run router script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run router script.", e);
 	}
     }
 

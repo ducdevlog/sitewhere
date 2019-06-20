@@ -49,6 +49,7 @@ import com.sitewhere.spi.batch.request.IBatchCommandInvocationRequest;
 import com.sitewhere.spi.batch.request.IBatchElementCreateRequest;
 import com.sitewhere.spi.batch.request.IBatchOperationCreateRequest;
 import com.sitewhere.spi.batch.request.IBatchOperationUpdateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.batch.IBatchOperationSearchCriteria;
 import com.sitewhere.spi.search.device.IBatchElementSearchCriteria;
@@ -82,7 +83,7 @@ public class BatchModelConverter {
 	case BATCH_OPERATION_STATUS_FINISHED_SUCCESSFULLY:
 	    return BatchOperationStatus.FinishedSuccessfully;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown batch operation status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidBatchOperationId, "Unknown batch operation status: " + grpc.name());
 	}
 	return null;
     }
@@ -109,7 +110,7 @@ public class BatchModelConverter {
 	case FinishedSuccessfully:
 	    return GBatchOperationStatus.BATCH_OPERATION_STATUS_FINISHED_SUCCESSFULLY;
 	}
-	throw new SiteWhereException("Unknown batch operation status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidBatchOperationId, "Unknown batch operation status: " + api.name());
     }
 
     /**
@@ -328,7 +329,7 @@ public class BatchModelConverter {
 	case BATCH_ELEMENT_STATUS_SUCCEEDED:
 	    return ElementProcessingStatus.Succeeded;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown element processing status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidBatchOperationId, "Unknown element processing status: " + grpc.name());
 	}
 	return null;
     }
@@ -355,7 +356,7 @@ public class BatchModelConverter {
 	case Succeeded:
 	    return GElementProcessingStatus.BATCH_ELEMENT_STATUS_SUCCEEDED;
 	}
-	throw new SiteWhereException("Unknown element processing status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidBatchElementId, "Unknown element processing status: " + api.name());
     }
 
     /**

@@ -22,6 +22,7 @@ import com.sitewhere.sources.spi.IInboundEventReceiver;
 import com.sitewhere.sources.spi.IInboundEventSource;
 import com.sitewhere.sources.spi.microservice.IEventSourcesTenantEngine;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
@@ -69,10 +70,10 @@ public abstract class InboundEventSource<T> extends TenantEngineLifecycleCompone
 	super.initialize(monitor);
 
 	if ((getInboundEventReceivers() == null) || (getInboundEventReceivers().size() == 0)) {
-	    throw new SiteWhereException("No inbound event receivers registered for event source.");
+	    throw new SiteWhereException(ErrorCode.ErrorEventSource, "No inbound event receivers registered for event source.");
 	}
 	if (getDeviceEventDecoder() == null) {
-	    throw new SiteWhereException("No device event decoder assigned.");
+	    throw new SiteWhereException(ErrorCode.ErrorEventSource, "No device event decoder assigned.");
 	}
 
 	// Set up metrics.

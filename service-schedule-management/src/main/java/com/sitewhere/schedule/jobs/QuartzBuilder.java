@@ -7,6 +7,7 @@
  */
 package com.sitewhere.schedule.jobs;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.quartz.CronExpression;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -53,7 +54,7 @@ public class QuartzBuilder {
 	    return builder.build();
 	}
 	default: {
-	    throw new SiteWhereException("Unhandled job type: " + job.getJobType());
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Unhandled job type: " + job.getJobType());
 	}
 	}
     }
@@ -75,7 +76,7 @@ public class QuartzBuilder {
 	    return buildCronTrigger(job, schedule);
 	}
 	default: {
-	    throw new SiteWhereException("Unhandled trigger type: " + schedule.getTriggerType());
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Unhandled trigger type: " + schedule.getTriggerType());
 	}
 	}
     }
@@ -100,7 +101,7 @@ public class QuartzBuilder {
 		    simple.repeatForever();
 		}
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Non-numeric value used for repeat count.", e);
+		throw new SiteWhereException(ErrorCode.ErrorQuartz, "Non-numeric value used for repeat count.", e);
 	    }
 	}
 	String interval = schedule.getTriggerConfiguration().get(TriggerConstants.SimpleTrigger.REPEAT_INTERVAL);
@@ -108,7 +109,7 @@ public class QuartzBuilder {
 	    try {
 		simple.withIntervalInMilliseconds(Long.parseLong(interval));
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Non-numeric value used for repeat interval.", e);
+		throw new SiteWhereException(ErrorCode.ErrorQuartz, "Non-numeric value used for repeat interval.", e);
 	    }
 	}
 	TriggerBuilder<?> builder = TriggerBuilder.newTrigger().withIdentity(job.getToken()).withSchedule(simple);
@@ -127,10 +128,10 @@ public class QuartzBuilder {
     protected static Trigger buildCronTrigger(IScheduledJob job, ISchedule schedule) throws SiteWhereException {
 	String expression = schedule.getTriggerConfiguration().get(TriggerConstants.CronTrigger.CRON_EXPRESSION);
 	if (expression == null) {
-	    throw new SiteWhereException("Cron trigger did not specify expression.");
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Cron trigger did not specify expression.");
 	}
 	if (!CronExpression.isValidExpression(expression)) {
-	    throw new SiteWhereException("Cron expression is invalid.");
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Cron expression is invalid.");
 	}
 	CronScheduleBuilder cron = CronScheduleBuilder.cronSchedule(expression);
 	TriggerBuilder<?> builder = TriggerBuilder.newTrigger().withIdentity(job.getToken()).withSchedule(cron);

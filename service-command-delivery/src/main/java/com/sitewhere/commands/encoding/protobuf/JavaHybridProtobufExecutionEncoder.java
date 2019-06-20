@@ -18,6 +18,7 @@ import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.ICommandParameter;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Extends {@link ProtobufExecutionEncoder} so that commands and parameter
@@ -56,7 +57,7 @@ public class JavaHybridProtobufExecutionEncoder extends ProtobufExecutionEncoder
 	    out.flush();
 	    return encoded.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to encode command.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to encode command.", e);
 	}
     }
 
@@ -102,8 +103,8 @@ public class JavaHybridProtobufExecutionEncoder extends ProtobufExecutionEncoder
 	    }
 	    }
 	} catch (Throwable e) {
-	    throw new SiteWhereException("Error converting command parameter.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error converting command parameter.", e);
 	}
-	throw new SiteWhereException("Parameter type could not be encoded: " + parameter.getType());
+	throw new SiteWhereException(ErrorCode.Error, "Parameter type could not be encoded: " + parameter.getType());
     }
 }

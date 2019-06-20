@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,7 +61,7 @@ public class ConfigurationContentParser {
 	    ElementContent content = parse(element, configurationModel);
 	    return content;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to parse configuration content.", e);
+			throw new SiteWhereException(ErrorCode.UnableParseConfiguration, "Unable to parse configuration content.", e);
 	}
     }
 
@@ -123,7 +124,7 @@ public class ConfigurationContentParser {
 	    buildXml(document, content, configurationModel);
 	    return document;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to parse configuration content.", e);
+	    throw new SiteWhereException(ErrorCode.UnableParseConfiguration, "Unable to parse configuration content.", e);
 	}
     }
 
@@ -217,7 +218,7 @@ public class ConfigurationContentParser {
 	    tf.transform(new DOMSource(xml), new StreamResult(out));
 	    return out.toString();
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to format XML document.", e);
+	    throw new SiteWhereException(ErrorCode.UnableParseConfiguration, "Unable to format XML document.", e);
 	}
     }
 }

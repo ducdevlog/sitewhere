@@ -16,6 +16,7 @@ import com.sitewhere.configuration.instance.cassandra.CassandraConfiguration;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.server.lifecycle.parameters.StringComponentParameter;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.IDiscoverableTenantLifecycleComponent;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponentParameter;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
@@ -78,7 +79,7 @@ public class CassandraClient extends TenantEngineLifecycleComponent implements I
 	// Verify that contact points were specified.
 	String[] contactPoints = getContactPoints().getValue().split(",");
 	if (contactPoints.length == 0) {
-	    throw new SiteWhereException("No contact points specified for Cassandra cluster.");
+	    throw new SiteWhereException(ErrorCode.Error, "No contact points specified for Cassandra cluster.");
 	}
 
 	Cluster.Builder builder = Cluster.builder();
@@ -104,7 +105,7 @@ public class CassandraClient extends TenantEngineLifecycleComponent implements I
 	try {
 	    getSession().execute(query);
 	} catch (QueryExecutionException e) {
-	    throw new SiteWhereException("Query execution failed.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Query execution failed.", e);
 	}
     }
 

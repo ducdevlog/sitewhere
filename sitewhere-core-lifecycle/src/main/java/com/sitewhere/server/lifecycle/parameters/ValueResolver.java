@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.multitenant.IMicroserviceTenantEngine;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponent;
 import com.sitewhere.spi.server.lifecycle.ITenantEngineLifecycleComponent;
@@ -45,7 +46,7 @@ public class ValueResolver {
 		? ((ITenantEngineLifecycleComponent) context).getTenantEngine()
 		: null;
 	if ((engine == null) && (value.indexOf(asVariable(TENANT_ID)) != -1)) {
-	    throw new SiteWhereException("Unable to resolve reference to tenant id in a global component.");
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to resolve reference to tenant id in a global component.");
 	}
 
 	String result = value;

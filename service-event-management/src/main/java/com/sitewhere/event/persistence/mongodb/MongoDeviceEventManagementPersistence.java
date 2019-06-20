@@ -7,6 +7,7 @@
  */
 package com.sitewhere.event.persistence.mongodb;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.bson.Document;
 
 import com.mongodb.MongoCommandException;
@@ -44,9 +45,9 @@ public class MongoDeviceEventManagementPersistence extends MongoPersistence {
 		collection.insertOne(object);
 	    }
 	} catch (MongoCommandException e) {
-	    throw new SiteWhereException("Error during MongoDB insert.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Error during MongoDB insert.", e);
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Connection to MongoDB lost.", e);
 	}
     }
 
@@ -78,7 +79,7 @@ public class MongoDeviceEventManagementPersistence extends MongoPersistence {
 	    return MongoDeviceStateChange.toDocument((IDeviceStateChange) event);
 	}
 	default: {
-	    throw new SiteWhereException("Event type not handled: " + event.getEventType());
+	    throw new SiteWhereException(ErrorCode.InvalidParseData, "Event type not handled: " + event.getEventType());
 	}
 	}
     }
@@ -94,11 +95,11 @@ public class MongoDeviceEventManagementPersistence extends MongoPersistence {
     public static IDeviceEvent unmarshalEvent(Document found) throws SiteWhereException {
 	String type = (String) found.get(MongoDeviceEvent.PROP_EVENT_TYPE);
 	if (type == null) {
-	    throw new SiteWhereException("Event matched but did not contain event type field.");
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Event matched but did not contain event type field.");
 	}
 	DeviceEventType eventType = DeviceEventType.valueOf(type);
 	if (eventType == null) {
-	    throw new SiteWhereException("Event type not recognized: " + type);
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Event type not recognized: " + type);
 	}
 
 	switch (eventType) {
@@ -121,7 +122,7 @@ public class MongoDeviceEventManagementPersistence extends MongoPersistence {
 	    return MongoDeviceStateChange.fromDocument(found);
 	}
 	default: {
-	    throw new SiteWhereException("Event type not handled: " + type);
+	    throw new SiteWhereException(ErrorCode.InvalidParseData, "Event type not handled: " + type);
 	}
 	}
     }

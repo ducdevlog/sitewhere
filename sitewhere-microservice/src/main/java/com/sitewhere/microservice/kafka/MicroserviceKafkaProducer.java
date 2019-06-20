@@ -10,6 +10,7 @@ package com.sitewhere.microservice.kafka;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -113,9 +114,9 @@ public abstract class MicroserviceKafkaProducer extends TenantEngineLifecycleCom
 	try {
 	    return getProducer().send(record);
 	} catch (IllegalStateException e) {
-	    throw new SiteWhereException("Producer unable to send record.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Producer unable to send record.", e);
 	} catch (Throwable e) {
-	    throw new SiteWhereException("Unhandled exception in producer while sending record.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unhandled exception in producer while sending record.", e);
 	}
     }
 

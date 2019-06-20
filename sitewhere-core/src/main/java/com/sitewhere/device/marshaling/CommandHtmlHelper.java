@@ -7,6 +7,7 @@
  */
 package com.sitewhere.device.marshaling;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.lang.StringUtils;
 
 import com.sitewhere.rest.model.batch.request.BatchCommandForCriteriaRequest;
@@ -39,7 +40,7 @@ public class CommandHtmlHelper {
     public static String getHtml(MarshaledDeviceCommandInvocation invocation) throws SiteWhereException {
 	DeviceCommand command = invocation.getCommand();
 	if (command == null) {
-	    throw new SiteWhereException("Command information must be populated to generate HTML.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Command information must be populated to generate HTML.");
 	}
 	String html = "";
 	html += "<span class='sw-spec-command-name'>" + command.getName() + "</span>(";
@@ -77,17 +78,17 @@ public class CommandHtmlHelper {
     public static String getHtml(BatchCommandForCriteriaRequest criteria, IDeviceManagement devices,
 	    String relativePath) throws SiteWhereException {
 	if (StringUtils.isEmpty(criteria.getDeviceTypeToken())) {
-	    throw new SiteWhereException("Device type token must be populated to generate HTML.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Device type token must be populated to generate HTML.");
 	}
 	IDeviceType deviceType = devices.getDeviceTypeByToken(criteria.getDeviceTypeToken());
 	if (deviceType == null) {
-	    throw new SiteWhereException("Invalid device type reference: " + criteria.getDeviceTypeToken());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Invalid device type reference: " + criteria.getDeviceTypeToken());
 	}
 	String html = "all devices";
 	if (!StringUtils.isEmpty(criteria.getAreaToken())) {
 	    IArea area = devices.getAreaByToken(criteria.getAreaToken());
 	    if (area == null) {
-		throw new SiteWhereException("Invalid area reference: " + criteria.getAreaToken());
+		throw new SiteWhereException(ErrorCode.InvalidAreaToken, "Invalid area reference: " + criteria.getAreaToken());
 	    }
 	    html += " belonging to area <a href=\"" + relativePath + "/areas/" + area.getToken() + ".html\">"
 		    + area.getName() + "</a>";
@@ -97,7 +98,7 @@ public class CommandHtmlHelper {
 	if (!StringUtils.isEmpty(criteria.getGroupToken())) {
 	    IDeviceGroup group = devices.getDeviceGroupByToken(criteria.getGroupToken());
 	    if (group == null) {
-		throw new SiteWhereException("Invalid group reference: " + criteria.getGroupToken());
+		throw new SiteWhereException(ErrorCode.InvalidDeviceGroupToken, "Invalid group reference: " + criteria.getGroupToken());
 	    }
 	    html += " and belonging to group <a href=\"" + relativePath + "/groups/" + group.getToken() + ".html\">"
 		    + group.getName() + "</a>";

@@ -8,6 +8,7 @@
 package com.sitewhere.server.lifecycle;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponent;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
@@ -49,10 +50,10 @@ public class InitializeComponentLifecycleStep extends ComponentOperationLifecycl
 	    } catch (SiteWhereException t) {
 		throw t;
 	    } catch (Throwable t) {
-		throw new SiteWhereException("Unable to initialize " + getComponent().getComponentName(), t);
+		throw new SiteWhereException(ErrorCode.Error, "Unable to initialize " + getComponent().getComponentName(), t);
 	    }
 	} else {
-	    throw new SiteWhereException("Attempting to initialize component '" + getComponent().getComponentName()
+	    throw new SiteWhereException(ErrorCode.Error, "Attempting to initialize component '" + getComponent().getComponentName()
 		    + "' but component is null.");
 	}
     }

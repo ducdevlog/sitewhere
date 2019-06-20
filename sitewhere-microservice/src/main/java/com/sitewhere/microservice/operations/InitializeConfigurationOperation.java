@@ -10,6 +10,7 @@ package com.sitewhere.microservice.operations;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -57,7 +58,7 @@ public class InitializeConfigurationOperation<T extends IConfigurableMicroservic
 	    getMicroservice().setConfigurationState(ConfigurationState.Loading);
 	    byte[] global = getMicroservice().getInstanceManagementConfigurationData();
 	    if (global == null) {
-		throw new SiteWhereException("Global instance management file not found.");
+		throw new SiteWhereException(ErrorCode.Error, "Global instance management file not found.");
 	    }
 	    ApplicationContext globalContext = ConfigurationUtils.buildGlobalContext(global,
 		    getMicroservice().getSpringProperties(), getMicroservice().getMicroserviceApplicationContext());
@@ -71,7 +72,7 @@ public class InitializeConfigurationOperation<T extends IConfigurableMicroservic
 		    localContext = ConfigurationUtils.buildSubcontext(data, getMicroservice().getSpringProperties(),
 			    globalContext);
 		} else {
-		    throw new SiteWhereException("Required microservice configuration not found: " + fullPath);
+		    throw new SiteWhereException(ErrorCode.Error, "Required microservice configuration not found: " + fullPath);
 		}
 	    }
 

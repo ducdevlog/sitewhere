@@ -16,6 +16,7 @@ import com.sitewhere.grpc.client.common.tracing.ClientTracingInterceptor;
 import com.sitewhere.grpc.client.spi.IGrpcChannel;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.tracing.ITracerProvider;
 
@@ -97,7 +98,7 @@ public abstract class GrpcChannel<B, A> extends TenantEngineLifecycleComponent i
 	    this.blockingStub = createBlockingStub();
 	    this.asyncStub = createAsyncStub();
 	} catch (Throwable t) {
-	    throw new SiteWhereException("Unhandled exception starting gRPC channel.", t);
+	    throw new SiteWhereException(ErrorCode.Error, "Unhandled exception starting gRPC channel.", t);
 	}
     }
 

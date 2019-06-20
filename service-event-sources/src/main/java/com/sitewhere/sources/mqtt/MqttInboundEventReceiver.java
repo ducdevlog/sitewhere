@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.fusesource.hawtdispatch.ShutdownException;
 import org.fusesource.mqtt.client.Future;
 import org.fusesource.mqtt.client.FutureConnection;
@@ -105,7 +106,7 @@ public class MqttInboundEventReceiver extends MqttLifecycleComponent implements 
 
 	    getLogger().info(EventSourcesMessages.SUBSCRIBED_TO_EVENTS_MQTT, getTopic(), getNumThreads());
 	} catch (Exception e) {
-	    throw new SiteWhereException("Exception while attempting to subscribe to MQTT topic: " + getTopic(), e);
+	    throw new SiteWhereException(ErrorCode.Error, "Exception while attempting to subscribe to MQTT topic: " + getTopic(), e);
 	}
 
 	// Handle message processing in separate thread.

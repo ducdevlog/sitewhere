@@ -8,6 +8,7 @@
 package com.sitewhere.microservice.security;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Exception thrown when an expired JWT is used for a REST request.
@@ -23,11 +24,11 @@ public class JwtExpiredException extends SiteWhereException {
     }
 
     public JwtExpiredException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.Error, message, cause);
     }
 
     public JwtExpiredException(String message) {
-	super(message);
+	super(ErrorCode.Error, message);
     }
 
     public JwtExpiredException(Throwable cause) {

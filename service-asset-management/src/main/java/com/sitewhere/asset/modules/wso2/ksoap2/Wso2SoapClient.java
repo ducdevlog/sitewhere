@@ -19,6 +19,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -133,7 +134,7 @@ public class Wso2SoapClient {
 		try {
 			conn.setRequestProperty("Authorization", buffer.toString());
 		} catch (IOException e) {
-			throw new SiteWhereException("Error adding basic auth request property.", e);
+			throw new SiteWhereException(ErrorCode.Error, "Error adding basic auth request property.", e);
 		}
 	}
 
@@ -149,7 +150,7 @@ public class Wso2SoapClient {
 			String value = (String) ((SoapPrimitive) response).getValue();
 			return "true".equalsIgnoreCase(value);
 		}
-		throw new SiteWhereException("Invalid response from SOAP service.");
+		throw new SiteWhereException(ErrorCode.Error, "Invalid response from SOAP service.");
 	}
 
 	/**

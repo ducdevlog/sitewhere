@@ -7,6 +7,7 @@
  */
 package com.sitewhere.spi;
 
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponent;
 
 /**
@@ -23,7 +24,7 @@ public class ServerStartupException extends SiteWhereException {
     private ILifecycleComponent component;
 
     public ServerStartupException(ILifecycleComponent component, String message, Throwable t) {
-	super(message, t);
+	super(ErrorCode.Error, message, t);
 	this.component = component;
     }
 

@@ -18,6 +18,7 @@ import com.sitewhere.sources.spi.ICompositeDeviceEventDecoder;
 import com.sitewhere.sources.spi.IDecodedDeviceRequest;
 import com.sitewhere.sources.spi.IDeviceEventDecoder;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
@@ -102,10 +103,10 @@ public abstract class CompositeDeviceEventDecoder<T> extends TenantEngineLifecyc
     @Override
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getMetadataExtractor() == null) {
-	    throw new SiteWhereException("Composite decoder has no metadata extractor configured.");
+	    throw new SiteWhereException(ErrorCode.ErrorEventDecode, "Composite decoder has no metadata extractor configured.");
 	}
 	if (getDecoderChoices().size() < 1) {
-	    throw new SiteWhereException("Composite decoder has no chocies configured.");
+	    throw new SiteWhereException(ErrorCode.ErrorEventDecode, "Composite decoder has no chocies configured.");
 	}
 
 	startNestedComponent(getMetadataExtractor(), monitor, true);

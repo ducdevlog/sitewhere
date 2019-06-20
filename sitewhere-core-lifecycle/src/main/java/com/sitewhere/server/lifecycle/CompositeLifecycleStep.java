@@ -10,6 +10,7 @@ package com.sitewhere.server.lifecycle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +85,7 @@ public class CompositeLifecycleStep implements ICompositeLifecycleStep {
 		    TracerUtils.handleErrorInTracerSpan(span, e);
 		    throw e;
 		} catch (Throwable t) {
-		    SiteWhereException e = new SiteWhereException("Unhandled exception in composite lifecycle step.",
+		    SiteWhereException e = new SiteWhereException(ErrorCode.Error, "Unhandled exception in composite lifecycle step.",
 			    t);
 		    TracerUtils.handleErrorInTracerSpan(span, e);
 		    throw e;

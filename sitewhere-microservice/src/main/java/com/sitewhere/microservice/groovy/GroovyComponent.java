@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import com.sitewhere.microservice.security.SystemUserCallable;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.configuration.IConfigurableMicroservice;
 import com.sitewhere.spi.microservice.groovy.IGroovyComponent;
 import com.sitewhere.spi.microservice.scripting.IScriptMetadata;
@@ -60,13 +61,13 @@ public class GroovyComponent extends TenantEngineLifecycleComponent implements I
 	super.initialize(monitor);
 
 	if (getScriptId() == null) {
-	    throw new SiteWhereException("Script id was not initialized properly.");
+	    throw new SiteWhereException(ErrorCode.Error, "Script id was not initialized properly.");
 	}
 	this.scriptMetadata = ((IConfigurableMicroservice<?>) getMicroservice()).getScriptManagement()
 		.getScriptMetadata(getMicroservice().getIdentifier(), getTenantEngine().getTenant().getId(),
 			getScriptId());
 	if (getScriptMetadata() == null) {
-	    throw new SiteWhereException("Script '" + getScriptId() + "' was not found.");
+	    throw new SiteWhereException(ErrorCode.Error, "Script '" + getScriptId() + "' was not found.");
 	}
 
 	getLogger().info(String.format("Groovy component will use version %s of script '%s'",
@@ -108,7 +109,7 @@ public class GroovyComponent extends TenantEngineLifecycleComponent implements I
 	    // TODO: Handle this in a non-blocking way.
 	    return result.get();
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Script execution interrupted.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Script execution interrupted.", e);
 	} catch (ExecutionException e) {
 	    throw new SiteWhereException(e.getCause());
 	}

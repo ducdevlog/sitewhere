@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
@@ -100,7 +101,7 @@ public abstract class ConfigurableMicroservice<T extends IFunctionIdentifier> ex
     @Override
     public byte[] getConfigurationDataFor(String path) throws SiteWhereException {
 	if (!isConfigurationCacheReady()) {
-	    throw new SiteWhereException("Configuration cache not initialized.");
+	    throw new SiteWhereException(ErrorCode.Error, "Configuration cache not initialized.");
 	}
 	return getConfigurationMonitor().getConfigurationDataFor(path);
     }
@@ -433,7 +434,7 @@ public abstract class ConfigurableMicroservice<T extends IFunctionIdentifier> ex
 	getLogger().debug("Waiting for configuration to be loaded...");
 	while (true) {
 	    if (getConfigurationState() == ConfigurationState.Failed) {
-		throw new SiteWhereException("Microservice configuration failed.");
+		throw new SiteWhereException(ErrorCode.Error, "Microservice configuration failed.");
 	    }
 	    if (getConfigurationState() == ConfigurationState.Started) {
 		getLogger().debug("Configuration started successfully.");

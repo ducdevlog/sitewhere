@@ -25,6 +25,7 @@ import com.sitewhere.core.Boilerplate;
 import com.sitewhere.microservice.discovery.ServiceNode;
 import com.sitewhere.server.lifecycle.LifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.IFunctionIdentifier;
 import com.sitewhere.spi.microservice.discovery.IServiceDiscoveryProvider;
 import com.sitewhere.spi.microservice.discovery.IServiceNode;
@@ -151,7 +152,7 @@ public class ConsulServiceDiscoveryProvider extends LifecycleComponent implement
 		    agentClient.pass(serviceId);
 		}
 	    } catch (NotRegisteredException e) {
-		throw new SiteWhereException("Unable to send heartbeat.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Unable to send heartbeat.", e);
 	    }
 	} else {
 	    getLogger().info("Skipping heartbeat. Consul client not connected.");

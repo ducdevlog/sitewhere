@@ -102,8 +102,8 @@ public class DefaultCommandExecutionBuilder extends LifecycleComponent implement
 		try {
 		    converted = Double.parseDouble(paramValue);
 		} catch (NumberFormatException e) {
-		    throw new SiteWhereException(
-			    "Field '" + parameter.getName() + "' contains a value that can not be parsed as a double.");
+		    throw new SiteWhereException(ErrorCode.InvalidParseData,
+					"Field '" + parameter.getName() + "' contains a value that can not be parsed as a double.");
 		}
 		break;
 	    }
@@ -111,8 +111,8 @@ public class DefaultCommandExecutionBuilder extends LifecycleComponent implement
 		try {
 		    converted = Float.parseFloat(paramValue);
 		} catch (NumberFormatException e) {
-		    throw new SiteWhereException(
-			    "Field '" + parameter.getName() + "' contains a value that can not be parsed as a float.");
+		    throw new SiteWhereException(ErrorCode.InvalidParseData,
+					"Field '" + parameter.getName() + "' contains a value that can not be parsed as a float.");
 		}
 		break;
 	    }
@@ -124,7 +124,7 @@ public class DefaultCommandExecutionBuilder extends LifecycleComponent implement
 		try {
 		    converted = Integer.parseInt(paramValue);
 		} catch (NumberFormatException e) {
-		    throw new SiteWhereException("Field '" + parameter.getName()
+		    throw new SiteWhereException(ErrorCode.InvalidParseData, "Field '" + parameter.getName()
 			    + "' contains a value that can not be parsed as an integer.");
 		}
 		break;
@@ -137,13 +137,13 @@ public class DefaultCommandExecutionBuilder extends LifecycleComponent implement
 		try {
 		    converted = Long.parseLong(paramValue);
 		} catch (NumberFormatException e) {
-		    throw new SiteWhereException(
-			    "Field '" + parameter.getName() + "' contains a value that can not be parsed as an long.");
+		    throw new SiteWhereException(ErrorCode.InvalidParseData,
+					"Field '" + parameter.getName() + "' contains a value that can not be parsed as an long.");
 		}
 		break;
 	    }
 	    default: {
-		throw new SiteWhereException("Unhandled parameter type: " + parameter.getType().name());
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Unhandled parameter type: " + parameter.getType().name());
 	    }
 
 	    }

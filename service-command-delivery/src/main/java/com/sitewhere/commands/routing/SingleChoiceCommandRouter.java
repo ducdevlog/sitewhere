@@ -21,6 +21,7 @@ import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 /**
@@ -73,8 +74,8 @@ public class SingleChoiceCommandRouter extends OutboundCommandRouter {
 
 	Map<String, ICommandDestination<?, ?>> destinations = getCommandDestinationsManager().getCommandDestinations();
 	if (destinations.size() != 1) {
-	    throw new SiteWhereException(
-		    "Expected exactly one destination for command routing but found " + destinations.size() + ".");
+	    throw new SiteWhereException(ErrorCode.Error,
+                "Expected exactly one destination for command routing but found " + destinations.size() + ".");
 	}
 	Iterator<ICommandDestination<?, ?>> it = destinations.values().iterator();
 	this.destinations = Collections.singletonList(it.next());

@@ -10,6 +10,7 @@ package com.sitewhere.spi.server.lifecycle;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +40,12 @@ public class LifecycleProgressUtils {
 	    throws SiteWhereException {
 	ILifecycleProgressContext context = monitor.getContextStack().peek();
 	if (context == null) {
-	    throw new SiteWhereException("Unable to start operation. No context available.");
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start operation. No context available.");
 	}
 	int newIndex = context.getCurrentOperationIndex() + 1;
 	if (newIndex > context.getOperationCount()) {
-	    throw new SiteWhereException(
-		    "Unable to start operation. Index will exceed expected operation count. Operation was: "
+	    throw new SiteWhereException(ErrorCode.Error,
+				"Unable to start operation. Index will exceed expected operation count. Operation was: "
 			    + operation);
 	}
 	context.setCurrentOperationIndex(newIndex);
@@ -60,7 +61,7 @@ public class LifecycleProgressUtils {
     public static void finishProgressOperation(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	ILifecycleProgressContext context = monitor.getContextStack().peek();
 	if (context == null) {
-	    throw new SiteWhereException("Unable to finish operation. No context available.");
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to finish operation. No context available.");
 	}
 
 	// Report progress based on new operation.
@@ -75,7 +76,7 @@ public class LifecycleProgressUtils {
      * Recursively computes progress based on nested contexts.
      * 
      * @param stack
-     * @param parentChunk
+     * @param current
      * @return
      */
     protected static double computeSubprogressFor(Deque<ILifecycleProgressContext> stack, double current) {

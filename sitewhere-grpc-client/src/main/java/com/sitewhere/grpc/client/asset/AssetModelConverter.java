@@ -34,6 +34,7 @@ import com.sitewhere.spi.asset.IAsset;
 import com.sitewhere.spi.asset.IAssetType;
 import com.sitewhere.spi.asset.request.IAssetCreateRequest;
 import com.sitewhere.spi.asset.request.IAssetTypeCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.asset.IAssetSearchCriteria;
 import com.sitewhere.spi.search.asset.IAssetTypeSearchCritiera;
@@ -61,7 +62,7 @@ public class AssetModelConverter {
 	case ASSET_CATEGORY_PERSON:
 	    return AssetCategory.Person;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown asset type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidAssetCategory, "Unknown asset type: " + grpc.name());
 	}
 	return null;
     }
@@ -82,7 +83,7 @@ public class AssetModelConverter {
 	case Person:
 	    return GAssetCategory.ASSET_CATEGORY_PERSON;
 	}
-	throw new SiteWhereException("Unknown asset type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidAssetCategory, "Unknown asset type: " + api.name());
     }
 
     /**
@@ -207,7 +208,6 @@ public class AssetModelConverter {
      * Copy common asset fields from GRPC to API.
      * 
      * @param grpc
-     * @param api
      * @throws SiteWhereException
      */
     public static AssetCreateRequest asApiAssetCreateRequest(GAssetCreateRequest grpc) throws SiteWhereException {
@@ -304,7 +304,7 @@ public class AssetModelConverter {
     /**
      * Convert asset search criteria from API to GRPC.
      * 
-     * @param criteria
+     * @param api
      * @return
      * @throws SiteWhereException
      */

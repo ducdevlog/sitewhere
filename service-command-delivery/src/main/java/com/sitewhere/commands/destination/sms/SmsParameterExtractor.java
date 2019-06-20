@@ -15,6 +15,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 /**
@@ -52,7 +53,7 @@ public class SmsParameterExtractor extends TenantEngineLifecycleComponent
 	String phone = deviceMeta.get(getPhoneNumberMetadataField());
 	params.setSmsPhoneNumber(phone);
 	if (phone == null) {
-	    throw new SiteWhereException("No phone number found in device metadata. Unable to deliver.");
+	    throw new SiteWhereException(ErrorCode.Error, "No phone number found in device metadata. Unable to deliver.");
 	}
 
 	return params;

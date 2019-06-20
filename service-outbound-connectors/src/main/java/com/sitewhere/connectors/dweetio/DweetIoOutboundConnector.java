@@ -7,6 +7,7 @@
  */
 package com.sitewhere.connectors.dweetio;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
@@ -98,7 +99,7 @@ public class DweetIoOutboundConnector extends SerialOutboundConnector {
 	    if (response.getStatusCode() == HttpStatus.OK) {
 		return true;
 	    }
-	    throw new SiteWhereException("Unable to create dweet. Status code was: " + response.getStatusCode());
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to create dweet. Status code was: " + response.getStatusCode());
 	} catch (ResourceAccessException e) {
 	    throw new SiteWhereException(e);
 	}

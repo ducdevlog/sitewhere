@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -57,7 +58,6 @@ public class CommandInvocations extends RestControllerBase {
     /**
      * Get a command invocation by unique id.
      * 
-     * @param deviceToken
      * @param id
      * @return
      * @throws SiteWhereException
@@ -69,7 +69,7 @@ public class CommandInvocations extends RestControllerBase {
 	    @ApiParam(value = "Unique id", required = true) @PathVariable UUID id) throws SiteWhereException {
 	IDeviceEvent found = getDeviceEventManagement().getDeviceEventById(id);
 	if (!(found instanceof IDeviceCommandInvocation)) {
-	    throw new SiteWhereException("Event with the corresponding id is not a command invocation.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Event with the corresponding id is not a command invocation.");
 	}
 	DeviceCommandInvocationMarshalHelper helper = new DeviceCommandInvocationMarshalHelper(getDeviceManagement());
 	return helper.convert((IDeviceCommandInvocation) found);
@@ -77,8 +77,7 @@ public class CommandInvocations extends RestControllerBase {
 
     /**
      * Get a summarized version of the given device command invocation.
-     * 
-     * @param deviceToken
+     *
      * @param id
      * @return
      * @throws SiteWhereException
@@ -90,7 +89,7 @@ public class CommandInvocations extends RestControllerBase {
 	    @ApiParam(value = "Unique id", required = true) @PathVariable UUID id) throws SiteWhereException {
 	IDeviceEvent found = getDeviceEventManagement().getDeviceEventById(id);
 	if (!(found instanceof IDeviceCommandInvocation)) {
-	    throw new SiteWhereException("Event with the corresponding id is not a command invocation.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Event with the corresponding id is not a command invocation.");
 	}
 	IDeviceCommandInvocation invocation = (IDeviceCommandInvocation) found;
 	DeviceCommandInvocationMarshalHelper helper = new DeviceCommandInvocationMarshalHelper(getDeviceManagement());

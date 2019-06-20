@@ -8,6 +8,7 @@
 package com.sitewhere.inbound.processing;
 
 import com.sitewhere.common.MarshalUtils;
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -57,13 +58,13 @@ public class OutboundPayloadEnrichmentLogic {
 	IDeviceAssignment assignment = getDeviceManagement().getDeviceAssignment(event.getDeviceAssignmentId());
 	if (assignment == null) {
 	    // TODO: Is there a separate topic for these events?
-	    throw new SiteWhereException("Event references non-existent device assignment.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceAssignmentToken, "Event references non-existent device assignment.");
 	}
 
 	IDevice device = getDeviceManagement().getDevice(assignment.getDeviceId());
 	if (device == null) {
 	    // TODO: Is there a separate topic for these events?
-	    throw new SiteWhereException("Event references assignment for non-existent device.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceToken, "Event references assignment for non-existent device.");
 	}
 
 	// Build event context.

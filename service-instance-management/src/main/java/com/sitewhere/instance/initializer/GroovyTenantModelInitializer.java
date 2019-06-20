@@ -7,6 +7,7 @@
  */
 package com.sitewhere.instance.initializer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -63,7 +64,7 @@ public class GroovyTenantModelInitializer extends ModelInitializer implements IT
 	try {
 	    getGroovyConfiguration().run(getScriptPath(), binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run tenant model initializer.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run tenant model initializer.", e);
 	}
     }
 

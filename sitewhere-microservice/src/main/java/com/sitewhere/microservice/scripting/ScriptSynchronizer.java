@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.io.IOUtils;
 
 import com.sitewhere.microservice.zookeeper.ZkUtils;
@@ -59,7 +60,7 @@ public abstract class ScriptSynchronizer extends LifecycleComponent implements I
 			getZkScriptRootPath(), getFileSystemRoot(), getZkScriptRootPath());
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to copy scripts from Zookeeper.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to copy scripts from Zookeeper.", e);
 	}
     }
 
@@ -110,7 +111,7 @@ public abstract class ScriptSynchronizer extends LifecycleComponent implements I
 		Files.delete(existing.toPath());
 		getLogger().debug("Deleted script at path '" + existing.getAbsolutePath() + "'.");
 	    } catch (IOException e) {
-		throw new SiteWhereException("Unable to delete script from filesystem.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Unable to delete script from filesystem.", e);
 	    }
 	}
     }
@@ -224,7 +225,7 @@ public abstract class ScriptSynchronizer extends LifecycleComponent implements I
 	    getLogger().debug("Copied script content (" + content.length + " bytes) from '" + zkPath + "' to '"
 		    + out.getAbsolutePath() + "'.");
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to copy script from Zookeeper path '" + zkPath + "' to file '"
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to copy script from Zookeeper path '" + zkPath + "' to file '"
 		    + out.getAbsolutePath() + "'.", e);
 	} finally {
 	    if (output != null) {
@@ -263,7 +264,7 @@ public abstract class ScriptSynchronizer extends LifecycleComponent implements I
 	try {
 	    return getMicroservice().getZookeeperManager().getCurator().getData().forPath(zkPath);
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to get Zookeeper content for path '" + zkPath + "'.");
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to get Zookeeper content for path '" + zkPath + "'.");
 	}
     }
 
@@ -282,7 +283,7 @@ public abstract class ScriptSynchronizer extends LifecycleComponent implements I
 	    Path fsRoot = getFileSystemRoot().toPath();
 	    return fsRoot.resolve(relative).toFile();
 	} catch (Throwable e) {
-	    throw new SiteWhereException("Unable to get Zookeeper script content.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to get Zookeeper script content.", e);
 	}
     }
 }

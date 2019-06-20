@@ -16,6 +16,7 @@ import com.sitewhere.sources.spi.IInboundEventReceiver;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandler;
 import com.sitewhere.sources.spi.socket.ISocketInteractionHandlerFactory;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
@@ -60,7 +61,7 @@ public class GroovySocketInteractionHandler extends TenantEngineLifecycleCompone
 	    getLogger().info("About to execute '" + factory.getScriptId() + "' to interact with socket.");
 	    factory.run(binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run socket interaction handler script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run socket interaction handler script.", e);
 	}
     }
 

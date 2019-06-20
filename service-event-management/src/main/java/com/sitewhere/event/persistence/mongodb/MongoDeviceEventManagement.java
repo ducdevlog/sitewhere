@@ -473,7 +473,7 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
 	    return MongoDeviceEvent.PROP_CUSTOMER_ID;
 	}
 	}
-	throw new SiteWhereException("Unknown index: " + index.name());
+	throw new SiteWhereException(ErrorCode.InvalidParseData, "Unknown index: " + index.name());
     }
 
     protected IDeviceManagement getDeviceManagement() {

@@ -33,6 +33,7 @@ import com.sitewhere.rest.model.configuration.XmlNode;
 import com.sitewhere.rest.model.microservice.scripting.ScriptTemplate;
 import com.sitewhere.rest.model.microservice.state.MicroserviceDetails;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.MicroserviceIdentifier;
 import com.sitewhere.spi.microservice.configuration.model.AttributeType;
 import com.sitewhere.spi.microservice.configuration.model.IAttributeChoice;
@@ -66,7 +67,7 @@ public class MicroserviceModelConverter {
 	case NODE_TYPE_ELEMENT:
 	    return NodeType.Element;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown node type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown node type: " + grpc.name());
 	}
 	return null;
     }
@@ -85,7 +86,7 @@ public class MicroserviceModelConverter {
 	case Element:
 	    return GNodeType.NODE_TYPE_ELEMENT;
 	}
-	throw new SiteWhereException("Unknown node type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown node type: " + api.name());
     }
 
     /**
@@ -152,7 +153,7 @@ public class MicroserviceModelConverter {
 	case ATTRIBUTE_TYPE_STRING:
 	    return AttributeType.String;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown attribute type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown attribute type: " + grpc.name());
 	}
 	return null;
     }
@@ -185,7 +186,7 @@ public class MicroserviceModelConverter {
 	case String:
 	    return GAttributeType.ATTRIBUTE_TYPE_STRING;
 	}
-	throw new SiteWhereException("Unknown node type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown node type: " + api.name());
     }
 
     /**
@@ -474,7 +475,7 @@ public class MicroserviceModelConverter {
 	case MSID_WEB_REST:
 	    return MicroserviceIdentifier.WebRest;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown microservice identifier: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown microservice identifier: " + grpc.name());
 	}
 	return null;
     }
@@ -528,7 +529,7 @@ public class MicroserviceModelConverter {
 	case WebRest:
 	    return GMicroserviceIdentifier.MSID_WEB_REST;
 	}
-	throw new SiteWhereException("Unknown microservice identifier: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown microservice identifier: " + api.name());
     }
 
     /**

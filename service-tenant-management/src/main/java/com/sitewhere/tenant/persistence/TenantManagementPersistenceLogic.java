@@ -72,12 +72,12 @@ public class TenantManagementPersistenceLogic extends Persistence {
 
 	if (request.getTenantTemplateId() != null) {
 	    if (!request.getTenantTemplateId().equals(existing.getTenantTemplateId())) {
-		throw new SiteWhereException("Can not change the tenant template of an existing tenant.");
+		throw new SiteWhereException(ErrorCode.Error, "Can not change the tenant template of an existing tenant.");
 	    }
 	}
 	if (request.getDatasetTemplateId() != null) {
 	    if (!request.getDatasetTemplateId().equals(existing.getDatasetTemplateId())) {
-		throw new SiteWhereException("Can not change the dataset template of an existing tenant.");
+		throw new SiteWhereException(ErrorCode.Error, "Can not change the dataset template of an existing tenant.");
 	    }
 	}
 

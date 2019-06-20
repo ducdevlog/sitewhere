@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.codahale.metrics.MetricRegistry;
@@ -347,7 +348,7 @@ public abstract class Microservice<T extends IFunctionIdentifier> extends Lifecy
 	    getLogger().info(MicroserviceMessages.INSTANCE_BOOTSTRAP_CONFIRMED);
 	} catch (Exception e) {
 	    TracerUtils.handleErrorInTracerSpan(span, e);
-	    throw new SiteWhereException("Error waiting on instance to be bootstrapped.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error waiting on instance to be bootstrapped.", e);
 	} finally {
 	    TracerUtils.finishTracerSpan(span);
 	}

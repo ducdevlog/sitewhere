@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.TopicPartition;
 
@@ -231,7 +232,7 @@ public class KafkaRuleProcessorHost extends DirectKafkaConsumer {
 		break;
 	    }
 	    default: {
-		throw new SiteWhereException("Unknown event type. " + event.getEventType().name());
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Unknown event type. " + event.getEventType().name());
 	    }
 	    }
 	}

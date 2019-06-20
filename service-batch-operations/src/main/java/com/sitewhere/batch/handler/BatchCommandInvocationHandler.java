@@ -31,6 +31,7 @@ import com.sitewhere.spi.device.event.CommandInitiator;
 import com.sitewhere.spi.device.event.CommandTarget;
 import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
 import com.sitewhere.spi.device.event.IDeviceEventManagement;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Operation handler for batch command invocations.
@@ -61,17 +62,17 @@ public class BatchCommandInvocationHandler extends TenantEngineLifecycleComponen
 	// Find information about the command to be executed.
 	String deviceCommandToken = operation.getParameters().get(IBatchCommandInvocationRequest.PARAM_COMMAND_TOKEN);
 	if (deviceCommandToken == null) {
-	    throw new SiteWhereException("Command token not found in batch command invocation request.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Command token not found in batch command invocation request.");
 	}
 	IDeviceCommand command = getDeviceManagement().getDeviceCommandByToken(deviceCommandToken);
 	if (command == null) {
-	    throw new SiteWhereException("Invalid command token referenced by batch command invocation.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Invalid command token referenced by batch command invocation.");
 	}
 
 	// Find information about the device to execute the command against.
 	IDevice device = getDeviceManagement().getDevice(element.getDeviceId());
 	if (device == null) {
-	    throw new SiteWhereException("Invalid device id in command invocation.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceToken, "Invalid device id in command invocation.");
 	}
 
 	// Find the current assignment information for the device.

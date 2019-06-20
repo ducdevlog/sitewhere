@@ -15,6 +15,7 @@ import com.sitewhere.spi.device.streaming.IDeviceStreamData;
 import com.sitewhere.spi.device.streaming.IDeviceStreamDataManagement;
 import com.sitewhere.spi.device.streaming.IDeviceStreamManagement;
 import com.sitewhere.spi.device.streaming.request.IDeviceStreamDataCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
@@ -42,7 +43,7 @@ public class MongoDeviceStreamDataManagement extends TenantEngineLifecycleCompon
     @Override
     public IDeviceStreamData addDeviceStreamData(UUID streamId, IDeviceStreamDataCreateRequest request)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     /*
@@ -51,7 +52,7 @@ public class MongoDeviceStreamDataManagement extends TenantEngineLifecycleCompon
      */
     @Override
     public IDeviceStreamData getDeviceStreamData(UUID streamId, long sequenceNumber) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     /*
@@ -62,7 +63,7 @@ public class MongoDeviceStreamDataManagement extends TenantEngineLifecycleCompon
     @Override
     public ISearchResults<IDeviceStreamData> listDeviceStreamDataForAssignment(UUID streamId,
 	    IDateRangeSearchCriteria criteria) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorStreamMedia, "Not implemented.");
     }
 
     public IDeviceStreamManagementMongoClient getMongoClient() {

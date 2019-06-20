@@ -8,6 +8,7 @@
 package com.sitewhere.sources.spi;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Exception thrown when an event payload can not be decoded.
@@ -23,11 +24,11 @@ public class EventDecodeException extends SiteWhereException {
     }
 
     public EventDecodeException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.ErrorEventEncode, message, cause);
     }
 
     public EventDecodeException(String message) {
-	super(message);
+	super(ErrorCode.ErrorEventEncode, message);
     }
 
     public EventDecodeException(Throwable cause) {

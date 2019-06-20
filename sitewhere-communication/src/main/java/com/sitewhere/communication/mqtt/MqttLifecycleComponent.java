@@ -9,6 +9,7 @@ package com.sitewhere.communication.mqtt;
 
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -161,7 +162,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
             future.await(DEFAULT_CONNECT_TIMEOUT_SECS, TimeUnit.SECONDS);
             return connection;
         } catch (Exception e) {
-            throw new SiteWhereException("Unable to connect to MQTT broker.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to connect to MQTT broker.", e);
         }
     }
 
@@ -261,7 +262,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
             }
 
         } catch (Throwable t) {
-            throw new SiteWhereException("Unable to configure secure transport.", t);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to configure secure transport.", t);
         }
         mqtt.setSslContext(sslContext);
         component.getLogger().info("Created SSL context for MQTT receiver.");
@@ -372,7 +373,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
             mqtt.setHost(component.getProtocol() + "://" + component.getHostname() + ":" + component.getPort());
             return mqtt;
         } catch (URISyntaxException e) {
-            throw new SiteWhereException("Invalid hostname for MQTT server.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Invalid hostname for MQTT server.", e);
         }
     }
 

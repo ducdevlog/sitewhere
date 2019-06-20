@@ -39,7 +39,7 @@ public class SiteWhereSystemException extends SiteWhereException {
     }
 
     public SiteWhereSystemException(ErrorCode code, Throwable cause, ErrorLevel level) {
-	super(code.getMessage(), cause);
+	super(code, code.getMessage(), cause);
 	this.code = code;
 	this.level = level;
     }

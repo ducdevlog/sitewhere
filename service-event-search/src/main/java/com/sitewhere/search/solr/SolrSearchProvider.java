@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.NoOpResponseParser;
@@ -82,7 +83,7 @@ public class SolrSearchProvider extends LifecycleComponent implements IDeviceEve
     @Override
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getSolrConfiguration() == null) {
-	    throw new SiteWhereException("No Solr configuration provided.");
+	    throw new SiteWhereException(ErrorCode.Error, "No Solr configuration provided.");
 	}
 	try {
 	    // Create and start Solr connection.
@@ -94,9 +95,9 @@ public class SolrSearchProvider extends LifecycleComponent implements IDeviceEve
 	    int pingTime = response.getQTime();
 	    getLogger().info("Solr server location verified. Ping responded in " + pingTime + " ms.");
 	} catch (SolrServerException e) {
-	    throw new SiteWhereException("Ping failed. Verify that Solr server is available.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Ping failed. Verify that Solr server is available.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Exception in ping. Verify that Solr server is available.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Exception in ping. Verify that Solr server is available.", e);
 	}
     }
 
@@ -135,9 +136,9 @@ public class SolrSearchProvider extends LifecycleComponent implements IDeviceEve
 	    }
 	    return results;
 	} catch (SolrServerException e) {
-	    throw new SiteWhereException("Unable to execute query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute query.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to execute query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute query.", e);
 	}
     }
 
@@ -160,9 +161,9 @@ public class SolrSearchProvider extends LifecycleComponent implements IDeviceEve
 	    NamedList<?> results = getSolrConnection().getSolrClient().request(request);
 	    return MAPPER.readTree((String) results.get("response"));
 	} catch (SolrServerException e) {
-	    throw new SiteWhereException("Unable to execute query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute query.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to execute query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute query.", e);
 	}
     }
 
@@ -185,9 +186,9 @@ public class SolrSearchProvider extends LifecycleComponent implements IDeviceEve
 	    List<IDeviceLocation> results = new ArrayList<IDeviceLocation>();
 	    return results;
 	} catch (SolrServerException e) {
-	    throw new SiteWhereException("Unable to execute 'getLocationsNear' query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute 'getLocationsNear' query.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to execute query.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorSolr, "Unable to execute query.", e);
 	}
     }
 

@@ -27,6 +27,7 @@ import com.sitewhere.spi.device.event.IDeviceEvent;
 import com.sitewhere.spi.device.event.IDeviceEventManagement;
 import com.sitewhere.spi.device.event.IDeviceLocation;
 import com.sitewhere.spi.device.event.IDeviceMeasurement;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 
 /**
@@ -63,7 +64,7 @@ public class DeviceEventRequestBuilder {
 	try {
 	    IDeviceAssignment targetAssignment = deviceManagement.getDeviceAssignmentByToken(target);
 	    if (targetAssignment == null) {
-		throw new SiteWhereException("Target assignment not found: " + target);
+		throw new SiteWhereException(ErrorCode.InvalidAssetToken, "Target assignment not found: " + target);
 	    }
 	    IDevice targetDevice = deviceManagement.getDevice(targetAssignment.getDeviceId());
 	    DeviceCommandSearchCriteria criteria = new DeviceCommandSearchCriteria(1, 0);
@@ -76,7 +77,7 @@ public class DeviceEventRequestBuilder {
 		}
 	    }
 	    if (match == null) {
-		throw new SiteWhereException("Command not executed. No command found matching: " + commandName);
+		throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Command not executed. No command found matching: " + commandName);
 	    }
 	    return new DeviceCommandInvocationCreateRequest.Builder(match.getToken(), target);
 	} catch (SiteWhereException e) {

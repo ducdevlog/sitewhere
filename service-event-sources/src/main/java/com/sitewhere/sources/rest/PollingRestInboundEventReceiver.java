@@ -10,6 +10,7 @@ package com.sitewhere.sources.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -60,13 +61,13 @@ public class PollingRestInboundEventReceiver extends PollingInboundEventReceiver
 	super.initialize(monitor);
 
 	if (getScriptId() == null) {
-	    throw new SiteWhereException("Script id was not initialized properly.");
+	    throw new SiteWhereException(ErrorCode.Error, "Script id was not initialized properly.");
 	}
 	this.scriptMetadata = ((IConfigurableMicroservice<?>) getMicroservice()).getScriptManagement()
 		.getScriptMetadata(getMicroservice().getIdentifier(), getTenantEngine().getTenant().getId(),
 			getScriptId());
 	if (getScriptMetadata() == null) {
-	    throw new SiteWhereException("Script '" + getScriptId() + "' was not found.");
+	    throw new SiteWhereException(ErrorCode.Error, "Script '" + getScriptId() + "' was not found.");
 	}
     }
 
@@ -108,7 +109,7 @@ public class PollingRestInboundEventReceiver extends PollingInboundEventReceiver
 	} catch (SiteWhereException e) {
 	    throw e;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unhandled exception in Groovy script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unhandled exception in Groovy script.", e);
 	}
     }
 

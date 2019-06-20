@@ -141,6 +141,7 @@ import com.sitewhere.spi.device.request.IDeviceGroupCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceGroupElementCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceStatusCreateRequest;
 import com.sitewhere.spi.device.request.IDeviceTypeCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.area.IAreaSearchCriteria;
@@ -171,7 +172,7 @@ public class DeviceModelConverter {
 	case CONTAINER_STANDALONE:
 	    return DeviceContainerPolicy.Standalone;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown device container policy: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceContainerPolicy, "Unknown device container policy: " + grpc.name());
 	}
 	return null;
     }
@@ -184,7 +185,7 @@ public class DeviceModelConverter {
 			case MINIMAL:
 				return ReversedMessageType.MINIMAL;
 			default:
-				throw new SiteWhereException("Unknown device reversed message type: " + grpc);
+				throw new SiteWhereException(ErrorCode.InvalidDeviceReversedMessage, "Unknown device reversed message type: " + grpc);
 		}
 	}
 
@@ -203,7 +204,7 @@ public class DeviceModelConverter {
 	case Standalone:
 	    return GDeviceContainerPolicy.CONTAINER_STANDALONE;
 	}
-	throw new SiteWhereException("Unknown device container policy: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDeviceContainerPolicy, "Unknown device container policy: " + api.name());
     }
 
 	public static GDeviceTypeReversedMessageType asGrpcDeviceTypeReversedMessageType(ReversedMessageType api)
@@ -214,7 +215,7 @@ public class DeviceModelConverter {
 			case MINIMAL:
 				return GDeviceTypeReversedMessageType.MINIMAL;
 		}
-		throw new SiteWhereException("Unknown device container policy: " + api.name());
+		throw new SiteWhereException(ErrorCode.InvalidDeviceContainerPolicy, "Unknown device container policy: " + api.name());
 	}
 
     /**
@@ -553,7 +554,7 @@ public class DeviceModelConverter {
 	case PARAMETER_UINT64:
 	    return ParameterType.UInt64;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown parameter type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.Error, "Unknown parameter type: " + grpc.name());
 	}
 	return null;
     }
@@ -598,7 +599,7 @@ public class DeviceModelConverter {
 	case UInt64:
 	    return GParameterType.PARAMETER_UINT64;
 	}
-	throw new SiteWhereException("Unknown parameter type: " + api.name());
+	throw new SiteWhereException(ErrorCode.Error, "Unknown parameter type: " + api.name());
     }
 
     /**
@@ -1825,7 +1826,7 @@ public class DeviceModelConverter {
 	case ALARM_STATE_RESOLVED:
 	    return DeviceAlarmState.Resolved;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown device alarm state: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown device alarm state: " + grpc.name());
 	}
 	return null;
     }
@@ -1849,7 +1850,7 @@ public class DeviceModelConverter {
 	case Resolved:
 	    return GDeviceAlarmState.ALARM_STATE_RESOLVED;
 	}
-	throw new SiteWhereException("Unknown device alarm state: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown device alarm state: " + api.name());
     }
 
     /**

@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 public class DataUtils {
 
@@ -52,7 +53,7 @@ public class DataUtils {
 			factory.setNamespaceAware(true);
 			DOCUMENTBUILDER_FACTORY = factory;
 		    } catch (FactoryConfigurationError e) {
-			throw new SiteWhereException("Unable to create document builder factory.", e);
+			throw new SiteWhereException(ErrorCode.Error, "Unable to create document builder factory.", e);
 		    }
 		}
 	    }

@@ -60,7 +60,7 @@ public class MongoPersistence {
 	    if (ErrorCategory.DUPLICATE_KEY == category) {
 		throw new ResourceExistsException(ifDuplicate);
 	    }
-	    throw new SiteWhereException("Error during MongoDB insert.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error during MongoDB insert.", e);
 	} catch (MongoClientException e) {
 	    throw handleClientException(e);
 	}
@@ -81,7 +81,7 @@ public class MongoPersistence {
 	    collection.updateOne(query, new Document("$set", object));
 	    LOGGER.trace("Update took " + (System.currentTimeMillis() - start) + " ms.");
 	} catch (MongoCommandException e) {
-	    throw new SiteWhereException("Error during MongoDB update.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error during MongoDB update.", e);
 	}
     }
 
@@ -101,7 +101,7 @@ public class MongoPersistence {
 	    LOGGER.trace("Delete took " + (System.currentTimeMillis() - start) + " ms.");
 	    return result;
 	} catch (MongoCommandException e) {
-	    throw new SiteWhereException("Error during MongoDB delete.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error during MongoDB delete.", e);
 	}
     }
 
@@ -214,7 +214,7 @@ public class MongoPersistence {
 	    }
 	    return results;
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Connection to MongoDB lost.", e);
 	}
     }
 
@@ -281,8 +281,8 @@ public class MongoPersistence {
      */
     public static SiteWhereException handleClientException(MongoClientException e) {
 	if (e instanceof MongoTimeoutException) {
-	    return new SiteWhereException("Connection to MongoDB lost.", e);
+	    return new SiteWhereException(ErrorCode.Error, "Connection to MongoDB lost.", e);
 	}
-	return new SiteWhereException("Exception in MongoDB client.", e);
+	return new SiteWhereException(ErrorCode.Error, "Exception in MongoDB client.", e);
     }
 }
