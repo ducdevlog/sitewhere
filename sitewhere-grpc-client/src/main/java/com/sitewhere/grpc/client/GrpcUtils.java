@@ -277,7 +277,7 @@ public class GrpcUtils {
 					.withDescription(ErrorCode.Error.getCode() + ":" + sw.getMessage());
 		} else {
 			status = Status.fromCode(Code.FAILED_PRECONDITION)
-					.withDescription(sw.getErrorCode() + ":" + sw.getMessage());
+					.withDescription(sw.getErrorCode().getCode() + ":" + sw.getMessage());
 		}
 
 		thrown = status.asException();
