@@ -17,8 +17,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -159,6 +161,12 @@ public class WebRestExceptionHandling extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleRuntimeException(RuntimeException e, WebRequest request) {
 	LOGGER.error("Showing internal server error due to unhandled runtime exception.", e);
 	return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Error parser message input")
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public void handleException(HttpMessageNotReadableException e) {
+        LOGGER.error("Http Message Not Readable Exception.", e);
     }
 
     /**
