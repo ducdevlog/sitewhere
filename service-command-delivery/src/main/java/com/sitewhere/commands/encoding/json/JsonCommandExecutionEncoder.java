@@ -14,6 +14,7 @@ import com.sitewhere.commands.spi.microservice.ICommandDeliveryMicroservice;
 import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.rest.model.device.command.DeviceCommandExecution;
 import com.sitewhere.rest.model.device.command.MinimalDeviceCommandExecution;
+import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
@@ -90,7 +91,11 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 				}
 				List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
 				if (CollectionUtils.isNotEmpty(irCodeRaws)) {
-					command.getInvocation().getParameterValues().put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
+					DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
+					HashMap<String, String> parameterValues = (HashMap<String, String>) deviceCommandInvocation.getParameterValues();
+					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
+					deviceCommandInvocation.setParameterValues(parameterValues);
+					//command.getInvocation().getParameterValues().put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
 				}
 			} catch (IOException e) {
 				getLogger().error("Parser message IR");
