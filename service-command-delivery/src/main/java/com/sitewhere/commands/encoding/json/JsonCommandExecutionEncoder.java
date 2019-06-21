@@ -92,7 +92,7 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 				List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
 				if (CollectionUtils.isNotEmpty(irCodeRaws)) {
 					DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
-					HashMap<String, String> parameterValues = (HashMap<String, String>) deviceCommandInvocation.getParameterValues();
+					Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
 					deviceCommandInvocation.setParameterValues(parameterValues);
 				}
