@@ -75,18 +75,18 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 				deviceCommandValue = objectMapper.readValue(value, IRDeviceCommandValue.class);
 				if (deviceCommandValue.getValues() != null && deviceCommandValue.getValues().size() > 0) {
 					if (deviceCommandValue.getValues().containsKey("ID")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("ID"));
-					if (deviceCommandValue.getValues().containsKey("CODESET_NAME")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("CODESET_NAME"));
-					if (deviceCommandValue.getValues().containsKey("FUNCTION_NAME")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("FUNCTION_NAME"));
-					if (deviceCommandValue.getValues().containsKey("POWER")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("POWER"));
-					if (deviceCommandValue.getValues().containsKey("MODE")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("MODE"));
-					if (deviceCommandValue.getValues().containsKey("FAN")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("FAN"));
-					if (deviceCommandValue.getValues().containsKey("TEMP")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TEMP"));
-					if (deviceCommandValue.getValues().containsKey("TIMER")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TIMER"));
-					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TIMER_DELAY"));
-					if (deviceCommandValue.getValues().containsKey("LED")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("LED"));
-					if (deviceCommandValue.getValues().containsKey("COMFORT")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("COMFORT"));
-					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("ECONO"));
-					if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("POWERFUL"));
+					if (deviceCommandValue.getValues().containsKey("CODESET_NAME")) irCodeRawTemp.setCodesetName(deviceCommandValue.getValues().get("CODESET_NAME"));
+					if (deviceCommandValue.getValues().containsKey("FUNCTION_NAME")) irCodeRawTemp.setFunctionName(deviceCommandValue.getValues().get("FUNCTION_NAME"));
+					if (deviceCommandValue.getValues().containsKey("POWER")) irCodeRawTemp.setPower(deviceCommandValue.getValues().get("POWER"));
+					if (deviceCommandValue.getValues().containsKey("MODE")) irCodeRawTemp.setMode(deviceCommandValue.getValues().get("MODE"));
+					if (deviceCommandValue.getValues().containsKey("FAN")) irCodeRawTemp.setFan(deviceCommandValue.getValues().get("FAN"));
+					if (deviceCommandValue.getValues().containsKey("TEMP")) irCodeRawTemp.setTemp(deviceCommandValue.getValues().get("TEMP"));
+					if (deviceCommandValue.getValues().containsKey("TIMER")) irCodeRawTemp.setTimer(deviceCommandValue.getValues().get("TIMER"));
+					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setTimerDelay(deviceCommandValue.getValues().get("TIMER_DELAY"));
+					if (deviceCommandValue.getValues().containsKey("LED")) irCodeRawTemp.setLed(deviceCommandValue.getValues().get("LED"));
+					if (deviceCommandValue.getValues().containsKey("COMFORT")) irCodeRawTemp.setComfort(deviceCommandValue.getValues().get("COMFORT"));
+					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setEcono(deviceCommandValue.getValues().get("ECONO"));
+					if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("POWERFUL"));
 				}
 			} catch (IOException e) {
 				getLogger().error("Parser message IR");
