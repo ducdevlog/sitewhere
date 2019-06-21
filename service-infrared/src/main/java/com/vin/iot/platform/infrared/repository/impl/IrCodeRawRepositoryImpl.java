@@ -56,8 +56,8 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
         if (StringUtils.isNotEmpty(irCodeRaw.getEcono())) {
             query.addCriteria(Criteria.where("ECONO").is(irCodeRaw.getEcono()));
         }
-        if (StringUtils.isNotEmpty(irCodeRaw.getPower())) {
-            query.addCriteria(Criteria.where("POWERFUL").is(irCodeRaw.getPower()));
+        if (StringUtils.isNotEmpty(irCodeRaw.getPowerful())) {
+            query.addCriteria(Criteria.where("POWERFUL").is(irCodeRaw.getPowerful()));
         }
         if (StringUtils.isNotEmpty(irCodeRaw.getIrFreqKhz())) {
             query.addCriteria(Criteria.where("IR_FREQ_KHZ").is(irCodeRaw.getIrFreqKhz()));
