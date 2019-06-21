@@ -98,6 +98,7 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 
 					DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
 					Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+					parameters.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
 					deviceCommandExecution.setParameters(parameters);
 				}
 			} catch (IOException e) {
