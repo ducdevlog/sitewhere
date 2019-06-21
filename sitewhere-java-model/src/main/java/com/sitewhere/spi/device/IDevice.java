@@ -98,4 +98,8 @@ public interface IDevice extends IPersistentEntity {
      * @return
      */
     public boolean isDelete();
+
+    public String getAreaName();
+
+    public String getAreaToken();
 }

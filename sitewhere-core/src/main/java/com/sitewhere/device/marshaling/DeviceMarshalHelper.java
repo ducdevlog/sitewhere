@@ -79,6 +79,8 @@ public class DeviceMarshalHelper {
 		result.setHardwareId(source.getHardwareId());
 		result.setItemChannelLink(source.getItemChannelLink());
 		result.setConfigurationGateway(source.getConfigurationGateway());
+		result.setAreaName(source.getAreaName());
+		result.setAreaToken(source.getAreaToken());
 
 	PersistentEntity.copy(source, result);
 
