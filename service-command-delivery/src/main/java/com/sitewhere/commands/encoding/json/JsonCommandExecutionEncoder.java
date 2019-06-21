@@ -88,14 +88,13 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setEcono(deviceCommandValue.getValues().get("ECONO"));
 					if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("POWERFUL"));
 				}
+				List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
+				if (CollectionUtils.isNotEmpty(irCodeRaws)) {
+					command.getInvocation().getParameterValues().put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
+				}
 			} catch (IOException e) {
 				getLogger().error("Parser message IR");
 				e.printStackTrace();
-			}
-
-			List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
-			if (CollectionUtils.isNotEmpty(irCodeRaws)) {
-				command.getInvocation().getParameterValues().put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
 			}
 		}
 
