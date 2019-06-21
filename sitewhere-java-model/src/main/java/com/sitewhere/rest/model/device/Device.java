@@ -67,6 +67,10 @@ public class Device extends PersistentEntity implements IDevice {
     @JsonIgnore
     private boolean delete;
 
+    private String areaName;
+
+    private String areaToken;
+
     /*
      * @see com.sitewhere.spi.device.IDevice#getDeviceTypeId()
      */
@@ -187,5 +191,21 @@ public class Device extends PersistentEntity implements IDevice {
 
     public void setConfigurationGateway(Map<String, String> configurationGateway) {
         this.configurationGateway = configurationGateway;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getAreaToken() {
+        return areaToken;
+    }
+
+    public void setAreaToken(String areaToken) {
+        this.areaToken = areaToken;
     }
 }

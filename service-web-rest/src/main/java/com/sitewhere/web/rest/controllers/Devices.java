@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sitewhere.common.MarshalUtils;
+import com.sitewhere.rest.model.device.Device;
 import com.sitewhere.rest.model.device.request.DeviceAssignmentCreateRequest;
 import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
 import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
@@ -106,11 +107,13 @@ public class Devices extends RestControllerBase {
     		configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
     		request.setConfigurationGateway(configurations);
 		}
-	IDevice result = getDeviceManagement().createDevice(request);
+	 	Device result = (Device) getDeviceManagement().createDevice(request);
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
 			IArea area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
 			if (area != null) {
+				result.setAreaToken(area.getToken());
+				result.setAreaName(area.getName());
 				DeviceAssignmentCreateRequest assnCreate = new DeviceAssignmentCreateRequest();
 				assnCreate.setDeviceToken(result.getToken());
 				assnCreate.setAreaToken(area.getToken());
