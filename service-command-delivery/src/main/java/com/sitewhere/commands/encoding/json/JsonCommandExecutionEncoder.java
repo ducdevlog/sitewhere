@@ -95,6 +95,10 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 					Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
 					deviceCommandInvocation.setParameterValues(parameterValues);
+
+					DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
+					Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+					deviceCommandExecution.setParameters(parameters);
 				}
 			} catch (IOException e) {
 				getLogger().error("Parser message IR");
