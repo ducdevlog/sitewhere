@@ -26,8 +26,10 @@ import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.zookeeper.Op;
 import org.springframework.beans.BeanUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -66,26 +68,31 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 		IDeviceType deviceType = getDeviceManagement().getDeviceType(command.getCommand().getDeviceTypeId());
 		if (DEVICE_TYPE_IR.equalsIgnoreCase(deviceType.getToken()) && StringUtils.isEmpty(nested.getGateway().getGatewayId())) {
 			String value = command.getInvocation().getParameterValues().get(IR_VALUE_CONTENT);
-			Map<String, String> mapValue = Pattern.compile("\\s*;\\s*")
-					.splitAsStream(value)
-					.map(s -> s.split("\\s*,\\s*"))
-					.collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? a[1] : ""));
+			ObjectMapper objectMapper = new ObjectMapper();
 			IrCodeRaw irCodeRawTemp = new IrCodeRaw();
-			if (mapValue.size() > 0) {
-				if (mapValue.containsKey("ID")) irCodeRawTemp.setId(mapValue.get("ID"));
-				if (mapValue.containsKey("CODESET_NAME")) irCodeRawTemp.setId(mapValue.get("CODESET_NAME"));
-				if (mapValue.containsKey("FUNCTION_NAME")) irCodeRawTemp.setId(mapValue.get("FUNCTION_NAME"));
-				if (mapValue.containsKey("POWER")) irCodeRawTemp.setId(mapValue.get("POWER"));
-				if (mapValue.containsKey("MODE")) irCodeRawTemp.setId(mapValue.get("MODE"));
-				if (mapValue.containsKey("FAN")) irCodeRawTemp.setId(mapValue.get("FAN"));
-				if (mapValue.containsKey("TEMP")) irCodeRawTemp.setId(mapValue.get("TEMP"));
-				if (mapValue.containsKey("TIMER")) irCodeRawTemp.setId(mapValue.get("TIMER"));
-				if (mapValue.containsKey("TIMER_DELAY")) irCodeRawTemp.setId(mapValue.get("TIMER_DELAY"));
-				if (mapValue.containsKey("LED")) irCodeRawTemp.setId(mapValue.get("LED"));
-				if (mapValue.containsKey("COMFORT")) irCodeRawTemp.setId(mapValue.get("COMFORT"));
-				if (mapValue.containsKey("ECONO")) irCodeRawTemp.setId(mapValue.get("ECONO"));
-				if (mapValue.containsKey("POWERFUL")) irCodeRawTemp.setId(mapValue.get("POWERFUL"));
+			IRDeviceCommandValue deviceCommandValue;
+			try {
+				deviceCommandValue = objectMapper.readValue(value, IRDeviceCommandValue.class);
+				if (deviceCommandValue.getValues() != null && deviceCommandValue.getValues().size() > 0) {
+					if (deviceCommandValue.getValues().containsKey("ID")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("ID"));
+					if (deviceCommandValue.getValues().containsKey("CODESET_NAME")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("CODESET_NAME"));
+					if (deviceCommandValue.getValues().containsKey("FUNCTION_NAME")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("FUNCTION_NAME"));
+					if (deviceCommandValue.getValues().containsKey("POWER")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("POWER"));
+					if (deviceCommandValue.getValues().containsKey("MODE")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("MODE"));
+					if (deviceCommandValue.getValues().containsKey("FAN")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("FAN"));
+					if (deviceCommandValue.getValues().containsKey("TEMP")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TEMP"));
+					if (deviceCommandValue.getValues().containsKey("TIMER")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TIMER"));
+					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("TIMER_DELAY"));
+					if (deviceCommandValue.getValues().containsKey("LED")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("LED"));
+					if (deviceCommandValue.getValues().containsKey("COMFORT")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("COMFORT"));
+					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("ECONO"));
+					if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setId(deviceCommandValue.getValues().get("POWERFUL"));
+				}
+			} catch (IOException e) {
+				getLogger().error("Parser message IR");
+				e.printStackTrace();
 			}
+
 			List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
 			if (CollectionUtils.isNotEmpty(irCodeRaws)) {
 				command.getInvocation().getParameterValues().put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
