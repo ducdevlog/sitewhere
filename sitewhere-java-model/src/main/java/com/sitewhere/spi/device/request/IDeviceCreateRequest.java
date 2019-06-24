@@ -97,4 +97,6 @@ public interface IDeviceCreateRequest extends IPersistentEntityCreateRequest {
      * @return
      */
     public boolean isDelete();
+
+    public String getAreaToken();
 }

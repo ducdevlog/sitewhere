@@ -46,12 +46,12 @@ public class DeviceRegistrationRequest extends DeviceCreateRequest implements ID
      * @see com.sitewhere.spi.device.event.request.IDeviceRegistrationRequest#
      * getAreaToken()
      */
-    @Override
+    /*@Override
     public String getAreaToken() {
 	return areaToken;
     }
 
     public void setAreaToken(String areaToken) {
 	this.areaToken = areaToken;
-    }
+    }*/
 }

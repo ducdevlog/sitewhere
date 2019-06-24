@@ -62,6 +62,7 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
     /** Action delete*/
     private boolean delete;
 
+    private String areaToken;
     /*
      * @see
      * com.sitewhere.spi.device.request.IDeviceCreateRequest#getDeviceTypeToken()
@@ -219,5 +220,13 @@ public class DeviceCreateRequest extends PersistentEntityCreateRequest implement
 	public DeviceCreateRequest build() {
 	    return request;
 	}
+    }
+
+    public String getAreaToken() {
+        return areaToken;
+    }
+
+    public void setAreaToken(String areaToken) {
+        this.areaToken = areaToken;
     }
 }

@@ -28,5 +28,5 @@ public interface IDeviceRegistrationRequest extends IDeviceCreateRequest {
      * 
      * @return
      */
-    public String getAreaToken();
+    //public String getAreaToken();
 }

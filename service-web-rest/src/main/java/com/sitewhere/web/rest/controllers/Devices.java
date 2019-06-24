@@ -109,8 +109,19 @@ public class Devices extends RestControllerBase {
 		}
 	 	Device result = (Device) getDeviceManagement().createDevice(request);
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
-		if (result != null && StringUtils.isNoneEmpty(request.getGatewayId())) {
+		if (result != null && StringUtils.isNotEmpty(request.getGatewayId())) {
 			IArea area = getDeviceManagement().getAreaByGatewayId(request.getGatewayId());
+			if (area != null) {
+				result.setAreaToken(area.getToken());
+				result.setAreaName(area.getName());
+				DeviceAssignmentCreateRequest assnCreate = new DeviceAssignmentCreateRequest();
+				assnCreate.setDeviceToken(result.getToken());
+				assnCreate.setAreaToken(area.getToken());
+				getDeviceManagement().createDeviceAssignment(assnCreate);
+				helper.setIncludeAssignment(true);
+			}
+		} else if (result != null && StringUtils.isNotEmpty(request.getAreaToken())) {
+			IArea area = getDeviceManagement().getAreaByToken(request.getAreaToken());
 			if (area != null) {
 				result.setAreaToken(area.getToken());
 				result.setAreaName(area.getName());
