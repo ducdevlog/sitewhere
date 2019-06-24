@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.user.IGrantedAuthority;
 
 /**
@@ -37,7 +38,7 @@ public class GrantedAuthorityHierarchyBuilder {
 	    }
 	}
 	if (roots.size() == 0) {
-	    throw new SiteWhereException("No root authorities found.");
+	    throw new SiteWhereException(ErrorCode.Error, "No root authorities found.");
 	}
 	for (IGrantedAuthority root : roots) {
 	    auths.remove(root);

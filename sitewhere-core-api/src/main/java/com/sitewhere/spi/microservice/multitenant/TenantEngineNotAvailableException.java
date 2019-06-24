@@ -8,6 +8,7 @@
 package com.sitewhere.spi.microservice.multitenant;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Exception thrown when a tenant engine is expected to be available but is not
@@ -25,7 +26,7 @@ public class TenantEngineNotAvailableException extends SiteWhereException {
     }
 
     public TenantEngineNotAvailableException(String message) {
-	super(message);
+	super(ErrorCode.InvalidTenantEngineId, message);
     }
 
     public TenantEngineNotAvailableException(Throwable cause) {
@@ -33,6 +34,6 @@ public class TenantEngineNotAvailableException extends SiteWhereException {
     }
 
     public TenantEngineNotAvailableException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.InvalidTenantEngineId, message, cause);
     }
 }

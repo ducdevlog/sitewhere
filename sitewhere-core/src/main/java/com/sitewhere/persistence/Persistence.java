@@ -118,7 +118,7 @@ public class Persistence {
      */
     protected static void require(String fieldName, String field) throws SiteWhereException {
 	if (StringUtils.isBlank(field)) {
-	    throw new SiteWhereException("Field '" + fieldName + "' is required.");
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Field '" + fieldName + "' is required.");
 	}
     }
 
@@ -130,7 +130,7 @@ public class Persistence {
      */
     protected static void requireNotNull(String fieldName, Object field) throws SiteWhereException {
 	if (field == null) {
-	    throw new SiteWhereException("Field '" + fieldName + "' is required.");
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Field '" + fieldName + "' is required.");
 	}
     }
 

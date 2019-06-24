@@ -7,6 +7,7 @@
  */
 package com.sitewhere.device.initializer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -68,7 +69,7 @@ public class GroovyDeviceModelInitializer extends ModelInitializer implements ID
 	try {
 	    getGroovyConfiguration().run(getScriptPath(), binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run device model initializer. " + e.getMessage(), e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run device model initializer. " + e.getMessage(), e);
 	}
     }
 

@@ -289,6 +289,8 @@ public enum ErrorCode {
     /** Operation assumes device is assigned but no assignment exists */
     DeviceNotAssigned(8010, "Device is not currently assigned."),
 
+    InvalidDeviceAssignedStatus(8100, "Invalid device assigned status."),
+
     /** Attempting to change the hardware id of an existing device */
     DeviceHardwareIdCanNotBeChanged(8020, "Device hardware id can not be updated."),
 
@@ -342,6 +344,7 @@ public enum ErrorCode {
 
     /** Attempting to create a new asset type that conflicts with an existing one */
     AssetTypeTokenInUse(11000, "Asset type token is already in use."),
+    InvalidAssetCategory(11030, "Invalid Asset category."),
 
     /** Attempting to create a new asset that conflicts with an existing one */
     AssetTokenInUse(11010, "Asset token is already in use."),
@@ -373,6 +376,8 @@ public enum ErrorCode {
     /** Some required data was missing */
     IncompleteData(13010, "Not all required data was provided."),
 
+    UnableParseConfiguration(13020, "Unable to parse configuration content."),
+
     /********************
      * MQTT ACL *
      ********************/
@@ -388,7 +393,22 @@ public enum ErrorCode {
      *********/
 
     /** Error with no explanation */
-    Unknown(99999, "Unknown error.");
+    Unknown(99999, "Unknown error."),
+
+    InvalidDeviceContainerPolicy(8110, "Invalid Device Container Policy"),
+
+    InvalidDeviceReversedMessage(8120, "Invalid device reversed Message"),
+
+    InvalidDeviceEventIndex(8130, "Invalid device event index"),
+    InvalidDataCategory(13030, "Invalid Data Category"),
+    InvalidParseData(13040, "Invalid Parse Data"),
+    ErrorMongoDb(13050, "Error connect Mongodb"),
+    ErrorSolr(13060, "Error connect Solr"),
+    ErrorEventEncode(13070, "Error Event Encode"),
+    ErrorEventSource(13080, "Error Event Source"),
+    ErrorEventDecode(13090, "Error Event Decode"),
+    ErrorQuartz(13100, "Error run Quartz"),
+    ErrorStreamMedia(13110, "Error Stream Media");
 
     /** Numeric code */
     private long code;

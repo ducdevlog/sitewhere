@@ -9,6 +9,7 @@ package com.sitewhere.grpc.client.event;
 
 import java.util.concurrent.CountDownLatch;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,7 @@ public class BlockingStreamObserver<T> implements StreamObserver<T> {
 	    }
 	    return null;
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Interrupted while waiting for API result.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Interrupted while waiting for API result.", e);
 	}
     }
 

@@ -7,6 +7,7 @@
  */
 package com.sitewhere.asset.initializer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -55,7 +56,7 @@ public class GroovyAssetModelInitializer extends ModelInitializer implements IAs
 	try {
 	    getGroovyConfiguration().run(getScriptPath(), binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run asset model initializer.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run asset model initializer.", e);
 	}
     }
 

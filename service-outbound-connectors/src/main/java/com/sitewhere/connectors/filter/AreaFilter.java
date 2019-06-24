@@ -11,6 +11,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.area.IArea;
 import com.sitewhere.spi.device.event.IDeviceEvent;
 import com.sitewhere.spi.device.event.IDeviceEventContext;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Includes or excludes events for devices associated with a given area.
@@ -36,7 +37,7 @@ public class AreaFilter extends DeviceEventFilter {
 	if (event.getAreaId() != null) {
 	    IArea area = getDeviceManagementApiDemux().getApiChannel().getArea(event.getAreaId());
 	    if (area == null) {
-		throw new SiteWhereException("Unable to process event filter for non-existent area.");
+		throw new SiteWhereException(ErrorCode.InvalidAreaToken, "Unable to process event filter for non-existent area.");
 	    }
 	    if (getAreaToken().equals(area.getToken())) {
 		return (getOperation() != FilterOperation.Include);

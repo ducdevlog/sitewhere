@@ -14,6 +14,7 @@ import com.sitewhere.grpc.model.DeviceEventModel.GInboundEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GPersistedEventPayload;
 import com.sitewhere.grpc.model.ExtendedModel.GInboundExtendedPayload;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.extended.event.kafka.IExtendedRequestPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,7 @@ public class ExtendedModelMarshaler {
             grpc.writeTo(output);
             return output.toByteArray();
         } catch (IOException e) {
-            throw new SiteWhereException("Unable to build inbound extended payload message.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to build inbound extended payload message.", e);
         } finally {
             closeQuietly(output);
         }
@@ -76,7 +77,7 @@ public class ExtendedModelMarshaler {
         try {
             return GInboundExtendedPayload.parseFrom(payload);
         } catch (InvalidProtocolBufferException e) {
-            throw new SiteWhereException("Unable to parse inbound event payload message.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to parse inbound event payload message.", e);
         }
     }
 
@@ -93,7 +94,7 @@ public class ExtendedModelMarshaler {
             grpc.writeTo(output);
             return output.toByteArray();
         } catch (IOException e) {
-            throw new SiteWhereException("Unable to build persisted extended payload message.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to build persisted extended payload message.", e);
         } finally {
             closeQuietly(output);
         }
@@ -110,7 +111,7 @@ public class ExtendedModelMarshaler {
         try {
             return GPersistedEventPayload.parseFrom(payload);
         } catch (InvalidProtocolBufferException e) {
-            throw new SiteWhereException("Unable to parse inbound extended payload message.", e);
+            throw new SiteWhereException(ErrorCode.Error, "Unable to parse inbound extended payload message.", e);
         }
     }
 

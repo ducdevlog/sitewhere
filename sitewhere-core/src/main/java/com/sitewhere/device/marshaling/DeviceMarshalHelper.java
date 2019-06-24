@@ -7,6 +7,7 @@
  */
 package com.sitewhere.device.marshaling;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +99,7 @@ public class DeviceMarshalHelper {
 	if ((source.getDeviceTypeId() != null) && (isIncludeDeviceType())) {
 	    IDeviceType deviceType = getDeviceManagement().getDeviceType(source.getDeviceTypeId());
 	    if (deviceType == null) {
-		throw new SiteWhereException("Device references non-existent device type.");
+		throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Device references non-existent device type.");
 	    }
 	    if (isIncludeDeviceType()) {
 		result.setDeviceType(getDeviceTypeHelper().convert(deviceType));
@@ -109,7 +110,7 @@ public class DeviceMarshalHelper {
 		IDeviceAssignment assignment = getDeviceManagement()
 			.getDeviceAssignment(source.getDeviceAssignmentId());
 		if (assignment == null) {
-		    throw new SiteWhereException("Device contains an invalid assignment reference.");
+		    throw new SiteWhereException(ErrorCode.InvalidDeviceAssignmentToken, "Device contains an invalid assignment reference.");
 		}
 		result.setAssignment(getAssignmentHelper().convert(assignment, assetManagement));
 	    } catch (SiteWhereException e) {

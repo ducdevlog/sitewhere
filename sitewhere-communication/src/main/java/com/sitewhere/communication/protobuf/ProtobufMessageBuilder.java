@@ -10,6 +10,7 @@ package com.sitewhere.communication.protobuf;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +69,7 @@ public class ProtobufMessageBuilder {
 	    Descriptors.EnumValueDescriptor enumValue = enumDesc
 		    .findValueByName(ProtobufNaming.getCommandEnumName(execution.getCommand()));
 	    if (enumValue == null) {
-		throw new SiteWhereException("No enum value found for command: " + execution.getCommand().getName());
+		throw new SiteWhereException(ErrorCode.InvalidDataCategory, "No enum value found for command: " + execution.getCommand().getName());
 	    }
 	    headBuilder.setField(header.findFieldByName(ProtobufNaming.HEADER_COMMAND_FIELD_NAME), enumValue);
 	    headBuilder.setField(header.findFieldByName(ProtobufNaming.HEADER_ORIGINATOR_FIELD_NAME),
@@ -97,7 +98,7 @@ public class ProtobufMessageBuilder {
 		Object value = execution.getParameters().get(name);
 		Descriptors.FieldDescriptor field = command.findFieldByName(name);
 		if (field == null) {
-		    throw new SiteWhereException("Command parameter '" + name + "' not found in device type: ");
+		    throw new SiteWhereException(ErrorCode.IncompleteData, "Command parameter '" + name + "' not found in device type: ");
 		}
 		try {
 		    cbuilder.setField(field, value);
@@ -113,9 +114,9 @@ public class ProtobufMessageBuilder {
 
 	    return out.toByteArray();
 	} catch (Descriptors.DescriptorValidationException e) {
-	    throw new SiteWhereException("Unable to create protobuf message.", e);
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Unable to create protobuf message.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to encode protobuf message.", e);
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Unable to encode protobuf message.", e);
 	}
     }
 

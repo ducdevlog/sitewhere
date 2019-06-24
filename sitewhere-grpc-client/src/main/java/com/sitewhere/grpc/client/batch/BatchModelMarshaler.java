@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +39,7 @@ public class BatchModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build unprocessed batch operation payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build unprocessed batch operation payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -56,7 +57,7 @@ public class BatchModelMarshaler {
 	try {
 	    return GUnprocessedBatchOperation.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse unprocessed batch operation payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse unprocessed batch operation payload message.", e);
 	}
     }
 
@@ -74,7 +75,7 @@ public class BatchModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build unprocessed batch element payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build unprocessed batch element payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -92,7 +93,7 @@ public class BatchModelMarshaler {
 	try {
 	    return GUnprocessedBatchElement.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse unprocessed batch element payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse unprocessed batch element payload message.", e);
 	}
     }
 

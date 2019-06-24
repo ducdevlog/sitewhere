@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.io.IOUtils;
 
 import com.sitewhere.common.MarshalUtils;
@@ -114,24 +115,24 @@ public class ScriptTemplateManager extends LifecycleComponent implements IScript
     public byte[] getScriptTemplateContent(String id) throws SiteWhereException {
 	IScriptTemplate template = getScriptTemplatesById().get(id);
 	if (template == null) {
-	    throw new SiteWhereException("Invalid script template id.");
+	    throw new SiteWhereException(ErrorCode.Error, "Invalid script template id.");
 	}
 	File root = getMicroservice().getScriptTemplatesRoot();
 	if (!root.exists()) {
-	    throw new SiteWhereException("Templates folder does not exist.");
+	    throw new SiteWhereException(ErrorCode.Error, "Templates folder does not exist.");
 	} else {
 	    File tfolder = new File(root, template.getId());
 	    if (!tfolder.exists()) {
-		throw new SiteWhereException("Template subfolder does not exist.");
+		throw new SiteWhereException(ErrorCode.Error, "Template subfolder does not exist.");
 	    }
 	    File tfile = new File(tfolder, template.getId() + "." + template.getType());
 	    if (!tfile.exists()) {
-		throw new SiteWhereException("Template file does not exist: " + tfile.getAbsolutePath());
+		throw new SiteWhereException(ErrorCode.Error, "Template file does not exist: " + tfile.getAbsolutePath());
 	    }
 	    try (FileInputStream input = new FileInputStream(tfile)) {
 		return IOUtils.toByteArray(input);
 	    } catch (IOException e) {
-		throw new SiteWhereException("Unable to get script template content.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Unable to get script template content.", e);
 	    }
 	}
     }

@@ -7,6 +7,8 @@
  */
 package com.sitewhere.spi;
 
+import com.sitewhere.spi.error.ErrorCode;
+
 import java.io.IOException;
 
 /**
@@ -19,19 +21,32 @@ public class SiteWhereException extends IOException {
     /** Serial version UID */
     private static final long serialVersionUID = 1L;
 
+     /** SiteWhere error code */
+    private ErrorCode errorCode;
+
     public SiteWhereException() {
 	super();
     }
 
-    public SiteWhereException(String message, Throwable cause) {
+    public SiteWhereException(ErrorCode errorCode, String message, Throwable cause) {
 	super(message, cause);
+	this.errorCode = errorCode;
     }
 
-    public SiteWhereException(String message) {
+    public SiteWhereException(ErrorCode errorCode, String message) {
 	super(message);
+        this.errorCode = errorCode;
     }
 
     public SiteWhereException(Throwable cause) {
 	super(cause);
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(ErrorCode errorCode) {
+        this.errorCode = errorCode;
     }
 }

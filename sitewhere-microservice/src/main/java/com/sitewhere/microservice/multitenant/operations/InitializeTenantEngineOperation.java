@@ -10,6 +10,7 @@ package com.sitewhere.microservice.multitenant.operations;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.curator.framework.CuratorFramework;
@@ -118,9 +119,9 @@ public class InitializeTenantEngineOperation<I extends IFunctionIdentifier, T ex
 		}
 		Thread.sleep(1000);
 	    }
-	    throw new SiteWhereException("Tenant not bootstrapped within time limit. Aborting");
+	    throw new SiteWhereException(ErrorCode.Error, "Tenant not bootstrapped within time limit. Aborting");
 	} catch (Throwable t) {
-	    throw new SiteWhereException("Unable to wait for tenant configuration bootstrap.", t);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to wait for tenant configuration bootstrap.", t);
 	}
     }
 

@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class KafkaModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build state update message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build state update message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -59,7 +60,7 @@ public class KafkaModelMarshaler {
 	try {
 	    return GStateUpdate.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse state update message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse state update message.", e);
 	}
     }
 
@@ -76,7 +77,7 @@ public class KafkaModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build microservice log message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build microservice log message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -93,7 +94,7 @@ public class KafkaModelMarshaler {
 	try {
 	    return GMicroserviceLogMessage.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse microservice log message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse microservice log message.", e);
 	}
     }
 

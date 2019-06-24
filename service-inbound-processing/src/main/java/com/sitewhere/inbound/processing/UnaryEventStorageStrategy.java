@@ -24,6 +24,7 @@ import com.sitewhere.spi.device.event.request.IDeviceEventCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStateChangeCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Event storage strategy that sends each event via a unary GRPC call.
@@ -85,7 +86,7 @@ public class UnaryEventStorageStrategy implements IInboundEventStorageStrategy {
 		    (IDeviceStateChangeCreateRequest) request);
 	    break;
 	default:
-	    throw new SiteWhereException("Unknown event type sent for storage: " + request.getEventType().name());
+	    throw new SiteWhereException(ErrorCode.InvalidParseData, "Unknown event type sent for storage: " + request.getEventType().name());
 	}
     }
 

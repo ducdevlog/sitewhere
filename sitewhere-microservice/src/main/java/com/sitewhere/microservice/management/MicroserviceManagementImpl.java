@@ -31,6 +31,7 @@ import com.sitewhere.grpc.service.GUpdateTenantConfigurationRequest;
 import com.sitewhere.grpc.service.GUpdateTenantConfigurationResponse;
 import com.sitewhere.grpc.service.MicroserviceManagementGrpc;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.IGlobalMicroservice;
 import com.sitewhere.spi.microservice.IMicroservice;
 import com.sitewhere.spi.microservice.configuration.model.IConfigurationModel;
@@ -94,7 +95,7 @@ public class MicroserviceManagementImpl extends MicroserviceManagementGrpc.Micro
 		byte[] content = ((IGlobalMicroservice<?>) getMicroservice()).getConfiguration();
 		configuration.setContent(ByteString.copyFrom(content));
 	    } else {
-		throw new SiteWhereException("Requesting global configuration from a tenant microservice.");
+		throw new SiteWhereException(ErrorCode.Error, "Requesting global configuration from a tenant microservice.");
 	    }
 
 	    response.setConfiguration(configuration.build());
@@ -126,7 +127,7 @@ public class MicroserviceManagementImpl extends MicroserviceManagementGrpc.Micro
 			.getTenantConfiguration(CommonModelConverter.asApiUuid(request.getTenantId()));
 		configuration.setContent(ByteString.copyFrom(content));
 	    } else {
-		throw new SiteWhereException("Requesting tenant configuration from a global microservice.");
+		throw new SiteWhereException(ErrorCode.Error, "Requesting tenant configuration from a global microservice.");
 	    }
 
 	    response.setConfiguration(configuration.build());
@@ -155,7 +156,7 @@ public class MicroserviceManagementImpl extends MicroserviceManagementGrpc.Micro
 	    if (getMicroservice() instanceof IGlobalMicroservice) {
 		((IGlobalMicroservice<?>) getMicroservice()).updateConfiguration(content);
 	    } else {
-		throw new SiteWhereException("Requesting global configuration update from a tenant microservice.");
+		throw new SiteWhereException(ErrorCode.Error, "Requesting global configuration update from a tenant microservice.");
 	    }
 
 	    GUpdateGlobalConfigurationResponse.Builder response = GUpdateGlobalConfigurationResponse.newBuilder();
@@ -185,7 +186,7 @@ public class MicroserviceManagementImpl extends MicroserviceManagementGrpc.Micro
 		((IMultitenantMicroservice<?, ?>) getMicroservice())
 			.updateTenantConfiguration(CommonModelConverter.asApiUuid(request.getTenantId()), content);
 	    } else {
-		throw new SiteWhereException("Requesting tenant configuration from a global microservice.");
+		throw new SiteWhereException(ErrorCode.Error, "Requesting tenant configuration from a global microservice.");
 	    }
 
 	    GUpdateTenantConfigurationResponse.Builder response = GUpdateTenantConfigurationResponse.newBuilder();

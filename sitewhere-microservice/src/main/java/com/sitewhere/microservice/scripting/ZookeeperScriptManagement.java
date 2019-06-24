@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.zookeeper.KeeperException.NoNodeException;
 
 import com.sitewhere.common.MarshalUtils;
@@ -107,7 +108,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	} catch (NoNodeException e) {
 	    return new ArrayList<>();
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to retrieve script metadata list.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to retrieve script metadata list.", e);
 	}
     }
 
@@ -127,7 +128,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	} catch (NoNodeException e) {
 	    return null;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to retrieve script metadata.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to retrieve script metadata.", e);
 	}
     }
 
@@ -142,7 +143,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    throws SiteWhereException {
 	IScriptMetadata existing = getScriptMetadata(identifier, tenantId, request.getId());
 	if (existing != null) {
-	    throw new SiteWhereException("A script with that id already exists.");
+	    throw new SiteWhereException(ErrorCode.Error, "A script with that id already exists.");
 	}
 	ScriptMetadata created = createScriptMetadata(request);
 	try {
@@ -151,7 +152,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    activateScript(identifier, tenantId, request.getId(), version.getVersionId());
 	    return created;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to store script metadata.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to store script metadata.", e);
 	}
     }
 
@@ -170,7 +171,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	try {
 	    return getZookeeperManager().getCurator().getData().forPath(contentPath);
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to read script content for '" + versionId + "'.");
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to read script content for '" + versionId + "'.");
 	}
     }
 
@@ -190,7 +191,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    store(identifier, tenantId, meta, version, request.getContent());
 	    return meta;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to store script metadata.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to store script metadata.", e);
 	}
     }
 
@@ -232,7 +233,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    }
 	    return created;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to clone script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to clone script.", e);
 	}
     }
 
@@ -273,7 +274,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    }
 	    return meta;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to activate script version.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to activate script version.", e);
 	}
     }
 
@@ -309,7 +310,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    }
 	    return meta;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to delete script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to delete script.", e);
 	}
     }
 
@@ -326,7 +327,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 	    throws SiteWhereException {
 	IScriptMetadata meta = getScriptMetadata(identifier, tenantId, scriptId);
 	if (meta == null) {
-	    throw new SiteWhereException("Script not found: " + scriptId);
+	    throw new SiteWhereException(ErrorCode.Error, "Script not found: " + scriptId);
 	}
 	return meta;
     }
@@ -342,7 +343,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
     protected IScriptVersion assureScriptVersion(IScriptMetadata meta, String versionId) throws SiteWhereException {
 	IScriptVersion version = getScriptVersion(meta, versionId);
 	if (version == null) {
-	    throw new SiteWhereException("No version of '" + meta.getId() + "' matches '" + versionId + "'.");
+	    throw new SiteWhereException(ErrorCode.Error, "No version of '" + meta.getId() + "' matches '" + versionId + "'.");
 	}
 	return version;
     }
@@ -379,7 +380,7 @@ public class ZookeeperScriptManagement extends LifecycleComponent implements ISc
 		getZookeeperManager().getCurator().setData().forPath(contentPath, content);
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to store script metadata.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to store script metadata.", e);
 	}
     }
 

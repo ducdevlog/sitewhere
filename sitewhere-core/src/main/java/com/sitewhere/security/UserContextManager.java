@@ -37,7 +37,7 @@ public class UserContextManager {
 	    throw new SiteWhereSystemException(ErrorCode.NotLoggedIn, ErrorLevel.ERROR, 401);
 	}
 	if (!(auth instanceof SitewhereAuthentication)) {
-	    throw new SiteWhereException("Authentication was not of expected type: "
+	    throw new SiteWhereException(ErrorCode.NotAuthorizedForTenant, "Authentication was not of expected type: "
 		    + SitewhereAuthentication.class.getName() + " found " + auth.getClass().getName() + " instead.");
 	}
 	return (IUser) ((SitewhereAuthentication) auth).getPrincipal();
@@ -60,7 +60,7 @@ public class UserContextManager {
 	    }
 	}
 	if (!(auth instanceof SitewhereAuthentication)) {
-	    throw new SiteWhereException("Authentication was not of expected type: "
+	    throw new SiteWhereException(ErrorCode.NotAuthorizedForTenant, "Authentication was not of expected type: "
 		    + SitewhereAuthentication.class.getName() + " found " + auth.getClass().getName() + " instead.");
 	}
 	return (ITenant) ((SitewhereAuthentication) auth).getTenant();

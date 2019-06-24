@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.sitewhere.spi.error.ResourceExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -153,7 +154,7 @@ public class GrpcUtils {
      * @param username
      * @param gauths
      * @param auths
-     * @param tenantId
+     * @param tenant
      */
     protected static void establishSecurityContext(String jwt, String username, List<IGrantedAuthority> gauths,
 	    List<String> auths, ITenant tenant) {
@@ -228,7 +229,7 @@ public class GrpcUtils {
 		String[] parts = delimited.split(":");
 		ErrorCode code = ErrorCode.fromCode(Long.parseLong(parts[0]));
 		if (ErrorCode.Error == code) {
-		    return new SiteWhereException(parts[1]);
+		    return new SiteWhereException(ErrorCode.Error, parts[1]);
 		} else {
 		    return new SiteWhereSystemException(code, ErrorLevel.ERROR);
 		}
@@ -237,7 +238,7 @@ public class GrpcUtils {
 	    }
 	    }
 	}
-	return new SiteWhereException("Client exception in call to " + method.getFullMethodName() + ".", t);
+	return new SiteWhereException(ErrorCode.Error, "Client exception in call to " + method.getFullMethodName() + ".", t);
     }
 
     /**
@@ -270,9 +271,16 @@ public class GrpcUtils {
 	    thrown = status.asException();
 	} else if (t instanceof SiteWhereException) {
 	    SiteWhereException sw = (SiteWhereException) t;
-	    Status status = Status.fromCode(Code.FAILED_PRECONDITION)
-		    .withDescription(ErrorCode.Error.getCode() + ":" + sw.getMessage());
-	    thrown = status.asException();
+	    Status status;
+		if (sw.getErrorCode() == null) {
+			status = Status.fromCode(Code.FAILED_PRECONDITION)
+					.withDescription(ErrorCode.Error.getCode() + ":" + sw.getMessage());
+		} else {
+			status = Status.fromCode(Code.FAILED_PRECONDITION)
+					.withDescription(sw.getErrorCode().getCode() + ":" + sw.getMessage());
+		}
+
+		thrown = status.asException();
 	} else if (t instanceof TenantEngineNotAvailableException) {
 	    TenantEngineNotAvailableException sw = (TenantEngineNotAvailableException) t;
 	    Status status = Status.fromCode(Code.UNAVAILABLE).withDescription(sw.getMessage());

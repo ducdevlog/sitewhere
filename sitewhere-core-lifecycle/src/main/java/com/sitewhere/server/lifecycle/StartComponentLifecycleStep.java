@@ -8,6 +8,7 @@
 package com.sitewhere.server.lifecycle;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleComponent;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.ILifecycleStep;
@@ -49,11 +50,11 @@ public class StartComponentLifecycleStep extends ComponentOperationLifecycleStep
 	    } catch (SiteWhereException t) {
 		throw t;
 	    } catch (Throwable t) {
-		throw new SiteWhereException("Unable to start " + getComponent().getComponentName(), t);
+		throw new SiteWhereException(ErrorCode.Error, "Unable to start " + getComponent().getComponentName(), t);
 	    }
 	} else {
-	    throw new SiteWhereException(
-		    "Attempting to start component '" + getComponent().getComponentName() + "' but component is null.");
+	    throw new SiteWhereException(ErrorCode.Error,
+                "Attempting to start component '" + getComponent().getComponentName() + "' but component is null.");
 	}
     }
 

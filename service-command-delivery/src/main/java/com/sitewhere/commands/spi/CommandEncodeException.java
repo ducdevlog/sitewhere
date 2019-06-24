@@ -8,6 +8,7 @@
 package com.sitewhere.commands.spi;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 public class CommandEncodeException extends SiteWhereException {
 
@@ -18,11 +19,11 @@ public class CommandEncodeException extends SiteWhereException {
     }
 
     public CommandEncodeException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.Error, message, cause);
     }
 
     public CommandEncodeException(String message) {
-	super(message);
+	super(ErrorCode.Error, message);
     }
 
     public CommandEncodeException(Throwable cause) {

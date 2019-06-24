@@ -13,6 +13,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.event.IDeviceEvent;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 import groovy.lang.Binding;
@@ -46,11 +47,11 @@ public class GroovyRouteBuilder extends GroovyComponent implements IRouteBuilder
 	try {
 	    Object result = run(binding);
 	    if (!(result instanceof String)) {
-		throw new SiteWhereException("Groovy route builder expected script to return a String.");
+		throw new SiteWhereException(ErrorCode.Error, "Groovy route builder expected script to return a String.");
 	    }
 	    return (String) result;
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run route builder script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run route builder script.", e);
 	}
     }
 }

@@ -88,7 +88,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     @Override
     public void initialize(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getClient() == null) {
-	    throw new SiteWhereException("No Cassandra client configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "No Cassandra client configured.");
 	}
 	getClient().initialize(monitor);
 
@@ -138,7 +138,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
      */
     @Override
     public IDeviceEvent getDeviceEventById(UUID eventId) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.Error, "Not implemented.");
     }
 
     /*
@@ -147,7 +147,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
      */
     @Override
     public IDeviceEvent getDeviceEventByAlternateId(String alternateId) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.Error, "Not implemented.");
     }
 
     /*
@@ -280,7 +280,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     @Override
     public ISearchResults<IDeviceCommandResponse> listDeviceCommandInvocationResponses(UUID invocationId)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.Error, "Not implemented.");
     }
 
     /*
@@ -405,7 +405,6 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
      * 
      * @param index
      * @param entityIds
-     * @param eventType
      * @param criteria
      * @param binder
      * @return
@@ -481,13 +480,12 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
 	    return getCassandraEventManagementClient().getSelectEventsByAssetForType();
 	}
 	}
-	throw new SiteWhereException("Index type not implemented: " + index.name());
+	throw new SiteWhereException(ErrorCode.Error, "Index type not implemented: " + index.name());
     }
 
     /**
      * Find the list of buckets required to cover a given date range.
      * 
-     * @param client
      * @param criteria
      * @return
      */
@@ -507,7 +505,6 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     /**
      * Perform parallel queries to get results for a single bucket.
      * 
-     * @param keyField
      * @param keys
      * @param criteria
      * @param eventType
@@ -558,7 +555,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     /**
      * Assert that a device assignment exists and throw an exception if not.
      * 
-     * @param token
+     * @param id
      * @return
      * @throws SiteWhereException
      */

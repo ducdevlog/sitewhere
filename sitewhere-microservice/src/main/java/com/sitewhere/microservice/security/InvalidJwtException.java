@@ -8,6 +8,7 @@
 package com.sitewhere.microservice.security;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Exception thrown when an invalid JWT is used for a REST request.
@@ -23,11 +24,11 @@ public class InvalidJwtException extends SiteWhereException {
     }
 
     public InvalidJwtException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.Error, message, cause);
     }
 
     public InvalidJwtException(String message) {
-	super(message);
+	super(ErrorCode.Error, message);
     }
 
     public InvalidJwtException(Throwable cause) {

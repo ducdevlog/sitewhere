@@ -10,6 +10,7 @@ package com.sitewhere.sources.azure;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,9 +174,9 @@ public class EventHubInboundEventReceiver extends InboundEventReceiver<byte[]> {
 	try {
 	    getEventProcessorHost().registerEventProcessor(EventProcessor.class, options).get();
 	} catch (InterruptedException e) {
-	    throw new SiteWhereException("Interrupted while registering event processor");
+	    throw new SiteWhereException(ErrorCode.Error, "Interrupted while registering event processor");
 	} catch (ExecutionException e) {
-	    throw new SiteWhereException("Unable to register Event Hub event processor.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to register Event Hub event processor.", e);
 	}
     }
 

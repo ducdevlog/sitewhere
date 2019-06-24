@@ -29,6 +29,7 @@ import com.sitewhere.rest.model.user.User;
 import com.sitewhere.rest.model.user.request.GrantedAuthorityCreateRequest;
 import com.sitewhere.rest.model.user.request.UserCreateRequest;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.user.AccountStatus;
 import com.sitewhere.spi.user.IGrantedAuthority;
@@ -61,7 +62,7 @@ public class UserModelConverter {
 	case USER_STATUS_LOCKED:
 	    return AccountStatus.Locked;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown account status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown account status: " + grpc.name());
 	}
 	return null;
     }
@@ -82,7 +83,7 @@ public class UserModelConverter {
 	case Locked:
 	    return GUserAccountStatus.USER_STATUS_LOCKED;
 	}
-	throw new SiteWhereException("Unknown account status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown account status: " + api.name());
     }
 
     /**

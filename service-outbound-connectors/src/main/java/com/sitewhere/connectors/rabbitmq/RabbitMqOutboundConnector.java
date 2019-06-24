@@ -31,6 +31,7 @@ import com.sitewhere.spi.device.event.IDeviceEventContext;
 import com.sitewhere.spi.device.event.IDeviceLocation;
 import com.sitewhere.spi.device.event.IDeviceMeasurement;
 import com.sitewhere.spi.device.event.IDeviceStateChange;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.tenant.ITenant;
 
@@ -102,7 +103,7 @@ public class RabbitMqOutboundConnector extends SerialOutboundConnector
 	    channel.exchangeDeclare(exchange, "topic");
 	    getLogger().info("RabbitMQ outbound processor connected to: " + getConnectionUri());
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to start RabbitMQ event processor.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start RabbitMQ event processor.", e);
 	}
     }
 
@@ -133,7 +134,7 @@ public class RabbitMqOutboundConnector extends SerialOutboundConnector
 		connection.close();
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Error stopping RabbitMQ event processor.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error stopping RabbitMQ event processor.", e);
 	}
 	super.stop(monitor);
     }
@@ -240,7 +241,7 @@ public class RabbitMqOutboundConnector extends SerialOutboundConnector
 	    channel.basicPublish(exchange, topic, null, MarshalUtils.marshalJson(event));
 	    getLogger().debug("Publishing event " + event.getId() + " to topic: " + topic);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to publish to RabbitMQ topic.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to publish to RabbitMQ topic.", e);
 	}
     }
 

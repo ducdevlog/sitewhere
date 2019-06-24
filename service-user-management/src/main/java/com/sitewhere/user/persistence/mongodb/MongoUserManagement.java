@@ -222,7 +222,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
     @Override
     public List<IGrantedAuthority> addGrantedAuthorities(String username, List<String> authorities)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Not implemented.");
     }
 
     /*
@@ -235,7 +235,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
     @Override
     public List<IGrantedAuthority> removeGrantedAuthorities(String username, List<String> authorities)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Not implemented.");
     }
 
     /*
@@ -301,7 +301,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
     @Override
     public IGrantedAuthority updateGrantedAuthority(String name, IGrantedAuthorityCreateRequest request)
 	    throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Not implemented.");
     }
 
     /*
@@ -326,7 +326,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
      */
     @Override
     public void deleteGrantedAuthority(String authority) throws SiteWhereException {
-	throw new SiteWhereException("Not implemented.");
+	throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Not implemented.");
     }
 
     /**
@@ -358,7 +358,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
 	    Document query = new Document(MongoUser.PROP_USERNAME, username);
 	    return users.find(query).first();
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Connection to MongoDB lost.", e);
 	}
     }
 
@@ -391,7 +391,7 @@ public class MongoUserManagement extends LifecycleComponent implements IUserMana
 	    Document query = new Document(MongoGrantedAuthority.PROP_AUTHORITY, name);
 	    return auths.find(query).first();
 	} catch (MongoTimeoutException e) {
-	    throw new SiteWhereException("Connection to MongoDB lost.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorMongoDb, "Connection to MongoDB lost.", e);
 	}
     }
 

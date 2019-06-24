@@ -23,6 +23,7 @@ import javax.websocket.WebSocketContainer;
 
 import com.sitewhere.sources.InboundEventReceiver;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 /**
@@ -69,9 +70,9 @@ public abstract class WebSocketEventReceiver<T> extends InboundEventReceiver<T> 
 	try {
 	    session = container.connectToServer(getWebSocketClientClass(), config, URI.create(getWebSocketUrl()));
 	} catch (DeploymentException e) {
-	    throw new SiteWhereException("Unable to connect to web socket.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to connect to web socket.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to connect to web socket.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to connect to web socket.", e);
 	}
     }
 

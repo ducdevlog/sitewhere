@@ -14,6 +14,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceNestingContext;
 import com.sitewhere.spi.device.command.IDeviceCommandExecution;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
 import groovy.lang.Binding;
@@ -51,7 +52,7 @@ public class GroovyParameterExtractor<T> extends GroovyComponent implements ICom
 	    binding.setVariable(IGroovyVariables.VAR_LOGGER, getLogger());
 	    return (T) run(binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run parameter extractor script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run parameter extractor script.", e);
 	}
     }
 }

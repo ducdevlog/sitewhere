@@ -10,6 +10,7 @@ package com.sitewhere.commands.twilio;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -65,10 +66,10 @@ public class TwilioCommandDeliveryProvider extends TenantEngineLifecycleComponen
     @Override
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getAccountSid() == null) {
-	    throw new SiteWhereException("Twilio command delivery provider missing account SID.");
+	    throw new SiteWhereException(ErrorCode.Error, "Twilio command delivery provider missing account SID.");
 	}
 	if (getAuthToken() == null) {
-	    throw new SiteWhereException("Twilio command delivery provider missing auth token.");
+	    throw new SiteWhereException(ErrorCode.Error, "Twilio command delivery provider missing auth token.");
 	}
 	this.twilio = new TwilioRestClient(getAccountSid(), getAuthToken());
 	this.account = twilio.getAccount();
@@ -122,7 +123,7 @@ public class TwilioCommandDeliveryProvider extends TenantEngineLifecycleComponen
 	try {
 	    messageFactory.create(params);
 	} catch (TwilioRestException e) {
-	    throw new SiteWhereException("Unable to send Twilio SMS message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to send Twilio SMS message.", e);
 	}
     }
 

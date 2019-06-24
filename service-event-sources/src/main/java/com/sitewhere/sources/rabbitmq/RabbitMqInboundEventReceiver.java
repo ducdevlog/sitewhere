@@ -25,6 +25,7 @@ import com.rabbitmq.client.ShutdownListener;
 import com.rabbitmq.client.ShutdownSignalException;
 import com.sitewhere.sources.InboundEventReceiver;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 
 /**
@@ -95,7 +96,7 @@ public class RabbitMqInboundEventReceiver extends InboundEventReceiver<byte[]> {
 	try {
 	    factory.setUri(getConnectionUri());
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to start RabbitMQ event receiver.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start RabbitMQ event receiver.", e);
 	}
 
 	connect();
@@ -188,7 +189,7 @@ public class RabbitMqInboundEventReceiver extends InboundEventReceiver<byte[]> {
 		connection.close();
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Error stopping RabbitMQ event receiver.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error stopping RabbitMQ event receiver.", e);
 	}
 
 	connectionExecutor.shutdownNow();

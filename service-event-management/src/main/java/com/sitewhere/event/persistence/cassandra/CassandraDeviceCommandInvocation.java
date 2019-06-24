@@ -16,6 +16,7 @@ import com.sitewhere.spi.device.event.CommandInitiator;
 import com.sitewhere.spi.device.event.CommandTarget;
 import com.sitewhere.spi.device.event.DeviceEventType;
 import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Handles mapping of device command invocation event fields to Cassandra
@@ -151,7 +152,7 @@ public class CassandraDeviceCommandInvocation implements ICassandraEventBinder<I
 	    return 3;
 	}
 	default: {
-	    throw new SiteWhereException("Unsupported command initiator: " + initiator.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported command initiator: " + initiator.name());
 	}
 	}
     }
@@ -173,7 +174,7 @@ public class CassandraDeviceCommandInvocation implements ICassandraEventBinder<I
 	} else if (value == 3) {
 	    return CommandInitiator.Scheduler;
 	}
-	throw new SiteWhereException("Unsupported command initiator: " + value);
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported command initiator: " + value);
     }
 
     /**
@@ -189,7 +190,7 @@ public class CassandraDeviceCommandInvocation implements ICassandraEventBinder<I
 	    return 0;
 	}
 	default: {
-	    throw new SiteWhereException("Unsupported command target: " + target.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported command target: " + target.name());
 	}
 	}
     }
@@ -205,6 +206,6 @@ public class CassandraDeviceCommandInvocation implements ICassandraEventBinder<I
 	if (value == 0) {
 	    return CommandTarget.Assignment;
 	}
-	throw new SiteWhereException("Unsupported command target: " + value);
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported command target: " + value);
     }
 }

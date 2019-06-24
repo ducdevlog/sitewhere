@@ -7,6 +7,7 @@
  */
 package com.sitewhere.instance.initializer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -61,7 +62,7 @@ public class GroovyUserModelInitializer extends ModelInitializer implements IUse
 	try {
 	    getGroovyConfiguration().run(getScriptPath(), binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run user model initializer.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run user model initializer.", e);
 	}
     }
 

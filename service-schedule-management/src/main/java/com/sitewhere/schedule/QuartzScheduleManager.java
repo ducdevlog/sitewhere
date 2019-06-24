@@ -10,6 +10,7 @@ package com.sitewhere.schedule;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -90,7 +91,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	    cacheSchedules();
 	    scheduleJobs();
 	} catch (SchedulerException e) {
-	    throw new SiteWhereException("Unable to start scheduler instance.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start scheduler instance.", e);
 	}
     }
 
@@ -133,7 +134,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	try {
 	    getScheduler().shutdown();
 	} catch (SchedulerException e) {
-	    throw new SiteWhereException("Unable to start scheduler instance.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to start scheduler instance.", e);
 	}
     }
 
@@ -171,7 +172,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	JobDetail detail = QuartzBuilder.buildJobDetail(job);
 	ISchedule schedule = getSchedulesByToken().get(job.getScheduleToken());
 	if (schedule == null) {
-	    throw new SiteWhereException("Job references unknown schedule: " + job.getScheduleToken());
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Job references unknown schedule: " + job.getScheduleToken());
 	}
 
 	getLogger().info("Scheduling job " + job.getToken() + " for '" + schedule.getName() + "'.");
@@ -179,7 +180,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	try {
 	    getScheduler().scheduleJob(detail, trigger);
 	} catch (SchedulerException e) {
-	    throw new SiteWhereException("Unable to schedule job.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Unable to schedule job.", e);
 	}
     }
 
@@ -195,7 +196,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	try {
 	    getScheduler().unscheduleJob(new TriggerKey(job.getToken()));
 	} catch (SchedulerException e) {
-	    throw new SiteWhereException("Unable to unschedule job.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Unable to unschedule job.", e);
 	}
     }
 
@@ -209,7 +210,7 @@ public class QuartzScheduleManager extends TenantEngineLifecycleComponent implem
 	try {
 	    return DirectSchedulerFactory.getInstance().getScheduler(getTenantEngine().getTenant().getToken());
 	} catch (SchedulerException e) {
-	    throw new SiteWhereException("Unable to get scheduler instance.", e);
+	    throw new SiteWhereException(ErrorCode.ErrorQuartz, "Unable to get scheduler instance.", e);
 	}
     }
 

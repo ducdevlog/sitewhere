@@ -18,6 +18,7 @@ import com.sitewhere.rest.model.microservice.state.LifecycleComponentState;
 import com.sitewhere.rest.model.microservice.state.MicroserviceState;
 import com.sitewhere.rest.model.microservice.state.TenantEngineState;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.state.ILifecycleComponentState;
 import com.sitewhere.spi.microservice.state.IMicroserviceState;
 import com.sitewhere.spi.microservice.state.ITenantEngineState;
@@ -66,7 +67,7 @@ public class KafkaModelConverter {
 	case LIFECYCLE_STATUS_ERROR:
 	    return LifecycleStatus.LifecycleError;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown lifecycle status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown lifecycle status: " + grpc.name());
 	}
 	return null;
     }
@@ -107,7 +108,7 @@ public class KafkaModelConverter {
 	case LifecycleError:
 	    return GLifecycleStatus.LIFECYCLE_STATUS_ERROR;
 	}
-	throw new SiteWhereException("Unknown lifecycle status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown lifecycle status: " + api.name());
     }
 
     /**

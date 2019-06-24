@@ -8,6 +8,7 @@
 package com.sitewhere.grpc.client.common.security;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 public class UnauthenticatedException extends SiteWhereException {
 
@@ -18,11 +19,11 @@ public class UnauthenticatedException extends SiteWhereException {
     }
 
     public UnauthenticatedException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.Error, message, cause);
     }
 
     public UnauthenticatedException(String message) {
-	super(message);
+	super(ErrorCode.Error, message);
     }
 
     public UnauthenticatedException(Throwable cause) {

@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.sitewhere.rest.model.user.GrantedAuthority;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.microservice.security.ITokenManagement;
 import com.sitewhere.spi.user.IGrantedAuthority;
 import com.sitewhere.spi.user.IUser;
@@ -58,7 +59,7 @@ public class TokenManagement implements ITokenManagement {
 	    builder.claim(CLAIM_GRANTED_AUTHORITIES, user.getAuthorities());
 	    return builder.compact();
 	} catch (Throwable t) {
-	    throw new SiteWhereException("Unable to generate JWT.", t);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to generate JWT.", t);
 	}
     }
 
@@ -78,7 +79,7 @@ public class TokenManagement implements ITokenManagement {
 	} catch (MalformedJwtException e) {
 	    throw new InvalidJwtException("JWT not correctly formatted.", e);
 	} catch (Throwable t) {
-	    throw new SiteWhereException("Error decoding JWT.", t);
+	    throw new SiteWhereException(ErrorCode.Error, "Error decoding JWT.", t);
 	}
     }
 

@@ -8,6 +8,7 @@
 package com.sitewhere.spi.tenant;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Thrown when attempting to access a tenant that is defined in the system, but
@@ -24,11 +25,11 @@ public class TenantNotAvailableException extends SiteWhereException {
     }
 
     public TenantNotAvailableException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.InvalidTenantId, message, cause);
     }
 
     public TenantNotAvailableException(String message) {
-	super(message);
+	super(ErrorCode.InvalidTenantId, message);
     }
 
     public TenantNotAvailableException(Throwable cause) {

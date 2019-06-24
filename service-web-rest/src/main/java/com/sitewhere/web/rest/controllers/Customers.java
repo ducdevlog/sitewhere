@@ -231,7 +231,7 @@ public class Customers extends RestControllerBase {
 	if (parentCustomerToken != null) {
 	    ICustomer parent = getDeviceManagement().getCustomerByToken(parentCustomerToken);
 	    if (parent == null) {
-		throw new SiteWhereException("Invalid parent customer token.");
+		throw new SiteWhereException(ErrorCode.InvalidCustomerToken, "Invalid parent customer token.");
 	    }
 	    criteria.setParentCustomerId(parent.getId());
 	}
@@ -240,7 +240,7 @@ public class Customers extends RestControllerBase {
 	if (customerTypeToken != null) {
 	    ICustomerType customerType = getDeviceManagement().getCustomerTypeByToken(customerTypeToken);
 	    if (customerType == null) {
-		throw new SiteWhereException("Invalid customer type token.");
+		throw new SiteWhereException(ErrorCode.InvalidCustomerToken, "Invalid customer type token.");
 	    }
 	    criteria.setCustomerTypeId(customerType.getId());
 	}
@@ -636,8 +636,7 @@ public class Customers extends RestControllerBase {
 
     /**
      * Resolve areas including nested areas.
-     * 
-     * @param areaToken
+     *
      * @param recursive
      * @param deviceManagement
      * @return

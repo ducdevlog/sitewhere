@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -148,7 +149,7 @@ public class InitialStateOutboundConnector extends SerialOutboundConnector {
 	}
 	IDeviceAssignment assignment = getDeviceManagement().getDeviceAssignment(assignmentId);
 	if (assignment == null) {
-	    throw new SiteWhereException("Assignment not found.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceAssignmentToken, "Assignment not found.");
 	}
 
 	DeviceAssignmentMarshalHelper helper = new DeviceAssignmentMarshalHelper(getDeviceManagement());
@@ -188,7 +189,7 @@ public class InitialStateOutboundConnector extends SerialOutboundConnector {
 	    if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
 		return false;
 	    }
-	    throw new SiteWhereException("Unable to create bucket. Status code was: " + response.getStatusCode());
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to create bucket. Status code was: " + response.getStatusCode());
 	} catch (ResourceAccessException e) {
 	    if (e.getCause() instanceof SiteWhereSystemException) {
 		throw (SiteWhereSystemException) e.getCause();
@@ -217,7 +218,7 @@ public class InitialStateOutboundConnector extends SerialOutboundConnector {
 	    if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
 		return true;
 	    }
-	    throw new SiteWhereException("Unable to create event. Status code was: " + response.getStatusCode());
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to create event. Status code was: " + response.getStatusCode());
 	} catch (ResourceAccessException e) {
 	    throw new SiteWhereException(e);
 	}

@@ -11,6 +11,7 @@ import com.sitewhere.common.MarshalUtils;
 import com.sitewhere.rest.model.mqtt.MqttUser;
 import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
 import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
 import com.sitewhere.spi.mqtt.request.IMqttUserCreateRequest;
 import org.springframework.security.core.Authentication;
@@ -135,7 +136,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	IDeviceCreateRequest request = registration.getDeviceRegistrationRequest();
 	if (device == null) {
 	    if (!isAllowNewDevices()) {
-		throw new SiteWhereException("Ignoring device registration request. New devices are not allowed.");
+		throw new SiteWhereException(ErrorCode.Error, "Ignoring device registration request. New devices are not allowed.");
 	    }
 	    // Create device if it does not already exist.
 	    getLogger().info("Creating new device as part of registration.");
@@ -222,13 +223,13 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	if (deviceTypeToken != null) {
 	    IDeviceType override = getDeviceManagement().getDeviceTypeByToken(deviceTypeToken);
 	    if (override == null) {
-		throw new SiteWhereException("Registration request specified invalid device type token.");
+		throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Registration request specified invalid device type token.");
 	    }
 	    return override;
 	} else if (isUseDefaultDeviceType()) {
 	    return getDefaultDeviceType();
 	}
-	throw new SiteWhereException("Device type not passed and no default provided.");
+	throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Device type not passed and no default provided.");
     }
 
     /**
@@ -243,7 +244,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	if (customerToken != null) {
 	    ICustomer override = getDeviceManagement().getCustomerByToken(customerToken);
 	    if (override == null) {
-		throw new SiteWhereException("Registration request specified invalid customer token.");
+		throw new SiteWhereException(ErrorCode.InvalidCustomerToken, "Registration request specified invalid customer token.");
 	    }
 	    return override;
 	} else if (isUseDefaultCustomer()) {
@@ -271,7 +272,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 		if (areaToken != null) {
 			IArea override = getDeviceManagement().getAreaByToken(areaToken);
 			if (override == null) {
-				throw new SiteWhereException("Registration request specified invalid area token.");
+				throw new SiteWhereException(ErrorCode.InvalidAreaToken, "Registration request specified invalid area token.");
 			}
 			return override;
 		} else if (isUseDefaultArea()) {
@@ -340,21 +341,21 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    if (getDefaultDeviceTypeToken() != null) {
 		IDeviceType deviceType = getDeviceManagement().getDeviceTypeByToken(getDefaultDeviceTypeToken());
 		if (deviceType == null) {
-		    throw new SiteWhereException("Registration manager auto assignment device type is invalid.");
+		    throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Registration manager auto assignment device type is invalid.");
 		}
 		DeviceRegistrationManager.this.defaultDeviceType = deviceType;
 	    }
 	    if (getDefaultCustomerToken() != null) {
 		ICustomer customer = getDeviceManagement().getCustomerByToken(getDefaultCustomerToken());
 		if (customer == null) {
-		    throw new SiteWhereException("Registration manager auto assignment customer is invalid.");
+		    throw new SiteWhereException(ErrorCode.InvalidCustomerToken, "Registration manager auto assignment customer is invalid.");
 		}
 		DeviceRegistrationManager.this.defaultCustomer = customer;
 	    }
 	    if (getDefaultAreaToken() != null) {
 		IArea area = getDeviceManagement().getAreaByToken(getDefaultAreaToken());
 		if (area == null) {
-		    throw new SiteWhereException("Registration manager auto assignment area is invalid.");
+		    throw new SiteWhereException(ErrorCode.InvalidAreaToken, "Registration manager auto assignment area is invalid.");
 		}
 		DeviceRegistrationManager.this.defaultArea = area;
 	    }

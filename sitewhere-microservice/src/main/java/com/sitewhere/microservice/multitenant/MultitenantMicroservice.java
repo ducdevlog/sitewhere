@@ -256,7 +256,7 @@ public abstract class MultitenantMicroservice<I extends IFunctionIdentifier, T e
 		getLogger().warn("No tenants currently configured.");
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to create tenant engines.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to create tenant engines.", e);
 	}
     }
 
@@ -547,7 +547,7 @@ public abstract class MultitenantMicroservice<I extends IFunctionIdentifier, T e
 		    // Look up tenant and add it to initializing tenants map.
 		    ITenant tenant = getTenantManagementApiDemux().getApiChannel().getTenant(tenantId);
 		    if (tenant == null) {
-			throw new SiteWhereException("Unable to locate tenant by id '" + tenantId + "'.");
+			throw new SiteWhereException(ErrorCode.Error, "Unable to locate tenant by id '" + tenantId + "'.");
 		    }
 		    getInitializingTenantEngines().put(tenantId, tenant);
 

@@ -7,6 +7,7 @@
  */
 package com.sitewhere.microservice;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.curator.framework.CuratorFramework;
 
 import com.sitewhere.microservice.configuration.ConfigurableMicroservice;
@@ -168,7 +169,7 @@ public abstract class GlobalMicroservice<T extends IFunctionIdentifier> extends 
 		curator.setData().forPath(configPath, content);
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to update module configuration.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to update module configuration.", e);
 	}
     }
 }

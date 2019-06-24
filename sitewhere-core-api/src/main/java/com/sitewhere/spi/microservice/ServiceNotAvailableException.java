@@ -8,6 +8,7 @@
 package com.sitewhere.spi.microservice;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Exeception indicating a remote service has become unavailable.
@@ -23,11 +24,11 @@ public class ServiceNotAvailableException extends SiteWhereException {
     }
 
     public ServiceNotAvailableException(String message, Throwable cause) {
-	super(message, cause);
+	super(ErrorCode.InvalidMicroserviceIdentifier, message, cause);
     }
 
     public ServiceNotAvailableException(String message) {
-	super(message);
+	super(ErrorCode.InvalidMicroserviceIdentifier, message);
     }
 
     public ServiceNotAvailableException(Throwable cause) {

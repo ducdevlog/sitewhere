@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,7 @@ public class EventModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build inbound event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build inbound event payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -74,7 +75,7 @@ public class EventModelMarshaler {
 	try {
 	    return GInboundEventPayload.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse inbound event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse inbound event payload message.", e);
 	}
     }
 
@@ -91,7 +92,7 @@ public class EventModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build persisted event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build persisted event payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -108,7 +109,7 @@ public class EventModelMarshaler {
 	try {
 	    return GPersistedEventPayload.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse inbound event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse inbound event payload message.", e);
 	}
     }
 
@@ -125,7 +126,7 @@ public class EventModelMarshaler {
 	    grpc.writeTo(output);
 	    return output.toByteArray();
 	} catch (IOException e) {
-	    throw new SiteWhereException("Unable to build enriched event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to build enriched event payload message.", e);
 	} finally {
 	    closeQuietly(output);
 	}
@@ -154,7 +155,7 @@ public class EventModelMarshaler {
 	try {
 	    return GEnrichedEventPayload.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse enriched event payload message.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to parse enriched event payload message.", e);
 	}
     }
 

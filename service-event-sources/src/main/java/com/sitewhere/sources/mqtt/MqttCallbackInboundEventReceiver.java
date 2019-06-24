@@ -9,6 +9,7 @@ package com.sitewhere.sources.mqtt;
 
 import java.net.URISyntaxException;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.fusesource.hawtbuf.Buffer;
 import org.fusesource.hawtbuf.UTF8Buffer;
 import org.fusesource.mqtt.client.Callback;
@@ -72,7 +73,7 @@ public class MqttCallbackInboundEventReceiver extends InboundEventReceiver<byte[
 	    this.mqtt = new MQTT();
 	    mqtt.setHost(getHostname(), getPort());
 	} catch (URISyntaxException e) {
-	    throw new SiteWhereException("Invalid hostname for MQTT server.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Invalid hostname for MQTT server.", e);
 	}
 	getLogger().info("Receiver connecting to MQTT broker at '" + getHostname() + ":" + getPort() + "'...");
 	connection = mqtt.callbackConnection();

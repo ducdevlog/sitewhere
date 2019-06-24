@@ -7,6 +7,7 @@
  */
 package com.sitewhere.schedule.initializer;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -62,7 +63,7 @@ public class GroovyScheduleModelInitializer extends ModelInitializer implements 
 	try {
 	    getGroovyConfiguration().run(getScriptPath(), binding);
 	} catch (SiteWhereException e) {
-	    throw new SiteWhereException("Unable to run schedule model initializer.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run schedule model initializer.", e);
 	}
     }
 

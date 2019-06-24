@@ -22,6 +22,7 @@ import com.sitewhere.spi.device.event.IDeviceMeasurement;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Default context implementation.
@@ -208,7 +209,7 @@ public class SiteWhereContext implements ISiteWhereContext {
 	} else if (event instanceof IDeviceCommandResponse) {
 	    getDeviceCommandResponses().add((IDeviceCommandResponse) event);
 	} else {
-	    throw new SiteWhereException("Context does not support event type: " + event.getClass().getName());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceEventId, "Context does not support event type: " + event.getClass().getName());
 	}
     }
 }

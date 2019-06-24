@@ -10,6 +10,7 @@ package com.sitewhere.connectors.mqtt;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.fusesource.hawtdispatch.Dispatch;
 import org.fusesource.hawtdispatch.DispatchQueue;
 import org.fusesource.mqtt.client.Future;
@@ -135,7 +136,7 @@ public class MqttOutboundConnector extends SerialOutboundConnector
 	    Future<Void> future = connection.connect();
 	    future.await(MqttLifecycleComponent.DEFAULT_CONNECT_TIMEOUT_SECS, TimeUnit.SECONDS);
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to connect to MQTT broker.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to connect to MQTT broker.", e);
 	}
 	getLogger().info("Connected to MQTT broker.");
     }

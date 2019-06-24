@@ -87,7 +87,7 @@ public class InfluxDbDeviceEventManagement extends TenantEngineLifecycleComponen
     @Override
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
 	if (getClient() == null) {
-	    throw new SiteWhereException("No InfluxDB client configured.");
+	    throw new SiteWhereException(ErrorCode.Error, "No InfluxDB client configured.");
 	}
 	getClient().start(monitor);
     }

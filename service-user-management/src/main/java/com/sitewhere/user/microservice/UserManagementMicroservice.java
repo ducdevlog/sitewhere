@@ -7,6 +7,7 @@
  */
 package com.sitewhere.user.microservice;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
@@ -132,7 +133,7 @@ public class UserManagementMicroservice extends GlobalMicroservice<MicroserviceI
 		    .getBean(UserManagementBeans.BEAN_USER_MANAGEMENT);
 	    return new UserManagementKafkaTriggers(implementation);
 	} catch (NoSuchBeanDefinitionException e) {
-	    throw new SiteWhereException("User management bean not found.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "User management bean not found.", e);
 	}
     }
 

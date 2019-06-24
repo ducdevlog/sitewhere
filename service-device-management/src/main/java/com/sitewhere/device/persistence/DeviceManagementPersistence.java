@@ -677,7 +677,7 @@ public class DeviceManagementPersistence extends Persistence {
 	}
 	IDevice mapped = management.getDeviceByToken(request.getDeviceToken());
 	if (mapped == null) {
-	    throw new SiteWhereException("Device referenced by mapping does not exist.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceToken, "Device referenced by mapping does not exist.");
 	}
 
 	// Check whether target device is already parented to another device.
@@ -933,12 +933,12 @@ public class DeviceManagementPersistence extends Persistence {
 	// Handle the required parameters first
 	if (parameter.isRequired()) {
 	    if (parameterValueIsNull) {
-		throw new SiteWhereException("Required parameter '" + parameter.getName() + "' is missing.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Required parameter '" + parameter.getName() + "' is missing.");
 	    }
 
 	    if (parameterValueIsEmpty) {
-		throw new SiteWhereException(
-			"Required parameter '" + parameter.getName() + "' has no value assigned to it.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData,
+				"Required parameter '" + parameter.getName() + "' has no value assigned to it.");
 	    }
 	} else if (parameterValueIsNull || parameterValueIsEmpty) {
 	    return;
@@ -958,21 +958,21 @@ public class DeviceManagementPersistence extends Persistence {
 	    try {
 		Long.parseLong(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be integral.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be integral.");
 	    }
 	}
 	case Float: {
 	    try {
 		Float.parseFloat(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be a float.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be a float.");
 	    }
 	}
 	case Double: {
 	    try {
 		Double.parseDouble(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be a double.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be a double.");
 	    }
 	}
 	default:

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpException;
@@ -72,14 +73,14 @@ public class HttpInteractionHandler extends TenantEngineLifecycleComponent
 	    conn.sendResponseHeader(response);
 	    conn.sendResponseEntity(response);
 	} catch (HttpException e) {
-	    throw new SiteWhereException("HTTP error processing request in interaction handler.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "HTTP error processing request in interaction handler.", e);
 	} catch (IOException e) {
-	    throw new SiteWhereException("I/O error processing HTTP interaction handler.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "I/O error processing HTTP interaction handler.", e);
 	} finally {
 	    try {
 		conn.close();
 	    } catch (IOException e) {
-		throw new SiteWhereException("Error closing HTTP interaction handler.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error closing HTTP interaction handler.", e);
 	    }
 	}
     }

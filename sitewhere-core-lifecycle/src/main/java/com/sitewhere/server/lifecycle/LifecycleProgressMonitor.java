@@ -10,6 +10,7 @@ package com.sitewhere.server.lifecycle;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +97,7 @@ public class LifecycleProgressMonitor implements ILifecycleProgressMonitor {
 	if (current != null) {
 	    return getMicroservice().getTracer().buildSpan(name).startActive();
 	}
-	throw new SiteWhereException("Unable to create span. No context found.");
+	throw new SiteWhereException(ErrorCode.Error, "Unable to create span. No context found.");
     }
 
     /*

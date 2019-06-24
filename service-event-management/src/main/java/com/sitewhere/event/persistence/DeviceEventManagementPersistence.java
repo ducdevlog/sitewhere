@@ -37,6 +37,7 @@ import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStateChangeCreateRequest;
 import com.sitewhere.spi.device.streaming.request.IDeviceStreamDataCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Common methods needed by device service provider implementations.
@@ -48,7 +49,7 @@ public class DeviceEventManagementPersistence extends Persistence {
     /**
      * Executes logic to process a batch of device events.
      * 
-     * @param assignmentToken
+     * @param assignment
      * @param batch
      * @param management
      * @return
@@ -236,12 +237,12 @@ public class DeviceEventManagementPersistence extends Persistence {
 	// Handle the required parameters first
 	if (parameter.isRequired()) {
 	    if (parameterValueIsNull) {
-		throw new SiteWhereException("Required parameter '" + parameter.getName() + "' is missing.");
+		throw new SiteWhereException(ErrorCode.IncompleteData, "Required parameter '" + parameter.getName() + "' is missing.");
 	    }
 
 	    if (parameterValueIsEmpty) {
-		throw new SiteWhereException(
-			"Required parameter '" + parameter.getName() + "' has no value assigned to it.");
+		throw new SiteWhereException(ErrorCode.IncompleteData,
+				"Required parameter '" + parameter.getName() + "' has no value assigned to it.");
 	    }
 	} else if (parameterValueIsNull || parameterValueIsEmpty) {
 	    return;
@@ -261,21 +262,21 @@ public class DeviceEventManagementPersistence extends Persistence {
 	    try {
 		Long.parseLong(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be integral.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be integral.");
 	    }
 	}
 	case Float: {
 	    try {
 		Float.parseFloat(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be a float.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be a float.");
 	    }
 	}
 	case Double: {
 	    try {
 		Double.parseDouble(value);
 	    } catch (NumberFormatException e) {
-		throw new SiteWhereException("Parameter '" + parameter.getName() + "' must be a double.");
+		throw new SiteWhereException(ErrorCode.InvalidParseData, "Parameter '" + parameter.getName() + "' must be a double.");
 	    }
 	}
 	default:

@@ -20,6 +20,7 @@ import com.sitewhere.spi.device.event.IDeviceLocation;
 import com.sitewhere.spi.device.event.IDeviceMeasurement;
 import com.sitewhere.spi.device.event.IDeviceStateChange;
 import com.sitewhere.spi.device.event.kafka.IEnrichedEventPayload;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Outbound connector that routes each event in a batch to a handler in a serial
@@ -65,7 +66,7 @@ public class SerialOutboundConnector extends FilteredOutboundConnector implement
 		    break;
 		}
 		default: {
-		    throw new SiteWhereException("Unknown event type. " + event.getEventType().name());
+		    throw new SiteWhereException(ErrorCode.InvalidParseData, "Unknown event type. " + event.getEventType().name());
 		}
 		}
 	    } catch (Throwable e) {

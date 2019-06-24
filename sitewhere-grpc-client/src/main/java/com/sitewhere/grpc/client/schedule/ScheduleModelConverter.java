@@ -29,6 +29,7 @@ import com.sitewhere.rest.model.scheduling.request.ScheduleCreateRequest;
 import com.sitewhere.rest.model.scheduling.request.ScheduledJobCreateRequest;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.scheduling.ISchedule;
 import com.sitewhere.spi.scheduling.IScheduledJob;
 import com.sitewhere.spi.scheduling.ScheduledJobState;
@@ -60,7 +61,7 @@ public class ScheduleModelConverter {
 	case TRIGGER_TYPE_SIMPLE:
 	    return TriggerType.SimpleTrigger;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown trigger type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown trigger type: " + grpc.name());
 	}
 	return null;
     }
@@ -79,7 +80,7 @@ public class ScheduleModelConverter {
 	case SimpleTrigger:
 	    return GTriggerType.TRIGGER_TYPE_SIMPLE;
 	}
-	throw new SiteWhereException("Unknown trigger type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown trigger type: " + api.name());
     }
 
     /**
@@ -216,7 +217,7 @@ public class ScheduleModelConverter {
 	case SCHEDULED_JOB_TYPE_COMMAND_INVOCATION:
 	    return ScheduledJobType.CommandInvocation;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown scheduled job type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown scheduled job type: " + grpc.name());
 	}
 	return null;
     }
@@ -235,7 +236,7 @@ public class ScheduleModelConverter {
 	case CommandInvocation:
 	    return GScheduledJobType.SCHEDULED_JOB_TYPE_COMMAND_INVOCATION;
 	}
-	throw new SiteWhereException("Unknown scheduled job type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown scheduled job type: " + api.name());
     }
 
     /**
@@ -254,7 +255,7 @@ public class ScheduleModelConverter {
 	case SCHEDULED_JOB_STATE_UNSUBMITTED:
 	    return ScheduledJobState.Unsubmitted;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown scheduled job state: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown scheduled job state: " + grpc.name());
 	}
 	return null;
     }
@@ -275,7 +276,7 @@ public class ScheduleModelConverter {
 	case Unsubmitted:
 	    return GScheduledJobState.SCHEDULED_JOB_STATE_UNSUBMITTED;
 	}
-	throw new SiteWhereException("Unknown scheduled job state: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown scheduled job state: " + api.name());
     }
 
     /**

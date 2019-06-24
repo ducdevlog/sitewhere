@@ -20,6 +20,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.area.IZone;
 import com.sitewhere.spi.device.event.IDeviceEventContext;
 import com.sitewhere.spi.device.event.IDeviceLocation;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.geospatial.ZoneContainment;
 import com.vividsolutions.jts.geom.Polygon;
 
@@ -80,7 +81,7 @@ public class ZoneTestRuleProcessor extends RuleProcessor {
 	    zoneMap.put(token, poly);
 	    return poly;
 	}
-	throw new SiteWhereException("Invalid zone token in " + ZoneTestRuleProcessor.class.getName() + ": " + token);
+	throw new SiteWhereException(ErrorCode.Error, "Invalid zone token in " + ZoneTestRuleProcessor.class.getName() + ": " + token);
     }
 
     public List<ZoneTest> getZoneTests() {

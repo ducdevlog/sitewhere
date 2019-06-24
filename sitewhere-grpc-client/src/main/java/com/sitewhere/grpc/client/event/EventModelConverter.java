@@ -103,6 +103,7 @@ import com.sitewhere.spi.device.event.request.IDeviceEventCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceLocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceMeasurementCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceStateChangeCreateRequest;
+import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import org.apache.commons.lang3.StringUtils;
@@ -198,7 +199,7 @@ public class EventModelConverter {
 	case EVENT_INDEX_CUSTOMER:
 	    return DeviceEventIndex.Customer;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown event index: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceEventId, "Unknown event index: " + grpc.name());
 	}
 	return null;
     }
@@ -221,7 +222,7 @@ public class EventModelConverter {
 	case Customer:
 	    return GDeviceEventIndex.EVENT_INDEX_CUSTOMER;
 	}
-	throw new SiteWhereException("Unknown event index: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDeviceEventId, "Unknown event index: " + api.name());
     }
 
     /**
@@ -246,7 +247,7 @@ public class EventModelConverter {
 	case EVENT_TYPE_STATE_CHANGE:
 	    return DeviceEventType.StateChange;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown event type: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceEventId, "Unknown event type: " + grpc.name());
 	}
 	return null;
     }
@@ -273,7 +274,7 @@ public class EventModelConverter {
 	case StateChange:
 	    return GDeviceEventType.EVENT_TYPE_STATE_CHANGE;
 	}
-	throw new SiteWhereException("Unknown event type: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDeviceEventId, "Unknown event type: " + api.name());
     }
 
     /**
@@ -499,7 +500,7 @@ public class EventModelConverter {
 	case ALERT_SOURCE_SYSTEM:
 	    return AlertSource.System;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown alert source: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.Error, "Unknown alert source: " + grpc.name());
 	}
 	return null;
     }
@@ -518,7 +519,7 @@ public class EventModelConverter {
 	case System:
 	    return GAlertSource.ALERT_SOURCE_SYSTEM;
 	}
-	throw new SiteWhereException("Unknown alert source: " + api.name());
+	throw new SiteWhereException(ErrorCode.Error, "Unknown alert source: " + api.name());
     }
 
     /**
@@ -539,7 +540,7 @@ public class EventModelConverter {
 	case ALERT_LEVEL_WARNING:
 	    return AlertLevel.Warning;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown alert level: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.Error, "Unknown alert level: " + grpc.name());
 	}
 	return null;
     }
@@ -562,7 +563,7 @@ public class EventModelConverter {
 	case Warning:
 	    return GAlertLevel.ALERT_LEVEL_WARNING;
 	}
-	throw new SiteWhereException("Unknown alert level: " + api.name());
+	throw new SiteWhereException(ErrorCode.Error, "Unknown alert level: " + api.name());
     }
 
     /**
@@ -887,7 +888,7 @@ public class EventModelConverter {
 	case CMD_INITIATOR_SCRIPT:
 	    return CommandInitiator.Script;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown command initiator: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command initiator: " + grpc.name());
 	}
 	return null;
     }
@@ -910,7 +911,7 @@ public class EventModelConverter {
 	case Script:
 	    return GDeviceCommandInitiator.CMD_INITIATOR_SCRIPT;
 	}
-	throw new SiteWhereException("Unknown command initiator: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command initiator: " + api.name());
     }
 
     /**
@@ -925,7 +926,7 @@ public class EventModelConverter {
 	case CMD_TARGET_ASSIGNMENT:
 	    return CommandTarget.Assignment;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown command target: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command target: " + grpc.name());
 	}
 	return null;
     }
@@ -942,7 +943,7 @@ public class EventModelConverter {
 	case Assignment:
 	    return GDeviceCommandTarget.CMD_TARGET_ASSIGNMENT;
 	}
-	throw new SiteWhereException("Unknown command target: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command target: " + api.name());
     }
 
     /**
@@ -963,7 +964,7 @@ public class EventModelConverter {
 	case CMD_STATUS_SENT:
 	    return CommandStatus.Sent;
 	case UNRECOGNIZED:
-	    throw new SiteWhereException("Unknown command status: " + grpc.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command status: " + grpc.name());
 	}
 	return null;
     }
@@ -986,7 +987,7 @@ public class EventModelConverter {
 	case Sent:
 	    return GDeviceCommandStatus.CMD_STATUS_SENT;
 	}
-	throw new SiteWhereException("Unknown command status: " + api.name());
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unknown command status: " + api.name());
     }
 
     /**
@@ -1577,8 +1578,8 @@ public class EventModelConverter {
 	    break;
 	}
 	}
-	throw new SiteWhereException(
-		"Unable to convert event create request to API. " + grpc.getEventCase().toString());
+	throw new SiteWhereException(ErrorCode.Error,
+			"Unable to convert event create request to API. " + grpc.getEventCase().toString());
     }
 
     /**
@@ -1618,7 +1619,7 @@ public class EventModelConverter {
 	    break;
 	}
 	default:
-	    throw new SiteWhereException("Unable to convert event create request to GRPC. " + api.getClass().getName());
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to convert event create request to GRPC. " + api.getClass().getName());
 	}
 
 	return grpc.build();
@@ -1655,7 +1656,7 @@ public class EventModelConverter {
 	    break;
 	}
 	}
-	throw new SiteWhereException("Unable to convert event to API. " + grpc.getEventCase().toString());
+	throw new SiteWhereException(ErrorCode.Error, "Unable to convert event to API. " + grpc.getEventCase().toString());
     }
 
     /**
@@ -1707,7 +1708,7 @@ public class EventModelConverter {
 	    break;
 	}
 	default:
-	    throw new SiteWhereException("Unable to convert event to GRPC. " + api.getClass().getName());
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to convert event to GRPC. " + api.getClass().getName());
 	}
 
 	return grpc.build();

@@ -53,7 +53,7 @@ public class BatchUtils {
 	    hasGroupsWithRole = true;
 	}
 	if (hasGroup && hasGroupsWithRole) {
-	    throw new SiteWhereException("Only one of groupToken or groupsWithRole may be specified.");
+	    throw new SiteWhereException(ErrorCode.DuplicateScheduledJobToken, "Only one of groupToken or groupsWithRole may be specified.");
 	}
 
 	IDeviceSearchCriteria deviceSearch = new DeviceSearchCriteria(criteria.getDeviceTypeToken(), false, 1, 0,

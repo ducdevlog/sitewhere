@@ -7,11 +7,16 @@
  */
 package com.sitewhere.web.microservice;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
+import com.sitewhere.grpc.client.common.security.NotAuthorizedException;
+import com.sitewhere.grpc.client.common.security.UnauthenticatedException;
+import com.sitewhere.microservice.security.JwtExpiredException;
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.SiteWhereSystemException;
+import com.sitewhere.spi.error.ErrorCode;
+import com.sitewhere.spi.error.ResourceExistsException;
+import com.sitewhere.spi.tenant.TenantNotAvailableException;
+import com.sitewhere.spi.web.ISiteWhereWebConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
@@ -22,15 +27,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.sitewhere.grpc.client.ApiChannelNotAvailableException;
-import com.sitewhere.grpc.client.common.security.NotAuthorizedException;
-import com.sitewhere.grpc.client.common.security.UnauthenticatedException;
-import com.sitewhere.microservice.security.JwtExpiredException;
-import com.sitewhere.spi.SiteWhereSystemException;
-import com.sitewhere.spi.error.ErrorCode;
-import com.sitewhere.spi.error.ResourceExistsException;
-import com.sitewhere.spi.tenant.TenantNotAvailableException;
-import com.sitewhere.spi.web.ISiteWhereWebConstants;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Common handler for exceptions generated while processing REST requests.

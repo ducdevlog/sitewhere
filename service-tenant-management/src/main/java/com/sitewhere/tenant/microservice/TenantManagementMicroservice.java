@@ -10,6 +10,7 @@ package com.sitewhere.tenant.microservice;
 import java.io.File;
 import java.util.List;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -161,7 +162,7 @@ public class TenantManagementMicroservice extends GlobalMicroservice<Microservic
 		    .getBean(TenantManagementBeans.BEAN_TENANT_MANAGEMENT);
 	    return new TenantManagementKafkaTriggers(implementation, getTenantModelProducer());
 	} catch (NoSuchBeanDefinitionException e) {
-	    throw new SiteWhereException("Tenant management bean not found.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Tenant management bean not found.", e);
 	}
     }
 
@@ -324,7 +325,7 @@ public class TenantManagementMicroservice extends GlobalMicroservice<Microservic
     public File getTenantTemplatesRoot() throws SiteWhereException {
 	File templates = new File(TEMPLATES_ROOT);
 	if (!templates.exists()) {
-	    throw new SiteWhereException("Tenant templates folder not found in Docker image.");
+	    throw new SiteWhereException(ErrorCode.Error, "Tenant templates folder not found in Docker image.");
 	}
 	return templates;
     }
@@ -345,7 +346,7 @@ public class TenantManagementMicroservice extends GlobalMicroservice<Microservic
     public File getDatasetTemplatesRoot() throws SiteWhereException {
 	File datasets = new File(DATASETS_ROOT);
 	if (!datasets.exists()) {
-	    throw new SiteWhereException("Dataset templates folder not found in Docker image.");
+	    throw new SiteWhereException(ErrorCode.Error, "Dataset templates folder not found in Docker image.");
 	}
 	return datasets;
     }

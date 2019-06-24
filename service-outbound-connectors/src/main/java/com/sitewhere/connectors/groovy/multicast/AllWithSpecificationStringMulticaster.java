@@ -8,6 +8,7 @@
 package com.sitewhere.connectors.groovy.multicast;
 
 import com.sitewhere.spi.SiteWhereException;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * {@link AllWithSpecificationMulticaster} that uses String routes.
@@ -25,7 +26,7 @@ public class AllWithSpecificationStringMulticaster extends AllWithSpecificationM
     @Override
     public String convertRoute(Object scriptResult) throws SiteWhereException {
 	if (!(scriptResult instanceof String)) {
-	    throw new SiteWhereException("Multicaster script result expected to be of type String.");
+	    throw new SiteWhereException(ErrorCode.Error, "Multicaster script result expected to be of type String.");
 	}
 	return (String) scriptResult;
     }

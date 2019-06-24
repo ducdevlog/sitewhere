@@ -10,6 +10,7 @@ package com.sitewhere.microservice.groovy;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.codehaus.groovy.control.CompilationFailedException;
 
 import com.sitewhere.server.lifecycle.LifecycleComponent;
@@ -64,7 +65,7 @@ public class GroovyConfiguration extends LifecycleComponent implements IGroovyCo
 	    groovyScriptEngine.getConfig().setVerbose(isVerbose());
 	    groovyScriptEngine.getConfig().setDebug(isDebug());
 	} catch (MalformedURLException e) {
-	    throw new SiteWhereException("Unable to create Groovy script engine.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to create Groovy script engine.", e);
 	}
     }
 
@@ -89,13 +90,13 @@ public class GroovyConfiguration extends LifecycleComponent implements IGroovyCo
 	try {
 	    return getGroovyScriptEngine().run(scriptPath, binding);
 	} catch (ResourceException e) {
-	    throw new SiteWhereException("Unable to access Groovy script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to access Groovy script.", e);
 	} catch (ScriptException e) {
-	    throw new SiteWhereException("Unable to run Groovy script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to run Groovy script.", e);
 	} catch (CompilationFailedException e) {
-	    throw new SiteWhereException("Error compiling Groovy script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Error compiling Groovy script.", e);
 	} catch (Throwable e) {
-	    throw new SiteWhereException("Unhandled exception in Groovy script.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unhandled exception in Groovy script.", e);
 	}
     }
 

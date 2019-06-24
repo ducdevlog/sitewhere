@@ -11,6 +11,7 @@ import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.IDeviceType;
 import com.sitewhere.spi.device.event.IDeviceEvent;
 import com.sitewhere.spi.device.event.IDeviceEventContext;
+import com.sitewhere.spi.error.ErrorCode;
 
 /**
  * Includes or excludes events for devices using a given device type.
@@ -35,7 +36,7 @@ public class DeviceTypeFilter extends DeviceEventFilter {
     public boolean isFiltered(IDeviceEventContext context, IDeviceEvent event) throws SiteWhereException {
 	IDeviceType deviceType = getDeviceManagementApiDemux().getApiChannel().getDeviceType(context.getDeviceTypeId());
 	if (deviceType == null) {
-	    throw new SiteWhereException("Event filter unable to process event for unknown device type.");
+	    throw new SiteWhereException(ErrorCode.InvalidDeviceTypeToken, "Event filter unable to process event for unknown device type.");
 	}
 	if (getDeviceTypeToken().equals(deviceType.getToken())) {
 	    return (getOperation() != FilterOperation.Include);

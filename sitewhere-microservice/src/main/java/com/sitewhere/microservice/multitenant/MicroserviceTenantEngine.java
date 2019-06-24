@@ -10,6 +10,7 @@ package com.sitewhere.microservice.multitenant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.context.ApplicationContext;
 
@@ -133,13 +134,13 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 	try {
 	    CuratorFramework curator = getMicroservice().getZookeeperManager().getCurator();
 	    if (curator.checkExists().forPath(getModuleConfigurationPath()) == null) {
-		throw new SiteWhereException("Module configuration '" + getModuleConfigurationPath()
+		throw new SiteWhereException(ErrorCode.Error, "Module configuration '" + getModuleConfigurationPath()
 			+ "' does not exist for '" + getTenant().getName() + "'.");
 	    }
 	    byte[] data = curator.getData().forPath(getModuleConfigurationPath());
 	    return data;
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to load module configuration.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to load module configuration.", e);
 	}
     }
 
@@ -157,7 +158,7 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 		curator.setData().forPath(getModuleConfigurationPath(), content);
 	    }
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to update module configuration.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to update module configuration.", e);
 	}
     }
 
@@ -176,7 +177,7 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 		    ((IConfigurableMicroservice<?>) getMicroservice()).getGlobalApplicationContext());
 	    getLogger().info("Successfully loaded module configuration from '" + getModuleConfigurationPath() + "'.");
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to load module configuration.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to load module configuration.", e);
 	}
     }
 
@@ -463,7 +464,7 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 	    byte[] data = curator.getData().forPath(templatePath);
 	    return MarshalUtils.unmarshalJson(data, TenantTemplate.class);
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to load tenant template from Zk.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to load tenant template from Zk.", e);
 	}
     }
 
@@ -479,7 +480,7 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 	    byte[] data = curator.getData().forPath(templatePath);
 	    return MarshalUtils.unmarshalJson(data, DatasetTemplate.class);
 	} catch (Exception e) {
-	    throw new SiteWhereException("Unable to load tenant template from Zk.", e);
+	    throw new SiteWhereException(ErrorCode.Error, "Unable to load tenant template from Zk.", e);
 	}
     }
 
@@ -502,12 +503,12 @@ public abstract class MicroserviceTenantEngine extends TenantEngineLifecycleComp
 		getLogger().info("Waiting for bootstrap file at " + bspath + " before continuing...");
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
-		throw new SiteWhereException("Interrupted while waiting for module to be bootstrapped.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Interrupted while waiting for module to be bootstrapped.", e);
 	    } catch (Exception e) {
-		throw new SiteWhereException("Error checking for module bootstrapped.", e);
+		throw new SiteWhereException(ErrorCode.Error, "Error checking for module bootstrapped.", e);
 	    }
 	}
-	throw new SiteWhereException("Time limit exceeded for '" + identifier + "' to bootstrap.");
+	throw new SiteWhereException(ErrorCode.Error, "Time limit exceeded for '" + identifier + "' to bootstrap.");
     }
 
     /*

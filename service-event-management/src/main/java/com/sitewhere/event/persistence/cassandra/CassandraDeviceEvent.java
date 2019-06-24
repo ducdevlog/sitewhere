@@ -13,6 +13,7 @@ import com.sitewhere.rest.model.device.event.DeviceEvent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.DeviceEventType;
 import com.sitewhere.spi.device.event.IDeviceEvent;
+import com.sitewhere.spi.error.ErrorCode;
 
 public class CassandraDeviceEvent {
 
@@ -122,7 +123,7 @@ public class CassandraDeviceEvent {
 	    return 5;
 	}
 	default: {
-	    throw new SiteWhereException("Unsupported event type: " + type.name());
+	    throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported event type: " + type.name());
 	}
 	}
     }
@@ -148,6 +149,6 @@ public class CassandraDeviceEvent {
 	} else if (value == 5) {
 	    return DeviceEventType.StateChange;
 	}
-	throw new SiteWhereException("Unsupported event type: " + value);
+	throw new SiteWhereException(ErrorCode.InvalidDataCategory, "Unsupported event type: " + value);
     }
 }

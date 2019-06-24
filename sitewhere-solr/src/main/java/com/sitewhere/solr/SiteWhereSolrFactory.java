@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
@@ -99,7 +100,7 @@ public class SiteWhereSolrFactory {
     public static IDeviceEvent parseDocument(SolrDocument document) throws SiteWhereException {
 	String type = (String) document.getFieldValue(ISolrFields.EVENT_TYPE);
 	if (type == null) {
-	    throw new SiteWhereException("Solr event does not contain an event type indicator.");
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Solr event does not contain an event type indicator.");
 	}
 	SolrEventType eventType = SolrEventType.valueOf(type);
 	switch (eventType) {
@@ -113,7 +114,7 @@ public class SiteWhereSolrFactory {
 	    return parseAlertFromDocument(document);
 	}
 	default: {
-	    throw new SiteWhereException("Solr docuemnt contained unknown device event type.");
+	    throw new SiteWhereException(ErrorCode.InvalidParseData, "Solr docuemnt contained unknown device event type.");
 	}
 	}
     }
@@ -131,7 +132,7 @@ public class SiteWhereSolrFactory {
 
 	List<String> latLong = (List<String>) document.get(ISolrFields.LOCATION);
 	if (latLong == null) {
-	    throw new SiteWhereException("Invalid location document. No location data stored.");
+	    throw new SiteWhereException(ErrorCode.IncompleteData, "Invalid location document. No location data stored.");
 	}
 	String[] split = latLong.get(0).split("[,]");
 	location.setLatitude(Double.parseDouble(split[0].trim()));

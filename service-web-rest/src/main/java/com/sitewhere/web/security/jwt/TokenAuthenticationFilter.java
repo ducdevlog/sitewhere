@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.spi.error.ErrorCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -92,7 +93,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		JwtAuthenticationToken token = new JwtAuthenticationToken(username, springAuths, jwt);
 		Authentication authenticated = getAuthenticationManager().authenticate(token);
 		if ((!StringUtils.isEmpty(tenantId)) && (StringUtils.isEmpty(tenantAuth))) {
-		    throw new SiteWhereException("Tenant id passed without corresponding tenant auth token.");
+		    throw new SiteWhereException(ErrorCode.InvalidTenantId, "Tenant id passed without corresponding tenant auth token.");
 		}
 
 		// Add tenant authentication data if provided.
@@ -134,7 +135,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		ITenant tenant = getTenantManagementDemuxProvider().getTenantManagementApiDemux().getApiChannel()
 			.getTenantByToken(tenantToken);
 		if ((tenant == null) || (!tenant.getAuthenticationToken().equals(tenantAuth))) {
-		    throw new SiteWhereException("Auth token passed for tenant id is not correct.");
+		    throw new SiteWhereException(ErrorCode.InvalidTenantId, "Auth token passed for tenant id is not correct.");
 		}
 		((ITenantAwareAuthentication) authenticated).setTenant(tenant);
 		LOGGER.debug("Added tenant to authentication: " + tenant.getId());
