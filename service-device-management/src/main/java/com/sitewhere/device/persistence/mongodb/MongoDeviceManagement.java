@@ -794,7 +794,8 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     }
 	DeviceManagementPersistence.deviceDeleteLogic(device, this);
 	MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
-	MongoPersistence.delete(devices, existing);
+		Document existingAfterDeleteAssignment = assertDevice(id);
+	MongoPersistence.delete(devices, existingAfterDeleteAssignment);
 	return MongoDevice.fromDocument(existing);
     }
 
