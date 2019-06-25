@@ -18,7 +18,7 @@ RUN apk update \
  && apk add --no-cache ca-certificates curl git \
  && update-ca-certificates \
  # Install Coturn dependencies
- && apk add --no-cache libevent libcrypto1.1 libssl1.1 snappy zlib
+ && apk add --no-cache libevent libcrypto1.1 libssl1.1 snappy zlib \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps coreutils autoconf g++ libtool make  cmake \
  # Install mongo-c-driver build dependencies
