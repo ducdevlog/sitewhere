@@ -38,19 +38,19 @@ RUN apk update \
  # Install mongo-c-driver
  && make install \
  # Install mosquitto
- cd .. && \
- git clone https://github.com/eclipse/mosquitto.git && \
- cd mosquitto && \
- make -j "$(nproc)" \
-   CFLAGS="-Wall -O2 -I/libwebsockets/include" \
-   LDFLAGS="-L/libwebsockets/lib" \
-   WITH_SRV=yes \
-   WITH_ADNS=no \
-   WITH_DOCS=no \
-   WITH_MEMORY_TRACKING=no \
-   WITH_TLS_PSK=no \
-   WITH_WEBSOCKETS=yes \
- install && \
+ && cd ..  \
+ && git clone https://github.com/eclipse/mosquitto.git \
+ && cd mosquitto \
+ && make -j "$(nproc)" \
+     CFLAGS="-Wall -O2 -I/libwebsockets/include" \
+     LDFLAGS="-L/libwebsockets/lib" \
+     WITH_SRV=yes \
+     WITH_ADNS=no \
+     WITH_DOCS=no \
+     WITH_MEMORY_TRACKING=no \
+     WITH_TLS_PSK=yes \
+     WITH_WEBSOCKETS=yes \
+ && install \
 
 # Install mosquitto-auth-plug
  && cd / \
