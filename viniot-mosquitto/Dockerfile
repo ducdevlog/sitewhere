@@ -15,7 +15,7 @@ RUN apk update \
  && apk add --no-cache --virtual buildDeps git cmake build-base openssl-dev c-ares-dev util-linux-dev curl-dev ca-certificates \
  && update-ca-certificates \
  # Install Coturn dependencies
- && apk add --no-cache libevent libssl-dev libsasl2-dev snappy zlib \
+ && apk add --no-cache libevent snappy zlib \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps coreutils autoconf g++ libtool make  cmake \
  # Install mongo-c-driver build dependencies
