@@ -66,7 +66,7 @@ RUN apk update \
      WITH_ADNS=no \
      WITH_DOCS=no \
      WITH_MEMORY_TRACKING=no \
-     WITH_TLS_PSK=yes \
+     WITH_TLS_PSK=no \
      WITH_WEBSOCKETS=no \
     install \
 
