@@ -31,18 +31,10 @@ RUN apk update \
  # https://git.alpinelinux.org/aports/tree/non-free/mongo-c-driver/APKBUILD
  && mkdir -p /tmp/build/mongo-c-driver/ \
  && cd /tmp/build/mongo-c-driver/ \
- && cmake -DCMAKE_BUILD_TYPE=Release \
-          -DCMAKE_INSTALL_PREFIX=/usr \
-          -DCMAKE_INSTALL_LIBDIR=lib \
-          -DENABLE_BSON:STRING=ON \
-          -DENABLE_MONGOC:BOOL=ON \
-          -DENABLE_SSL:STRING=OPENSSL \
-          -DENABLE_AUTOMATIC_INIT_AND_CLEANUP:BOOL=OFF \
-          -DENABLE_MAN_PAGES:BOOL=OFF \
-          -DENABLE_TESTS:BOOL=ON \
-          -DENABLE_EXAMPLES:BOOL=OFF \
-          -DCMAKE_SKIP_RPATH=ON \
+ && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DENABLE_BSON:STRING=ON -DENABLE_MONGOC:BOOL=ON -DENABLE_SSL:STRING=OPENSSL \
+          -DENABLE_AUTOMATIC_INIT_AND_CLEANUP:BOOL=OFF -DENABLE_MAN_PAGES:BOOL=OFF -DENABLE_TESTS:BOOL=ON -DENABLE_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH=ON \
            /tmp/mongo-c-driver-* \
+           \
  && make \
  # Check mongo-c-driver build
  && MONGOC_TEST_SKIP_MOCK=on MONGOC_TEST_SKIP_SLOW=on MONGOC_TEST_SKIP_LIVE=on make check \
