@@ -12,14 +12,14 @@ VOLUME ["/var/lib/mosquitto", "/etc/mosquitto", "/etc/mosquitto.d"]
 # Build and install Coturn
 RUN apk update \
  && apk upgrade \
- && apk add --no-cache ca-certificates curl git \
+ && apk add --no-cache --virtual buildDeps git cmake build-base openssl-dev c-ares-dev util-linux-dev curl-dev ca-certificates \
  && update-ca-certificates \
  # Install Coturn dependencies
- && apk add --no-cache libevent libcrypto1.1 libssl1.1 snappy zlib \
+ && apk add --no-cache libevent libssl-dev libsasl2-dev snappy zlib \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps coreutils autoconf g++ libtool make  cmake \
  # Install mongo-c-driver build dependencies
- && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev openssl-dev snappy-dev zlib-dev \
+ && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev snappy-dev zlib-dev \
  # Download and prepare mongo-c-driver sources
  && curl -fL -o /tmp/mongo-c-driver.tar.gz https://github.com/mongodb/mongo-c-driver/archive/1.14.0.tar.gz \
  && tar -xzf /tmp/mongo-c-driver.tar.gz -C /tmp/ \
@@ -37,26 +37,26 @@ RUN apk update \
  && MONGOC_TEST_SKIP_MOCK=on MONGOC_TEST_SKIP_SLOW=on MONGOC_TEST_SKIP_LIVE=on make check \
  # Install mongo-c-driver
  && make install \
-# && cd / \
-# && git clone git://github.com/jpmens/mosquitto-auth-plug.git  \
-# && cd mosquitto-auth-plug  \
-# && cp config.mk.in config.mk  \
-# && sed -i "s/BACKEND_MYSQL ?= yes/BACKEND_MYSQL ?= no/" config.mk  \
-# && sed -i "s/BACKEND_REDIS ?= no/BACKEND_REDIS ?= yes/" config.mk  \
-# && sed -i "s/BACKEND_HTTP ?= no/BACKEND_HTTP ?= yes/" config.mk   \
-# && sed -i "s/BACKEND_POSTGRES ?= no/BACKEND_POSTGRES ?= yes/" config.mk   \
-# && sed -i "s/BACKEND_JWT ?= no/BACKEND_JWT ?= yes/" config.mk  \
-# && sed -i "s/BACKEND_MONGO ?= no/BACKEND_MONGO ?= yes/" config.mk  \
-# && sed -i "s/BACKEND_FILES ?= no/BACKEND_FILES ?= yes/" config.mk  \
-# && sed -i "s/MOSQUITTO_SRC =/MOSQUITTO_SRC = ..\//" config.mk \
-# && sed -i "s/EVP_MD_CTX_new/EVP_MD_CTX_create/g" cache.c  \
-# && sed -i "s/EVP_MD_CTX_free/EVP_MD_CTX_destroy/g" cache.c  \
-# && make \
-# && install -s -m755 auth-plug.so /usr/local/lib/ \
-# && install -s -m755 np /usr/local/bin/ \
-#
-# && apk del .tool-deps .build-deps \
-# && rm -rf /var/cache/apk/* /tmp/*
+ && cd / \
+ && git clone git://github.com/jpmens/mosquitto-auth-plug.git  \
+ && cd mosquitto-auth-plug  \
+ && cp config.mk.in config.mk  \
+ && sed -i "s/BACKEND_MYSQL ?= yes/BACKEND_MYSQL ?= no/" config.mk  \
+ && sed -i "s/BACKEND_REDIS ?= no/BACKEND_REDIS ?= yes/" config.mk  \
+ && sed -i "s/BACKEND_HTTP ?= no/BACKEND_HTTP ?= yes/" config.mk   \
+ && sed -i "s/BACKEND_POSTGRES ?= no/BACKEND_POSTGRES ?= yes/" config.mk   \
+ && sed -i "s/BACKEND_JWT ?= no/BACKEND_JWT ?= yes/" config.mk  \
+ && sed -i "s/BACKEND_MONGO ?= no/BACKEND_MONGO ?= yes/" config.mk  \
+ && sed -i "s/BACKEND_FILES ?= no/BACKEND_FILES ?= yes/" config.mk  \
+ && sed -i "s/MOSQUITTO_SRC =/MOSQUITTO_SRC = ..\//" config.mk \
+ && sed -i "s/EVP_MD_CTX_new/EVP_MD_CTX_create/g" cache.c  \
+ && sed -i "s/EVP_MD_CTX_free/EVP_MD_CTX_destroy/g" cache.c  \
+ && make \
+ && install -s -m755 auth-plug.so /usr/local/lib/ \
+ && install -s -m755 np /usr/local/bin/ \
+
+ && apk del .tool-deps .build-deps \
+ && rm -rf /var/cache/apk/* /tmp/*
 
 COPY run.sh /
 RUN chmod +x /run.sh
