@@ -24,7 +24,7 @@ RUN set -x && \
 COPY mosquitto.conf /mosquitto/config/mosquitto.conf
 COPY mosquitto-go-auth.conf /mosquitto/config/conf.d/mosquitto-go-auth.conf
 
-COPY docker-entrypoint.sh /
+COPY run.sh /
 RUN chmod +x /run.sh
 ENTRYPOINT ["/run.sh"]
 
