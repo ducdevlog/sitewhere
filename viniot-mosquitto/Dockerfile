@@ -2,9 +2,6 @@ FROM eclipse-mosquitto as packager
 
 MAINTAINER viniot Team <developer@viniot.net.vn>
 
-RUN addgroup -S mosquitto && \
-    adduser -S -H -h /var/empty -s /sbin/nologin -D -G mosquitto mosquitto
-
 ENV PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 EXPOSE 1883
