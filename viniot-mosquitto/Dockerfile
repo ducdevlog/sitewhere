@@ -6,7 +6,7 @@ ENV CGO_CFLAGS="-I/usr/local/include -fPIC"
 ENV CGO_LDFLAGS="-shared"
 
 RUN set -x && \
-    apt-get update && apt-get install -y git curl build-essential libc-ares-dev uuid-dev libwebsockets-dev openssl-dev && \
+    apt-get update && apt-get install -y git curl build-essential libc-ares-dev uuid-dev libwebsockets-dev openssl && \
     rm -rf /var/lib/apt/lists/* && \
     cd / && \
     git clone https://github.com/eclipse/mosquitto.git && \
