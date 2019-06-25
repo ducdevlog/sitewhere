@@ -39,21 +39,21 @@ RUN apk update \
  && make install \
 
 # Install libwebsockets
-&& git clone https://libwebsockets.org/repo/libwebsockets  \
-&& cd libwebsockets  \
-&& cmake . \
-     -DCMAKE_BUILD_TYPE=MinSizeRel \
-     -DLWS_IPV6=ON \
-     -DLWS_WITHOUT_CLIENT=ON \
-     -DLWS_WITHOUT_TESTAPPS=ON \
-     -DLWS_WITHOUT_EXTENSIONS=ON \
-     -DLWS_WITHOUT_BUILTIN_GETIFADDRS=ON \
-     -DLWS_WITH_ZIP_FOPS=OFF \
-     -DLWS_WITH_ZLIB=OFF \
-     -DLWS_WITH_SHARED=OFF  \
-&& make -j "$(nproc)"  \
-&& rm -rf /root/.cmake  \
-&& make install  \
+#&& git clone https://libwebsockets.org/repo/libwebsockets  \
+#&& cd libwebsockets  \
+#&& cmake . \
+#     -DCMAKE_BUILD_TYPE=MinSizeRel \
+#     -DLWS_IPV6=ON \
+#     -DLWS_WITHOUT_CLIENT=ON \
+#     -DLWS_WITHOUT_TESTAPPS=ON \
+#     -DLWS_WITHOUT_EXTENSIONS=ON \
+#     -DLWS_WITHOUT_BUILTIN_GETIFADDRS=ON \
+#     -DLWS_WITH_ZIP_FOPS=OFF \
+#     -DLWS_WITH_ZLIB=OFF \
+#     -DLWS_WITH_SHARED=OFF  \
+#&& make -j "$(nproc)"  \
+#&& rm -rf /root/.cmake  \
+#&& make install  \
 
  # Install mosquitto
  && cd ..  \
@@ -67,7 +67,7 @@ RUN apk update \
      WITH_DOCS=no \
      WITH_MEMORY_TRACKING=no \
      WITH_TLS_PSK=yes \
-     WITH_WEBSOCKETS=yes \
+     WITH_WEBSOCKETS=no \
  && install \
 
 # Install mosquitto-auth-plug
