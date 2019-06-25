@@ -25,8 +25,8 @@ COPY mosquitto.conf /mosquitto/config/mosquitto.conf
 COPY mosquitto-go-auth.conf /mosquitto/config/conf.d/mosquitto-go-auth.conf
 
 COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN chmod +x /run.sh
+ENTRYPOINT ["/run.sh"]
 
 VOLUME ["/mosquitto/data", "/mosquitto/log"]
 
