@@ -1,4 +1,4 @@
-FROM dekstroza/eclipse-mosquitto as packager
+FROM eclipse-mosquitto as packager
 
 MAINTAINER viniot Team <developer@viniot.net.vn>
 
@@ -40,7 +40,6 @@ RUN apk update \
  && MONGOC_TEST_SKIP_MOCK=on MONGOC_TEST_SKIP_SLOW=on MONGOC_TEST_SKIP_LIVE=on make check \
  # Install mongo-c-driver
  && make install \
-
 # && cd / \
 # && git clone git://github.com/jpmens/mosquitto-auth-plug.git  \
 # && cd mosquitto-auth-plug  \
