@@ -12,7 +12,7 @@ VOLUME ["/var/lib/mosquitto", "/etc/mosquitto", "/etc/mosquitto.d"]
 # Build and install Coturn
 RUN apk update \
  && apk upgrade \
- && apk add --no-cache --virtual buildDeps git cmake build-base c-ares-dev util-linux-dev curl-dev ca-certificates \
+ && apk add --no-cache --virtual buildDeps git cmake build-base c-ares-dev util-linux-dev curl-dev ca-certificates libressl-dev \
  && update-ca-certificates \
  # Install Coturn dependencies
  && apk add --no-cache libevent snappy zlib curl \
@@ -68,7 +68,7 @@ RUN apk update \
      WITH_MEMORY_TRACKING=no \
      WITH_TLS_PSK=yes \
      WITH_WEBSOCKETS=no \
- && install \
+ && make install \
 
 # Install mosquitto-auth-plug
  && cd / \
