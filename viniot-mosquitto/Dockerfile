@@ -12,14 +12,14 @@ VOLUME ["/var/lib/mosquitto", "/etc/mosquitto", "/etc/mosquitto.d"]
 # Build and install Coturn
 RUN apk update \
  && apk upgrade \
- && apk add --no-cache --virtual buildDeps git cmake build-base openssl-dev c-ares-dev util-linux-dev curl-dev ca-certificates \
+ && apk add --no-cache --virtual buildDeps git cmake build-base c-ares-dev util-linux-dev curl-dev ca-certificates \
  && update-ca-certificates \
  # Install Coturn dependencies
  && apk add --no-cache libevent snappy zlib \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps coreutils autoconf g++ libtool make  cmake \
  # Install mongo-c-driver build dependencies
- && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev snappy-dev zlib-dev \
+ && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev openssl-dev snappy-dev zlib-dev \
  # Download and prepare mongo-c-driver sources
  && curl -fL -o /tmp/mongo-c-driver.tar.gz https://github.com/mongodb/mongo-c-driver/archive/1.14.0.tar.gz \
  && tar -xzf /tmp/mongo-c-driver.tar.gz -C /tmp/ \
