@@ -68,7 +68,7 @@ RUN apk update \
      WITH_MEMORY_TRACKING=no \
      WITH_TLS_PSK=yes \
      WITH_WEBSOCKETS=no \
- && make install \
+    install \
 
 # Install mosquitto-auth-plug
  && cd / \
