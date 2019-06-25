@@ -19,7 +19,7 @@ RUN apk update \
  # Install tools for building
  && apk add --no-cache --virtual .tool-deps coreutils autoconf g++ libtool make  cmake \
  # Install mongo-c-driver build dependencies
- && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev openssl-dev snappy-dev zlib-dev \
+ && apk add --no-cache --virtual .build-deps  linux-headers libevent-dev snappy-dev zlib-dev \
  # Download and prepare mongo-c-driver sources
  && curl -fL -o /tmp/mongo-c-driver.tar.gz https://github.com/mongodb/mongo-c-driver/archive/1.14.0.tar.gz \
  && tar -xzf /tmp/mongo-c-driver.tar.gz -C /tmp/ \
