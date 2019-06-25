@@ -1,4 +1,4 @@
-FROM eclipse-mosquitto as packager
+FROM alpine:3.8
 
 MAINTAINER viniot Team <developer@viniot.net.vn>
 
@@ -29,7 +29,7 @@ RUN apk update \
  && mkdir -p /tmp/build/mongo-c-driver/ \
  && cd /tmp/build/mongo-c-driver/ \
  && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DENABLE_BSON:STRING=ON -DENABLE_MONGOC:BOOL=ON -DENABLE_SSL:STRING=OPENSSL \
-          -DENABLE_AUTOMATIC_INIT_AND_CLEANUP:BOOL=OFF -DENABLE_MAN_PAGES:BOOL=OFF -DENABLE_TESTS:BOOL=ON -DENABLE_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH=ON \
+          -DENABLE_AUTOMATIC_INIT_AND_CLEANUP:BOOL=OFF -DENABLE_MAN_PAGES:BOOL=OFF -DENABLE_TESTS:BOOL=OFF -DENABLE_EXAMPLES:BOOL=OFF -DCMAKE_SKIP_RPATH=ON \
            /tmp/mongo-c-driver-* \
            \
  && make \
@@ -37,6 +37,22 @@ RUN apk update \
  && MONGOC_TEST_SKIP_MOCK=on MONGOC_TEST_SKIP_SLOW=on MONGOC_TEST_SKIP_LIVE=on make check \
  # Install mongo-c-driver
  && make install \
+ # Install mosquitto
+ cd .. && \
+ git clone https://github.com/eclipse/mosquitto.git && \
+ cd mosquitto && \
+ make -j "$(nproc)" \
+   CFLAGS="-Wall -O2 -I/libwebsockets/include" \
+   LDFLAGS="-L/libwebsockets/lib" \
+   WITH_SRV=yes \
+   WITH_ADNS=no \
+   WITH_DOCS=no \
+   WITH_MEMORY_TRACKING=no \
+   WITH_TLS_PSK=no \
+   WITH_WEBSOCKETS=yes \
+ install && \
+
+# Install mosquitto-auth-plug
  && cd / \
  && git clone git://github.com/jpmens/mosquitto-auth-plug.git  \
  && cd mosquitto-auth-plug  \
