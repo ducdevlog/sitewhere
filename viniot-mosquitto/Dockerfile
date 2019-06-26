@@ -28,7 +28,7 @@ RUN set -x && \
     install -s -m755 go-auth.so /usr/local/lib/
 
 
-COPY mosquitto.conf /etc/mosquitto/config/mosquitto.conf
+COPY mosquitto.conf /etc/mosquitto/mosquitto.conf
 COPY mosquitto-go-auth.conf /etc/mosquitto/conf.d/mosquitto-go-auth.conf
 
 COPY run.sh /
