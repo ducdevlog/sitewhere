@@ -13,9 +13,10 @@ RUN set -x && \
     cd mosquitto && \
     make -j "$(nproc)" WITH_WEBSOCKETS=yes WITH_DOCS=no && \
     make install WITH_WEBSOCKETS=yes WITH_DOCS=no && \
+    mkdir /var/log/mosquitto && \
+    mkdir /var/lib/mosquitto && \
     groupadd mosquitto && \
     useradd -s /sbin/nologin mosquitto -g mosquitto -d /var/lib/mosquitto && \
-    mkdir /var/log/mosquitto && \
     chown -R mosquitto:mosquitto /var/log/mosquitto/ && \
     chown -R mosquitto:mosquitto /var/lib/mosquitto/ && \
     cd / && \
