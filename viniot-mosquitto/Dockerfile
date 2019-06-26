@@ -15,12 +15,15 @@ RUN set -x && \
     make install WITH_WEBSOCKETS=yes WITH_DOCS=no && \
     groupadd mosquitto && \
     useradd -s /sbin/nologin mosquitto -g mosquitto -d /var/lib/mosquitto && \
+    mkdir /var/log/mosquitto && \
     chown -R mosquitto:mosquitto /var/log/mosquitto/ && \
     chown -R mosquitto:mosquitto /var/lib/mosquitto/ && \
     cd / && \
     git clone https://github.com/iegomez/mosquitto-go-auth.git && \
     cd mosquitto-go-auth && \
     make && \
+    mkdir /etc/mosquitto/conf.d && \
+    chown -R mosquitto:mosquitto /etc/mosquitto && \
     install -s -m755 go-auth.so /usr/local/lib/
 
 
@@ -31,6 +34,4 @@ COPY run.sh /
 RUN chmod +x /run.sh
 ENTRYPOINT ["/run.sh"]
 
-VOLUME ["/mosquitto/data", "/mosquitto/log"]
-
-CMD ["/usr/local/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf"]
+CMD ["/usr/local/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf"]
