@@ -6,5 +6,5 @@ services:
       - "2883:1883"
       - "9883:9883"
     volumes:
-      - ${VOLUME_ROOT}/mosquitto/config:/mosquitto/config
-      - ${VOLUME_ROOT}/mosquitto/data:/mosquitto/data
+      - ${VOLUME_ROOT}/mosquitto/config:/etc/mosquitto/
+      - ${VOLUME_ROOT}/mosquitto/data:/etc/mosquitto/data
