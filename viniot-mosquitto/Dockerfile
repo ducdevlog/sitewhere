@@ -31,8 +31,8 @@ RUN set -x && \
 COPY mosquitto.conf /etc/mosquitto/mosquitto.conf
 COPY mosquitto-go-auth.conf /etc/mosquitto/conf.d/mosquitto-go-auth.conf
 
-COPY run.sh /
-RUN chmod +x /run.sh
-ENTRYPOINT ["/run.sh"]
+#COPY run.sh /
+#RUN chmod +x /run.sh
+#ENTRYPOINT ["/run.sh"]
 
 CMD ["/usr/local/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf"]
