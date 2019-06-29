@@ -2,8 +2,7 @@ version: "3.7"
 services:
   mosquitto:
     build: .
-    ports:
-      - "2883:1883"
-      - "9883:9883"
     volumes:
-      - ${VOLUME_ROOT}/mosquitto/data:/etc/mosquitto/data
+      - ./conf:/etc/mosquitto
+    ports:
+      - 1883:1883
