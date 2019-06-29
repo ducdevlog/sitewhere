@@ -1671,11 +1671,12 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
     public SearchResults<IArea> listAreas(IAreaSearchCriteria criteria) throws SiteWhereException {
 	MongoCollection<Document> areas = getMongoClient().getAreasCollection();
 	Document query = new Document();
-	if ((criteria.getRootOnly() != null) && (criteria.getRootOnly().booleanValue() == true)) {
-	    query.append(MongoArea.PROP_PARENT_AREA_ID, null);
-	} else if (criteria.getParentAreaId() != null) {
-	    query.append(MongoArea.PROP_PARENT_AREA_ID, criteria.getParentAreaId());
-	}
+		if (criteria.getParentAreaId() != null) {
+			query.append(MongoArea.PROP_PARENT_AREA_ID, criteria.getParentAreaId());
+		} else if ((criteria.getRootOnly() != null) && (criteria.getRootOnly().booleanValue() == true)) {
+			query.append(MongoArea.PROP_PARENT_AREA_ID, null);
+		}
+
 	if (criteria.getAreaTypeId() != null) {
 	    query.append(MongoArea.PROP_AREA_TYPE_ID, criteria.getAreaTypeId());
 	}
