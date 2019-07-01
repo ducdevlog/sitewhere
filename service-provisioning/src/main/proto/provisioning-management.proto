@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.service;
+
+option java_multiple_files = true;
+option java_package = "com.sitewhere.grpc.service";
+option java_outer_classname = "ProvisioningServices";
+
+import "provisioning-model.proto";
+
+// MqttAcl APIs.
+service Provisioning {
+
+	// ####################
+	// ### Provisioning ###
+	// ####################
+
+	// Get DeviceType.
+	rpc GetDevicePending (GGetDevicePendingRequest) returns (GGetDevicePendingResponse) {}
+
+	// Get DeviceTypeBrand.
+	rpc UpdateDevicePending (GUpdateDevicePendingRequest) returns (GUpdateDevicePendingResponse) {}
+}
+
+// ####################
+// ### Infrared ###
+// ####################
+
+// Request for get DeviceType.
+message GGetDevicePendingRequest {
+	string hardwareId = 1;
+}
+
+message GGetDevicePendingResponse {
+	com.sitewhere.grpc.model.GDevicePending DevicePending = 1;
+}
+
+// Request for get DeviceTypeBrand.
+message GUpdateDevicePendingRequest {
+	string hardwareId = 1;
+	string status = 2;
+}
+
+message GUpdateDevicePendingResponse {
+	com.sitewhere.grpc.model.GDevicePending DevicePending = 1;
+}
+
+
+

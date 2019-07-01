@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.model;
+
+option java_outer_classname = "ProvisioningModel";
+
+import "google/protobuf/struct.proto";
+
+// ####################
+// ### EXTENDED    ###
+// ####################
+
+// Request for creating device pending.
+message GDevicePendingRequest {
+	string hardwareId = 2;
+}
+
+message GDevicePending {
+	string id = 1;
+	string deviceToken = 2;
+	string hardwareId = 3;
+	string deviceType = 4;
+	string status = 5;
+	string ssl = 6;
+	string caUrl = 7;
+	string privateUrl = 8;
+	string publicUrl = 9;
+	string deviceId = 10;
+	string password = 11;
+}

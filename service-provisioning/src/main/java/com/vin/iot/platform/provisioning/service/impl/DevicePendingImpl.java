@@ -12,7 +12,6 @@
 
 package com.vin.iot.platform.provisioning.service.impl;
 
-import com.vin.iot.platform.provisioning.domain.DevicePending;
 import com.vin.iot.platform.provisioning.repository.DevicePendingRepository;
 import com.vin.iot.platform.provisioning.service.DevicePendingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DevicePendingImpl implements DevicePendingService {
-    @Autowired
+    final
     DevicePendingRepository devicePendingRepository;
+
+    public DevicePendingImpl(DevicePendingRepository devicePendingRepository) {
+        this.devicePendingRepository = devicePendingRepository;
+    }
+
 
 }
