@@ -1,0 +1,2 @@
+deviceToken,hardwareId,deviceType,ssl
+1,2,2.0,true

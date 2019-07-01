@@ -21,6 +21,7 @@ include ':service-web-rest'
 include ':service-mqtt-acl'
 include ':service-certificate'
 include ':service-infrared'
+include ':service-provisioning'
 //include ':service-openhab-rule'
 
 include ':sitewhere-cassandra'
@@ -61,6 +62,7 @@ project(':service-web-rest').projectDir = "$rootDir/service-web-rest" as File
 project(':service-mqtt-acl').projectDir = "$rootDir/service-mqtt-acl" as File
 project(':service-certificate').projectDir = "$rootDir/service-certificate" as File
 project(':service-infrared').projectDir = "$rootDir/service-infrared" as File
+project(':service-provisioning').projectDir = "$rootDir/service-provisioning" as File
 //project(':service-openhab-rule').projectDir = "$rootDir/service-openhab-rule" as File
 
 project(':sitewhere-cassandra').projectDir = "$rootDir/sitewhere-cassandra" as File

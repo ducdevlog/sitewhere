@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    zookeeper:
+      connect-string: 171.244.38.134:12000
+      config:
+        watch:
+          enabled: true
+
+  application:
+    name: Provisioning

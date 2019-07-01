@@ -1,0 +1,233 @@
+description = 'SiteWhere Provisioning Microservice'
+
+def grpcVersion = '1.21.0'
+
+dependencies {
+    // spring cloud
+    implementation "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR1"
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zookeeper-config'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-integration'
+
+    // spring boot grpc
+    compile "io.github.lognet:grpc-spring-boot-starter:${rootProject.ext['grpc.spring.boot.version']}"
+
+    // spring boot test
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.5.RELEASE'
+
+    // Swagger
+    compile "io.springfox:springfox-swagger2:${rootProject.ext['swagger.version']}"
+    compile "io.springfox:springfox-swagger-ui:${rootProject.ext['swagger.version']}"
+    compile "io.swagger:swagger-annotations:1.5.22"
+
+    // AOP
+    compile "org.springframework:spring-aop:5.1.5.RELEASE"
+    compile "org.aspectj:aspectjweaver:${rootProject.ext['aspectj.version']}"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:${rootProject.ext['lombok.version']}"
+    testCompileOnly "org.projectlombok:lombok:${rootProject.ext['lombok.version']}"
+    annotationProcessor "org.projectlombok:lombok:${rootProject.ext['lombok.version']}"
+    testAnnotationProcessor "org.projectlombok:lombok:${rootProject.ext['lombok.version']}"
+    // Utils
+    compile "commons-collections:commons-collections:3.2.2"
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile "com.google.guava:guava:23.0"
+    // grpc
+    compile group: 'io.grpc', name: 'grpc-all', version: '1.21.0'
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.8.0'
+    // Mockito
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    // Consul client
+    compile group: 'com.orbitz.consul', name: 'consul-client', version: '1.3.5'
+
+    compile group: 'org.springframework.batch', name: 'spring-batch-integration', version: '4.1.2.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-file', version: '5.1.6.RELEASE'
+
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+}
+
+apply plugin: "kr.motd.sphinx"
+
+apply plugin: 'com.google.protobuf'
+
+compileJava.dependsOn(processResources)
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.8.0"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+        ofSourceSet('main')
+    }
+    generatedFilesBaseDir = "$projectDir/src/generated"
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/proto'
+        }
+        java {
+            srcDirs '$projectDir/src/main/java', '$projectDir/src/generated/main/java'
+        }
+    }
+}
+
+apply plugin: 'idea'
+
+license {
+    exclude "**/azure/**"
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
+
+idea {
+    module {
+        sourceDirs += file("${projectDir}/src/generated/main/java");
+        sourceDirs += file("${projectDir}/src/generated/main/grpc");
+    }
+}
+
+/*
+ *
+ *  Developed by Anhgv by VinGroup on 7/1/19, 10:44 AM
+ *  Last modified 6/18/19, 2:00 PM.
+ *  Copyright (c) SiteWhere, LLC. All rights reserved. http://www.sitewhere.com
+ *  The software in this package is published under the terms of the CPAL v1.0
+ *  license, a copy of which has been included with this distribution in the
+ *  LICENSE.txt file.
+ *
+ *
+ */
+
+// Start spring boot
+apply plugin: 'org.springframework.boot'
+springBoot {
+    mainClassName = 'com.vin.iot.platform.provisioning.SpringBootProvisioningApplication'
+}
+
+// Keep original jar.
+jar { enabled = true }
+
+// Reclassify Spring Boot jar.
+bootJar { classifier = 'boot' }
+
+// Only publish thin jar.
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        mavenJava(MavenPublication) { from components.java }
+    }
+}
+ext['docker.base.image'] = 'openjdk:8-jre-alpine'
+ext['docker.maintainer'] = 'admin@sitewhere.com'
+
+// Create a Dockerfile.
+task dockerFile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, dependsOn: bootJar) {
+    destFile = project.file('build/docker/Dockerfile')
+    from "${rootProject.ext['docker.base.image']}"
+    instruction "LABEL maintainer=${rootProject.ext['docker.maintainer']}"
+
+    // Copy Spring Boot jar.
+    copyFile("${project.name}-${project.version}-boot.jar", "/")
+
+    // Run Java command to start application.
+    if(!project.hasProperty("debug")) {
+        defaultCommand 'java', '-Xmx512M', '-Xss384K', '-jar', "/${project.name}-${project.version}-boot.jar"
+    } else {
+        println "Generating DEBUG IMAGE for project ${project.name}"
+
+        def jdwpPort = 8001
+        def jmxPort = 1114
+
+        // Set Env
+        environmentVariable('JMX_HOST', '0.0.0.0')
+
+        // Expose ports.
+        exposePort jdwpPort
+        exposePort jmxPort
+
+        defaultCommand 'java', '-server', '-Xdebug', '-Dcom.sun.management.jmxremote.local.only=false', '-Dcom.sun.management.jmxremote.ssl=false', '-Dcom.sun.management.jmxremote.authenticate=false', "-Dcom.sun.management.jmxremote.port=${jmxPort}", "-Dcom.sun.management.jmxremote.rmi.port=${jmxPort}", '-Dcom.sun.management.jmxremote.host=0.0.0.0', '-Djava.rmi.server.hostname=0.0.0.0', "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${jdwpPort}", '-Xmx512M', '-Xss384K', '-jar', "/${project.name}-${project.version}-boot.jar"
+    }
+}
+
+// Copy artifacts to Docker input folder.
+task copyArtifactsToDocker(type: Copy, dependsOn: dockerFile) {
+    from "${buildDir}/libs/${project.name}-${project.version}-boot.jar"
+    into 'build/docker'
+}
+
+// Build an image from the Dockerfile.
+task dockerImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: copyArtifactsToDocker) {
+    inputDir = project.file('build/docker')
+    if(!project.hasProperty("debug")) {
+        tags = ["${dockerRepository}/sitewhere/${project.name}:${version}"]
+    } else {
+        tags = ["${dockerRepository}/sitewhere/${project.name}:debug-${version}"]
+    }
+}
+
+// Build an image from the Dockerfile with tag latest.
+task dockerImageLatest(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: copyArtifactsToDocker) {
+    inputDir = project.file('build/docker')
+
+    def primaryTag = ""
+    def secondaryTag = ""
+
+    if(!project.hasProperty("debug")) {
+        primaryTag = "${dockerRepository}/sitewhere/${project.name}:${version}"
+    } else {
+        primaryTag = "${dockerRepository}/sitewhere/${project.name}:debug-${version}"
+    }
+    secondaryTag = "${dockerRepository}/sitewhere/${project.name}:latest"
+    tags = [primaryTag, secondaryTag]
+}
+
+// Build an image from the Dockerfile with tag edge.
+task dockerImageEdge(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: copyArtifactsToDocker) {
+    inputDir = project.file('build/docker')
+
+    def primaryTag = ""
+    def secondaryTag = ""
+
+    if(!project.hasProperty("debug")) {
+        primaryTag = "${dockerRepository}/sitewhere/${project.name}:${version}"
+    } else {
+        primaryTag = "${dockerRepository}/sitewhere/${project.name}:debug-${version}"
+    }
+    secondaryTag = "${dockerRepository}/sitewhere/${project.name}:edge"
+    tags = [primaryTag, secondaryTag]
+}
+
+// Push image to remote repository.
+task dockerPush(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage, dependsOn: dockerImage) {
+    imageName = "${dockerRepository}/sitewhere/${project.name}".toString()
+    tag = "${version}".toString()
+}
+
+// Push image to remote repository.
+task dockerPushLatest(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage, dependsOn: dockerImageLatest) {
+    imageName = "${dockerRepository}/sitewhere/${project.name}".toString()
+}
+
+// Push image to remote repository.
+task dockerPushEdge(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage, dependsOn: dockerImageEdge) {
+    imageName = "${dockerRepository}/sitewhere/${project.name}".toString()
+}
