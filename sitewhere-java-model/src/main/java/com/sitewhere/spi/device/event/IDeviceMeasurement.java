@@ -28,7 +28,7 @@ public interface IDeviceMeasurement extends IDeviceEvent, Serializable {
      * 
      * @return
      */
-    public Double getValue();
+    public String getValue();
 
     /**
      * Get measurement value String.
