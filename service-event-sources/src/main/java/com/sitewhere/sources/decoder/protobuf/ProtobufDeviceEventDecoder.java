@@ -173,7 +173,7 @@ public class ProtobufDeviceEventDecoder extends TenantEngineLifecycleComponent i
 		DeviceMeasurementCreateRequest request = new DeviceMeasurementCreateRequest();
 
 		request.setName(dm.getMeasurementName().getValue());
-		request.setValue(dm.getMeasurementValue().getValue());
+		request.setValue(String.valueOf(dm.getMeasurementValue().getValue()));
 		request.setValueString(dm.getMeasurementValueString().getValue());
 		request.setUnit(dm.getMeasurementUnit().getValue());
 

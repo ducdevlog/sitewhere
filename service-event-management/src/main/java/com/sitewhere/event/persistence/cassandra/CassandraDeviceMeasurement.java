@@ -85,7 +85,7 @@ public class CassandraDeviceMeasurement implements ICassandraEventBinder<IDevice
 
 	UDTValue udt = client.getMeasurementType().newValue();
 	udt.setString(FIELD_MXNAME, mx.getName());
-	udt.setDouble(FIELD_MXVALUE, mx.getValue());
+	udt.setDouble(FIELD_MXVALUE, Double.parseDouble(mx.getValue()));
 	bound.setUDTValue(FIELD_MEASUREMENT, udt);
     }
 
@@ -103,6 +103,6 @@ public class CassandraDeviceMeasurement implements ICassandraEventBinder<IDevice
 
 	UDTValue udt = row.getUDTValue(FIELD_MEASUREMENT);
 	mx.setName(udt.getString(FIELD_MXNAME));
-	mx.setValue(udt.getDouble(FIELD_MXVALUE));
+	mx.setValue(udt.getString(FIELD_MXVALUE));
     }
 }

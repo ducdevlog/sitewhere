@@ -60,7 +60,7 @@ public class EventsHelper {
 	DeviceMeasurementCreateRequest mx = new DeviceMeasurementCreateRequest();
 	mx.setEventDate(new Date());
 	mx.setName("fuel.level");
-	mx.setValue(123.4);
+	mx.setValue("123.4");
 	request.setRequest(mx);
 	return request;
     }
