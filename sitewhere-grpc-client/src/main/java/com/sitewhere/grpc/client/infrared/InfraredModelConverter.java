@@ -13,6 +13,8 @@ public class InfraredModelConverter {
         InfraredModel.GInfraredDeviceType.Builder grpc = InfraredModel.GInfraredDeviceType.newBuilder();
         grpc.setId(api.getId());
         grpc.setTypeName(api.getTypeName());
+        grpc.setImageUrl(api.getImageUrl());
+        grpc.setIconUrl(api.getIconUrl());
         return grpc.build();
     }
 
@@ -20,6 +22,8 @@ public class InfraredModelConverter {
         InfraredDeviceType api = new InfraredDeviceType();
         api.setId(grpc.getId());
         api.setTypeName(grpc.getTypeName());
+        api.setImageUrl(grpc.getImageUrl());
+        api.setIconUrl(grpc.getIconUrl());
         return api;
     }
 

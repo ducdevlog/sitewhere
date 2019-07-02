@@ -17,4 +17,8 @@ public class InfraredDeviceType {
     private String id;
     @Field("TYPE_NAME")
     private String typeName;
+    @Field("IMAGE_URL")
+    private String imageUrl;
+    @Field("ICON_URL")
+    private String iconUrl;
 }
