@@ -21,7 +21,6 @@ public class DomainPendingFieldSetMapper implements FieldSetMapper<DevicePending
 	@Override
 	public DevicePending mapFieldSet(FieldSet fieldSet) throws BindException {
 		final DevicePending devicePending = new DevicePending();
-		devicePending.setDeviceToken(fieldSet.readString("deviceToken"));
 		devicePending.setHardwareId(fieldSet.readString("hardwareId"));
 		devicePending.setDeviceType(fieldSet.readString("deviceType"));
 		devicePending.setSsl(fieldSet.readBoolean("ssl"));

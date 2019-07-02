@@ -17,14 +17,13 @@ message GDevicePendingRequest {
 
 message GDevicePending {
 	string id = 1;
-	string deviceToken = 2;
-	string hardwareId = 3;
-	string deviceType = 4;
-	string status = 5;
-	string ssl = 6;
-	string caUrl = 7;
-	string privateUrl = 8;
-	string publicUrl = 9;
-	string deviceId = 10;
-	string password = 11;
+	string hardwareId = 2;
+	string deviceType = 3;
+	string status = 4;
+	bool ssl = 5;
+	string caUrl = 6;
+	string privateUrl = 7;
+	string publicUrl = 8;
+	string deviceId = 9;
+	string password = 10;
 }

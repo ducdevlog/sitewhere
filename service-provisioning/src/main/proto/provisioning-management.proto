@@ -32,7 +32,7 @@ message GGetDevicePendingRequest {
 }
 
 message GGetDevicePendingResponse {
-	com.sitewhere.grpc.model.GDevicePending DevicePending = 1;
+	repeated com.sitewhere.grpc.model.GDevicePending DevicePending = 1;
 }
 
 // Request for get DeviceTypeBrand.

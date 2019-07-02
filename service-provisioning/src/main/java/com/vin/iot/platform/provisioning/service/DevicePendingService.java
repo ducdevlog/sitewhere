@@ -12,8 +12,15 @@
 
 package com.vin.iot.platform.provisioning.service;
 
+import com.vin.iot.platform.provisioning.domain.DevicePending;
+
+import java.util.List;
+
 /**
  * @author AnhGV
  */
 public interface DevicePendingService {
+    List<DevicePending> findByHardwareId(String hardwareId);
+
+    DevicePending updateDevicePending(String hardwareId, String status);
 }

@@ -19,37 +19,26 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Date;
+
 /**
  * @author AnhGV
  */
-@Document(collection = "device_pending")
+@Document(collection = "devicependings")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DevicePending {
-    @Field("id")
+public class DevicePending extends AuditModel{
     private String id;
-    @Field("device_token")
-    private String deviceToken;
-    @Field("hardware_id")
     private String hardwareId;
-    @Field("device_type")
     private String deviceType;
-    @Field("status")
     private String status = "P";
-    @Field("ssl")
     private boolean ssl;
-    @Field("ca_url")
-    private boolean caUrl;
-    @Field("private_url")
-    private boolean privateUrl;
-    @Field("public_url")
-    private boolean publicUrl;
-    @Field("device_id")
-    private boolean deviceId;
-    @Field("password")
-    private boolean password;
-    @Field("job_id")
+    private String caUrl;
+    private String privateUrl;
+    private String publicUrl;
+    private String deviceId;
+    private String password;
     private Long jobId;
 }

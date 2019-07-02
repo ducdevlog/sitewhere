@@ -14,11 +14,17 @@ package com.vin.iot.platform.provisioning.repository;
 
 import com.vin.iot.platform.provisioning.domain.DevicePending;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author AnhGV
  */
 @Repository
 public interface DevicePendingRepository extends MongoRepository<DevicePending, String> {
+    List<DevicePending> findAllByHardwareId(@Param("hardwareId") String hardwareId);
+
+    DevicePending findFirstByHardwareIdOrderByCreatedAtAsc(String hardwareId, String status);
 }
