@@ -41,6 +41,8 @@ public class DeviceStatusCreateRequest extends PersistentEntityCreateRequest imp
     /** Icon */
     private String icon;
 
+    private String icon2;
+
     /*
      * @see com.sitewhere.spi.device.request.IDeviceStatusCreateRequest#
      * getDeviceTypeToken()
@@ -139,5 +141,14 @@ public class DeviceStatusCreateRequest extends PersistentEntityCreateRequest imp
 
     public void setIcon(String icon) {
 	this.icon = icon;
+    }
+
+    @Override
+    public String getIcon2() {
+        return icon2;
+    }
+
+    public void setIcon2(String icon2) {
+        this.icon2 = icon2;
     }
 }

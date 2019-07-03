@@ -43,6 +43,8 @@ public class DeviceStatus extends PersistentEntity implements IDeviceStatus {
     /** Icon */
     private String icon;
 
+    private String icon2;
+
     /*
      * (non-Javadoc)
      * 
@@ -132,5 +134,14 @@ public class DeviceStatus extends PersistentEntity implements IDeviceStatus {
 
     public void setIcon(String icon) {
 	this.icon = icon;
+    }
+
+    @Override
+    public String getIcon2() {
+        return icon2;
+    }
+
+    public void setIcon2(String icon2) {
+        this.icon2 = icon2;
     }
 }
