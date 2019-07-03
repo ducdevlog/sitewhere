@@ -29,7 +29,7 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
     private String name;
 
     /** Measurement value */
-    private Double value;
+    private String value;
 
     /** Measurement value String*/
     private String valueString;
@@ -57,11 +57,11 @@ public class DeviceMeasurement extends DeviceEvent implements IDeviceMeasurement
      * @see com.sitewhere.spi.device.event.IDeviceMeasurement#getValue()
      */
     @Override
-    public Double getValue() {
+    public String getValue() {
 	return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(String value) {
 	this.value = value;
     }
 

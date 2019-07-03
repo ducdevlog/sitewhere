@@ -171,7 +171,7 @@ public class MqttTests {
 	    request.setType(Type.DeviceMeasurement);
 	    DeviceMeasurementCreateRequest mx = new DeviceMeasurementCreateRequest();
 	    mx.setName("normal");
-	    mx.setValue(1.234);
+	    mx.setValue("1.234");
 	    Map<String, String> metadata = new HashMap<String, String>();
 	    metadata.put("fromMQTT", "true");
 	    mx.setMetadata(metadata);
@@ -217,7 +217,7 @@ public class MqttTests {
 
 	    DeviceMeasurementCreateRequest mx = new DeviceMeasurementCreateRequest();
 	    mx.setName("fuel.level");
-	    mx.setValue(123.45);
+	    mx.setValue("123.45");
 	    location.setMetadata(metadata);
 	    location.setUpdateState(true);
 	    request.getMeasurements().add(mx);

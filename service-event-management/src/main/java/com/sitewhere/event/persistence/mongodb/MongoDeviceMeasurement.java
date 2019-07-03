@@ -78,7 +78,7 @@ public class MongoDeviceMeasurement implements MongoConverter<IDeviceMeasurement
 	MongoDeviceEvent.fromDocument(source, target, isNested);
 
 	String name = (String) source.get(PROP_NAME);
-	Double value = (Double) source.get(PROP_VALUE);
+        String value = (String) source.get(PROP_VALUE);
         String valueStr = (String) source.get(PROP_VALUE_STRING);
         String unit = (String) source.get(PROP_UNIT);
 

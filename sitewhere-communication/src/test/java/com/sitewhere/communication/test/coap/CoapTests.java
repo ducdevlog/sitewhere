@@ -61,7 +61,7 @@ public class CoapTests {
 	CoapClient client = createClientFor(getBaseDeviceUrl() + "/measurements");
 	DeviceMeasurementCreateRequest mx = new DeviceMeasurementCreateRequest();
 	mx.setName("pwr");
-	mx.setValue(38.23);
+	mx.setValue("38.23");
 	mx.setEventDate(new Date());
 	handleResponse(client.post(MarshalUtils.marshalJson(mx), MediaTypeRegistry.APPLICATION_JSON));
     }

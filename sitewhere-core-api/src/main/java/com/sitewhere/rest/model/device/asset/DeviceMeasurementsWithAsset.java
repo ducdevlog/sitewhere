@@ -45,7 +45,7 @@ public class DeviceMeasurementsWithAsset extends DeviceEventWithAsset implements
      * @see com.sitewhere.spi.device.event.IDeviceMeasurement#getValue()
      */
     @Override
-    public Double getValue() {
+    public String getValue() {
 	return ((IDeviceMeasurement) getWrapped()).getValue();
     }
 

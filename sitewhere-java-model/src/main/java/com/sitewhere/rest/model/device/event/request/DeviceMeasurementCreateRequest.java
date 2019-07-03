@@ -33,7 +33,7 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
     private String name;
 
     /** Measurement value */
-    private double value;
+    private String value;
 
 	/** Measurement value String*/
 	private String valueString;
@@ -63,11 +63,11 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
      * getValue()
      */
     @Override
-    public double getValue() {
+    public String getValue() {
 	return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(String value) {
 	this.value = value;
     }
 
@@ -94,13 +94,13 @@ public class DeviceMeasurementCreateRequest extends DeviceEventCreateRequest
 	public Builder() {
 	}
 
-	public Builder measurement(String name, double value) {
+	public Builder measurement(String name, String value) {
 	    request.setName(name);
 	    request.setValue(value);
 	    return this;
 	}
 
-        public Builder measurement(String name, double value, String valueString) {
+        public Builder measurement(String name, String value, String valueString) {
             request.setName(name);
             request.setValue(value);
             request.setValueString(valueString);
