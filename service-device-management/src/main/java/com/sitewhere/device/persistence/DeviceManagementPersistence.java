@@ -301,6 +301,9 @@ public class DeviceManagementPersistence extends Persistence {
 	require("Image URL", request.getImageUrl());
 	type.setImageUrl(request.getImageUrl());
 
+	type.setIcon(request.getIcon());
+	type.setIcon2(request.getIcon2());
+
 	// Container policy is required.
 	requireNotNull("Container Policy", request.getContainerPolicy());
 	type.setContainerPolicy(request.getContainerPolicy());
@@ -338,6 +341,12 @@ public class DeviceManagementPersistence extends Persistence {
 	if (request.getImageUrl() != null) {
 	    target.setImageUrl(request.getImageUrl());
 	}
+		if (request.getIcon() != null) {
+			target.setIcon(request.getIcon());
+		}
+		if (request.getIcon2() != null) {
+			target.setIcon2(request.getIcon2());
+		}
 	if (request.getContainerPolicy() != null) {
 	    target.setContainerPolicy(request.getContainerPolicy());
 	}

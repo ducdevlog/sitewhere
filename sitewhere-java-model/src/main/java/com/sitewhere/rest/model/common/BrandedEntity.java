@@ -26,6 +26,9 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
     /** Icon */
     private String icon;
 
+    /** Icon */
+    private String icon2;
+
     /** Background color */
     private String backgroundColor;
 
@@ -55,6 +58,14 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
 
     public void setIcon(String icon) {
 	this.icon = icon;
+    }
+
+    public String getIcon2() {
+        return icon2;
+    }
+
+    public void setIcon2(String icon2) {
+        this.icon2 = icon2;
     }
 
     /*
@@ -99,6 +110,7 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
     public static void copy(IBrandedEntity source, BrandedEntity target) throws SiteWhereException {
 	target.setImageUrl(source.getImageUrl());
 	target.setIcon(source.getIcon());
+	target.setIcon2(source.getIcon2());
 	target.setBackgroundColor(source.getBackgroundColor());
 	target.setForegroundColor(source.getForegroundColor());
 	target.setBorderColor(source.getBorderColor());

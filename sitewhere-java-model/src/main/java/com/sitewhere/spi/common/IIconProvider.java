@@ -20,4 +20,6 @@ public interface IIconProvider {
      * @return
      */
     public String getIcon();
+
+    public String getIcon2();
 }

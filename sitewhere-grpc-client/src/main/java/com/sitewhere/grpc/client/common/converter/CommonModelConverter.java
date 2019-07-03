@@ -261,6 +261,9 @@ public class CommonModelConverter {
 	if (!StringUtils.isEmpty(api.getIcon())) {
 	    grpc.setIcon(GOptionalString.newBuilder().setValue(api.getIcon()));
 	}
+	if (!StringUtils.isEmpty(api.getIcon2())) {
+	    grpc.setIcon2(GOptionalString.newBuilder().setValue(api.getIcon2()));
+	}
 	if (!StringUtils.isEmpty(api.getBackgroundColor())) {
 	    grpc.setBackgroundColor(GOptionalString.newBuilder().setValue(api.getBackgroundColor()));
 	}
@@ -289,6 +292,9 @@ public class CommonModelConverter {
 	if (!StringUtils.isEmpty(api.getIcon())) {
 	    grpc.setIcon(GOptionalString.newBuilder().setValue(api.getIcon()));
 	}
+	if (!StringUtils.isEmpty(api.getIcon2())) {
+	    grpc.setIcon2(GOptionalString.newBuilder().setValue(api.getIcon2()));
+	}
 	if (!StringUtils.isEmpty(api.getBackgroundColor())) {
 	    grpc.setBackgroundColor(GOptionalString.newBuilder().setValue(api.getBackgroundColor()));
 	}
@@ -312,6 +318,7 @@ public class CommonModelConverter {
 	if (grpc != null) {
 	    api.setImageUrl(grpc.hasImageUrl() ? grpc.getImageUrl().getValue() : null);
 	    api.setIcon(grpc.hasIcon() ? grpc.getIcon().getValue() : null);
+	    api.setIcon2(grpc.hasIcon2() ? grpc.getIcon2().getValue() : null);
 	    api.setBackgroundColor(grpc.hasBackgroundColor() ? grpc.getBackgroundColor().getValue() : null);
 	    api.setForegroundColor(grpc.hasForegroundColor() ? grpc.getForegroundColor().getValue() : null);
 	    api.setBorderColor(grpc.hasForegroundColor() ? grpc.getBorderColor().getValue() : null);
@@ -330,6 +337,7 @@ public class CommonModelConverter {
 	if (grpc != null) {
 	    api.setImageUrl(grpc.hasImageUrl() ? grpc.getImageUrl().getValue() : null);
 	    api.setIcon(grpc.hasIcon() ? grpc.getIcon().getValue() : null);
+	    api.setIcon2(grpc.hasIcon2() ? grpc.getIcon2().getValue() : null);
 	    api.setBackgroundColor(grpc.hasBackgroundColor() ? grpc.getBackgroundColor().getValue() : null);
 	    api.setForegroundColor(grpc.hasForegroundColor() ? grpc.getForegroundColor().getValue() : null);
 	    api.setBorderColor(grpc.hasForegroundColor() ? grpc.getBorderColor().getValue() : null);

@@ -24,6 +24,7 @@ public class MongoBrandedEntity {
 
     /** Property for icon */
     public static final String PROP_ICON = "icon";
+    public static final String PROP_ICON2 = "icon2";
 
     /** Property for background color */
     public static final String PROP_BACKGROUND_COLOR = "bgco";
@@ -59,12 +60,14 @@ public class MongoBrandedEntity {
     public static void fromDocument(Document source, BrandedEntity target) {
 	String imageUrl = (String) source.get(PROP_IMAGE_URL);
 	String icon = (String) source.get(PROP_ICON);
+	String icon2 = (String) source.get(PROP_ICON2);
 	String bgColor = (String) source.get(PROP_BACKGROUND_COLOR);
 	String fgColor = (String) source.get(PROP_FOREGROUND_COLOR);
 	String bdColor = (String) source.get(PROP_BORDER_COLOR);
 
 	target.setImageUrl(imageUrl);
 	target.setIcon(icon);
+	target.setIcon2(icon2);
 	target.setBackgroundColor(bgColor);
 	target.setForegroundColor(fgColor);
 	target.setBorderColor(bdColor);

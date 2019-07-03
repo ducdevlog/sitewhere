@@ -32,6 +32,8 @@ public class BrandedEntityCreateRequest extends PersistentEntityCreateRequest im
     /** Icon */
     private String icon;
 
+    private String icon2;
+
     /** Image URL */
     private String imageUrl;
 
@@ -81,6 +83,15 @@ public class BrandedEntityCreateRequest extends PersistentEntityCreateRequest im
 
     public void setIcon(String icon) {
 	this.icon = icon;
+    }
+
+    @Override
+    public String getIcon2() {
+        return icon2;
+    }
+
+    public void setIcon2(String icon2) {
+        this.icon2 = icon2;
     }
 
     /*
