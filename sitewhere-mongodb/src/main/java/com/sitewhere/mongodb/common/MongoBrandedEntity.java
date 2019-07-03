@@ -44,6 +44,7 @@ public class MongoBrandedEntity {
     public static void toDocument(IBrandedEntity source, Document target) {
 	target.append(PROP_IMAGE_URL, source.getImageUrl());
 	target.append(PROP_ICON, source.getIcon());
+	target.append(PROP_ICON2, source.getIcon2());
 	target.append(PROP_BACKGROUND_COLOR, source.getBackgroundColor());
 	target.append(PROP_FOREGROUND_COLOR, source.getForegroundColor());
 	target.append(PROP_BORDER_COLOR, source.getBorderColor());
