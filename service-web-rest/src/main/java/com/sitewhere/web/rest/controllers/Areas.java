@@ -103,7 +103,7 @@ public class Areas extends RestControllerBase {
     @ApiOperation(value = "Create new area")
     public IArea createArea(@RequestBody AreaCreateRequest input) throws SiteWhereException {
 		Map<String, String> configurations = new HashMap<>();
-		configurations.putAll(input.getMetadata());
+		if (input.getMetadata() != null && input.getMetadata().size() > 0) configurations.putAll(input.getMetadata());
 		String mqttData = (input.getToken() != null && input.getToken().trim().length() > 0 ) ?  input.getToken() : String.valueOf(((new Date()).getTime()));
 		configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + mqttData);
 		configurations.put("siteWhereCommand", "SiteWhere/default/command/" + mqttData);

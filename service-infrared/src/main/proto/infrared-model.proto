@@ -14,6 +14,8 @@ import "google/protobuf/struct.proto";
 message GInfraredDeviceTypeCreateRequest {
 	string id = 1;
 	string typeName = 2;
+	string imageUrl = 3;
+	string iconUrl = 4;
 }
 
 message GInfraredDeviceTypeSearchCriteria {
@@ -23,8 +25,10 @@ message GInfraredDeviceTypeSearchCriteria {
 message GInfraredDeviceType {
 	string id = 1;
 	string typeName = 2;
-	string pageNumber = 3;
-	string pageSize = 4;
+	string imageUrl = 3;
+	string iconUrl = 4;
+	string pageNumber = 5;
+	string pageSize = 6;
 }
 
 // Request for creating Device Type Brand.
