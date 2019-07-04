@@ -55,7 +55,7 @@ task pullSwaggerUserInterface() {
 	delete "${projectDir}/sitewhere-ui-build/sitewhere2-swagger-ui"
 	println "Pulling sitewhere2-swagger-ui from GitHub..."
 	def repo = Grgit.clone(dir: "${projectDir}/sitewhere-ui-build/sitewhere2-swagger-ui", 
-		uri: 'https://github.com/sitewhere/sitewhere2-swagger-ui.git')
+		uri: 'https://github.com/anhgv252/sitewhere2-swagger-ui.git')
 	repo.close()
 }
 
@@ -63,7 +63,7 @@ task pullSwaggerUserInterface() {
 apply plugin: 'war'
 bootWar {
 	classifier = 'boot'
-	dependsOn pullSwaggerUserInterface
+//	dependsOn pullSwaggerUserInterface
 	with {
 		from( "${projectDir}/sitewhere-ui-build/sitewhere2-swagger-ui" )
 	}
