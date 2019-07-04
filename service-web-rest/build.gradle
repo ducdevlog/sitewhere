@@ -63,7 +63,7 @@ task pullSwaggerUserInterface() {
 apply plugin: 'war'
 bootWar {
 	classifier = 'boot'
-//	dependsOn pullSwaggerUserInterface
+	dependsOn pullSwaggerUserInterface
 	with {
 		from( "${projectDir}/sitewhere-ui-build/sitewhere2-swagger-ui" )
 	}
