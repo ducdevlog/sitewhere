@@ -21,4 +21,6 @@ public class InfraredDeviceType {
     private String imageUrl;
     @Field("ICON_URL")
     private String iconUrl;
+    @Field("ORDER")
+    private int order;
 }

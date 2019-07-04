@@ -4,6 +4,7 @@ import com.vin.iot.platform.infrared.domain.InfraredDeviceType;
 import com.vin.iot.platform.infrared.repository.DeviceTypeRepository;
 import com.vin.iot.platform.infrared.service.DeviceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public class DeviceTypeServiceImpl implements DeviceTypeService {
 
     @Override
     public List<InfraredDeviceType> getAllDeviceType() {
-        return deviceTypeRepository.findAll();
+        return deviceTypeRepository.findAll(sortByOrderAsc());
+    }
+
+    private Sort sortByOrderAsc() {
+        return new Sort(Sort.Direction.ASC, "ORDER");
     }
 }
