@@ -861,6 +861,13 @@ public class DeviceManagementRouter extends DeviceManagementGrpc.DeviceManagemen
 	}
     }
 
+	@Override
+	public void updateDeviceCounter(GUpdateDeviceCounterRequest request, StreamObserver<GUpdateDeviceCounterResponse> responseObserver) {
+		DeviceManagementGrpc.DeviceManagementImplBase engine = getTenantImplementation(responseObserver);
+		if (engine != null) {
+			engine.updateDeviceCounter(request, responseObserver);
+		}
+	}
     /*
      * @see
      * com.sitewhere.grpc.service.DeviceManagementGrpc.DeviceManagementImplBase#
