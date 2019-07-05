@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -72,9 +73,10 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
                              io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GIrCodeRawResponse> responseObserver) {
         log.info("server received {}", request);
         IrCodeRaw apiRequest = InfraredModelConverter.asApiGIrCodeRaw(request.getIrCodeRaw());
-        List<IrCodeRaw> irCodeRaws = irCodeRawService.getIrCodeRaw(apiRequest);
+        Page<IrCodeRaw> irCodeRaws = irCodeRawService.getIrCodeRaw(apiRequest, request.getPage(), request.getSize());
         GIrCodeRawResponse.Builder response = GIrCodeRawResponse.newBuilder();
-        if (CollectionUtils.isNotEmpty(irCodeRaws)) {
+        if (irCodeRaws != null) {
+            response.setResults(Math.toIntExact(irCodeRaws.getTotalElements()));
             irCodeRaws.stream().map(InfraredModelConverter::asGrpcIrCodeRaw).forEach(response::addIrCodeRaw);
         }
         log.info("server responded {}", response);

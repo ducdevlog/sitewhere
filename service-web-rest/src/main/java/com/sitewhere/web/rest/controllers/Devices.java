@@ -18,6 +18,7 @@ import com.sitewhere.rest.model.device.request.DeviceAssignmentCreateRequest;
 import com.sitewhere.rest.model.mqtt.request.MqttAclCreateRequest;
 import com.sitewhere.rest.model.mqtt.request.MqttUserCreateRequest;
 import com.sitewhere.spi.area.IArea;
+import com.sitewhere.spi.area.IAreaType;
 import com.sitewhere.spi.mqtt.event.IMqttAclManagement;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -114,6 +115,8 @@ public class Devices extends RestControllerBase {
 			if (area != null) {
 				result.setAreaToken(area.getToken());
 				result.setAreaName(area.getName());
+				IAreaType areaType = getDeviceManagement().getAreaType(area.getAreaTypeId());
+				result.setAreaTypeToken(areaType.getToken());
 				DeviceAssignmentCreateRequest assnCreate = new DeviceAssignmentCreateRequest();
 				assnCreate.setDeviceToken(result.getToken());
 				assnCreate.setAreaToken(area.getToken());

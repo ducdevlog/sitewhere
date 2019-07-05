@@ -85,6 +85,8 @@ public class DeviceManagementPersistence extends Persistence {
     /** Regular expression used to validate hardware ids */
     private static final Pattern HARDWARE_ID_REGEX = Pattern.compile("^[\\w-]+$");
 
+    public static final String COMMAND_EXECUTED = "command_excuted";
+
     /**
      * Common logic for creating new customer type object and populating it from
      * request.
@@ -647,6 +649,9 @@ public class DeviceManagementPersistence extends Persistence {
 	}
 	if (request.getConfigurationGateway() != null) {
 		target.setConfigurationGateway(request.getConfigurationGateway());
+	}
+	if (request.getMetadata().containsKey(COMMAND_EXECUTED) && (Integer.parseInt(request.getMetadata().get(COMMAND_EXECUTED)) > 0)) {
+		target.setCounter(target.getCounter() + 1);
 	}
     }
 

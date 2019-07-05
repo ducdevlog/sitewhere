@@ -5,4 +5,5 @@ public interface IInfraredDeviceType {
     public String getTypeName();
     public String getImageUrl();
     public String getIconUrl();
+    public String getTypeCode();
 }

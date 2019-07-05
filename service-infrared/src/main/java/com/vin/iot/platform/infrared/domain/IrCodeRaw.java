@@ -31,8 +31,12 @@ public class IrCodeRaw {
     private String swing;
     @Field("TIMER")
     private String timer;
-    @Field("TIMER_DELAY")
-    private String timerDelay;
+    @Field("TIMER_MINS")
+    private String timerMins;
+    @Field("SLEEP")
+    private String sleep;
+    @Field("SLEEP_MINS")
+    private String sleepMins;
     @Field("LED")
     private String led;
     @Field("COMFORT")
@@ -41,8 +45,9 @@ public class IrCodeRaw {
     private String econo;
     @Field("POWERFUL")
     private String powerful;
-    @Field("IR_FREQ_KHZ")
-    private String irFreqKhz;
+    @Field("IR_FREQ")
+    private String irFreq;
     @Field("IR_CODE")
     private String irCode;
+
 }

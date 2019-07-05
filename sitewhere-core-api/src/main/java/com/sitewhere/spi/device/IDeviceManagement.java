@@ -257,6 +257,7 @@ public interface IDeviceManagement extends ITenantEngineLifecycleComponent {
      */
     public IDevice updateDevice(UUID deviceId, IDeviceCreateRequest request) throws SiteWhereException;
 
+    public IDevice updateDeviceCounter(String token) throws SiteWhereException;
     /**
      * List devices that meet the given criteria.
      * 

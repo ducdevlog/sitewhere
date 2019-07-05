@@ -20,6 +20,7 @@ import com.sitewhere.commands.spi.microservice.ICommandDeliveryMicroservice;
 import com.sitewhere.commands.spi.microservice.ICommandDeliveryTenantEngine;
 import com.sitewhere.grpc.client.spi.client.IDeviceManagementApiChannel;
 import com.sitewhere.rest.model.device.command.DeviceCommand;
+import com.sitewhere.rest.model.device.request.DeviceCreateRequest;
 import com.sitewhere.server.lifecycle.CompositeLifecycleStep;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
@@ -32,6 +33,7 @@ import com.sitewhere.spi.device.command.IDeviceCommandExecution;
 import com.sitewhere.spi.device.command.ISystemCommand;
 import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
 import com.sitewhere.spi.device.event.IDeviceEventContext;
+import com.sitewhere.spi.device.request.IDeviceCreateRequest;
 import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.server.lifecycle.ICompositeLifecycleStep;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
@@ -83,6 +85,7 @@ public class DefaultCommandProcessingStrategy extends TenantEngineLifecycleCompo
 			getTenantEngine().getTenant());
 		CommandRoutingLogic.routeCommand(getOutboundCommandRouter(), getUndeliveredCommandInvocationsProducer(),
 			context, execution, nesting, assignment);
+			getDeviceManagementApiChannel().updateDeviceCounter(device.getToken());
 	    }
 	} else {
 	    throw new SiteWhereException(ErrorCode.InvalidDeviceCommandToken, "Invalid command referenced from invocation.");

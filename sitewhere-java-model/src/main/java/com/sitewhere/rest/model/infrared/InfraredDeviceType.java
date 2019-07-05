@@ -12,6 +12,7 @@ public class InfraredDeviceType implements IInfraredDeviceType {
     private String imageUrl;
 
     private String iconUrl;
+    private String typeCode;
 
     public String getId() {
         return id;
@@ -43,5 +44,13 @@ public class InfraredDeviceType implements IInfraredDeviceType {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 }

@@ -15,8 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class InfraredDeviceTypeBrand {
     @Field("ID")
     private String id;
-    @Field("TYPE")
+    @Field("TYPE_CODE")
     private String type;
-    @Field("BRAND")
+    @Field("BRAND_NAME")
     private String brand;
 }

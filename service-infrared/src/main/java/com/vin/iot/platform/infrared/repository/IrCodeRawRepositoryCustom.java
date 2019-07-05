@@ -1,9 +1,8 @@
 package com.vin.iot.platform.infrared.repository;
 
 import com.vin.iot.platform.infrared.domain.IrCodeRaw;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface IrCodeRawRepositoryCustom {
-    List<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw);
+    Page<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw, int page, int size);
 }

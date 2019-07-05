@@ -71,6 +71,10 @@ public class Device extends PersistentEntity implements IDevice {
 
     private String areaToken;
 
+    private String areaTypeToken;
+
+    private Long counter = 0L;
+
     /*
      * @see com.sitewhere.spi.device.IDevice#getDeviceTypeId()
      */
@@ -207,5 +211,21 @@ public class Device extends PersistentEntity implements IDevice {
 
     public void setAreaToken(String areaToken) {
         this.areaToken = areaToken;
+    }
+
+    public String getAreaTypeToken() {
+        return areaTypeToken;
+    }
+
+    public void setAreaTypeToken(String areaTypeToken) {
+        this.areaTypeToken = areaTypeToken;
+    }
+
+    public Long getCounter() {
+        return counter;
+    }
+
+    public void setCounter(Long counter) {
+        this.counter = counter;
     }
 }

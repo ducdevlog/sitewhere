@@ -14,11 +14,13 @@ import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IInfraredApiChannel;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
+import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.infrared.IInfraredDeviceCodeset;
 import com.sitewhere.spi.infrared.IInfraredDeviceType;
 import com.sitewhere.spi.infrared.IInfraredDeviceTypeBrand;
 import com.sitewhere.spi.infrared.IIrCodeRaw;
+import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.tracing.ITracerProvider;
 
 import java.util.ArrayList;
@@ -90,11 +92,13 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     }
 
     @Override
-    public List<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException {
+    public ISearchResults<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) throws SiteWhereException {
         try {
             GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawMethod());
             GIrCodeRawRequest.Builder grequest = GIrCodeRawRequest.newBuilder();
             grequest.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(irCodeRaw));
+            grequest.setPage(page);
+            grequest.setSize(size);
             System.out.println("============ :" + irCodeRaw.getCodesetName());
             System.out.println("============ :" + grequest.getIrCodeRaw().getCodesetName());
             GIrCodeRawResponse gresponse = getGrpcChannel().getBlockingStub().getIrCodeRaw(grequest.build());
@@ -102,8 +106,9 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             if (gresponse.getIrCodeRawCount() > 0) {
                 gresponse.getIrCodeRawList().stream().map(InfraredModelConverter::asApiGIrCodeRaw).forEach(iIrCodeRaws::add);
             }
+            ISearchResults<IIrCodeRaw> rawISearchResults = new SearchResults<IIrCodeRaw>(iIrCodeRaws, gresponse.getResults());
             GrpcUtils.logClientMethodResponse(InfraredGrpc.getGetIrCodeRawMethod(), iIrCodeRaws);
-            return iIrCodeRaws;
+            return rawISearchResults;
         } catch (Throwable t) {
             throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawMethod(), t);
         }

@@ -13,6 +13,7 @@ public class InfraredModelConverter {
         InfraredModel.GInfraredDeviceType.Builder grpc = InfraredModel.GInfraredDeviceType.newBuilder();
         grpc.setId(api.getId());
         grpc.setTypeName(api.getTypeName());
+        grpc.setTypeCode(api.getTypeCode());
         if (StringUtils.isNotEmpty(api.getImageUrl())) grpc.setImageUrl(api.getImageUrl());
         if (StringUtils.isNotEmpty(api.getIconUrl())) grpc.setIconUrl(api.getIconUrl());
         return grpc.build();
@@ -22,6 +23,7 @@ public class InfraredModelConverter {
         InfraredDeviceType api = new InfraredDeviceType();
         api.setId(grpc.getId());
         api.setTypeName(grpc.getTypeName());
+        api.setTypeCode(grpc.getTypeCode());
         api.setImageUrl(grpc.getImageUrl());
         api.setIconUrl(grpc.getIconUrl());
         return api;
@@ -70,12 +72,14 @@ public class InfraredModelConverter {
         if (StringUtils.isNoneEmpty(api.getTemp())) grpc.setTemp(api.getTemp());
         if (StringUtils.isNoneEmpty(api.getSwing())) grpc.setSwing(api.getSwing());
         if (StringUtils.isNoneEmpty(api.getTimer())) grpc.setTimer(api.getTimer());
-        if (StringUtils.isNoneEmpty(api.getTimerDelay())) grpc.setTimerDelay(api.getTimerDelay());
+        if (StringUtils.isNoneEmpty(api.getTimerMins())) grpc.setTimerMins(api.getTimerMins());
+        if (StringUtils.isNoneEmpty(api.getSleep())) grpc.setSleep(api.getSleep());
+        if (StringUtils.isNoneEmpty(api.getSleepMins())) grpc.setSleepMins(api.getSleepMins());
         if (StringUtils.isNoneEmpty(api.getLed())) grpc.setLed(api.getLed());
         if (StringUtils.isNoneEmpty(api.getComfort())) grpc.setComfort(api.getComfort());
         if (StringUtils.isNoneEmpty(api.getEcono())) grpc.setEcono(api.getEcono());
         if (StringUtils.isNoneEmpty(api.getPowerful())) grpc.setPowerful(api.getPowerful());
-        if (StringUtils.isNoneEmpty(api.getIrFreqKhz())) grpc.setIrFreqKhz(api.getIrFreqKhz());
+        if (StringUtils.isNoneEmpty(api.getIrFreq())) grpc.setIrFreq(api.getIrFreq());
         if (StringUtils.isNoneEmpty(api.getIrCode())) grpc.setIrCode(api.getIrCode());
         return grpc.build();
     }
@@ -91,12 +95,14 @@ public class InfraredModelConverter {
         api.setTemp(grpc.getTemp());
         api.setSwing(grpc.getSwing());
         api.setTimer(grpc.getTimer());
-        api.setTimerDelay(grpc.getTimerDelay());
+        api.setTimerMins(grpc.getTimerMins());
+        api.setSleep(grpc.getSleep());
+        api.setSleepMins(grpc.getSleepMins());
         api.setLed(grpc.getLed());
         api.setComfort(grpc.getComfort());
         api.setEcono(grpc.getEcono());
         api.setPowerful(grpc.getPowerful());
-        api.setIrFreqKhz(grpc.getIrFreqKhz());
+        api.setIrFreq(grpc.getIrFreq());
         api.setIrCode(grpc.getIrCode());
         return api;
     }

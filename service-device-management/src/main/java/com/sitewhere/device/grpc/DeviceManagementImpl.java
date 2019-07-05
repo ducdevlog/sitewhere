@@ -1520,6 +1520,21 @@ public class DeviceManagementImpl extends DeviceManagementGrpc.DeviceManagementI
 	}
     }
 
+	public void updateDeviceCounter(GUpdateDeviceCounterRequest request, StreamObserver<GUpdateDeviceCounterResponse> responseObserver) {
+		try {
+			GrpcUtils.handleServerMethodEntry(this, DeviceManagementGrpc.getUpdateDeviceCounterMethod());
+			IDevice apiResult = getDeviceManagement().updateDeviceCounter(request.getToken());
+			GUpdateDeviceCounterResponse.Builder response = GUpdateDeviceCounterResponse.newBuilder();
+			response.setDevice(DeviceModelConverter.asGrpcDevice(apiResult));
+			responseObserver.onNext(response.build());
+			responseObserver.onCompleted();
+		} catch (Throwable e) {
+			GrpcUtils.handleServerMethodException(DeviceManagementGrpc.getUpdateDeviceCounterMethod(), e, responseObserver);
+		} finally {
+			GrpcUtils.handleServerMethodExit(DeviceManagementGrpc.getUpdateDeviceCounterMethod());
+		}
+	}
+
     /*
      * (non-Javadoc)
      * 
