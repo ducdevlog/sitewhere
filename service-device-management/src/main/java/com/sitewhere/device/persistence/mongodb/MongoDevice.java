@@ -131,7 +131,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.setDeviceAssignmentId(assignmentId);
 	target.setGatewayId(gatewayId);
 	target.setHardwareId(hardwareId);
-	target.setCounter(counter != null ? Long.parseLong(comments) : 0);
+	target.setCounter(counter != null ? Long.valueOf(counter) : 0);
 	try {
 		Map<String, List<String>> itemChannelLinkView = (Map<String, List<String>>) itemChannelLink;
 		target.setItemChannelLink(itemChannelLinkView);
