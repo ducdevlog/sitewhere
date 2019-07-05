@@ -17,6 +17,6 @@ public class InfraredDeviceTypeBrand {
     private String id;
     @Field("TYPE_CODE")
     private String type;
-    @Field("BRAND")
+    @Field("BRAND_NAME")
     private String brand;
 }

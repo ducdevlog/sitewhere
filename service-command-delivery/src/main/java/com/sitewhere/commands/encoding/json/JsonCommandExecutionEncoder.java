@@ -79,11 +79,13 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 					if (deviceCommandValue.getValues().containsKey("FAN")) irCodeRawTemp.setFan(deviceCommandValue.getValues().get("FAN"));
 					if (deviceCommandValue.getValues().containsKey("TEMP")) irCodeRawTemp.setTemp(deviceCommandValue.getValues().get("TEMP"));
 					if (deviceCommandValue.getValues().containsKey("TIMER")) irCodeRawTemp.setTimer(deviceCommandValue.getValues().get("TIMER"));
-					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setTimerMins(deviceCommandValue.getValues().get("TIMER_DELAY"));
+					if (deviceCommandValue.getValues().containsKey("TIMER_MINS")) irCodeRawTemp.setTimerMins(deviceCommandValue.getValues().get("TIMER_MINS"));
 					if (deviceCommandValue.getValues().containsKey("LED")) irCodeRawTemp.setLed(deviceCommandValue.getValues().get("LED"));
 					if (deviceCommandValue.getValues().containsKey("COMFORT")) irCodeRawTemp.setComfort(deviceCommandValue.getValues().get("COMFORT"));
 					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setEcono(deviceCommandValue.getValues().get("ECONO"));
 					if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("POWERFUL"));
+					if (deviceCommandValue.getValues().containsKey("SLEEP")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP"));
+					if (deviceCommandValue.getValues().containsKey("SLEEP_MINS")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP_MINS"));
 				}
 				List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
 				if (CollectionUtils.isNotEmpty(irCodeRaws)) {

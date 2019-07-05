@@ -27,7 +27,7 @@ public class IrCodeRaw implements IIrCodeRaw {
     public IrCodeRaw() {
     }
 
-    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerMins, String led, String comfort, String econo, String powerful) {
+    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerMins, String led, String comfort, String econo, String powerful, String sleep, String sleepMins) {
         this.codesetName = codesetName;
         this.functionName = functionName;
         this.power = power;
@@ -41,6 +41,8 @@ public class IrCodeRaw implements IIrCodeRaw {
         this.comfort = comfort;
         this.econo = econo;
         this.powerful = powerful;
+        this.sleep = sleep;
+        this.sleepMins = sleepMins;
     }
 
     public String getId() {

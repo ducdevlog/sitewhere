@@ -59,9 +59,11 @@ public class Infrared extends RestControllerBase {
             @ApiParam(value = "Infrared led", required = false) @RequestParam(required = false) String led,
             @ApiParam(value = "Infrared comfort", required = false) @RequestParam(required = false) String comfort,
             @ApiParam(value = "Infrared econo", required = false) @RequestParam(required = false) String econo,
-            @ApiParam(value = "Infrared powerful", required = false) @RequestParam(required = false) String powerful
+            @ApiParam(value = "Infrared powerful", required = false) @RequestParam(required = false) String powerful,
+            @ApiParam(value = "Infrared sleep", required = false) @RequestParam(required = false) String sleep,
+            @ApiParam(value = "Infrared sleepMins", required = false) @RequestParam(required = false) String sleepMins
     ) throws SiteWhereException {
-        IrCodeRaw irCodeRaw = new IrCodeRaw(codesetName, functionName, power, mode, fan, temp, swing, timer, timerDelay, led, comfort, econo, powerful);
+        IrCodeRaw irCodeRaw = new IrCodeRaw(codesetName, functionName, power, mode, fan, temp, swing, timer, timerDelay, led, comfort, econo, powerful, sleep, sleepMins);
         return getInfraredManagement().getIrCodeRaw(irCodeRaw);
     }
 
