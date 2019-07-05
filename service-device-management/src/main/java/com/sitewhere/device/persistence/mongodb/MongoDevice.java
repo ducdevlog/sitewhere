@@ -56,6 +56,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 
 	/** Property for configuration gateway */
 	public static final String PROP_CONFIGURATION_GATEWAY = "configurationGateway";
+	public static final String PROP_COUNTER = "counter";
 
     /*
      * (non-Javadoc)
@@ -92,6 +93,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		target.append(PROP_HARDWARE_ID, source.getHardwareId());
 		target.append(PROP_ITEM_CHANNEL_LINK, source.getItemChannelLink());
 		target.append(PROP_CONFIGURATION_GATEWAY, source.getConfigurationGateway());
+		target.append(PROP_COUNTER, source.getCounter());
 
 	// Save nested list of mappings.
 	List<Document> mappings = new ArrayList<Document>();
@@ -120,6 +122,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
 		Object itemChannelLink = source.get(PROP_ITEM_CHANNEL_LINK);
 		Object configurationGateway = source.get(PROP_CONFIGURATION_GATEWAY);
+		Long counter = (Long) source.get(PROP_COUNTER);
 
 	target.setDeviceTypeId(typeId);
 	target.setParentDeviceId(parentDeviceId);
@@ -128,6 +131,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.setDeviceAssignmentId(assignmentId);
 	target.setGatewayId(gatewayId);
 	target.setHardwareId(hardwareId);
+	target.setCounter(counter);
 	try {
 		Map<String, List<String>> itemChannelLinkView = (Map<String, List<String>>) itemChannelLink;
 		target.setItemChannelLink(itemChannelLinkView);
