@@ -10,9 +10,7 @@ package com.sitewhere.spi.infrared;
 
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import com.sitewhere.spi.SiteWhereException;
-import com.sitewhere.spi.certificate.ICertificate;
-import com.sitewhere.spi.certificate.IX509RevokedCertificate;
-import com.sitewhere.spi.certificate.request.ICertificateCreateRequest;
+import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.server.lifecycle.ITenantEngineLifecycleComponent;
 
 import java.util.List;
@@ -25,5 +23,5 @@ public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
 
     public List<IInfraredDeviceCodeset> getInfraredDeviceCodeset(String deviceTypeBrandId) throws SiteWhereException;
 
-    public List<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException;
+    public ISearchResults<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) throws SiteWhereException;
 }

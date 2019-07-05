@@ -4,6 +4,7 @@ import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.repository.IrCodeRawRepositoryCustom;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,8 +19,9 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw) {
-        Query query = new Query();
+    public Page<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Query query = new Query().with(pageable).with(new Sort(Sort.Direction.DESC, "ID"));
         if (StringUtils.isNotEmpty(irCodeRaw.getCodesetName())) {
             query.addCriteria(Criteria.where("CODESET_NAME").is(irCodeRaw.getCodesetName()));
         }
@@ -74,7 +76,8 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
         if (StringUtils.isNotEmpty(irCodeRaw.getIrCode())) {
             query.addCriteria(Criteria.where("IR_CODE").is(irCodeRaw.getIrCode()));
         }
-
-        return mongoTemplate.find(query, IrCodeRaw.class);
+        List<IrCodeRaw> list = mongoTemplate.find(query, IrCodeRaw.class);
+        long count = mongoTemplate.count(query, IrCodeRaw.class);
+        return new PageImpl<IrCodeRaw>(list , pageable, count);
     }
 }

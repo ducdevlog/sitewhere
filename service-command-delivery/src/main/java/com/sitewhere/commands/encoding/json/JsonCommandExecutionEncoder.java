@@ -16,6 +16,7 @@ import com.sitewhere.rest.model.device.command.DeviceCommandExecution;
 import com.sitewhere.rest.model.device.command.MinimalDeviceCommandExecution;
 import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
+import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.*;
@@ -87,16 +88,16 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 					if (deviceCommandValue.getValues().containsKey("SLEEP")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP"));
 					if (deviceCommandValue.getValues().containsKey("SLEEP_MINS")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP_MINS"));
 				}
-				List<IIrCodeRaw> irCodeRaws = getInfraredManagement().getIrCodeRaw(irCodeRawTemp);
-				if (CollectionUtils.isNotEmpty(irCodeRaws)) {
+				SearchResults<IIrCodeRaw> irCodeRaws = (SearchResults<IIrCodeRaw>) getInfraredManagement().getIrCodeRaw(irCodeRawTemp, 0, -1);
+				if (irCodeRaws != null && irCodeRaws.getResults() != null && irCodeRaws.getResults().size() > 0) {
 					DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
 					Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreq() + ", " + irCodeRaws.get(0).getIrCode());
+					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
 					deviceCommandInvocation.setParameterValues(parameterValues);
 
 					DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
 					Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-					parameters.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreq() + ", " + irCodeRaws.get(0).getIrCode());
+					parameters.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
 					deviceCommandExecution.setParameters(parameters);
 				}
 			} catch (IOException e) {

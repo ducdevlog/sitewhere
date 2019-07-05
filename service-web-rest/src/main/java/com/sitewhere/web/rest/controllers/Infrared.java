@@ -1,8 +1,10 @@
 package com.sitewhere.web.rest.controllers;
 
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
+import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.infrared.*;
+import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.user.SiteWhereRoles;
 import com.sitewhere.web.annotation.SiteWhereCrossOrigin;
 import com.sitewhere.web.rest.RestControllerBase;
@@ -46,7 +48,7 @@ public class Infrared extends RestControllerBase {
     @RequestMapping(value = "/irCodeRaw", method = RequestMethod.GET)
     @ApiOperation(value = "Get list Infrared Code Raw")
     @Secured({ SiteWhereRoles.REST })
-    public List<IIrCodeRaw> getInfraredDeviceCodeset(
+    public ISearchResults<IIrCodeRaw> getInfraredDeviceCodeset(
             @ApiParam(value = "Infrared Codeset Name", required = false) @RequestParam(required = false) String codesetName,
             @ApiParam(value = "Infrared Function Name", required = false) @RequestParam(required = false) String functionName,
             @ApiParam(value = "Infrared power", required = false) @RequestParam(required = false) String power,
@@ -61,10 +63,12 @@ public class Infrared extends RestControllerBase {
             @ApiParam(value = "Infrared econo", required = false) @RequestParam(required = false) String econo,
             @ApiParam(value = "Infrared powerful", required = false) @RequestParam(required = false) String powerful,
             @ApiParam(value = "Infrared sleep", required = false) @RequestParam(required = false) String sleep,
-            @ApiParam(value = "Infrared sleepMins", required = false) @RequestParam(required = false) String sleepMins
+            @ApiParam(value = "Infrared sleepMins", required = false) @RequestParam(required = false) String sleepMins,
+            @ApiParam(value = "Infrared sleepMins", required = false) @RequestParam(required = false, defaultValue = "0") int page,
+            @ApiParam(value = "Infrared sleepMins", required = false) @RequestParam(required = false, defaultValue = "200") int size
     ) throws SiteWhereException {
         IrCodeRaw irCodeRaw = new IrCodeRaw(codesetName, functionName, power, mode, fan, temp, swing, timer, timerDelay, led, comfort, econo, powerful, sleep, sleepMins);
-        return getInfraredManagement().getIrCodeRaw(irCodeRaw);
+        return getInfraredManagement().getIrCodeRaw(irCodeRaw, page, size);
     }
 
     private IInfraredManagement getInfraredManagement() {

@@ -62,10 +62,13 @@ message GGetInfraredDeviceCodesetResponse {
 // Request for get DeviceCodeset.
 message GIrCodeRawRequest {
 	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+	int32 page = 2;
+	int32 size = 3;
 }
 
 message GIrCodeRawResponse {
-	repeated com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+	int32 results = 1;
+	repeated com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 2;
 }
 
 
