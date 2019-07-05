@@ -2629,7 +2629,7 @@ public class DeviceModelConverter {
 	    grpc.setParentAreaId(CommonModelConverter.asGrpcUuid(api.getParentAreaId()));
 	}
 	grpc.setName(api.getName());
-	grpc.setDescription(api.getDescription());
+	if (StringUtils.isNotEmpty(api.getDescription())) grpc.setDescription(api.getDescription());
 	grpc.addAllBounds(CommonModelConverter.asGrpcLocations(api.getBounds()));
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
