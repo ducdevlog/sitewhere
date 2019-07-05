@@ -82,6 +82,7 @@ public class DeviceMarshalHelper {
 		result.setConfigurationGateway(source.getConfigurationGateway());
 		result.setAreaName(source.getAreaName());
 		result.setAreaToken(source.getAreaToken());
+		result.setAreaTypeToken(source.getAreaTypeToken());
 
 	PersistentEntity.copy(source, result);
 

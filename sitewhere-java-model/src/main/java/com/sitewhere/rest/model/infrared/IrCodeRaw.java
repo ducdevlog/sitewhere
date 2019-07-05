@@ -14,18 +14,20 @@ public class IrCodeRaw implements IIrCodeRaw {
     private String temp;
     private String swing;
     private String timer;
-    private String timerDelay;
+    private String timerMins;
     private String led;
     private String comfort;
     private String econo;
     private String powerful;
-    private String irFreqKhz;
+    private String irFreq;
     private String irCode;
+    private String sleep;
+    private String sleepMins;
 
     public IrCodeRaw() {
     }
 
-    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerDelay, String led, String comfort, String econo, String powerful) {
+    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerMins, String led, String comfort, String econo, String powerful) {
         this.codesetName = codesetName;
         this.functionName = functionName;
         this.power = power;
@@ -34,7 +36,7 @@ public class IrCodeRaw implements IIrCodeRaw {
         this.temp = temp;
         this.swing = swing;
         this.timer = timer;
-        this.timerDelay = timerDelay;
+        this.timerMins = timerMins;
         this.led = led;
         this.comfort = comfort;
         this.econo = econo;
@@ -113,12 +115,12 @@ public class IrCodeRaw implements IIrCodeRaw {
         this.timer = timer;
     }
 
-    public String getTimerDelay() {
-        return timerDelay;
+    public String getTimerMins() {
+        return timerMins;
     }
 
-    public void setTimerDelay(String timerDelay) {
-        this.timerDelay = timerDelay;
+    public void setTimerMins(String timerMins) {
+        this.timerMins = timerMins;
     }
 
     public String getLed() {
@@ -153,12 +155,12 @@ public class IrCodeRaw implements IIrCodeRaw {
         this.powerful = powerful;
     }
 
-    public String getIrFreqKhz() {
-        return irFreqKhz;
+    public String getIrFreq() {
+        return irFreq;
     }
 
-    public void setIrFreqKhz(String irFreqKhz) {
-        this.irFreqKhz = irFreqKhz;
+    public void setIrFreq(String irFreq) {
+        this.irFreq = irFreq;
     }
 
     public String getIrCode() {
@@ -167,5 +169,21 @@ public class IrCodeRaw implements IIrCodeRaw {
 
     public void setIrCode(String irCode) {
         this.irCode = irCode;
+    }
+
+    public String getSleep() {
+        return sleep;
+    }
+
+    public void setSleep(String sleep) {
+        this.sleep = sleep;
+    }
+
+    public String getSleepMins() {
+        return sleepMins;
+    }
+
+    public void setSleepMins(String sleepMins) {
+        this.sleepMins = sleepMins;
     }
 }

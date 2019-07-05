@@ -16,6 +16,7 @@ message GInfraredDeviceTypeCreateRequest {
 	string typeName = 2;
 	string imageUrl = 3;
 	string iconUrl = 4;
+	string typeCode = 5;
 }
 
 message GInfraredDeviceTypeSearchCriteria {
@@ -29,6 +30,7 @@ message GInfraredDeviceType {
 	string iconUrl = 4;
 	string pageNumber = 5;
 	string pageSize = 6;
+	string typeCode = 7;
 }
 
 // Request for creating Device Type Brand.
@@ -83,13 +85,15 @@ message GIrCodeRawCreateRequest {
 	string temp = 7;
 	string swing = 8;
 	string timer = 9;
-	string timerDelay = 10;
+	string timerMins = 10;
 	string led = 11;
 	string comfort = 12;
 	string econo = 13;
 	string powerful = 14;
-	string irFreqKhz = 15;
+	string irFreq = 15;
 	string irCode = 16;
+	string sleep = 17;
+	string sleepMins = 18;
 }
 
 message GIrCodeRaw {
@@ -102,11 +106,13 @@ message GIrCodeRaw {
 	string temp = 7;
 	string swing = 8;
 	string timer = 9;
-	string timerDelay = 10;
+	string timerMins = 10;
 	string led = 11;
 	string comfort = 12;
 	string econo = 13;
 	string powerful = 14;
-	string irFreqKhz = 15;
+	string irFreq = 15;
 	string irCode = 16;
+	string sleep = 17;
+	string sleepMins = 18;
 }

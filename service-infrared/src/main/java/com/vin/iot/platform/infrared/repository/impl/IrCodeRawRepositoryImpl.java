@@ -44,8 +44,17 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
         if (StringUtils.isNotEmpty(irCodeRaw.getFunctionName())) {
             query.addCriteria(Criteria.where("TIMER").is(irCodeRaw.getTimer()));
         }
-        if (StringUtils.isNotEmpty(irCodeRaw.getTimerDelay())) {
-            query.addCriteria(Criteria.where("TIMER_DELAY").is(irCodeRaw.getTimerDelay()));
+        if (StringUtils.isNotEmpty(irCodeRaw.getTimer())) {
+            query.addCriteria(Criteria.where("TIMER").is(irCodeRaw.getTimer()));
+        }
+        if (StringUtils.isNotEmpty(irCodeRaw.getTimerMins())) {
+            query.addCriteria(Criteria.where("TIMER_MINS").is(irCodeRaw.getTimerMins()));
+        }
+        if (StringUtils.isNotEmpty(irCodeRaw.getSleep())) {
+            query.addCriteria(Criteria.where("SLEEP").is(irCodeRaw.getSleep()));
+        }
+        if (StringUtils.isNotEmpty(irCodeRaw.getSleepMins())) {
+            query.addCriteria(Criteria.where("SLEEP_MINS").is(irCodeRaw.getSleepMins()));
         }
         if (StringUtils.isNotEmpty(irCodeRaw.getLed())) {
             query.addCriteria(Criteria.where("LED").is(irCodeRaw.getLed()));
@@ -59,8 +68,8 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
         if (StringUtils.isNotEmpty(irCodeRaw.getPowerful())) {
             query.addCriteria(Criteria.where("POWERFUL").is(irCodeRaw.getPowerful()));
         }
-        if (StringUtils.isNotEmpty(irCodeRaw.getIrFreqKhz())) {
-            query.addCriteria(Criteria.where("IR_FREQ_KHZ").is(irCodeRaw.getIrFreqKhz()));
+        if (StringUtils.isNotEmpty(irCodeRaw.getIrFreq())) {
+            query.addCriteria(Criteria.where("IR_FREQ").is(irCodeRaw.getIrFreq()));
         }
         if (StringUtils.isNotEmpty(irCodeRaw.getIrCode())) {
             query.addCriteria(Criteria.where("IR_CODE").is(irCodeRaw.getIrCode()));

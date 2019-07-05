@@ -10,11 +10,13 @@ public interface IIrCodeRaw {
     public String getTemp();
     public String getSwing();
     public String getTimer();
-    public String getTimerDelay();
+    public String getTimerMins();
     public String getLed();
     public String getComfort();
     public String getEcono();
     public String getPowerful();
-    public String getIrFreqKhz();
+    public String getIrFreq();
     public String getIrCode();
+    public String getSleep();
+    public String getSleepMins();
 }

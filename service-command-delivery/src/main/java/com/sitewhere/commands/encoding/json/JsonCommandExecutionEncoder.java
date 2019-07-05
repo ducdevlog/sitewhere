@@ -25,14 +25,10 @@ import com.sitewhere.spi.infrared.IInfraredManagement;
 import com.sitewhere.spi.infrared.IIrCodeRaw;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.zookeeper.Op;
-import org.springframework.beans.BeanUtils;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.regex.Pattern.compile;
@@ -83,7 +79,7 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 					if (deviceCommandValue.getValues().containsKey("FAN")) irCodeRawTemp.setFan(deviceCommandValue.getValues().get("FAN"));
 					if (deviceCommandValue.getValues().containsKey("TEMP")) irCodeRawTemp.setTemp(deviceCommandValue.getValues().get("TEMP"));
 					if (deviceCommandValue.getValues().containsKey("TIMER")) irCodeRawTemp.setTimer(deviceCommandValue.getValues().get("TIMER"));
-					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setTimerDelay(deviceCommandValue.getValues().get("TIMER_DELAY"));
+					if (deviceCommandValue.getValues().containsKey("TIMER_DELAY")) irCodeRawTemp.setTimerMins(deviceCommandValue.getValues().get("TIMER_DELAY"));
 					if (deviceCommandValue.getValues().containsKey("LED")) irCodeRawTemp.setLed(deviceCommandValue.getValues().get("LED"));
 					if (deviceCommandValue.getValues().containsKey("COMFORT")) irCodeRawTemp.setComfort(deviceCommandValue.getValues().get("COMFORT"));
 					if (deviceCommandValue.getValues().containsKey("ECONO")) irCodeRawTemp.setEcono(deviceCommandValue.getValues().get("ECONO"));
@@ -93,12 +89,12 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 				if (CollectionUtils.isNotEmpty(irCodeRaws)) {
 					DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
 					Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
+					parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreq() + ", " + irCodeRaws.get(0).getIrCode());
 					deviceCommandInvocation.setParameterValues(parameterValues);
 
 					DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
 					Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-					parameters.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreqKhz() + ", " + irCodeRaws.get(0).getIrCode());
+					parameters.put(IR_VALUE_CONTENT, irCodeRaws.get(0).getIrFreq() + ", " + irCodeRaws.get(0).getIrCode());
 					deviceCommandExecution.setParameters(parameters);
 				}
 			} catch (IOException e) {

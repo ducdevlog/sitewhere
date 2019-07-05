@@ -102,4 +102,6 @@ public interface IDevice extends IPersistentEntity {
     public String getAreaName();
 
     public String getAreaToken();
+
+    public String getAreaTypeToken();
 }
