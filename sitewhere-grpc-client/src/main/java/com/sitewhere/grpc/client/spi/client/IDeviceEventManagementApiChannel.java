@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import com.sitewhere.grpc.client.MultitenantGrpcChannel;
 import com.sitewhere.grpc.client.spi.multitenant.IMultitenantApiChannel;
+import com.sitewhere.rest.model.device.event.DeviceEvent;
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.DeviceEventIndex;
 import com.sitewhere.spi.device.event.IDeviceAlert;
@@ -38,7 +40,7 @@ import io.grpc.stub.StreamObserver;
 /**
  * Provides an {@link IMultitenantApiChannel} that supplies the
  * {@link IDeviceEventManagement}. API.
- * 
+ *
  * @author Derek
  */
 public interface IDeviceEventManagementApiChannel<T extends MultitenantGrpcChannel<?, ?>>
@@ -46,7 +48,7 @@ public interface IDeviceEventManagementApiChannel<T extends MultitenantGrpcChann
 
     /**
      * Add a batch of events for the given assignment.
-     * 
+     *
      * @param deviceAssignmentId
      * @param batch
      */
@@ -55,12 +57,14 @@ public interface IDeviceEventManagementApiChannel<T extends MultitenantGrpcChann
 
     /**
      * Get a device event by id.
-     * 
+     *
      * @param eventId
      * @param observer
      * @throws SiteWhereException
      */
     public void getDeviceEventById(UUID eventId, StreamObserver<IDeviceEvent> observer) throws SiteWhereException;
+
+    public List<DeviceEventStatistic> getDeviceEventById(UUID assignmentToken) throws SiteWhereException;
 
     /**
      * Get a device event by alternate (external) id.
