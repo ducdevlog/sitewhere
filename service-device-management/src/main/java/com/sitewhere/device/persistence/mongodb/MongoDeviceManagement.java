@@ -697,7 +697,17 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	return MongoDevice.fromDocument(updated);
     }
 
-    /*
+	@Override
+	public IDevice updateDeviceCounter(String token) throws SiteWhereException {
+		IDevice existing = getDeviceByToken(token);
+		if (existing == null)
+			throw new SiteWhereSystemException(ErrorCode.InvalidDeviceId, ErrorLevel.INFO);
+		MongoCollection<Document> devices = getMongoClient().getDevicesCollection();
+		devices.updateOne(new Document(MongoPersistentEntity.PROP_ID, existing.getId()), new Document("$inc", new Document("counter", 1)));
+		return existing;
+	}
+
+	/*
      * @see com.sitewhere.spi.device.IDeviceManagement#getDevice(java.util.UUID)
      */
     @Override

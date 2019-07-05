@@ -1226,6 +1226,21 @@ public class DeviceManagementApiChannel extends MultitenantApiChannel<DeviceMana
 	}
     }
 
+	@Override
+	public IDevice updateDeviceCounter(String token) throws SiteWhereException {
+		try {
+			GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getUpdateDeviceCounterMethod());
+			GUpdateDeviceCounterRequest.Builder grequest = GUpdateDeviceCounterRequest.newBuilder();
+			grequest.setToken(token);
+			GUpdateDeviceCounterResponse gresponse = getGrpcChannel().getBlockingStub().updateDeviceCounter(grequest.build());
+			IDevice response = (gresponse.hasDevice()) ? DeviceModelConverter.asApiDevice(gresponse.getDevice()) : null;
+			GrpcUtils.logClientMethodResponse(DeviceManagementGrpc.getUpdateDeviceCounterMethod(), response);
+			return response;
+		} catch (Throwable t) {
+			throw GrpcUtils.handleClientMethodException(DeviceManagementGrpc.getUpdateDeviceCounterMethod(), t);
+		}
+	}
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#listDevices(com.sitewhere.spi.

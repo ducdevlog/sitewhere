@@ -272,6 +272,11 @@ public class DeviceManagementDecorator extends TenantEngineLifecycleComponentDec
 	return getDelegate().updateDevice(id, request);
     }
 
+    @Override
+    public IDevice updateDeviceCounter(String token) throws SiteWhereException {
+        return getDelegate().updateDeviceCounter(token);
+    }
+
     /*
      * @see
      * com.sitewhere.spi.device.IDeviceManagement#getCurrentDeviceAssignment(java.
