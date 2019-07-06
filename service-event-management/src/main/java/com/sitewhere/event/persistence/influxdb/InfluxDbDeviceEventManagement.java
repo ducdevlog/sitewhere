@@ -9,18 +9,13 @@ package com.sitewhere.event.persistence.influxdb;
 
 import java.util.*;
 
+import com.sitewhere.rest.model.device.event.*;
 import com.sitewhere.spi.device.event.*;
 import org.influxdb.dto.Point;
 
 import com.sitewhere.event.persistence.DeviceEventManagementPersistence;
 import com.sitewhere.event.spi.microservice.IEventManagementMicroservice;
 import com.sitewhere.influxdb.InfluxDbClient;
-import com.sitewhere.rest.model.device.event.DeviceAlert;
-import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
-import com.sitewhere.rest.model.device.event.DeviceCommandResponse;
-import com.sitewhere.rest.model.device.event.DeviceLocation;
-import com.sitewhere.rest.model.device.event.DeviceMeasurement;
-import com.sitewhere.rest.model.device.event.DeviceStateChange;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.SiteWhereSystemException;
@@ -387,7 +382,7 @@ public class InfluxDbDeviceEventManagement extends TenantEngineLifecycleComponen
     }
 
 	@Override
-	public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
 		return null;
 	}
 

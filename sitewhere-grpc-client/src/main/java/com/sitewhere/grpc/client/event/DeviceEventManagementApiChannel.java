@@ -801,11 +801,12 @@ public class DeviceEventManagementApiChannel extends MultitenantApiChannel<Devic
     }
 
 	@Override
-	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
 		try {
 			GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getCreateDeviceAssignmentMethod());
 			GListDeviceEventStatisticRequest.Builder grequest = GListDeviceEventStatisticRequest.newBuilder();
 			grequest.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(token));
+			grequest.setFilterType(filterType);
 			grequest.setDateType(dateType);
 			grequest.setStartDate(startDate.getTime());
 			grequest.setEndDate(endDate.getTime());

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandInvocationCreateRequest;
@@ -208,5 +209,5 @@ public interface IDeviceEventManagement extends ITenantEngineLifecycleComponent 
     public ISearchResults<IDeviceStateChange> listDeviceStateChangesForIndex(DeviceEventIndex index,
 	    List<UUID> entityIds, IDateRangeSearchCriteria criteria) throws SiteWhereException;
 
-    public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate  ) throws SiteWhereException;
+    public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException;
 }

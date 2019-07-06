@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponentDecorator;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.*;
@@ -219,7 +220,7 @@ public class DeviceEventManagementDecorator extends TenantEngineLifecycleCompone
     }
 
     @Override
-    public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+    public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
         return null;
     }
 }

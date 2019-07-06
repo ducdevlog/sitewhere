@@ -21,6 +21,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -837,6 +838,29 @@ public class Assignments extends RestControllerBase {
 	return new BlockingDeviceEventManagement(getDeviceEventManagement()).listDeviceStateChangesForIndex(
 		DeviceEventIndex.Assignment, Collections.singletonList(assignment.getId()), criteria);
     }
+
+	/**
+	 * List device state changes for a given assignment.
+	 *
+	 * @param token
+	 * @param filterType
+	 * @param dateType
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws SiteWhereException
+	 */
+	@GetMapping(value = "/{token}/devicestatistic")
+	@ApiOperation(value = "List device statistic for a device assignment")
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(
+			@ApiParam(value = "Assignment token", required = true) @PathVariable String token,
+			@ApiParam(value = "Filter Type", required = false) @RequestParam(required = false) String filterType,
+			@ApiParam(value = "DateT ype", required = false) @RequestParam(required = false) String dateType,
+			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) Date startDate,
+			@ApiParam(value = "End date", required = false) @RequestParam(required = false) Date endDate) throws SiteWhereException {
+		IDeviceAssignment assignment = assertDeviceAssignment(token);
+		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, startDate, endDate);
+	}
 
     /**
      * Create command response to be associated with a device assignment.

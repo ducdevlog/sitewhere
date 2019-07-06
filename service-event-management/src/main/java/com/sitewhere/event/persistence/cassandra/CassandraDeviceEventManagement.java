@@ -20,12 +20,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.sitewhere.cassandra.CassandraClient;
 import com.sitewhere.event.persistence.DeviceEventManagementPersistence;
 import com.sitewhere.event.spi.microservice.IEventManagementMicroservice;
-import com.sitewhere.rest.model.device.event.DeviceAlert;
-import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
-import com.sitewhere.rest.model.device.event.DeviceCommandResponse;
-import com.sitewhere.rest.model.device.event.DeviceLocation;
-import com.sitewhere.rest.model.device.event.DeviceMeasurement;
-import com.sitewhere.rest.model.device.event.DeviceStateChange;
+import com.sitewhere.rest.model.device.event.*;
 import com.sitewhere.rest.model.search.Pager;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
@@ -332,7 +327,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     }
 
 	@Override
-	public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
 		return null;
 	}
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.grpc.client.spi.client.IDeviceEventManagementApiChannel;
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.*;
@@ -251,9 +252,9 @@ public class BlockingDeviceEventManagement extends TenantEngineLifecycleComponen
     }
 
     @Override
-    public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
-        BlockingStreamObserver<List<IDeviceEventStatistic>> observer = new BlockingStreamObserver<>();
-        api.getDeviceEventStaticsById(token, dateType, startDate, endDate);
+    public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+        BlockingStreamObserver<List<DeviceEventStatistic>> observer = new BlockingStreamObserver<>();
+        api.getDeviceEventStaticsById(token, filterType, dateType, startDate, endDate);
         return observer.getResult();
     }
 

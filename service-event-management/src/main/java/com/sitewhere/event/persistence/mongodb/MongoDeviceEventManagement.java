@@ -7,12 +7,12 @@
  */
 package com.sitewhere.event.persistence.mongodb;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import com.mongodb.client.AggregateIterable;
+import com.sitewhere.rest.model.device.event.*;
 import com.sitewhere.spi.device.event.*;
+import org.bson.BsonNull;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -22,12 +22,6 @@ import com.sitewhere.event.persistence.DeviceEventManagementPersistence;
 import com.sitewhere.event.spi.microservice.IEventManagementMicroservice;
 import com.sitewhere.mongodb.IMongoConverterLookup;
 import com.sitewhere.mongodb.MongoPersistence;
-import com.sitewhere.rest.model.device.event.DeviceAlert;
-import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
-import com.sitewhere.rest.model.device.event.DeviceCommandResponse;
-import com.sitewhere.rest.model.device.event.DeviceLocation;
-import com.sitewhere.rest.model.device.event.DeviceMeasurement;
-import com.sitewhere.rest.model.device.event.DeviceStateChange;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
@@ -46,6 +40,13 @@ import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.ascending;
+import static com.mongodb.client.model.Sorts.orderBy;
 
 /**
  * Device event management implementation that uses MongoDB for persistence.
@@ -427,8 +428,26 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
     }
 
 	@Override
-	public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
-		return null;
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+		List<DeviceEventStatistic> returns = new ArrayList<>();
+		MongoCollection<Document> events = getMongoClient().getEventsCollection();
+		AggregateIterable<Document> output = null;
+    	if ("H".endsWith(dateType)) {
+    		output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", endDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType), eq("dvid", token))),
+					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", eq("$hour", "$rcdt"))), avg("avgValue", "$mxvl")),
+					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),
+					sort(orderBy(ascending("eventDate"), ascending("hour")))));
+		} else if ("D".endsWith(dateType)) {
+			output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", endDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType))),
+					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", "0")), avg("avgValue", "$mxvl")),
+					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),
+					sort(orderBy(ascending("eventDate"), ascending("hour")))));
+		}
+		if (output != null) {
+			for (Document document : output)
+				returns.add(new DeviceEventStatistic((Double) document.get("avgValue"), (String) document.get("eventDate"), (Integer) document.get("Hour")));
+		}
+		return returns;
 	}
 
 	/**

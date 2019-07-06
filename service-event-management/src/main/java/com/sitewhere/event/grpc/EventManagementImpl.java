@@ -22,6 +22,7 @@ import com.sitewhere.grpc.model.DeviceEventModel.GDeviceMeasurementSearchResults
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChangeSearchResults;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.rest.model.device.event.DeviceEventBatch;
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import com.sitewhere.spi.device.event.*;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandInvocationCreateRequest;
@@ -535,8 +536,9 @@ public class EventManagementImpl extends DeviceEventManagementGrpc.DeviceEventMa
 	public void getDeviceEventStaticsById(GListDeviceEventStatisticRequest request, StreamObserver<GListDeviceEventStatisticResponse> responseObserver) {
 		try {
 			GrpcUtils.handleServerMethodEntry(this, DeviceEventManagementGrpc.getGetDeviceEventStaticsByIdMethod());
-			List<IDeviceEventStatistic> apiResults = getDeviceEventManagement().getDeviceEventStaticsById(
+			List<DeviceEventStatistic> apiResults = getDeviceEventManagement().getDeviceEventStaticsById(
                     CommonModelConverter.asApiUuid(request.getDeviceAssignmentId()),
+					request.getFilterType(),
 					request.getDateType(),
 					CommonModelConverter.asApiDate(request.getStartDate()),
 					CommonModelConverter.asApiDate(request.getEndDate()));
