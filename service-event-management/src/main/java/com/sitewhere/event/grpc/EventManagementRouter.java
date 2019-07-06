@@ -9,6 +9,7 @@ package com.sitewhere.event.grpc;
 
 import java.util.UUID;
 
+import com.sitewhere.grpc.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,39 +18,6 @@ import com.sitewhere.event.spi.microservice.IEventManagementTenantEngine;
 import com.sitewhere.grpc.client.GrpcContextKeys;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.spi.server.IGrpcRouter;
-import com.sitewhere.grpc.service.DeviceEventManagementGrpc;
-import com.sitewhere.grpc.service.GAddAlertsRequest;
-import com.sitewhere.grpc.service.GAddAlertsResponse;
-import com.sitewhere.grpc.service.GAddCommandInvocationsRequest;
-import com.sitewhere.grpc.service.GAddCommandInvocationsResponse;
-import com.sitewhere.grpc.service.GAddCommandResponsesRequest;
-import com.sitewhere.grpc.service.GAddCommandResponsesResponse;
-import com.sitewhere.grpc.service.GAddDeviceEventBatchRequest;
-import com.sitewhere.grpc.service.GAddDeviceEventBatchResponse;
-import com.sitewhere.grpc.service.GAddLocationsRequest;
-import com.sitewhere.grpc.service.GAddLocationsResponse;
-import com.sitewhere.grpc.service.GAddMeasurementsRequest;
-import com.sitewhere.grpc.service.GAddMeasurementsResponse;
-import com.sitewhere.grpc.service.GAddStateChangesRequest;
-import com.sitewhere.grpc.service.GAddStateChangesResponse;
-import com.sitewhere.grpc.service.GGetDeviceEventByAlternateIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceEventByAlternateIdResponse;
-import com.sitewhere.grpc.service.GGetDeviceEventByIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceEventByIdResponse;
-import com.sitewhere.grpc.service.GListAlertsForIndexRequest;
-import com.sitewhere.grpc.service.GListAlertsForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandInvocationsForIndexRequest;
-import com.sitewhere.grpc.service.GListCommandInvocationsForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandResponsesForIndexRequest;
-import com.sitewhere.grpc.service.GListCommandResponsesForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandResponsesForInvocationRequest;
-import com.sitewhere.grpc.service.GListCommandResponsesForInvocationResponse;
-import com.sitewhere.grpc.service.GListLocationsForIndexRequest;
-import com.sitewhere.grpc.service.GListLocationsForIndexResponse;
-import com.sitewhere.grpc.service.GListMeasurementsForIndexRequest;
-import com.sitewhere.grpc.service.GListMeasurementsForIndexResponse;
-import com.sitewhere.grpc.service.GListStateChangesForIndexRequest;
-import com.sitewhere.grpc.service.GListStateChangesForIndexResponse;
 import com.sitewhere.spi.microservice.multitenant.TenantEngineNotAvailableException;
 
 import io.grpc.stub.StreamObserver;
@@ -324,6 +292,14 @@ public class EventManagementRouter extends DeviceEventManagementGrpc.DeviceEvent
 	    engine.listStateChangesForIndex(request, responseObserver);
 	}
     }
+
+	@Override
+	public void getDeviceEventStaticsById(GListDeviceEventStatisticRequest request, StreamObserver<GListDeviceEventStatisticResponse> responseObserver) {
+		DeviceEventManagementGrpc.DeviceEventManagementImplBase engine = getTenantImplementation(responseObserver);
+		if (engine != null) {
+			engine.getDeviceEventStaticsById(request, responseObserver);
+		}
+	}
 
     public IEventManagementMicroservice getMicroservice() {
 	return microservice;
