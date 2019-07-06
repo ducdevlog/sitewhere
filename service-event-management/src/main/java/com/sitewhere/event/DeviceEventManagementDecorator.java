@@ -221,6 +221,6 @@ public class DeviceEventManagementDecorator extends TenantEngineLifecycleCompone
 
     @Override
     public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, DateType dateType, Date startDate, Date endDate) throws SiteWhereException {
-        return null;
+        return getDelegate().getDeviceEventStaticsById(token, filterType, dateType, startDate, endDate);
     }
 }
