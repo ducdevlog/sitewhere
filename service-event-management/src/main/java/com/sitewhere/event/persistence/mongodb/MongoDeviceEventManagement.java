@@ -444,8 +444,15 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
 					sort(orderBy(ascending("eventDate"), ascending("hour")))));
 		}
 		if (output != null) {
-			for (Document document : output)
-				returns.add(new DeviceEventStatistic((Double) document.get("avgValue"), (String) document.get("eventDate"), (Integer) document.get("Hour")));
+			DeviceEventStatistic deviceEventStatistic;
+			for (Document document : output) {
+				deviceEventStatistic = new DeviceEventStatistic();
+				if (document.get("avgValue") != null) deviceEventStatistic.setAvgValue((Double) document.get("avgValue"));
+				if (document.get("eventDate") != null) deviceEventStatistic.setEventDate((String) document.get("eventDate"));
+				if (document.get("hour") != null) deviceEventStatistic.setHour((Integer) document.get("hour"));
+				returns.add(deviceEventStatistic);
+			}
+
 		}
 		return returns;
 	}
