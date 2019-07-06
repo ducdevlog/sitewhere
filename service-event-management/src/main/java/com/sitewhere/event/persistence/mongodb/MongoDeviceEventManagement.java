@@ -428,16 +428,16 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
     }
 
 	@Override
-	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, DateType dateType, Date startDate, Date endDate) throws SiteWhereException {
 		List<DeviceEventStatistic> returns = new ArrayList<>();
 		MongoCollection<Document> events = getMongoClient().getEventsCollection();
 		AggregateIterable<Document> output = null;
-    	if ("H".endsWith(dateType)) {
+    	if (DateType.HOUR.equals(dateType)) {
     		output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", endDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType), eq("dvid", token))),
 					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", eq("$hour", "$rcdt"))), avg("avgValue", "$mxvl")),
 					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),
 					sort(orderBy(ascending("eventDate"), ascending("hour")))));
-		} else if ("D".endsWith(dateType)) {
+		} else if (DateType.DATE.equals(dateType)) {
 			output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", endDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType))),
 					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", "0")), avg("avgValue", "$mxvl")),
 					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),

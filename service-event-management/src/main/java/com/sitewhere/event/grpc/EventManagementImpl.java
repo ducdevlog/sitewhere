@@ -14,6 +14,7 @@ import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.client.event.EventModelConverter;
 import com.sitewhere.grpc.client.spi.server.IGrpcApiImplementation;
+import com.sitewhere.grpc.model.DeviceEventModel;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceAlertSearchResults;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceCommandInvocationSearchResults;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceCommandResponseSearchResults;
@@ -35,6 +36,8 @@ import com.sitewhere.spi.search.ISearchResults;
 
 import io.grpc.stub.StreamObserver;
 import org.springframework.util.CollectionUtils;
+
+import static com.sitewhere.spi.device.event.DateType.*;
 
 /**
  * Implements server logic for device event management GRPC requests.
@@ -539,7 +542,7 @@ public class EventManagementImpl extends DeviceEventManagementGrpc.DeviceEventMa
 			List<DeviceEventStatistic> apiResults = getDeviceEventManagement().getDeviceEventStaticsById(
                     CommonModelConverter.asApiUuid(request.getDeviceAssignmentId()),
 					request.getFilterType(),
-					request.getDateType(),
+					request.getDateType().equals(DeviceEventModel.DateType.HOUR) ? HOUR : DATE,
 					CommonModelConverter.asApiDate(request.getStartDate()),
 					CommonModelConverter.asApiDate(request.getEndDate()));
 			GListDeviceEventStatisticResponse.Builder response = GListDeviceEventStatisticResponse.newBuilder();

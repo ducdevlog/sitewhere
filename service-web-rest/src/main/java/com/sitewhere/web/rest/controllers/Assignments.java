@@ -10,18 +10,13 @@ package com.sitewhere.web.rest.controllers;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
+import com.sitewhere.spi.device.event.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,13 +64,6 @@ import com.sitewhere.spi.device.IDeviceAssignment;
 import com.sitewhere.spi.device.IDeviceManagement;
 import com.sitewhere.spi.device.charting.IChartSeries;
 import com.sitewhere.spi.device.command.IDeviceCommand;
-import com.sitewhere.spi.device.event.DeviceEventIndex;
-import com.sitewhere.spi.device.event.IDeviceAlert;
-import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
-import com.sitewhere.spi.device.event.IDeviceCommandResponse;
-import com.sitewhere.spi.device.event.IDeviceLocation;
-import com.sitewhere.spi.device.event.IDeviceMeasurement;
-import com.sitewhere.spi.device.event.IDeviceStateChange;
 import com.sitewhere.spi.error.ErrorCode;
 import com.sitewhere.spi.error.ErrorLevel;
 import com.sitewhere.spi.label.ILabel;
@@ -854,11 +842,19 @@ public class Assignments extends RestControllerBase {
 	@ApiOperation(value = "List device statistic for a device assignment")
 	public List<DeviceEventStatistic> getDeviceEventStaticsById(
 			@ApiParam(value = "Assignment token", required = true) @PathVariable String token,
-			@ApiParam(value = "Filter Type", required = false) @RequestParam(required = false) String filterType,
-			@ApiParam(value = "DateT ype", required = false) @RequestParam(required = false) String dateType,
+			@ApiParam(value = "Filter Type", required = true) @RequestParam(required = true) String filterType,
+			@ApiParam(value = "DateT ype", required = false) @RequestParam(required = false, defaultValue = "DATE") DateType dateType,
 			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) Date startDate,
 			@ApiParam(value = "End date", required = false) @RequestParam(required = false) Date endDate) throws SiteWhereException {
 		IDeviceAssignment assignment = assertDeviceAssignment(token);
+		if (endDate == null)
+			endDate = new Date();
+		if (startDate == null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(endDate);
+			calendar.add(Calendar.DATE, -7);
+			startDate = calendar.getTime();
+		}
 		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, startDate, endDate);
 	}
 

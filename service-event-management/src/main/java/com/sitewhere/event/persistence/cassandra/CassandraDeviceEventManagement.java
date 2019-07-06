@@ -327,7 +327,7 @@ public class CassandraDeviceEventManagement extends TenantEngineLifecycleCompone
     }
 
 	@Override
-	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, DateType dateType, Date startDate, Date endDate) throws SiteWhereException {
 		return null;
 	}
 

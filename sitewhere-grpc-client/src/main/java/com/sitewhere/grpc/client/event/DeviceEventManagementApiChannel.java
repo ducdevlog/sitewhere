@@ -13,6 +13,7 @@ import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.client.common.tracing.DebugParameter;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IDeviceEventManagementApiChannel;
+import com.sitewhere.grpc.model.DeviceEventModel;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.rest.model.device.event.*;
 import com.sitewhere.spi.SiteWhereException;
@@ -801,13 +802,13 @@ public class DeviceEventManagementApiChannel extends MultitenantApiChannel<Devic
     }
 
 	@Override
-	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+	public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, DateType dateType, Date startDate, Date endDate) throws SiteWhereException {
 		try {
 			GrpcUtils.handleClientMethodEntry(this, DeviceManagementGrpc.getCreateDeviceAssignmentMethod());
 			GListDeviceEventStatisticRequest.Builder grequest = GListDeviceEventStatisticRequest.newBuilder();
 			grequest.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(token));
 			grequest.setFilterType(filterType);
-			grequest.setDateType(dateType);
+			grequest.setDateType(dateType.equals(DateType.DATE) ? DeviceEventModel.DateType.DATE : (dateType.equals(DateType.HOUR) ? DeviceEventModel.DateType.HOUR : DeviceEventModel.DateType.DATE));
 			grequest.setStartDate(startDate.getTime());
 			grequest.setEndDate(endDate.getTime());
 			GListDeviceEventStatisticResponse gresponse = getGrpcChannel().getBlockingStub().getDeviceEventStaticsById(grequest.build());
