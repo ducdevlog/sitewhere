@@ -1859,9 +1859,9 @@ public class EventModelConverter {
 
     public static DeviceEventModel.GDeviceEventStatistic asGrpcDeviceEventStatistic(IDeviceEventStatistic api) {
 		DeviceEventModel.GDeviceEventStatistic.Builder grpc = DeviceEventModel.GDeviceEventStatistic.newBuilder();
-		grpc.setAvgValue(api.getAvgValue());
-		grpc.setEventDate(api.getEventDate());
-		grpc.setHour(api.getHour());
+		if (api.getAvgValue() != null) grpc.setAvgValue(api.getAvgValue());
+        if (api.getEventDate() != null && api.getEventDate().trim().length() > 0) grpc.setEventDate(api.getEventDate());
+        grpc.setHour(api.getHour());
 		return grpc.build();
 	}
 
