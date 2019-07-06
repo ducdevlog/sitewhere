@@ -253,9 +253,7 @@ public class BlockingDeviceEventManagement extends TenantEngineLifecycleComponen
 
     @Override
     public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String filterType, DateType dateType, Date startDate, Date endDate) throws SiteWhereException {
-        BlockingStreamObserver<List<DeviceEventStatistic>> observer = new BlockingStreamObserver<>();
-        api.getDeviceEventStaticsById(token, filterType, dateType, startDate, endDate);
-        return observer.getResult();
+        return api.getDeviceEventStaticsById(token, filterType, dateType, startDate, endDate);
     }
 
     protected IDeviceEventManagementApiChannel<?> getApi() {
