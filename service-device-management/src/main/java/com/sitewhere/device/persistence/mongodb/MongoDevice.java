@@ -122,7 +122,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 		String hardwareId = (String) source.get(PROP_HARDWARE_ID);
 		Object itemChannelLink = source.get(PROP_ITEM_CHANNEL_LINK);
 		Object configurationGateway = source.get(PROP_CONFIGURATION_GATEWAY);
-		Long counter = (Long) source.get(PROP_COUNTER);
+        Long counter = source.get(PROP_COUNTER) != null ? (Long) source.get(PROP_COUNTER) : 0L;
 
 	target.setDeviceTypeId(typeId);
 	target.setParentDeviceId(parentDeviceId);
@@ -131,7 +131,7 @@ public class MongoDevice implements MongoConverter<IDevice> {
 	target.setDeviceAssignmentId(assignmentId);
 	target.setGatewayId(gatewayId);
 	target.setHardwareId(hardwareId);
-	target.setCounter(counter != null ? counter : 0);
+	target.setCounter(counter);
 	try {
 		Map<String, List<String>> itemChannelLinkView = (Map<String, List<String>>) itemChannelLink;
 		target.setItemChannelLink(itemChannelLinkView);
