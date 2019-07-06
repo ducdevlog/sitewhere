@@ -22,5 +22,5 @@ import java.io.Serializable;
 public interface IDeviceEventStatistic extends IMetadataProvider, Serializable {
     public Double getAvgValue();
     public String getEventDate();
-    public int getHour();
+    public String getHour();
 }

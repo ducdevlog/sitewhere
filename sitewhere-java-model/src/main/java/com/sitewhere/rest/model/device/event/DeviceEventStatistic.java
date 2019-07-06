@@ -33,5 +33,5 @@ import java.io.Serializable;
 public class DeviceEventStatistic extends MetadataProvider implements IDeviceEventStatistic, Serializable {
     private Double avgValue;
     private String eventDate;
-    private int hour;
+    private String hour;
 }
