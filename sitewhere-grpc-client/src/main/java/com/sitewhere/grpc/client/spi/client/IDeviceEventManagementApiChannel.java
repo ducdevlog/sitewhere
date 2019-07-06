@@ -7,6 +7,7 @@
  */
 package com.sitewhere.grpc.client.spi.client;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,8 +64,6 @@ public interface IDeviceEventManagementApiChannel<T extends MultitenantGrpcChann
      * @throws SiteWhereException
      */
     public void getDeviceEventById(UUID eventId, StreamObserver<IDeviceEvent> observer) throws SiteWhereException;
-
-    public List<DeviceEventStatistic> getDeviceEventById(UUID assignmentToken) throws SiteWhereException;
 
     /**
      * Get a device event by alternate (external) id.
@@ -229,4 +228,6 @@ public interface IDeviceEventManagementApiChannel<T extends MultitenantGrpcChann
     public void listDeviceStateChangesForIndex(DeviceEventIndex index, List<UUID> entityIds,
 	    IDateRangeSearchCriteria criteria, StreamObserver<ISearchResults<IDeviceStateChange>> observer)
 	    throws SiteWhereException;
+
+    public List<DeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException;
 }

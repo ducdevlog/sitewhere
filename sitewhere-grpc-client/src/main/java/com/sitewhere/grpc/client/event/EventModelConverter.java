@@ -17,6 +17,7 @@ import com.sitewhere.grpc.model.CommonModel.GDeviceCommandTarget;
 import com.sitewhere.grpc.model.CommonModel.GOptionalBoolean;
 import com.sitewhere.grpc.model.CommonModel.GOptionalDouble;
 import com.sitewhere.grpc.model.CommonModel.GOptionalString;
+import com.sitewhere.grpc.model.DeviceEventModel;
 import com.sitewhere.grpc.model.DeviceEventModel.GAlertLevel;
 import com.sitewhere.grpc.model.DeviceEventModel.GAlertSource;
 import com.sitewhere.grpc.model.DeviceEventModel.GAnyDeviceEvent;
@@ -52,16 +53,7 @@ import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChangeSearchResults
 import com.sitewhere.grpc.model.DeviceEventModel.GEnrichedEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GInboundEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GPersistedEventPayload;
-import com.sitewhere.rest.model.device.event.DeviceAlert;
-import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
-import com.sitewhere.rest.model.device.event.DeviceCommandResponse;
-import com.sitewhere.rest.model.device.event.DeviceEvent;
-import com.sitewhere.rest.model.device.event.DeviceEventBatch;
-import com.sitewhere.rest.model.device.event.DeviceEventBatchResponse;
-import com.sitewhere.rest.model.device.event.DeviceEventContext;
-import com.sitewhere.rest.model.device.event.DeviceLocation;
-import com.sitewhere.rest.model.device.event.DeviceMeasurement;
-import com.sitewhere.rest.model.device.event.DeviceStateChange;
+import com.sitewhere.rest.model.device.event.*;
 import com.sitewhere.rest.model.device.event.kafka.EnrichedEventPayload;
 import com.sitewhere.rest.model.device.event.kafka.InboundEventPayload;
 import com.sitewhere.rest.model.device.event.kafka.PersistedEventPayload;
@@ -75,23 +67,7 @@ import com.sitewhere.rest.model.device.event.request.DeviceMeasurementCreateRequ
 import com.sitewhere.rest.model.device.event.request.DeviceStateChangeCreateRequest;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
-import com.sitewhere.spi.device.event.AlertLevel;
-import com.sitewhere.spi.device.event.AlertSource;
-import com.sitewhere.spi.device.event.CommandInitiator;
-import com.sitewhere.spi.device.event.CommandStatus;
-import com.sitewhere.spi.device.event.CommandTarget;
-import com.sitewhere.spi.device.event.DeviceEventIndex;
-import com.sitewhere.spi.device.event.DeviceEventType;
-import com.sitewhere.spi.device.event.IDeviceAlert;
-import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
-import com.sitewhere.spi.device.event.IDeviceCommandResponse;
-import com.sitewhere.spi.device.event.IDeviceEvent;
-import com.sitewhere.spi.device.event.IDeviceEventBatch;
-import com.sitewhere.spi.device.event.IDeviceEventBatchResponse;
-import com.sitewhere.spi.device.event.IDeviceEventContext;
-import com.sitewhere.spi.device.event.IDeviceLocation;
-import com.sitewhere.spi.device.event.IDeviceMeasurement;
-import com.sitewhere.spi.device.event.IDeviceStateChange;
+import com.sitewhere.spi.device.event.*;
 import com.sitewhere.spi.device.event.kafka.IEnrichedEventPayload;
 import com.sitewhere.spi.device.event.kafka.IInboundEventPayload;
 import com.sitewhere.spi.device.event.kafka.IPersistedEventPayload;
@@ -1880,4 +1856,20 @@ public class EventModelConverter {
 	grpc.setEvent(EventModelConverter.asGrpcGenericDeviceEvent(api.getEvent()));
 	return grpc.build();
     }
+
+    public static DeviceEventModel.GDeviceEventStatistic asGrpcDeviceEventStatistic(IDeviceEventStatistic api) {
+		DeviceEventModel.GDeviceEventStatistic.Builder grpc = DeviceEventModel.GDeviceEventStatistic.newBuilder();
+		grpc.setAvgValue(api.getAvgValue());
+		grpc.setEventDate(api.getEventDate());
+		grpc.setHour(api.getHour());
+		return grpc.build();
+	}
+
+	public static DeviceEventStatistic asApiDeviceEventStatistic(DeviceEventModel.GDeviceEventStatistic grpc) {
+		DeviceEventStatistic api = new DeviceEventStatistic();
+		api.setAvgValue(grpc.getAvgValue());
+		api.setEventDate(grpc.getEventDate());
+		api.setHour(grpc.getHour());
+		return api;
+	}
 }

@@ -20,49 +20,9 @@ import com.sitewhere.grpc.model.DeviceEventModel.GDeviceCommandResponseSearchRes
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceLocationSearchResults;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceMeasurementSearchResults;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChangeSearchResults;
-import com.sitewhere.grpc.service.DeviceEventManagementGrpc;
-import com.sitewhere.grpc.service.GAddAlertsRequest;
-import com.sitewhere.grpc.service.GAddAlertsResponse;
-import com.sitewhere.grpc.service.GAddCommandInvocationsRequest;
-import com.sitewhere.grpc.service.GAddCommandInvocationsResponse;
-import com.sitewhere.grpc.service.GAddCommandResponsesRequest;
-import com.sitewhere.grpc.service.GAddCommandResponsesResponse;
-import com.sitewhere.grpc.service.GAddDeviceEventBatchRequest;
-import com.sitewhere.grpc.service.GAddDeviceEventBatchResponse;
-import com.sitewhere.grpc.service.GAddLocationsRequest;
-import com.sitewhere.grpc.service.GAddLocationsResponse;
-import com.sitewhere.grpc.service.GAddMeasurementsRequest;
-import com.sitewhere.grpc.service.GAddMeasurementsResponse;
-import com.sitewhere.grpc.service.GAddStateChangesRequest;
-import com.sitewhere.grpc.service.GAddStateChangesResponse;
-import com.sitewhere.grpc.service.GGetDeviceEventByAlternateIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceEventByAlternateIdResponse;
-import com.sitewhere.grpc.service.GGetDeviceEventByIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceEventByIdResponse;
-import com.sitewhere.grpc.service.GListAlertsForIndexRequest;
-import com.sitewhere.grpc.service.GListAlertsForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandInvocationsForIndexRequest;
-import com.sitewhere.grpc.service.GListCommandInvocationsForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandResponsesForIndexRequest;
-import com.sitewhere.grpc.service.GListCommandResponsesForIndexResponse;
-import com.sitewhere.grpc.service.GListCommandResponsesForInvocationRequest;
-import com.sitewhere.grpc.service.GListCommandResponsesForInvocationResponse;
-import com.sitewhere.grpc.service.GListLocationsForIndexRequest;
-import com.sitewhere.grpc.service.GListLocationsForIndexResponse;
-import com.sitewhere.grpc.service.GListMeasurementsForIndexRequest;
-import com.sitewhere.grpc.service.GListMeasurementsForIndexResponse;
-import com.sitewhere.grpc.service.GListStateChangesForIndexRequest;
-import com.sitewhere.grpc.service.GListStateChangesForIndexResponse;
+import com.sitewhere.grpc.service.*;
 import com.sitewhere.rest.model.device.event.DeviceEventBatch;
-import com.sitewhere.spi.device.event.IDeviceAlert;
-import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
-import com.sitewhere.spi.device.event.IDeviceCommandResponse;
-import com.sitewhere.spi.device.event.IDeviceEvent;
-import com.sitewhere.spi.device.event.IDeviceEventBatchResponse;
-import com.sitewhere.spi.device.event.IDeviceEventManagement;
-import com.sitewhere.spi.device.event.IDeviceLocation;
-import com.sitewhere.spi.device.event.IDeviceMeasurement;
-import com.sitewhere.spi.device.event.IDeviceStateChange;
+import com.sitewhere.spi.device.event.*;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandInvocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandResponseCreateRequest;
@@ -73,6 +33,7 @@ import com.sitewhere.spi.microservice.IMicroservice;
 import com.sitewhere.spi.search.ISearchResults;
 
 import io.grpc.stub.StreamObserver;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Implements server logic for device event management GRPC requests.
@@ -569,6 +530,29 @@ public class EventManagementImpl extends DeviceEventManagementGrpc.DeviceEventMa
 	    GrpcUtils.handleServerMethodExit(DeviceEventManagementGrpc.getListStateChangesForIndexMethod());
 	}
     }
+
+	@Override
+	public void getDeviceEventStaticsById(GListDeviceEventStatisticRequest request, StreamObserver<GListDeviceEventStatisticResponse> responseObserver) {
+		try {
+			GrpcUtils.handleServerMethodEntry(this, DeviceEventManagementGrpc.getGetDeviceEventStaticsByIdMethod());
+			List<IDeviceEventStatistic> apiResults = getDeviceEventManagement().getDeviceEventStaticsById(
+                    CommonModelConverter.asApiUuid(request.getDeviceAssignmentId()),
+					request.getDateType(),
+					CommonModelConverter.asApiDate(request.getStartDate()),
+					CommonModelConverter.asApiDate(request.getEndDate()));
+			GListDeviceEventStatisticResponse.Builder response = GListDeviceEventStatisticResponse.newBuilder();
+			if (!CollectionUtils.isEmpty(apiResults)) {
+				apiResults.stream().map(EventModelConverter::asGrpcDeviceEventStatistic).forEach(response::addResults);
+			}
+			responseObserver.onNext(response.build());
+			responseObserver.onCompleted();
+		} catch (Throwable e) {
+			GrpcUtils.handleServerMethodException(DeviceEventManagementGrpc.getGetDeviceEventStaticsByIdMethod(), e,
+					responseObserver);
+		} finally {
+			GrpcUtils.handleServerMethodExit(DeviceEventManagementGrpc.getGetDeviceEventStaticsByIdMethod());
+		}
+	}
 
     /*
      * @see

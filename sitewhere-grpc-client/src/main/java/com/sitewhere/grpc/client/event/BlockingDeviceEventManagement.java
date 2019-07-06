@@ -7,23 +7,14 @@
  */
 package com.sitewhere.grpc.client.event;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.grpc.client.spi.client.IDeviceEventManagementApiChannel;
 import com.sitewhere.server.lifecycle.TenantEngineLifecycleComponent;
 import com.sitewhere.spi.SiteWhereException;
-import com.sitewhere.spi.device.event.DeviceEventIndex;
-import com.sitewhere.spi.device.event.IDeviceAlert;
-import com.sitewhere.spi.device.event.IDeviceCommandInvocation;
-import com.sitewhere.spi.device.event.IDeviceCommandResponse;
-import com.sitewhere.spi.device.event.IDeviceEvent;
-import com.sitewhere.spi.device.event.IDeviceEventBatch;
-import com.sitewhere.spi.device.event.IDeviceEventBatchResponse;
-import com.sitewhere.spi.device.event.IDeviceEventManagement;
-import com.sitewhere.spi.device.event.IDeviceLocation;
-import com.sitewhere.spi.device.event.IDeviceMeasurement;
-import com.sitewhere.spi.device.event.IDeviceStateChange;
+import com.sitewhere.spi.device.event.*;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandInvocationCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandResponseCreateRequest;
@@ -257,6 +248,13 @@ public class BlockingDeviceEventManagement extends TenantEngineLifecycleComponen
 	BlockingStreamObserver<ISearchResults<IDeviceStateChange>> observer = new BlockingStreamObserver<>();
 	api.listDeviceStateChangesForIndex(index, entityIds, criteria, observer);
 	return observer.getResult();
+    }
+
+    @Override
+    public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate) throws SiteWhereException {
+        BlockingStreamObserver<List<IDeviceEventStatistic>> observer = new BlockingStreamObserver<>();
+        api.getDeviceEventStaticsById(token, dateType, startDate, endDate);
+        return observer.getResult();
     }
 
     protected IDeviceEventManagementApiChannel<?> getApi() {

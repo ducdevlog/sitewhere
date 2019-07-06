@@ -15,13 +15,23 @@ package com.sitewhere.rest.model.device.event;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sitewhere.rest.model.common.MetadataProvider;
 import com.sitewhere.spi.device.event.IDeviceEventStatistic;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
  * @author AnhGV
  */
+@EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeviceEventStatistic extends MetadataProvider implements IDeviceEventStatistic, Serializable {
-
+    private Double avgValue;
+    private String eventDate;
+    private int hour;
 }

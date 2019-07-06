@@ -7,6 +7,7 @@
  */
 package com.sitewhere.spi.device.event;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -206,4 +207,6 @@ public interface IDeviceEventManagement extends ITenantEngineLifecycleComponent 
      */
     public ISearchResults<IDeviceStateChange> listDeviceStateChangesForIndex(DeviceEventIndex index,
 	    List<UUID> entityIds, IDateRangeSearchCriteria criteria) throws SiteWhereException;
+
+    public List<IDeviceEventStatistic> getDeviceEventStaticsById(UUID token, String dateType, Date startDate, Date endDate  ) throws SiteWhereException;
 }
