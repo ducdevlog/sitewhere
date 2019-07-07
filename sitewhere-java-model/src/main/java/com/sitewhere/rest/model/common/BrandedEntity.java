@@ -27,7 +27,12 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
     private String icon;
 
     /** Icon */
-    private String icon2;
+    private String iconOnOff;
+    private String icon1D;
+    private String icon2DOn;
+    private String icon2DOff;
+    private String icon3DOn;
+    private String icon3DOff;
 
     /** Background color */
     private String backgroundColor;
@@ -60,12 +65,52 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
 	this.icon = icon;
     }
 
-    public String getIcon2() {
-        return icon2;
+    public String getIconOnOff() {
+        return iconOnOff;
     }
 
-    public void setIcon2(String icon2) {
-        this.icon2 = icon2;
+    public void setIconOnOff(String iconOnOff) {
+        this.iconOnOff = iconOnOff;
+    }
+
+    public String getIcon1D() {
+        return icon1D;
+    }
+
+    public void setIcon1D(String icon1D) {
+        this.icon1D = icon1D;
+    }
+
+    public String getIcon2DOn() {
+        return icon2DOn;
+    }
+
+    public void setIcon2DOn(String icon2DOn) {
+        this.icon2DOn = icon2DOn;
+    }
+
+    public String getIcon2DOff() {
+        return icon2DOff;
+    }
+
+    public void setIcon2DOff(String icon2DOff) {
+        this.icon2DOff = icon2DOff;
+    }
+
+    public String getIcon3DOn() {
+        return icon3DOn;
+    }
+
+    public void setIcon3DOn(String icon3DOn) {
+        this.icon3DOn = icon3DOn;
+    }
+
+    public String getIcon3DOff() {
+        return icon3DOff;
+    }
+
+    public void setIcon3DOff(String icon3DOff) {
+        this.icon3DOff = icon3DOff;
     }
 
     /*
@@ -110,7 +155,7 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
     public static void copy(IBrandedEntity source, BrandedEntity target) throws SiteWhereException {
 	target.setImageUrl(source.getImageUrl());
 	target.setIcon(source.getIcon());
-	target.setIcon2(source.getIcon2());
+	target.setIconOnOff(source.getIconOnOff());
 	target.setBackgroundColor(source.getBackgroundColor());
 	target.setForegroundColor(source.getForegroundColor());
 	target.setBorderColor(source.getBorderColor());

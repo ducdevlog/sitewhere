@@ -24,7 +24,12 @@ public class MongoBrandedEntity {
 
     /** Property for icon */
     public static final String PROP_ICON = "icon";
-    public static final String PROP_ICON2 = "icon2";
+    public static final String PROP_ICON_ON_OFF = "iconOnOff";
+    public static final String PROP_ICON_1D = "icon1D";
+    public static final String PROP_ICON_2D_ON = "icon2DOn";
+    public static final String PROP_ICON_2D_OFF = "icon2DOff";
+    public static final String PROP_ICON_3D_ON = "icon3DOn";
+    public static final String PROP_ICON_3D_OFF = "icon3DOff";
 
     /** Property for background color */
     public static final String PROP_BACKGROUND_COLOR = "bgco";
@@ -44,7 +49,12 @@ public class MongoBrandedEntity {
     public static void toDocument(IBrandedEntity source, Document target) {
 	target.append(PROP_IMAGE_URL, source.getImageUrl());
 	target.append(PROP_ICON, source.getIcon());
-	target.append(PROP_ICON2, source.getIcon2());
+	target.append(PROP_ICON_ON_OFF, source.getIconOnOff());
+	target.append(PROP_ICON_1D, source.getIcon1D());
+	target.append(PROP_ICON_2D_ON, source.getIcon2DOn());
+	target.append(PROP_ICON_2D_OFF, source.getIcon2DOff());
+	target.append(PROP_ICON_3D_ON, source.getIcon3DOn());
+	target.append(PROP_ICON_3D_OFF, source.getIcon3DOff());
 	target.append(PROP_BACKGROUND_COLOR, source.getBackgroundColor());
 	target.append(PROP_FOREGROUND_COLOR, source.getForegroundColor());
 	target.append(PROP_BORDER_COLOR, source.getBorderColor());
@@ -61,14 +71,24 @@ public class MongoBrandedEntity {
     public static void fromDocument(Document source, BrandedEntity target) {
 	String imageUrl = (String) source.get(PROP_IMAGE_URL);
 	String icon = (String) source.get(PROP_ICON);
-	String icon2 = (String) source.get(PROP_ICON2);
+	String iconOnOff = (String) source.get(PROP_ICON_ON_OFF);
+	String icon1D = (String) source.get(PROP_ICON_1D);
+	String icon2DOn = (String) source.get(PROP_ICON_2D_ON);
+	String icon2DOff = (String) source.get(PROP_ICON_2D_OFF);
+	String icon3DOn = (String) source.get(PROP_ICON_3D_ON);
+	String icon3DOff = (String) source.get(PROP_ICON_3D_OFF);
 	String bgColor = (String) source.get(PROP_BACKGROUND_COLOR);
 	String fgColor = (String) source.get(PROP_FOREGROUND_COLOR);
 	String bdColor = (String) source.get(PROP_BORDER_COLOR);
 
 	target.setImageUrl(imageUrl);
 	target.setIcon(icon);
-	target.setIcon2(icon2);
+	target.setIconOnOff(iconOnOff);
+	target.setIcon1D(icon1D);
+	target.setIcon2DOn(icon2DOn);
+	target.setIcon2DOff(icon2DOff);
+	target.setIcon3DOn(icon3DOn);
+	target.setIcon3DOff(icon3DOff);
 	target.setBackgroundColor(bgColor);
 	target.setForegroundColor(fgColor);
 	target.setBorderColor(bdColor);

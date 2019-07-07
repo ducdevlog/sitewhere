@@ -304,7 +304,12 @@ public class DeviceManagementPersistence extends Persistence {
 	type.setImageUrl(request.getImageUrl());
 
 	type.setIcon(request.getIcon());
-	type.setIcon2(request.getIcon2());
+	type.setIconOnOff(request.getIconOnOff());
+	type.setIcon1D(request.getIcon1D());
+	type.setIcon2DOn(request.getIcon2DOn());
+	type.setIcon2DOff(request.getIcon2DOff());
+	type.setIcon3DOn(request.getIcon3DOn());
+	type.setIcon3DOff(request.getIcon3DOff());
 
 	// Container policy is required.
 	requireNotNull("Container Policy", request.getContainerPolicy());
@@ -346,8 +351,23 @@ public class DeviceManagementPersistence extends Persistence {
 		if (request.getIcon() != null) {
 			target.setIcon(request.getIcon());
 		}
-		if (request.getIcon2() != null) {
-			target.setIcon2(request.getIcon2());
+		if (request.getIconOnOff() != null) {
+			target.setIconOnOff(request.getIconOnOff());
+		}
+		if (request.getIcon1D() != null) {
+			target.setIcon1D(request.getIcon1D());
+		}
+		if (request.getIcon2DOn() != null) {
+			target.setIcon2DOn(request.getIcon2DOn());
+		}
+		if (request.getIcon2DOff() != null) {
+			target.setIcon2DOff(request.getIcon2DOff());
+		}
+		if (request.getIcon3DOn() != null) {
+			target.setIcon3DOn(request.getIcon3DOn());
+		}
+		if (request.getIcon3DOff() != null) {
+			target.setIcon3DOff(request.getIcon3DOff());
 		}
 	if (request.getContainerPolicy() != null) {
 	    target.setContainerPolicy(request.getContainerPolicy());

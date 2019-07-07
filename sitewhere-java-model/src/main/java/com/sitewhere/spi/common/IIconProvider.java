@@ -21,5 +21,15 @@ public interface IIconProvider {
      */
     public String getIcon();
 
-    public String getIcon2();
+    public String getIconOnOff();
+
+    public String getIcon1D();
+
+    public String getIcon2DOn();
+
+    public String getIcon2DOff();
+
+    public String getIcon3DOn();
+
+    public String getIcon3DOff();
 }
