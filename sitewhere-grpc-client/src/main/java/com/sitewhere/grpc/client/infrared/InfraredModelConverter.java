@@ -15,7 +15,12 @@ public class InfraredModelConverter {
         grpc.setTypeName(api.getTypeName());
         grpc.setTypeCode(api.getTypeCode());
         if (StringUtils.isNotEmpty(api.getImageUrl())) grpc.setImageUrl(api.getImageUrl());
-        if (StringUtils.isNotEmpty(api.getIconUrl())) grpc.setIconUrl(api.getIconUrl());
+        if (StringUtils.isNotEmpty(api.getIconOnOff())) grpc.setIconOnOff(api.getIconOnOff());
+        if (StringUtils.isNotEmpty(api.getIcon1D())) grpc.setIcon1D(api.getIcon1D());
+        if (StringUtils.isNotEmpty(api.getIcon2DOn())) grpc.setIcon2DOn(api.getIcon2DOn());
+        if (StringUtils.isNotEmpty(api.getIcon2DOff())) grpc.setIcon2DOff(api.getIcon2DOff());
+        if (StringUtils.isNotEmpty(api.getIcon3DOn())) grpc.setIconOnOff(api.getIcon3DOn());
+        if (StringUtils.isNotEmpty(api.getIcon3DOff())) grpc.setIconOnOff(api.getIcon3DOff());
         return grpc.build();
     }
 
@@ -24,7 +29,12 @@ public class InfraredModelConverter {
         api.setId(grpc.getId());
         api.setTypeName(grpc.getTypeName());
         api.setImageUrl(grpc.getImageUrl());
-        api.setIconUrl(grpc.getIconUrl());
+        api.setIconOnOff(grpc.getIconOnOff());
+        api.setIcon1D(grpc.getIcon1D());
+        api.setIcon2DOn(grpc.getIcon2DOn());
+        api.setIcon2DOff(grpc.getIcon2DOff());
+        api.setIcon3DOn(grpc.getIcon3DOn());
+        api.setIcon3DOff(grpc.getIcon3DOff());
         api.setTypeCode(grpc.getTypeCode());
         return api;
     }

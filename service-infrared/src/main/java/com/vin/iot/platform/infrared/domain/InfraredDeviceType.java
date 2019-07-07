@@ -21,8 +21,18 @@ public class InfraredDeviceType {
     private String typeCode;
     @Field("IMAGE_URL")
     private String imageUrl;
-    @Field("ICON_URL")
-    private String iconUrl;
+    @Field("ICON_ON_OFF")
+    private String iconOnOff;
+    @Field("ICON_1D")
+    private String icon1D;
+    @Field("ICON_2D_ON")
+    private String icon2DOn;
+    @Field("ICON_2D_OFF")
+    private String icon2DOff;
+    @Field("ICON_3D_ON")
+    private String icon3DOn;
+    @Field("ICON_3D_OFF")
+    private String icon3DOff;
     @Field("ORDER")
     private int order;
 }
