@@ -434,12 +434,12 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
 		AggregateIterable<Document> output = null;
     	if (DateType.HOUR.equals(dateType)) {
     		output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", startDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType), eq("dvid", token))),
-					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", eq("$hour", "$rcdt"))), avg("avgValue", "$mxvl")),
+					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", eq("$hour", "$rcdt"))), avg("avgValue", eq("$toDouble", "$mxvl"))),
 					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),
 					sort(orderBy(ascending("eventDate"), ascending("hour")))));
 		} else if (DateType.DATE.equals(dateType)) {
 			output = events.aggregate(Arrays.asList(match(and(and(gte("rcdt", startDate), lt("rcdt", endDate)),  ne("mxvl", new BsonNull()), eq("mxnm", filterType), eq("dvid", token))),
-					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", "0")), avg("avgValue", "$mxvl")),
+					group(and(eq("dvid", "$dvid"), eq("mxnm", "$mxnm"), eq("eventDate", eq("$dateToString", and(eq("format", "%Y-%m-%d"), eq("date", "$rcdt")))), eq("dayOfYear", eq("$dayOfYear", "$rcdt")), eq("hour", "0")), avg("avgValue", eq("$toDouble", "$mxvl"))),
 					project(fields(excludeId(), computed("avgValue", "$avgValue"), computed("eventDate", "$_id.eventDate"), computed("hour", "$_id.hour"))),
 					sort(orderBy(ascending("eventDate"), ascending("hour")))));
 		}
