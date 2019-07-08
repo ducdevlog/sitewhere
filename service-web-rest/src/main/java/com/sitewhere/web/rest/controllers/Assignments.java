@@ -844,18 +844,24 @@ public class Assignments extends RestControllerBase {
 			@ApiParam(value = "Assignment token", required = true) @PathVariable String token,
 			@ApiParam(value = "Filter Type", required = true) @RequestParam(required = true) String filterType,
 			@ApiParam(value = "DateT ype", required = false) @RequestParam(required = false, defaultValue = "DATE") DateType dateType,
-			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) Date startDate,
-			@ApiParam(value = "End date", required = false) @RequestParam(required = false) Date endDate) throws SiteWhereException {
+			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) Long startDate,
+			@ApiParam(value = "End date", required = false) @RequestParam(required = false) Long endDate) throws SiteWhereException {
 		IDeviceAssignment assignment = assertDeviceAssignment(token);
-		if (endDate == null)
-			endDate = new Date();
-		if (startDate == null) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(endDate);
-			calendar.add(Calendar.DATE, -7);
-			startDate = calendar.getTime();
+		Date end, start;
+		Calendar calendar = Calendar.getInstance();
+		if (endDate == null) {
+			end = new Date();
+		} else {
+			end = new Date(endDate);
 		}
-		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, startDate, endDate);
+		if (startDate == null) {
+			calendar.setTime(end);
+			calendar.add(Calendar.DATE, -7);
+			start = calendar.getTime();
+		} else {
+			start = new Date(startDate);
+		}
+		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, start, end);
 	}
 
     /**
