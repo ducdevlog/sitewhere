@@ -19,8 +19,8 @@ public class InfraredModelConverter {
         if (StringUtils.isNotEmpty(api.getIcon1D())) grpc.setIcon1D(api.getIcon1D());
         if (StringUtils.isNotEmpty(api.getIcon2DOn())) grpc.setIcon2DOn(api.getIcon2DOn());
         if (StringUtils.isNotEmpty(api.getIcon2DOff())) grpc.setIcon2DOff(api.getIcon2DOff());
-        if (StringUtils.isNotEmpty(api.getIcon3DOn())) grpc.setIconOnOff(api.getIcon3DOn());
-        if (StringUtils.isNotEmpty(api.getIcon3DOff())) grpc.setIconOnOff(api.getIcon3DOff());
+        if (StringUtils.isNotEmpty(api.getIcon3DOn())) grpc.setIcon3DOn(api.getIcon3DOn());
+        if (StringUtils.isNotEmpty(api.getIcon3DOff())) grpc.setIcon3DOff(api.getIcon3DOff());
         return grpc.build();
     }
 
