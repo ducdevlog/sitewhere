@@ -156,6 +156,11 @@ public abstract class BrandedEntity extends PersistentEntity implements IBranded
 	target.setImageUrl(source.getImageUrl());
 	target.setIcon(source.getIcon());
 	target.setIconOnOff(source.getIconOnOff());
+	target.setIcon1D(source.getIcon1D());
+	target.setIcon2DOn(source.getIcon2DOn());
+	target.setIcon2DOff(source.getIcon2DOff());
+	target.setIcon3DOn(source.getIcon3DOn());
+	target.setIcon3DOff(source.getIcon3DOff());
 	target.setBackgroundColor(source.getBackgroundColor());
 	target.setForegroundColor(source.getForegroundColor());
 	target.setBorderColor(source.getBorderColor());
