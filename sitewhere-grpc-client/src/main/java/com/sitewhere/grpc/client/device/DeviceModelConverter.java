@@ -1336,7 +1336,7 @@ public class DeviceModelConverter {
 	DeviceSearchCriteria api = new DeviceSearchCriteria(pageNumber, pageSize, createdAfter, createdBefore);
 	api.setExcludeAssigned(grpc.hasExcludeAssigned() ? grpc.getExcludeAssigned().getValue() : false);
 	api.setDeviceTypeToken(grpc.hasDeviceType() ? grpc.getDeviceType().getToken() : null);
-	if (grpc.hasDeviceType()) {
+	if (grpc.getDeviceTokensCount() > 0) {
 		List<String> deviceTokens = grpc.getDeviceTokensOrBuilderList().stream().map(CommonModel.GOptionalStringOrBuilder::getValue).collect(Collectors.toList());
 		api.setDeviceTokens(deviceTokens);
 	}
