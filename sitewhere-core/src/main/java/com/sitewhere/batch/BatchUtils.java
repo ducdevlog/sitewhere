@@ -56,7 +56,7 @@ public class BatchUtils {
 	    throw new SiteWhereException(ErrorCode.DuplicateScheduledJobToken, "Only one of groupToken or groupsWithRole may be specified.");
 	}
 
-	IDeviceSearchCriteria deviceSearch = new DeviceSearchCriteria(criteria.getDeviceTypeToken(), false, 1, 0,
+	IDeviceSearchCriteria deviceSearch = new DeviceSearchCriteria(criteria.getDeviceTypeToken(), null, false, 1, 0,
 		criteria.getStartDate(), criteria.getEndDate());
 
 	Collection<IDevice> matches;
