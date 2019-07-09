@@ -844,18 +844,21 @@ public class Assignments extends RestControllerBase {
 			@ApiParam(value = "Assignment token", required = true) @PathVariable String token,
 			@ApiParam(value = "Filter Type", required = true) @RequestParam(required = true) String filterType,
 			@ApiParam(value = "DateT ype", required = false) @RequestParam(required = false, defaultValue = "DATE") DateType dateType,
-			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) Date startDate,
-			@ApiParam(value = "End date", required = false) @RequestParam(required = false) Date endDate) throws SiteWhereException {
+			@ApiParam(value = "Start date", required = false) @RequestParam(required = false) String startDate,
+			@ApiParam(value = "End date", required = false) @RequestParam(required = false) String endDate,
+			HttpServletResponse response) throws SiteWhereException {
 		IDeviceAssignment assignment = assertDeviceAssignment(token);
-		if (endDate == null)
-			endDate = new Date();
-		if (startDate == null) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(endDate);
-			calendar.add(Calendar.DATE, -7);
-			startDate = calendar.getTime();
+		Date parsedStartDate = parseDateOrSendBadResponse(startDate, response);
+		Date parsedEndDate = parseDateOrSendBadResponse(endDate, response);
+
+		if (parsedEndDate == null) {
+			parsedEndDate = new Date();
 		}
-		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, startDate, endDate);
+
+		if (parsedStartDate == null) {
+			parsedStartDate = new Date(java.lang.System.currentTimeMillis() - DEFAULT_EVENT_QUERY_DATE_RANGE);
+		}
+		return new BlockingDeviceEventManagement(getDeviceEventManagement()).getDeviceEventStaticsById(assignment.getDeviceId(), filterType, dateType, parsedStartDate, parsedEndDate);
 	}
 
     /**
