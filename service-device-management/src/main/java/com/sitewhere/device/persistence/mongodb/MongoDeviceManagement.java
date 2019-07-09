@@ -766,7 +766,7 @@ public class MongoDeviceManagement extends MongoTenantComponent<DeviceManagement
 	    dbCriteria.put(MongoDevice.PROP_DEVICE_TYPE_ID, deviceType.getId());
 	}
 
-	if (CollectionUtils.isEmpty(criteria.getDeviceTokens())) {
+	if (CollectionUtils.isNotEmpty(criteria.getDeviceTokens())) {
 		dbCriteria.put(MongoPersistentEntity.PROP_TOKEN, new Document("$in", criteria.getDeviceTokens()));
 	}
 

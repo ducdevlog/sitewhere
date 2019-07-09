@@ -1357,7 +1357,7 @@ public class DeviceModelConverter {
 	if (api.getDeviceTypeToken() != null) {
 	    grpc.setDeviceType(GDeviceTypeReference.newBuilder().setToken(api.getDeviceTypeToken()).build());
 	}
-	if	(CollectionUtils.isEmpty(api.getDeviceTokens())) {
+	if	(CollectionUtils.isNotEmpty(api.getDeviceTokens())) {
 		api.getDeviceTokens().stream().map(deviceToken -> GOptionalString.newBuilder().setValue(deviceToken)).forEach(grpc::addDeviceTokens);
 	}
 	grpc.setCreatedAfter(CommonModelConverter.asGrpcDate(api.getStartDate()));
