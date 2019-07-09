@@ -8,8 +8,10 @@
 package com.sitewhere.grpc.client.device;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
+import com.sitewhere.grpc.model.CommonModel;
 import com.sitewhere.grpc.model.CommonModel.GDeviceAlarmState;
 import com.sitewhere.grpc.model.CommonModel.GDeviceContainerPolicy;
 import com.sitewhere.grpc.model.CommonModel.GOptionalBoolean;
@@ -1334,7 +1336,11 @@ public class DeviceModelConverter {
 	DeviceSearchCriteria api = new DeviceSearchCriteria(pageNumber, pageSize, createdAfter, createdBefore);
 	api.setExcludeAssigned(grpc.hasExcludeAssigned() ? grpc.getExcludeAssigned().getValue() : false);
 	api.setDeviceTypeToken(grpc.hasDeviceType() ? grpc.getDeviceType().getToken() : null);
-	return api;
+	if (grpc.hasDeviceType()) {
+		List<String> deviceTokens = grpc.getDeviceTokensOrBuilderList().stream().map(CommonModel.GOptionalStringOrBuilder::getValue).collect(Collectors.toList());
+		api.setDeviceTokens(deviceTokens);
+	}
+ 	return api;
     }
 
     /**
@@ -1350,6 +1356,9 @@ public class DeviceModelConverter {
 	grpc.setPaging(CommonModelConverter.asGrpcPaging(api));
 	if (api.getDeviceTypeToken() != null) {
 	    grpc.setDeviceType(GDeviceTypeReference.newBuilder().setToken(api.getDeviceTypeToken()).build());
+	}
+	if	(CollectionUtils.isEmpty(api.getDeviceTokens())) {
+		api.getDeviceTokens().stream().map(deviceToken -> GOptionalString.newBuilder().setValue(deviceToken)).forEach(grpc::addDeviceTokens);
 	}
 	grpc.setCreatedAfter(CommonModelConverter.asGrpcDate(api.getStartDate()));
 	grpc.setCreatedBefore(CommonModelConverter.asGrpcDate(api.getEndDate()));

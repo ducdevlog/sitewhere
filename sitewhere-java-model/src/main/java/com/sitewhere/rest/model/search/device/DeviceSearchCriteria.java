@@ -8,6 +8,7 @@
 package com.sitewhere.rest.model.search.device;
 
 import java.util.Date;
+import java.util.List;
 
 import com.sitewhere.rest.model.search.DateRangeSearchCriteria;
 import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
@@ -20,10 +21,12 @@ import com.sitewhere.spi.search.device.IDeviceSearchCriteria;
 public class DeviceSearchCriteria extends DateRangeSearchCriteria implements IDeviceSearchCriteria {
 
     /** Search criteria for getting all records */
-    public static DeviceSearchCriteria ALL = new DeviceSearchCriteria(null, false, 1, 0, null, null);
+    public static DeviceSearchCriteria ALL = new DeviceSearchCriteria(null, null, false, 1, 0, null, null);
 
     /** Device type to match in filter */
     private String deviceTypeToken;
+
+    private List<String> deviceTokens;
 
     /** Indicates if assigned devices should be excluded */
     private boolean excludeAssigned = false;
@@ -32,10 +35,11 @@ public class DeviceSearchCriteria extends DateRangeSearchCriteria implements IDe
 	super(pageNumber, pageSize, startDate, endDate);
     }
 
-    public DeviceSearchCriteria(String deviceTypeToken, boolean excludeAssigned, int pageNumber, int pageSize,
+    public DeviceSearchCriteria(String deviceTypeToken, List<String> deviceTokens, boolean excludeAssigned, int pageNumber, int pageSize,
 	    Date startDate, Date endDate) {
 	super(pageNumber, pageSize, startDate, endDate);
 	this.deviceTypeToken = deviceTypeToken;
+	this.deviceTokens = deviceTokens;
 	this.excludeAssigned = excludeAssigned;
     }
 
@@ -50,6 +54,14 @@ public class DeviceSearchCriteria extends DateRangeSearchCriteria implements IDe
 
     public void setDeviceTypeToken(String deviceTypeToken) {
 	this.deviceTypeToken = deviceTypeToken;
+    }
+
+    public List<String> getDeviceTokens() {
+        return deviceTokens;
+    }
+
+    public void setDeviceTokens(List<String> deviceTokens) {
+        this.deviceTokens = deviceTokens;
     }
 
     /*

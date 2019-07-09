@@ -402,6 +402,7 @@ public class Devices extends RestControllerBase {
     @Secured({ SiteWhereRoles.REST })
     public ISearchResults<IDevice> listDevices(
 	    @ApiParam(value = "Device type filter", required = false) @RequestParam(required = false) String deviceType,
+	    @ApiParam(value = "List device token", required = false) @RequestParam(required = false) List<String> deviceTokens,
 	    @ApiParam(value = "Exclude assigned devices", required = false) @RequestParam(required = false, defaultValue = "false") boolean excludeAssigned,
 	    @ApiParam(value = "Include device type information", required = false) @RequestParam(required = false, defaultValue = "false") boolean includeDeviceType,
 	    @ApiParam(value = "Include assignment information if associated", required = false) @RequestParam(required = false, defaultValue = "false") boolean includeAssignment,
@@ -410,7 +411,7 @@ public class Devices extends RestControllerBase {
 	    @ApiParam(value = "Start date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
 	    @ApiParam(value = "End date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate)
 	    throws SiteWhereException {
-	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, excludeAssigned, page, pageSize,
+	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, deviceTokens, excludeAssigned, page, pageSize,
 		startDate, endDate);
 	ISearchResults<IDevice> results = getDeviceManagement().listDevices(criteria);
 	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
@@ -438,7 +439,7 @@ public class Devices extends RestControllerBase {
 	    @ApiParam(value = "Start date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
 	    @ApiParam(value = "End date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate,
 	    HttpServletRequest servletRequest) throws SiteWhereException {
-	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, excludeAssigned, page, pageSize,
+	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, null, excludeAssigned, page, pageSize,
 		startDate, endDate);
 	IDeviceGroup group = assertDeviceGroup(groupToken);
 	List<IDevice> matches = DeviceGroupUtils.getDevicesInGroup(group, criteria, getDeviceManagement(),
@@ -468,7 +469,7 @@ public class Devices extends RestControllerBase {
 	    @ApiParam(value = "Start date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
 	    @ApiParam(value = "End date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate,
 	    HttpServletRequest servletRequest) throws SiteWhereException {
-	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, excludeAssigned, page, pageSize,
+	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, null , excludeAssigned, page, pageSize,
 		startDate, endDate);
 	Collection<IDevice> matches = DeviceGroupUtils.getDevicesInGroupsWithRole(role, criteria, getDeviceManagement(),
 		getAssetManagement());

@@ -9,6 +9,8 @@ package com.sitewhere.spi.search.device;
 
 import com.sitewhere.spi.search.IDateRangeSearchCriteria;
 
+import java.util.List;
+
 /**
  * Search criteria particular to device searches.
  * 
@@ -22,6 +24,8 @@ public interface IDeviceSearchCriteria extends IDateRangeSearchCriteria {
      * @return
      */
     public String getDeviceTypeToken();
+
+    public List<String> getDeviceTokens();
 
     /**
      * Indicates whether assigned devices should be excluded.
