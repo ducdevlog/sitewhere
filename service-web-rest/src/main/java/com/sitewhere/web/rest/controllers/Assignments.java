@@ -675,7 +675,7 @@ public class Assignments extends RestControllerBase {
 	 * @return
 	 * @throws SiteWhereException
 	 */
-	@PostMapping(value = "/{token}/invocationByAssignmentId")
+	@PostMapping(value = "/{assignmentId}/invocationByAssignmentId")
 	@ApiOperation(value = "Create command invocation event for assignment")
 	public IDeviceCommandInvocation createCommandInvocationAssignmentId(@RequestBody DeviceCommandInvocationCreateRequest request,
 															@ApiParam(value = "Assignment Id", required = true) @PathVariable String assignmentId)
