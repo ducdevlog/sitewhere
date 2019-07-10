@@ -47,6 +47,7 @@ dependencies {
 	
 	// Tracing support for Spring web components.
     compile group: 'io.opentracing.contrib', name: 'opentracing-spring-web', version:'0.0.10'
+	compile group: 'net.bull.javamelody', name: 'javamelody-core', version: '1.78.0'
 }
 
 // Pull SiteWhere admin user interface from GitHub.
