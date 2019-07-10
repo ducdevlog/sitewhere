@@ -667,6 +667,25 @@ public class Assignments extends RestControllerBase {
 	return helper.convert(result);
     }
 
+	/**
+	 * Create command invocation to be associated with a device assignment.
+	 *
+	 * @param request
+	 * @param assignmentId
+	 * @return
+	 * @throws SiteWhereException
+	 */
+	@PostMapping(value = "/{token}/invocationByAssignmentId")
+	@ApiOperation(value = "Create command invocation event for assignment")
+	public IDeviceCommandInvocation createCommandInvocationAssignmentId(@RequestBody DeviceCommandInvocationCreateRequest request,
+															@ApiParam(value = "Assignment Id", required = true) @PathVariable String assignmentId)
+			throws SiteWhereException {
+		IDeviceCommandInvocation result = new BlockingDeviceEventManagement(getDeviceEventManagement())
+				.addDeviceCommandInvocations(UUID.fromString(assignmentId), request).get(0);
+		DeviceCommandInvocationMarshalHelper helper = new DeviceCommandInvocationMarshalHelper(getDeviceManagement());
+		return helper.convert(result);
+	}
+
     /**
      * Schedule a command invocation.
      * 
