@@ -35,7 +35,7 @@ import io.opentracing.Tracer;
 public abstract class GrpcChannel<B, A> extends TenantEngineLifecycleComponent implements IGrpcChannel<B, A> {
 
     /** Max threads used for executing GPRC requests */
-    private static final int THREAD_POOL_SIZE = 25;
+    private static final int THREAD_POOL_SIZE = 50;
 
     /** Tracer provider */
     protected ITracerProvider tracerProvider;
