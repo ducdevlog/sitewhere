@@ -7,6 +7,7 @@
  */
 package com.sitewhere.web;
 
+import com.sitewhere.web.configuration.JavaMelodyConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +23,7 @@ import com.sitewhere.web.spi.microservice.IWebRestMicroservice;
  * @author Derek
  */
 @SpringBootApplication
-@ComponentScan(basePackageClasses = { WebRestMicroservice.class })
+@ComponentScan(basePackageClasses = { WebRestMicroservice.class, JavaMelodyConfiguration.class})
 public class WebRestApplication extends MicroserviceApplication<IWebRestMicroservice<?>> {
 
     @Autowired
