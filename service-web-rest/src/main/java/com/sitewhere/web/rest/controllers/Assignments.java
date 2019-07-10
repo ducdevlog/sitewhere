@@ -128,13 +128,17 @@ public class Assignments extends RestControllerBase {
     @ApiOperation(value = "Get device assignment by token")
     public DeviceAssignment getDeviceAssignment(
 	    @ApiParam(value = "Assignment token", required = true) @PathVariable String token,
+        @ApiParam(value = "Include Asset", required = false) @RequestParam(required = false, defaultValue = "true") boolean includeAsset,
+        @ApiParam(value = "Include Device", required = false) @RequestParam(required = false, defaultValue = "true") boolean includeDevice,
+        @ApiParam(value = "Include Area", required = false) @RequestParam(required = false, defaultValue = "true") boolean includeArea,
+        @ApiParam(value = "Include Device Type", required = false) @RequestParam(required = false, defaultValue = "true") boolean includeDeviceType,
 	    HttpServletRequest servletRequest) throws SiteWhereException {
 	IDeviceAssignment assignment = assureAssignment(token, servletRequest);
 	DeviceAssignmentMarshalHelper helper = new DeviceAssignmentMarshalHelper(getDeviceManagement());
-	helper.setIncludeAsset(true);
-	helper.setIncludeDevice(true);
-	helper.setIncludeArea(true);
-	helper.setIncludeDeviceType(true);
+	helper.setIncludeAsset(includeAsset);
+	helper.setIncludeDevice(includeDevice);
+	helper.setIncludeArea(includeArea);
+	helper.setIncludeDeviceType(includeDeviceType);
 	return helper.convert(assignment, getAssetManagement());
     }
 
