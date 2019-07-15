@@ -33,7 +33,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 public class GrpcServer extends TenantEngineLifecycleComponent implements IGrpcServer {
 
     /** Max threads used for executing GPRC requests */
-    private static final int THREAD_POOL_SIZE = 100;
+    private static final int THREAD_POOL_SIZE = 30;
 
     /** Port for GRPC server */
     private int port;

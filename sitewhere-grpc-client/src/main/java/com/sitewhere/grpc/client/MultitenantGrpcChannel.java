@@ -33,7 +33,7 @@ import io.grpc.ManagedChannelBuilder;
 public abstract class MultitenantGrpcChannel<B, A> extends GrpcChannel<B, A> implements IMultitenantGrpcChannel<B, A> {
 
     /** Max threads used for executing GPRC requests */
-    private static final int THREAD_POOL_SIZE = 50;
+    private static final int THREAD_POOL_SIZE = 25;
 
     /** Client interceptor for adding tenant token */
     private TenantTokenClientInterceptor tenantTokenInterceptor = new TenantTokenClientInterceptor();
