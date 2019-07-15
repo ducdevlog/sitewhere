@@ -72,7 +72,7 @@ public class MongoBoundedEntity {
 	    Location loc = new Location();
 	    loc.setLatitude((Double) coord.get(PROP_LATITUDE));
 	    loc.setLongitude((Double) coord.get(PROP_LONGITUDE));
-	    loc.setElevation((Double) coord.get(PROP_ELEVATION));
+	    loc.setElevation(Double.valueOf(String.valueOf(coord.get(PROP_ELEVATION))));
 	    locs.add(loc);
 	}
 	return locs;
