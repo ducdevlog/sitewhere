@@ -86,7 +86,7 @@ public class MqttInboundEventReceiver extends MqttLifecycleComponent implements 
 	super.start(monitor);
 
 	this.subscriptionExecutor = Executors.newSingleThreadExecutor(new SubscribersThreadFactory());
-	this.processorsExecutor = Executors.newFixedThreadPool(50, new ProcessorsThreadFactory());
+	this.processorsExecutor = Executors.newFixedThreadPool(20, new ProcessorsThreadFactory());
 
 	// Set up metrics.
 	this.receivedEvents = createMeterMetric(getMetricPrefix() + "receivedEvents");
