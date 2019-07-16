@@ -37,7 +37,7 @@ public class CommonConnectorModel {
 			.description("Hostname used for creating the MQTT broker connection.").defaultValue("localhost")
 			.build()));
 	builder.attribute((new AttributeNode.Builder("MQTT broker port", "port", AttributeType.Integer, connectivity)
-		.description("Port number used for creating the MQTT broker connection.").defaultValue("1883")
+		.description("Port number used for creating the MQTT broker connection.").defaultValue("8883")
 		.build()));
 	builder.attribute((new AttributeNode.Builder("MQTT client id", "clientId", AttributeType.String, connectivity)
 		.description("Client id used for MQTT client connection.").build()));

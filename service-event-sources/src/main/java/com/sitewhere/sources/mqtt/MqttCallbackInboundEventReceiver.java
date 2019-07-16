@@ -37,7 +37,7 @@ public class MqttCallbackInboundEventReceiver extends InboundEventReceiver<byte[
     public static final String DEFAULT_HOSTNAME = "localhost";
 
     /** Default port if not set from Spring */
-    public static final int DEFAULT_PORT = 1883;
+    public static final int DEFAULT_PORT = 8883;
 
     /** Default connection timeout in seconds */
     public static final long DEFAULT_CONNECT_TIMEOUT_SECS = 5;
