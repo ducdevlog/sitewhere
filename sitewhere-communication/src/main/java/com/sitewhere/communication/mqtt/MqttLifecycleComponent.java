@@ -19,6 +19,10 @@ import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JcePEMDecryptorProviderBuilder;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.fusesource.hawtdispatch.Dispatch;
 import org.fusesource.hawtdispatch.DispatchQueue;
 import org.fusesource.mqtt.client.Future;
@@ -124,11 +128,15 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
      * Quality of service
      */
     private String qos = QoS.AT_LEAST_ONCE.name();
+    //private int qos = 0;
 
     /**
      * MQTT client
      */
     private MQTT mqtt;
+
+    /** MQTT client */
+    private MqttClient mqttClient;
 
     /**
      * Hawtdispatch queue
@@ -177,6 +185,7 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
     public void start(ILifecycleProgressMonitor monitor) throws SiteWhereException {
         this.queue = Dispatch.createQueue(getComponentId().toString());
         this.mqtt = MqttLifecycleComponent.configure(this, queue);
+        this.mqttClient = MqttLifecycleComponent.connect(this);
     }
 
     /**
@@ -223,10 +232,9 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
      * Handle configuration of secure transport.
      *
      * @param component
-     * @param mqtt
      * @throws SiteWhereException
      */
-    protected static void handleSecureTransport(IMqttComponent component, MQTT mqtt) throws SiteWhereException {
+    protected static SSLContext handleSecureTransport(IMqttComponent component) throws SiteWhereException {
         // import certificate from resource
         SSLContext sslContext = null;
         try {
@@ -264,8 +272,8 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         } catch (Throwable t) {
             throw new SiteWhereException(ErrorCode.Error, "Unable to configure secure transport.", t);
         }
-        mqtt.setSslContext(sslContext);
         component.getLogger().info("Created SSL context for MQTT receiver.");
+        return sslContext;
     }
 
     private static SSLContext getSSLContext(final String caCrtFile,
@@ -359,7 +367,8 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
         component.getLogger().info("MQTT clean session flag being set to '" + component.isCleanSession() + "'.");
 
         if (usingSSL || usingTLS) {
-            handleSecureTransport(component, mqtt);
+            SSLContext sslContext = handleSecureTransport(component);
+            mqtt.setSslContext(sslContext);
         }
         // Set username if provided.
         if (!StringUtils.isEmpty(component.getUsername())) {
@@ -374,6 +383,60 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
             return mqtt;
         } catch (URISyntaxException e) {
             throw new SiteWhereException(ErrorCode.Error, "Invalid hostname for MQTT server.", e);
+        }
+    }
+
+    /**
+     * Configures MQTT parameters based on component settings and connects to
+     * broker.
+     *
+     * @param component
+     * @return
+     * @throws SiteWhereException
+     */
+    public static MqttClient connect(IMqttComponent component) throws SiteWhereException {
+        try {
+            String clientId = (component.getClientId() != null) ? component.getClientId()
+                    : MqttClient.generateClientId();
+            component.getLogger().info("MQTT connection using client id '" + clientId + "'.");
+
+            // Detect secure transports.
+            boolean usingSSL = component.getProtocol().startsWith("ssl");
+            boolean usingTLS = component.getProtocol().startsWith("tls");
+            String protocol = (usingSSL || usingTLS) ? "ssl" : "tcp";
+            String serverUri = protocol + "://" + component.getHostname() + ":" + component.getPort();
+
+            MqttClient client = new MqttClient(serverUri, clientId);
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setAutomaticReconnect(true);
+            options.setMaxInflight(100);
+
+            // Set flag for clean session.
+            options.setCleanSession(component.isCleanSession());
+            component.getLogger().info("MQTT clean session flag being set to '" + component.isCleanSession() + "'.");
+
+            // Handle secure transports.
+            if (usingSSL || usingTLS) {
+                SSLContext sslContext = handleSecureTransport(component);
+                options.setSocketFactory(sslContext.getSocketFactory());
+            }
+
+            // Set username if provided.
+            if (!StringUtils.isEmpty(component.getUsername())) {
+                options.setUserName(component.getUsername());
+            }
+
+            // Set password if provided.
+            if (!StringUtils.isEmpty(component.getPassword())) {
+                options.setPassword(component.getPassword().toCharArray());
+            }
+
+            client.connect(options);
+            return client;
+        } catch (MqttSecurityException e) {
+            throw new SiteWhereException(ErrorCode.Unknown, "Security check for MQTT connection failed.", e);
+        } catch (MqttException e) {
+            throw new SiteWhereException(ErrorCode.Unknown, "Error in MQTT connection.", e);
         }
     }
 
@@ -555,5 +618,13 @@ public class MqttLifecycleComponent extends TenantEngineLifecycleComponent imple
 
     public void setQos(String qos) {
         this.qos = qos;
+    }
+
+    public MqttClient getMqttClient() {
+        return mqttClient;
+    }
+
+    public void setMqttClient(MqttClient mqttClient) {
+        this.mqttClient = mqttClient;
     }
 }
