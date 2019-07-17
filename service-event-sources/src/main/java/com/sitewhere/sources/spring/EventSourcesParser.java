@@ -28,7 +28,7 @@ import com.sitewhere.sources.decoder.json.JsonDeviceRequestDecoder;
 import com.sitewhere.sources.decoder.protobuf.ProtobufDeviceEventDecoder;
 import com.sitewhere.sources.deduplicator.AlternateIdDeduplicator;
 import com.sitewhere.sources.deduplicator.GroovyEventDeduplicator;
-import com.sitewhere.sources.mqtt.MqttCallbackInboundEventReceiver;
+import com.sitewhere.sources.mqtt.MqttInboundEventReceiver;
 import com.sitewhere.sources.rabbitmq.RabbitMqInboundEventReceiver;
 import com.sitewhere.sources.rest.PollingRestInboundEventReceiver;
 import com.sitewhere.sources.socket.BinarySocketInboundEventReceiver;
@@ -176,7 +176,7 @@ public class EventSourcesParser extends AbstractBeanDefinitionParser {
      * @return
      */
     protected Class<? extends IInboundEventReceiver<byte[]>> getMqttEventReceiverImplementation() {
-		return MqttCallbackInboundEventReceiver.class;
+	return MqttInboundEventReceiver.class;
     }
 
     /**
