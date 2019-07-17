@@ -18,6 +18,7 @@ dependencies {
     // Bouncy Castle Crypto package is a Java implementation of cryptographic algorithms
     compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: "${rootProject.ext['bouncycastle.version']}"
     compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: "${rootProject.ext['bouncycastle.version']}"
+    compile group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.1'
 
     compile fileTree(include: ['*.jar'], dir: '../libs')
 }
