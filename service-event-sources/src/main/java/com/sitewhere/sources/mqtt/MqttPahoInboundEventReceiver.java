@@ -13,6 +13,7 @@ package com.sitewhere.sources.mqtt;
 
 import com.codahale.metrics.Meter;
 import com.sitewhere.communication.mqtt.MqttLifecycleComponent;
+import com.sitewhere.sources.InboundEventReceiver;
 import com.sitewhere.sources.messages.EventSourcesMessages;
 import com.sitewhere.sources.spi.IInboundEventReceiver;
 import com.sitewhere.sources.spi.IInboundEventSource;
@@ -96,7 +97,8 @@ public class MqttPahoInboundEventReceiver extends MqttLifecycleComponent impleme
 				 */
 				@Override
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
-					onEventPayloadReceived(message.getPayload(), null);
+					getLogger().info("MqttInboundEventReceiver decode for device request: " + new String(message.getPayload(), StandardCharsets.UTF_8));
+					getEventSource().onEncodedEventReceived(MqttPahoInboundEventReceiver.this, message.getPayload(), null);
 				}
 
 				/*
