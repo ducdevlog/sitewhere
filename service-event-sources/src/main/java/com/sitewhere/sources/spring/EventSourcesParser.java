@@ -7,32 +7,7 @@
  */
 package com.sitewhere.sources.spring;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.sitewhere.sources.mqtt.MqttCallbackInboundEventReceiver;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.config.RuntimeBeanReference;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
-import org.springframework.beans.factory.support.ManagedList;
-import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
-import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.util.xml.DomUtils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-
-import com.sitewhere.configuration.parser.IEventSourcesParser.BinaryDecoders;
-import com.sitewhere.configuration.parser.IEventSourcesParser.BinarySocketInteractionHandlers;
-import com.sitewhere.configuration.parser.IEventSourcesParser.CoapDecoders;
-import com.sitewhere.configuration.parser.IEventSourcesParser.CompositeDecoderChoiceElements;
-import com.sitewhere.configuration.parser.IEventSourcesParser.CompositeDecoderMetadataExtractorElements;
-import com.sitewhere.configuration.parser.IEventSourcesParser.Deduplicators;
-import com.sitewhere.configuration.parser.IEventSourcesParser.Elements;
-import com.sitewhere.configuration.parser.IEventSourcesParser.StringDecoders;
+import com.sitewhere.configuration.parser.IEventSourcesParser.*;
 import com.sitewhere.sources.BinaryInboundEventSource;
 import com.sitewhere.sources.EventSourcesManager;
 import com.sitewhere.sources.StringInboundEventSource;
@@ -53,7 +28,7 @@ import com.sitewhere.sources.decoder.json.JsonDeviceRequestDecoder;
 import com.sitewhere.sources.decoder.protobuf.ProtobufDeviceEventDecoder;
 import com.sitewhere.sources.deduplicator.AlternateIdDeduplicator;
 import com.sitewhere.sources.deduplicator.GroovyEventDeduplicator;
-import com.sitewhere.sources.mqtt.MqttInboundEventReceiver;
+import com.sitewhere.sources.mqtt.MqttCallbackInboundEventReceiver;
 import com.sitewhere.sources.rabbitmq.RabbitMqInboundEventReceiver;
 import com.sitewhere.sources.rest.PollingRestInboundEventReceiver;
 import com.sitewhere.sources.socket.BinarySocketInboundEventReceiver;
@@ -66,6 +41,22 @@ import com.sitewhere.sources.spi.socket.ISocketInteractionHandlerFactory;
 import com.sitewhere.sources.websocket.BinaryWebSocketEventReceiver;
 import com.sitewhere.sources.websocket.StringWebSocketEventReceiver;
 import com.sitewhere.spi.microservice.spring.EventSourcesBeans;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
+import org.springframework.beans.factory.support.ManagedList;
+import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
+import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.util.xml.DomUtils;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Parses the list of {@link IInboundEventSource} elements used in the
@@ -185,7 +176,6 @@ public class EventSourcesParser extends AbstractBeanDefinitionParser {
      * @return
      */
     protected Class<? extends IInboundEventReceiver<byte[]>> getMqttEventReceiverImplementation() {
-	//return MqttInboundEventReceiver.class;
 		return MqttCallbackInboundEventReceiver.class;
     }
 
@@ -754,7 +744,7 @@ public class EventSourcesParser extends AbstractBeanDefinitionParser {
      * implementation.
      * 
      * @param parent
-     * @param decoder
+     * @param element
      * @param context
      * @param source
      */
