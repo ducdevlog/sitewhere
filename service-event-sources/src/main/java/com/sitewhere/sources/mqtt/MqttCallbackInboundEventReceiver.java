@@ -39,6 +39,9 @@ public class MqttCallbackInboundEventReceiver extends InboundEventReceiver<byte[
     /** Default port if not set from Spring */
     public static final int DEFAULT_PORT = 8883;
 
+	/** Number of threads used for processing events */
+	public static final int DEFAULT_NUM_THREADS = 5;
+
     /** Default connection timeout in seconds */
     public static final long DEFAULT_CONNECT_TIMEOUT_SECS = 5;
 
@@ -56,6 +59,9 @@ public class MqttCallbackInboundEventReceiver extends InboundEventReceiver<byte[
 
     /** MQTT client */
     private MQTT mqtt;
+
+	/** Number of threads used for processing */
+	private int numThreads = DEFAULT_NUM_THREADS;
 
     /** Shared MQTT connection */
     private CallbackConnection connection;
@@ -214,4 +220,12 @@ public class MqttCallbackInboundEventReceiver extends InboundEventReceiver<byte[
     public void setTopic(String topic) {
 	this.topic = topic;
     }
+
+	public int getNumThreads() {
+		return numThreads;
+	}
+
+	public void setNumThreads(int numThreads) {
+		this.numThreads = numThreads;
+	}
 }
