@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sitewhere.sources.mqtt.MqttCallbackInboundEventReceiver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
@@ -184,7 +185,8 @@ public class EventSourcesParser extends AbstractBeanDefinitionParser {
      * @return
      */
     protected Class<? extends IInboundEventReceiver<byte[]>> getMqttEventReceiverImplementation() {
-	return MqttInboundEventReceiver.class;
+	//return MqttInboundEventReceiver.class;
+		return MqttCallbackInboundEventReceiver.class;
     }
 
     /**
