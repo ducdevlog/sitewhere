@@ -243,7 +243,7 @@ public class CommonDatastoreProvider extends ConfigurationModelProvider {
      */
     public static void addMongoDbAttributes(ElementNode.Builder builder, IAttributeGroup connectivity) {
 	builder.attribute((new AttributeNode.Builder("Hostname", "hostname", AttributeType.String, connectivity)
-		.description("Hostname for MongoDB instance").defaultValue("${mongodb.host:mongodb}").build()));
+		.description("Hostname for MongoDB instance").defaultValue("${mongodb.host:10.220.163.97}").build()));
 	builder.attribute((new AttributeNode.Builder("Port", "port", AttributeType.Integer, connectivity)
 		.description("Port on which MongoDB is running").defaultValue("${mongodb.port:27017}").build()));
 	builder.attribute(

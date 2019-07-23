@@ -21,17 +21,17 @@
 
 				<!-- Configuration used for global services -->
 				<im:mongodb-configuration id="global"
-					hostname="${mongodb.host:mongodb}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
+					hostname="${mongodb.host:10.220.163.97}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
 					databaseName="${mongodb.database:sitewhere}" replicaSetName="${mongodb.replicaset:}" />
 
 				<!-- Configuration used for tenant microservices -->
 				<im:mongodb-configuration id="tenant"
-					hostname="${mongodb.host:mongodb}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
+					hostname="${mongodb.host:10.220.163.97}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
 					databaseName="${mongodb.tenant.prefix:tenant-[[tenant.id]]}"
 					replicaSetName="${mongodb.replicaset:}" />
 
 				<im:mongodb-configuration id="mqtt"
-										  hostname="${mongodb.host:mongodb}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
+										  hostname="${mongodb.host:10.220.163.97}" port="${mongodb.port:27017}" username="${mongodb.username:viniot}" password="${mongodb.password:v1niot2019}"
 										  databaseName="${mongodb.database:mqtt}"
 										  replicaSetName="${mongodb.replicaset:}" />
 
