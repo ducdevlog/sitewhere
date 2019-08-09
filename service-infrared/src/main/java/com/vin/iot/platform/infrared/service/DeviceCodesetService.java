@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DeviceCodesetService {
     List<InfraredDeviceCodeset> getDeviceCodesetByDeviceTypeBrandId(String deviceTypeBrandId);
+
+    InfraredDeviceCodeset createInfraredDeviceCodeset(InfraredDeviceCodeset infraredDeviceCodeset);
 }

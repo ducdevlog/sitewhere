@@ -13,6 +13,8 @@ import com.sitewhere.grpc.client.MultitenantApiChannel;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IInfraredApiChannel;
 import com.sitewhere.grpc.service.*;
+import com.sitewhere.rest.model.infrared.InfraredDeviceCodeset;
+import com.sitewhere.rest.model.infrared.InfraredDeviceTypeBrand;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
@@ -25,6 +27,7 @@ import com.sitewhere.spi.tracing.ITracerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChannel>
 	implements IInfraredApiChannel<InfraredGrpcChannel> {
@@ -74,6 +77,19 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     }
 
     @Override
+    public IInfraredDeviceTypeBrand createInfraredDeviceTypeBrand(InfraredDeviceTypeBrand infraredDeviceTypeBrand) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateInfraredDeviceTypeBrandMethod());
+            GCreateInfraredDeviceTypeBrandRequest.Builder grequest = GCreateInfraredDeviceTypeBrandRequest.newBuilder();
+            grequest.setInfraredDeviceTypeBrand(InfraredModelConverter.asGrpcInfraredDeviceTypeBrand(infraredDeviceTypeBrand));
+            AtomicReference<GCreateInfraredDeviceTypeBrandResponse> gresponse = new AtomicReference<>(getGrpcChannel().getBlockingStub().createInfraredDeviceTypeBrand(grequest.build()));
+            return InfraredModelConverter.asApiInfraredDeviceTypeBrand(gresponse.get().getInfraredDeviceTypeBrand());
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateInfraredDeviceTypeBrandMethod(), t);
+        }
+    }
+
+    @Override
     public List<IInfraredDeviceCodeset> getInfraredDeviceCodeset(String deviceTypeBrandId) throws SiteWhereException {
         try {
             GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetInfraredDeviceCodesetMethod());
@@ -88,6 +104,19 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             return infraredDeviceCodesets;
         } catch (Throwable t) {
             throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetInfraredDeviceCodesetMethod(), t);
+        }
+    }
+
+    @Override
+    public IInfraredDeviceCodeset createInfraredDeviceCodeset(InfraredDeviceCodeset infraredDeviceCodeset) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateInfraredDeviceCodesetMethod());
+            GCreateInfraredDeviceCodesetRequest.Builder grequest = GCreateInfraredDeviceCodesetRequest.newBuilder();
+            grequest.setInfraredDeviceCodeset(InfraredModelConverter.asGrpcInfraredDeviceCodeset(infraredDeviceCodeset));
+            GCreateInfraredDeviceCodesetResponse gresponse = getGrpcChannel().getBlockingStub().createInfraredDeviceCodeset(grequest.build());
+            return InfraredModelConverter.asApiInfraredDeviceCodeset(gresponse.getInfraredDeviceCodeset());
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateInfraredDeviceCodesetMethod(), t);
         }
     }
 
@@ -111,6 +140,19 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             return rawISearchResults;
         } catch (Throwable t) {
             throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawMethod(), t);
+        }
+    }
+
+    @Override
+    public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateInfraredDeviceCodesetMethod());
+            GIrCodeRawCreateRequest.Builder grequest = GIrCodeRawCreateRequest.newBuilder();
+            grequest.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(irCodeRaw));
+            GIrCodeRawCreateResponse gresponse = getGrpcChannel().getBlockingStub().createIrCodeRaw(grequest.build());
+            return InfraredModelConverter.asApiGIrCodeRaw(gresponse.getIrCodeRaw());
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateInfraredDeviceCodesetMethod(), t);
         }
     }
 }

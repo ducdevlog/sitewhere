@@ -18,4 +18,9 @@ public class IrCodeRawServiceImpl implements IrCodeRawService {
     public Page<IrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) {
         return irCodeRawRepository.getIrCodeRaws(irCodeRaw, page, size);
     }
+
+    @Override
+    public void createIrCodeRaw(IrCodeRaw irCodeRaw) {
+        irCodeRawRepository.save(irCodeRaw);
+    }
 }

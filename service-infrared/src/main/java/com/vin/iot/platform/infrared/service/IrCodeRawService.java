@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IrCodeRawService {
     Page<IrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size);
+
+    void createIrCodeRaw(IrCodeRaw apiRequest);
 }

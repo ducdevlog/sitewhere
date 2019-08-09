@@ -21,11 +21,21 @@ service Infrared {
 	// Get DeviceTypeBrand.
 	rpc GetInfraredDeviceTypeBrand (GGetInfraredDeviceTypeBrandRequest) returns (GGetInfraredDeviceTypeBrandResponse) {}
 
+	// Get DeviceTypeBrand.
+	rpc CreateInfraredDeviceTypeBrand (GCreateInfraredDeviceTypeBrandRequest) returns (GCreateInfraredDeviceTypeBrandResponse) {}
+
 	// Get DeviceCodeset.
 	rpc GetInfraredDeviceCodeset(GGetInfraredDeviceCodesetRequest) returns (GGetInfraredDeviceCodesetResponse) {}
 
 	// Get DeviceCodeset.
+	rpc CreateInfraredDeviceCodeset(GCreateInfraredDeviceCodesetRequest) returns (GCreateInfraredDeviceCodesetResponse) {}
+
+	// Get DeviceCodeset.
 	rpc GetIrCodeRaw(GIrCodeRawRequest) returns (GIrCodeRawResponse) {}
+
+	// Create IrCodeRaw
+	rpc CreateIrCodeRaw(GIrCodeRawCreateRequest) returns (GIrCodeRawCreateResponse) {}
+
 }
 
 // ####################
@@ -50,6 +60,15 @@ message GGetInfraredDeviceTypeBrandResponse {
 	repeated com.sitewhere.grpc.model.GInfraredDeviceTypeBrand InfraredDeviceTypeBrand = 1;
 }
 
+// Request for get DeviceTypeBrand.
+message GCreateInfraredDeviceTypeBrandRequest {
+	com.sitewhere.grpc.model.GInfraredDeviceTypeBrand InfraredDeviceTypeBrand = 1;
+}
+
+message GCreateInfraredDeviceTypeBrandResponse {
+	com.sitewhere.grpc.model.GInfraredDeviceTypeBrand InfraredDeviceTypeBrand = 1;
+}
+
 // Request for get DeviceCodeset.
 message GGetInfraredDeviceCodesetRequest {
 	string deviceTypeBrandId = 1;
@@ -57,6 +76,15 @@ message GGetInfraredDeviceCodesetRequest {
 
 message GGetInfraredDeviceCodesetResponse {
 	repeated com.sitewhere.grpc.model.GInfraredDeviceCodeset InfraredDeviceCodeset = 1;
+}
+
+// Request for get DeviceCodeset.
+message GCreateInfraredDeviceCodesetRequest {
+	com.sitewhere.grpc.model.GInfraredDeviceCodeset InfraredDeviceCodeset = 1;
+}
+
+message GCreateInfraredDeviceCodesetResponse {
+	com.sitewhere.grpc.model.GInfraredDeviceCodeset InfraredDeviceCodeset = 1;
 }
 
 // Request for get DeviceCodeset.
@@ -71,4 +99,10 @@ message GIrCodeRawResponse {
 	repeated com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 2;
 }
 
+message GIrCodeRawCreateRequest {
+	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+}
 
+message GIrCodeRawCreateResponse {
+	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+}

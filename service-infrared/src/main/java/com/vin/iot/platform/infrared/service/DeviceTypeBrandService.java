@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DeviceTypeBrandService {
     List<InfraredDeviceTypeBrand> getDeviceTypeBrandByType(String type);
+
+    InfraredDeviceTypeBrand createInfraredDeviceTypeBrand(InfraredDeviceTypeBrand asApiInfraredDeviceTypeBrand);
 }

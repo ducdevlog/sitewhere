@@ -56,6 +56,17 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
         responseObserver.onCompleted();
     }
 
+    public void createInfraredDeviceTypeBrand(com.sitewhere.grpc.service.GCreateInfraredDeviceTypeBrandRequest request,
+                                              io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GCreateInfraredDeviceTypeBrandResponse> responseObserver) {
+        log.info("server received {}", request);
+        InfraredDeviceTypeBrand infraredDeviceTypeBrand = deviceTypeBrandService.createInfraredDeviceTypeBrand(InfraredModelConverter.asApiInfraredDeviceTypeBrand(request.getInfraredDeviceTypeBrand()));
+        GCreateInfraredDeviceTypeBrandResponse.Builder response = GCreateInfraredDeviceTypeBrandResponse.newBuilder();
+        response.setInfraredDeviceTypeBrand(InfraredModelConverter.asGrpcInfraredDeviceTypeBrand(infraredDeviceTypeBrand));
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
     public void getInfraredDeviceCodeset(com.sitewhere.grpc.service.GGetInfraredDeviceCodesetRequest request,
                                  io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GGetInfraredDeviceCodesetResponse> responseObserver) {
         log.info("server received {}", request);
@@ -64,6 +75,17 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
         if (CollectionUtils.isNotEmpty(infraredDeviceCodesets)) {
             infraredDeviceCodesets.stream().map(InfraredModelConverter::asGrpcInfraredDeviceCodeset).forEach(response::addInfraredDeviceCodeset);
         }
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
+    public void createInfraredDeviceCodeset(com.sitewhere.grpc.service.GCreateInfraredDeviceCodesetRequest request,
+                                            io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GCreateInfraredDeviceCodesetResponse> responseObserver) {
+        log.info("server received {}", request);
+        InfraredDeviceCodeset infraredDeviceCodeset = deviceCodesetService.createInfraredDeviceCodeset(InfraredModelConverter.asApiInfraredDeviceCodeset(request.getInfraredDeviceCodeset()));
+        GCreateInfraredDeviceCodesetResponse.Builder response = GCreateInfraredDeviceCodesetResponse.newBuilder();
+        response.setInfraredDeviceCodeset(InfraredModelConverter.asGrpcInfraredDeviceCodeset(infraredDeviceCodeset));
         log.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
@@ -79,6 +101,18 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
             response.setResults(Math.toIntExact(irCodeRaws.getTotalElements()));
             irCodeRaws.stream().map(InfraredModelConverter::asGrpcIrCodeRaw).forEach(response::addIrCodeRaw);
         }
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
+    public void createIrCodeRaw(com.sitewhere.grpc.service.GIrCodeRawCreateRequest request,
+                                io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GIrCodeRawCreateResponse> responseObserver) {
+        log.info("server received {}", request);
+        IrCodeRaw apiRequest = InfraredModelConverter.asApiGIrCodeRaw(request.getIrCodeRaw());
+        irCodeRawService.createIrCodeRaw(apiRequest);
+        GIrCodeRawCreateResponse.Builder response = GIrCodeRawCreateResponse.newBuilder();
+        response.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(apiRequest));
         log.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();

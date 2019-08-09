@@ -17,4 +17,10 @@ public class DeviceTypeBrandServiceImpl implements DeviceTypeBrandService {
     public List<InfraredDeviceTypeBrand> getDeviceTypeBrandByType(String type) {
         return deviceTypeBrandRepository.findAllByType(type);
     }
+
+    @Override
+    public InfraredDeviceTypeBrand createInfraredDeviceTypeBrand(InfraredDeviceTypeBrand infraredDeviceTypeBrand) {
+        deviceTypeBrandRepository.save(infraredDeviceTypeBrand);
+        return infraredDeviceTypeBrand;
+    }
 }

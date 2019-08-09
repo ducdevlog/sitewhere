@@ -1,5 +1,6 @@
 package com.sitewhere.web.rest.controllers;
 
+import com.sitewhere.rest.model.infrared.InfraredDeviceTypeBrand;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.spi.SiteWhereException;
@@ -36,6 +37,13 @@ public class Infrared extends RestControllerBase {
     @Secured({ SiteWhereRoles.REST })
     public List<IInfraredDeviceTypeBrand> getInfraredDeviceTypeBrand(@ApiParam(value = "Infrared Device Type", required = true) @RequestParam String type) throws SiteWhereException {
         return getInfraredManagement().getInfraredDeviceTypeBrand(type);
+    }
+
+    @RequestMapping(value = "/deviceTypeBrand", method = RequestMethod.POST)
+    @ApiOperation(value = "Create Infrared Device Type Brand")
+    @Secured({ SiteWhereRoles.REST })
+    public IInfraredDeviceTypeBrand createInfraredDeviceTypeBrand(@RequestBody InfraredDeviceTypeBrand infraredDeviceTypeBrand) throws SiteWhereException {
+        return getInfraredManagement().createInfraredDeviceTypeBrand(infraredDeviceTypeBrand);
     }
 
     @RequestMapping(value = "/deviceCodeset", method = RequestMethod.GET)

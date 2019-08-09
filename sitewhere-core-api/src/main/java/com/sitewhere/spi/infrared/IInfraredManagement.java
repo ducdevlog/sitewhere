@@ -8,6 +8,8 @@
 
 package com.sitewhere.spi.infrared;
 
+import com.sitewhere.rest.model.infrared.InfraredDeviceCodeset;
+import com.sitewhere.rest.model.infrared.InfraredDeviceTypeBrand;
 import com.sitewhere.rest.model.infrared.IrCodeRaw;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.search.ISearchResults;
@@ -21,7 +23,13 @@ public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
 
     public List<IInfraredDeviceTypeBrand> getInfraredDeviceTypeBrand(String type) throws SiteWhereException;
 
+    public IInfraredDeviceTypeBrand createInfraredDeviceTypeBrand(InfraredDeviceTypeBrand infraredDeviceTypeBrand) throws SiteWhereException;
+
     public List<IInfraredDeviceCodeset> getInfraredDeviceCodeset(String deviceTypeBrandId) throws SiteWhereException;
 
+    public IInfraredDeviceCodeset createInfraredDeviceCodeset(InfraredDeviceCodeset infraredDeviceCodeset) throws SiteWhereException;
+
     public ISearchResults<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) throws SiteWhereException;
+
+    public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException;
 }

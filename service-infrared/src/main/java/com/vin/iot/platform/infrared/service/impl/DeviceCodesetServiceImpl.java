@@ -17,4 +17,9 @@ public class DeviceCodesetServiceImpl implements DeviceCodesetService {
     public List<InfraredDeviceCodeset> getDeviceCodesetByDeviceTypeBrandId(String deviceTypeBrandId) {
         return deviceCodesetRepository.findAllByDeviceTypeBrandId(deviceTypeBrandId);
     }
+
+    @Override
+    public InfraredDeviceCodeset createInfraredDeviceCodeset(InfraredDeviceCodeset infraredDeviceCodeset) {
+        return deviceCodesetRepository.save(infraredDeviceCodeset);
+    }
 }

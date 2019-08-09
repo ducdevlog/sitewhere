@@ -291,7 +291,7 @@ public abstract class Microservice<T extends IFunctionIdentifier> extends Lifecy
      */
     @Override
     public void terminate(ILifecycleProgressMonitor monitor) throws SiteWhereException {
-	getMicroserviceAnalytics().sendMicroserviceStopped(this);
+	//getMicroserviceAnalytics().sendMicroserviceStopped(this);
 
 	// Stop reporting metrics.
 	if (getMetricsReporter() != null) {
