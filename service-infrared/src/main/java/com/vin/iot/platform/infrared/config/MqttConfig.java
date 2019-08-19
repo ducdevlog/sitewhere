@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vin.iot.platform.infrared.config.dto.InfraredLearningDto;
 import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
 import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
-import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.domain.IrCodeRawLearn;
 import com.vin.iot.platform.infrared.service.DeviceCodesetService;
 import com.vin.iot.platform.infrared.service.DeviceTypeBrandService;
@@ -26,8 +25,6 @@ import com.vin.iot.platform.infrared.utils.SSLLoaderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.IntegrationComponentScan;
@@ -45,10 +42,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @IntegrationComponentScan
