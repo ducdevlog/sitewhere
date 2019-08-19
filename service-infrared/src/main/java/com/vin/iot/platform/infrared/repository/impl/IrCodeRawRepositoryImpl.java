@@ -77,7 +77,7 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
             query.addCriteria(Criteria.where("IR_CODE").is(irCodeRaw.getIrCode()));
         }
         if (StringUtils.isNotEmpty(irCodeRaw.getAreaToken())) {
-            query.addCriteria(Criteria.where("AREA_TOKEN").is(irCodeRaw.getAreaToken()));
+            query.addCriteria(Criteria.where("AREA_TOKEN").is(irCodeRaw.getAreaToken()).orOperator(Criteria.where("AREA_TOKEN").is(null)));
         }
         List<IrCodeRaw> list = mongoTemplate.find(query, IrCodeRaw.class);
         long count = mongoTemplate.count(query, IrCodeRaw.class);
