@@ -31,7 +31,7 @@ public class DeviceTypeBrandServiceImpl implements DeviceTypeBrandService {
 
     @Override
     public Integer getMaxId() {
-        InfraredDeviceTypeBrand infraredDeviceTypeBrand = deviceTypeBrandRepository.findFistOrderById();
+        InfraredDeviceTypeBrand infraredDeviceTypeBrand = deviceTypeBrandRepository.findTopByOrderByIdDesc();
         return Integer.valueOf(infraredDeviceTypeBrand.getId());
     }
 

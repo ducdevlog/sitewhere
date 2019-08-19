@@ -10,5 +10,5 @@ public interface DeviceTypeBrandRepository extends MongoRepository<InfraredDevic
 
     List<InfraredDeviceTypeBrand> findByTypeAndBrand(String type, String brand);
 
-    InfraredDeviceTypeBrand findFistOrderById();
+    InfraredDeviceTypeBrand findTopByOrderByIdDesc();
 }

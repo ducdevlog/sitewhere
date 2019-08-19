@@ -116,7 +116,7 @@ public class MqttConfig {
 
     @Bean
     public MqttPahoMessageDrivenChannelAdapter inbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("ir_producer" + MqttAsyncClient.generateClientId(), mqttClientFactory(), "testTopic");
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("ir_producer" + MqttAsyncClient.generateClientId(), mqttClientFactory(), "VinIot/Smarthome/Infrared/Learn", "VinIot/OpenHab/Infrared/Learn");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -129,12 +129,11 @@ public class MqttConfig {
     public MessageHandler handler() {
         return message -> {
             String topicName = (String) message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC);
-            byte[] json = (byte[]) message.getPayload();
-            String jsonStr = new String(json);
+            String jsonStr = (String) message.getPayload();
             log.debug("Received message from topic {}: {}", topicName, jsonStr);
             if (StringUtils.hasText(jsonStr)) {
                 assert topicName != null;
-                if (topicName.startsWith("VinIot/Smarthome/Infrared/Learn/")) {
+                if (topicName.startsWith("VinIot/Smarthome/Infrared/Learn")) {
                     try {
                         IrCodeRawLearn irCodeRawLearn = objectMapper.readValue(jsonStr, IrCodeRawLearn.class);
                         irCodeRawLearnService.createIrCodeRawLearn(irCodeRawLearn);
@@ -142,7 +141,7 @@ public class MqttConfig {
                         log.warn("Failed to deserialize received message from topic {}: {}. Message: {}",
                                 topicName, e.getMessage(), jsonStr);
                     }
-                } else if (topicName.startsWith("VinIot/OpenHab/Infrared/Learn/")) {
+                } else if (topicName.startsWith("VinIot/OpenHab/Infrared/Learn")) {
                     try {
                         InfraredLearningDto infraredLearningDto = objectMapper.readValue(jsonStr, InfraredLearningDto.class);
                         List<InfraredDeviceTypeBrand> infraredDeviceTypeBrands = deviceTypeBrandService.getDeviceTypeBrandByTypeAndBrand(infraredLearningDto.getTypeCode(), infraredLearningDto.getBrandName());
@@ -156,8 +155,8 @@ public class MqttConfig {
                         }
                         String codeSet = "1R_VSM_" + (new Date()).getTime();
                         deviceCodesetService.createInfraredDeviceCodeset(new InfraredDeviceCodeset(null, idMax, codeSet));
-                        if (infraredLearningDto.getIrCodeRaws() != null && infraredLearningDto.getIrCodeRaws().size() > 0) {
-                            infraredLearningDto.getIrCodeRaws().forEach(irCodeRaw -> {
+                        if (infraredLearningDto.getLstData() != null && infraredLearningDto.getLstData().size() > 0) {
+                            infraredLearningDto.getLstData().forEach(irCodeRaw -> {
                                 irCodeRaw.setCodesetName(codeSet);
                                 irCodeRaw.setAreaToken(infraredLearningDto.getHomeToken());
                                 irCodeRawService.createIrCodeRaw(irCodeRaw);
