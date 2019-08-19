@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface DeviceTypeBrandRepository extends MongoRepository<InfraredDeviceTypeBrand, String> {
     List<InfraredDeviceTypeBrand> findAllByType(String type);
+
+    List<InfraredDeviceTypeBrand> findByTypeAndBrand(String type, String brand);
+
+    InfraredDeviceTypeBrand findFistOrderById();
 }

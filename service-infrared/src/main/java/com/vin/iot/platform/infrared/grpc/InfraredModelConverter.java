@@ -1,10 +1,7 @@
 package com.vin.iot.platform.infrared.grpc;
 
 import com.sitewhere.grpc.model.InfraredModel;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceType;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
-import com.vin.iot.platform.infrared.domain.IrCodeRaw;
+import com.vin.iot.platform.infrared.domain.*;
 import org.apache.commons.lang3.StringUtils;
 
 public class InfraredModelConverter {
@@ -91,6 +88,7 @@ public class InfraredModelConverter {
         if (StringUtils.isNoneEmpty(api.getPowerful())) grpc.setPowerful(api.getPowerful());
         if (StringUtils.isNoneEmpty(api.getIrFreq())) grpc.setIrFreq(api.getIrFreq());
         if (StringUtils.isNoneEmpty(api.getIrCode())) grpc.setIrCode(api.getIrCode());
+        if (StringUtils.isNoneEmpty(api.getAreaToken())) grpc.setAreaToken(api.getAreaToken());
         return grpc.build();
     }
 
@@ -114,6 +112,34 @@ public class InfraredModelConverter {
         api.setPowerful(grpc.getPowerful());
         api.setIrFreq(grpc.getIrFreq());
         api.setIrCode(grpc.getIrCode());
+        api.setAreaToken(grpc.getAreaToken());
+        return api;
+    }
+
+    public static IrCodeRawLearn asApiGIrCodeRawLearn(InfraredModel.GIrCodeRawLearn grpc) {
+        IrCodeRawLearn api = new IrCodeRawLearn();
+        api.setId(grpc.getId());
+        api.setCodesetName(grpc.getCodesetName());
+        api.setFunctionName(grpc.getFunctionName());
+        api.setPower(grpc.getPower());
+        api.setMode(grpc.getMode());
+        api.setFan(grpc.getFan());
+        api.setTemp(grpc.getTemp());
+        api.setSwing(grpc.getSwing());
+        api.setTimer(grpc.getTimer());
+        api.setTimerMins(grpc.getTimerMins());
+        api.setSleep(grpc.getSleep());
+        api.setSleepMins(grpc.getSleepMins());
+        api.setLed(grpc.getLed());
+        api.setComfort(grpc.getComfort());
+        api.setEcono(grpc.getEcono());
+        api.setPowerful(grpc.getPowerful());
+        api.setIrFreq(grpc.getIrFreq());
+        api.setIrCode(grpc.getIrCode());
+        api.setTypeCode(grpc.getTypeCode());
+        api.setBrandName(grpc.getBrandName());
+        api.setClientId(grpc.getClientId());
+        api.setAreaToken(grpc.getAreaToken());
         return api;
     }
 }

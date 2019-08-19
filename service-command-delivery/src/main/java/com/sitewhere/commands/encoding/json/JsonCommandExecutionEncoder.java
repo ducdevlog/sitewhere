@@ -45,6 +45,8 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 
 	public static final String DEVICE_TYPE_IR = "ir";
 	public static final String IR_VALUE_CONTENT = "value";
+	public static final String IR_NAME_CONTENT = "name";
+	public static final String IR_ITEM_NAME_CONTENT = "item_name";
 
     public JsonCommandExecutionEncoder() {
 	super(LifecycleComponentType.CommandExecutionEncoder);
@@ -88,18 +90,39 @@ public class JsonCommandExecutionEncoder extends TenantEngineLifecycleComponent
 						if (deviceCommandValue.getValues().containsKey("POWERFUL")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("POWERFUL"));
 						if (deviceCommandValue.getValues().containsKey("SLEEP")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP"));
 						if (deviceCommandValue.getValues().containsKey("SLEEP_MINS")) irCodeRawTemp.setPowerful(deviceCommandValue.getValues().get("SLEEP_MINS"));
+						if (deviceCommandValue.getValues().containsKey("TYPE_CODE")) irCodeRawTemp.setTypeCode(deviceCommandValue.getValues().get("TYPE_CODE"));
+						if (deviceCommandValue.getValues().containsKey("BRAND_NAME")) irCodeRawTemp.setBrandName(deviceCommandValue.getValues().get("BRAND_NAME"));
 					}
-					SearchResults<IIrCodeRaw> irCodeRaws = (SearchResults<IIrCodeRaw>) getInfraredManagement().getIrCodeRaw(irCodeRawTemp, 0, -1);
-					if (irCodeRaws != null && irCodeRaws.getResults() != null && irCodeRaws.getResults().size() > 0) {
+					if ("learn".equalsIgnoreCase(deviceCommandValue.getCommand())) {
 						DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
+						String clientId = String.valueOf((new Date()).getTime());
 						Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-						parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
+						irCodeRawTemp.setClientId(clientId);
+						parameterValues.put(IR_VALUE_CONTENT, "NaN");
+						parameterValues.put(IR_NAME_CONTENT, "irconfig");
+						parameterValues.put(IR_ITEM_NAME_CONTENT, clientId);
 						deviceCommandInvocation.setParameterValues(parameterValues);
 
 						DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
 						Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-						parameters.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
+						parameters.put(IR_VALUE_CONTENT, "NaN");
+						parameters.put(IR_NAME_CONTENT, "irconfig");
+						parameters.put(IR_ITEM_NAME_CONTENT, clientId);
 						deviceCommandExecution.setParameters(parameters);
+						getInfraredManagement().createIrCodeRawLearn(irCodeRawTemp);
+					} else {
+						SearchResults<IIrCodeRaw> irCodeRaws = (SearchResults<IIrCodeRaw>) getInfraredManagement().getIrCodeRaw(irCodeRawTemp, 0, -1);
+						if (irCodeRaws != null && irCodeRaws.getResults() != null && irCodeRaws.getResults().size() > 0) {
+							DeviceCommandInvocation deviceCommandInvocation = (DeviceCommandInvocation) command.getInvocation();
+							Map<String, String> parameterValues = deviceCommandInvocation.getParameterValues().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+							parameterValues.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
+							deviceCommandInvocation.setParameterValues(parameterValues);
+
+							DeviceCommandExecution deviceCommandExecution = (DeviceCommandExecution) command;
+							Map<String, Object> parameters = command.getParameters().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+							parameters.put(IR_VALUE_CONTENT, irCodeRaws.getResults().get(0).getIrFreq() + ", " + irCodeRaws.getResults().get(0).getIrCode());
+							deviceCommandExecution.setParameters(parameters);
+						}
 					}
 				}
 			} catch (IOException e) {

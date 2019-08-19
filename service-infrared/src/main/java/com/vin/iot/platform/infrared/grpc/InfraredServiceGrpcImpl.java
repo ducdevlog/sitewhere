@@ -1,14 +1,8 @@
 package com.vin.iot.platform.infrared.grpc;
 
 import com.sitewhere.grpc.service.*;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceType;
-import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
-import com.vin.iot.platform.infrared.domain.IrCodeRaw;
-import com.vin.iot.platform.infrared.service.DeviceCodesetService;
-import com.vin.iot.platform.infrared.service.DeviceTypeBrandService;
-import com.vin.iot.platform.infrared.service.DeviceTypeService;
-import com.vin.iot.platform.infrared.service.IrCodeRawService;
+import com.vin.iot.platform.infrared.domain.*;
+import com.vin.iot.platform.infrared.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.lognet.springboot.grpc.GRpcService;
@@ -29,6 +23,8 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
     private DeviceCodesetService deviceCodesetService;
     @Autowired
     private IrCodeRawService irCodeRawService;
+    @Autowired
+    private IrCodeRawLearnService irCodeRawLearnService;
 
     public void getInfraredDeviceType(com.sitewhere.grpc.service.GGetInfraredDeviceTypeRequest request,
                               io.grpc.stub.StreamObserver<GGetInfraredDeviceTypeResponse> responseObserver) {
@@ -113,6 +109,17 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
         irCodeRawService.createIrCodeRaw(apiRequest);
         GIrCodeRawCreateResponse.Builder response = GIrCodeRawCreateResponse.newBuilder();
         response.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(apiRequest));
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
+    public void createIrCodeRawLearn(com.sitewhere.grpc.service.GIrCodeRawLearnCreateRequest request,
+                                     io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GIrCodeRawLearnCreateResponse> responseObserver) {
+        log.info("server received {}", request);
+        IrCodeRawLearn apiRequest = InfraredModelConverter.asApiGIrCodeRawLearn(request.getIrCodeRawLearn());
+        irCodeRawLearnService.createIrCodeRawLearn(apiRequest);
+        GIrCodeRawLearnCreateResponse.Builder response = GIrCodeRawLearnCreateResponse.newBuilder();
         log.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();

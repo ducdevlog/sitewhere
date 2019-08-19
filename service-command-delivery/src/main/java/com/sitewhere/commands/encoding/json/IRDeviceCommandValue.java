@@ -21,6 +21,7 @@ import java.util.Map;
 public class IRDeviceCommandValue {
     private String deviceThingUid;
     private Map<String, String> values = new HashMap<>();
+    private String command;
 
     public Map<String, String> getValues() {
         return values;
@@ -36,5 +37,13 @@ public class IRDeviceCommandValue {
 
     public void setDeviceThingUid(String deviceThingUid) {
         this.deviceThingUid = deviceThingUid;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
     }
 }

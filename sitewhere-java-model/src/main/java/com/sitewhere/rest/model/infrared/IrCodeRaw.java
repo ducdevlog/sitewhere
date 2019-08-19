@@ -23,11 +23,15 @@ public class IrCodeRaw implements IIrCodeRaw {
     private String irCode;
     private String sleep;
     private String sleepMins;
+    private String typeCode;
+    private String brandName;
+    private String clientId;
+    private String areaToken;
 
     public IrCodeRaw() {
     }
 
-    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerMins, String led, String comfort, String econo, String powerful, String sleep, String sleepMins) {
+    public IrCodeRaw(String codesetName, String functionName, String power, String mode, String fan, String temp, String swing, String timer, String timerMins, String led, String comfort, String econo, String powerful, String sleep, String sleepMins, String typeCode, String brandName, String clientId, String areaToken) {
         this.codesetName = codesetName;
         this.functionName = functionName;
         this.power = power;
@@ -43,6 +47,10 @@ public class IrCodeRaw implements IIrCodeRaw {
         this.powerful = powerful;
         this.sleep = sleep;
         this.sleepMins = sleepMins;
+        this.typeCode = typeCode;
+        this.brandName = brandName;
+        this.clientId = clientId;
+        this.areaToken = areaToken;
     }
 
     public String getId() {
@@ -187,5 +195,37 @@ public class IrCodeRaw implements IIrCodeRaw {
 
     public void setSleepMins(String sleepMins) {
         this.sleepMins = sleepMins;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getAreaToken() {
+        return areaToken;
+    }
+
+    public void setAreaToken(String areaToken) {
+        this.areaToken = areaToken;
     }
 }

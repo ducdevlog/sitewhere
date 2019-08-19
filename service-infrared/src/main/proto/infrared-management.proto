@@ -36,6 +36,8 @@ service Infrared {
 	// Create IrCodeRaw
 	rpc CreateIrCodeRaw(GIrCodeRawCreateRequest) returns (GIrCodeRawCreateResponse) {}
 
+	rpc CreateIrCodeRawLearn(GIrCodeRawLearnCreateRequest) returns (GIrCodeRawLearnCreateResponse) {}
+
 }
 
 // ####################
@@ -105,4 +107,12 @@ message GIrCodeRawCreateRequest {
 
 message GIrCodeRawCreateResponse {
 	com.sitewhere.grpc.model.GIrCodeRaw IrCodeRaw = 1;
+}
+
+message GIrCodeRawLearnCreateRequest {
+	com.sitewhere.grpc.model.GIrCodeRawLearn IrCodeRawLearn = 1;
+}
+
+message GIrCodeRawLearnCreateResponse {
+
 }

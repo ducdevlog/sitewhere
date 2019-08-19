@@ -146,13 +146,26 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     @Override
     public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException {
         try {
-            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateInfraredDeviceCodesetMethod());
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateIrCodeRawMethod());
             GIrCodeRawCreateRequest.Builder grequest = GIrCodeRawCreateRequest.newBuilder();
             grequest.setIrCodeRaw(InfraredModelConverter.asGrpcIrCodeRaw(irCodeRaw));
             GIrCodeRawCreateResponse gresponse = getGrpcChannel().getBlockingStub().createIrCodeRaw(grequest.build());
             return InfraredModelConverter.asApiGIrCodeRaw(gresponse.getIrCodeRaw());
         } catch (Throwable t) {
-            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateInfraredDeviceCodesetMethod(), t);
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateIrCodeRawMethod(), t);
+        }
+    }
+
+    @Override
+    public IrCodeRaw createIrCodeRawLearn(IrCodeRaw irCodeRaw) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateIrCodeRawLearnMethod());
+            GIrCodeRawLearnCreateRequest.Builder grequest = GIrCodeRawLearnCreateRequest.newBuilder();
+            grequest.setIrCodeRawLearn(InfraredModelConverter.asGrpcIrCodeRawLearn(irCodeRaw));
+            getGrpcChannel().getBlockingStub().createIrCodeRawLearn(grequest.build());
+            return irCodeRaw;
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateIrCodeRawLearnMethod(), t);
         }
     }
 }

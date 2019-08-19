@@ -4,8 +4,8 @@ spring:
       config:
         watch:
           enabled: true
-      host: consul
-      port: 8500
+      host: ${consul.host:consul}
+      port: ${consul.port:8500}
       discovery:
         prefer-ip-address: false
         tags: microservice, infrared

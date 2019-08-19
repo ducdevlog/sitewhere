@@ -76,6 +76,9 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
         if (StringUtils.isNotEmpty(irCodeRaw.getIrCode())) {
             query.addCriteria(Criteria.where("IR_CODE").is(irCodeRaw.getIrCode()));
         }
+        if (StringUtils.isNotEmpty(irCodeRaw.getAreaToken())) {
+            query.addCriteria(Criteria.where("AREA_TOKEN").is(irCodeRaw.getAreaToken()));
+        }
         List<IrCodeRaw> list = mongoTemplate.find(query, IrCodeRaw.class);
         long count = mongoTemplate.count(query, IrCodeRaw.class);
         return new PageImpl<IrCodeRaw>(list , pageable, count);

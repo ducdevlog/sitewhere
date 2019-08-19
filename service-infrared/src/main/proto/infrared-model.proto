@@ -104,6 +104,7 @@ message GIrCodeRawCreateRequest {
 	string irCode = 16;
 	string sleep = 17;
 	string sleepMins = 18;
+	string areaToken = 19;
 }
 
 message GIrCodeRaw {
@@ -125,4 +126,30 @@ message GIrCodeRaw {
 	string irCode = 16;
 	string sleep = 17;
 	string sleepMins = 18;
+	string areaToken = 19;
+}
+
+message GIrCodeRawLearn {
+	string id = 1;
+	string codesetName = 2;
+	string functionName = 3;
+	string power = 4;
+	string mode = 5;
+	string fan = 6;
+	string temp = 7;
+	string swing = 8;
+	string timer = 9;
+	string timerMins = 10;
+	string led = 11;
+	string comfort = 12;
+	string econo = 13;
+	string powerful = 14;
+	string irFreq = 15;
+	string irCode = 16;
+	string sleep = 17;
+	string sleepMins = 18;
+	string typeCode = 19;
+	string brandName = 20;
+	string clientId = 21;
+	string areaToken = 22;
 }
