@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface DeviceCodesetRepository extends MongoRepository<InfraredDeviceCodeset, String> {
     List<InfraredDeviceCodeset> findAllByDeviceTypeBrandId(String deviceTypeBrandId);
+
+    List<InfraredDeviceCodeset> findAllByDeviceTypeBrandIdAndCodesetName(String deviceTypeBrandId, String codesetName);
 }

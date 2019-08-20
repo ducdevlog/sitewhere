@@ -27,5 +27,6 @@ public class InfraredLearningDto {
     private String typeCode;
     private String brandName;
     private String homeToken;
-    private List<IrCodeRaw> lstData;
+    private List<IrCodeRawDto> lstData;
+    private String codesetName;
 }

@@ -1,5 +1,7 @@
 package com.vin.iot.platform.infrared.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vin.iot.platform.infrared.config.dto.IrCodeRawDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,4 +53,25 @@ public class IrCodeRaw {
     private String irCode;
     @Field("AREA_TOKEN")
     private String areaToken;
+
+    public static IrCodeRaw of(IrCodeRawDto irCodeRawDto) {
+        return IrCodeRaw.builder()
+                .id(irCodeRawDto.getId())
+                .codesetName(irCodeRawDto.getCodesetName())
+                .functionName(irCodeRawDto.getFunctionName())
+                .power(irCodeRawDto.getPower())
+                .mode(irCodeRawDto.getMode())
+                .fan(irCodeRawDto.getFan())
+                .temp(irCodeRawDto.getTemp())
+                .timerMins(irCodeRawDto.getTimerMins())
+                .sleep(irCodeRawDto.getSleep())
+                .led(irCodeRawDto.getLed())
+                .comfort(irCodeRawDto.getComfort())
+                .econo(irCodeRawDto.getEcono())
+                .powerful(irCodeRawDto.getPowerful())
+                .irFreq(irCodeRawDto.getIrFreq())
+                .irCode(irCodeRawDto.getIrCode())
+                .areaToken(irCodeRawDto.getAreaToken())
+                .build();
+    }
 }
