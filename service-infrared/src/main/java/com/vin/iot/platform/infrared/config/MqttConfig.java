@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vin.iot.platform.infrared.config.dto.InfraredLearningDto;
 import com.vin.iot.platform.infrared.domain.InfraredDeviceCodeset;
 import com.vin.iot.platform.infrared.domain.InfraredDeviceTypeBrand;
+import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.domain.IrCodeRawLearn;
 import com.vin.iot.platform.infrared.service.DeviceCodesetService;
 import com.vin.iot.platform.infrared.service.DeviceTypeBrandService;
@@ -27,6 +28,7 @@ import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
@@ -116,7 +118,7 @@ public class MqttConfig {
 
     @Bean
     public MqttPahoMessageDrivenChannelAdapter inbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("ir_producer" + MqttAsyncClient.generateClientId(), mqttClientFactory(), "VinIot/Smarthome/Infrared/Learn", "VinIot/OpenHab/Infrared/Learn");
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("ir_producer" + MqttAsyncClient.generateClientId(), mqttClientFactory(), "VinIot/Smarthome/Infrared/Learn/#", "VinIot/OpenHab/Infrared/Learn/#");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -145,18 +147,23 @@ public class MqttConfig {
                     try {
                         InfraredLearningDto infraredLearningDto = objectMapper.readValue(jsonStr, InfraredLearningDto.class);
                         List<InfraredDeviceTypeBrand> infraredDeviceTypeBrands = deviceTypeBrandService.getDeviceTypeBrandByTypeAndBrand(infraredLearningDto.getTypeCode(), infraredLearningDto.getBrandName());
-                        String idMax = String.valueOf(deviceTypeBrandService.getMaxId() + 1);
+                        String idMax = null;
                         if (CollectionUtils.isEmpty(infraredDeviceTypeBrands)) {
+                            idMax = String.valueOf(deviceTypeBrandService.getMaxId() + 1);
                             InfraredDeviceTypeBrand infraredDeviceTypeBrand = new InfraredDeviceTypeBrand(idMax, infraredLearningDto.getTypeCode(), infraredLearningDto.getBrandName());
                             deviceTypeBrandService.createInfraredDeviceTypeBrand(infraredDeviceTypeBrand);
                         }
-                        String codeSet = "1R_VSM_" + (new Date()).getTime();
-                        deviceCodesetService.createInfraredDeviceCodeset(new InfraredDeviceCodeset(null, idMax, codeSet));
+                        String codeSet = StringUtils.isEmpty(infraredLearningDto.getCodesetName()) ? "1R_VSM_" + (new Date()).getTime() : infraredLearningDto.getCodesetName();
+                        idMax = idMax == null ? infraredDeviceTypeBrands.get(0).getId() : idMax;
+                        List<InfraredDeviceCodeset> infraredDeviceCodesets = deviceCodesetService.getDeviceCodesetByDeviceTypeBrandIdAndCodesetName(idMax, codeSet);
+                        if  (CollectionUtils.isEmpty(infraredDeviceCodesets)) deviceCodesetService.createInfraredDeviceCodeset(new InfraredDeviceCodeset(null, idMax, codeSet));
                         if (infraredLearningDto.getLstData() != null && infraredLearningDto.getLstData().size() > 0) {
-                            infraredLearningDto.getLstData().forEach(irCodeRaw -> {
-                                irCodeRaw.setCodesetName(codeSet);
-                                irCodeRaw.setAreaToken(infraredLearningDto.getHomeToken());
-                                irCodeRawService.createIrCodeRaw(irCodeRaw);
+                            infraredLearningDto.getLstData().forEach(irCodeRawDto -> {
+                                irCodeRawDto.setCodesetName(codeSet);
+                                IrCodeRaw irCodeRaw = IrCodeRaw.of(irCodeRawDto);
+                                Page<IrCodeRaw> irCodeRaws = irCodeRawService.getIrCodeRaw(irCodeRaw, 0, 100);
+                                if (irCodeRaws.getContent().size() == 0)
+                                    irCodeRawService.createIrCodeRaw(irCodeRaw);
                             });
                         }
                     } catch (IOException | IllegalArgumentException e) {
