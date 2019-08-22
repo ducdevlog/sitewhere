@@ -54,9 +54,9 @@ public class InfraredModelConverter {
 
     public static InfraredModel.GInfraredDeviceCodeset asGrpcInfraredDeviceCodeset(InfraredDeviceCodeset api) {
         InfraredModel.GInfraredDeviceCodeset.Builder grpc = InfraredModel.GInfraredDeviceCodeset.newBuilder();
-        grpc.setId(api.getId());
-        grpc.setDeviceTypeBrandId(api.getDeviceTypeBrandId());
-        grpc.setCodesetName(api.getCodesetName());
+        if (StringUtils.isNoneEmpty(api.getId())) grpc.setId(api.getId());
+        if (StringUtils.isNoneEmpty(api.getDeviceTypeBrandId())) grpc.setDeviceTypeBrandId(api.getDeviceTypeBrandId());
+        if (StringUtils.isNoneEmpty(api.getCodesetName())) grpc.setCodesetName(api.getCodesetName());
         return grpc.build();
     }
 
