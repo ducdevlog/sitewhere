@@ -71,7 +71,7 @@ public class InfraredModelConverter {
     public static InfraredModel.GIrCodeRaw asGrpcIrCodeRaw(IrCodeRaw api) {
         InfraredModel.GIrCodeRaw.Builder grpc = InfraredModel.GIrCodeRaw.newBuilder();
         if (StringUtils.isNoneEmpty(api.getId())) grpc.setId(api.getId());
-        if (StringUtils.isNoneEmpty(api.getCodesetName())) grpc.setCodesetName(api.getCodesetName());
+        /*if (StringUtils.isNoneEmpty(api.getCodesetName())) grpc.setCodesetName(api.getCodesetName());
         if (StringUtils.isNoneEmpty(api.getFunctionName())) grpc.setFunctionName(api.getFunctionName());
         if (StringUtils.isNoneEmpty(api.getPower())) grpc.setPower(api.getPower());
         if (StringUtils.isNoneEmpty(api.getMode())) grpc.setMode(api.getMode());
@@ -88,14 +88,14 @@ public class InfraredModelConverter {
         if (StringUtils.isNoneEmpty(api.getPowerful())) grpc.setPowerful(api.getPowerful());
         if (StringUtils.isNoneEmpty(api.getIrFreq())) grpc.setIrFreq(api.getIrFreq());
         if (StringUtils.isNoneEmpty(api.getIrCode())) grpc.setIrCode(api.getIrCode());
-        if (StringUtils.isNoneEmpty(api.getAreaToken())) grpc.setAreaToken(api.getAreaToken());
+        if (StringUtils.isNoneEmpty(api.getAreaToken())) grpc.setAreaToken(api.getAreaToken());*/
         return grpc.build();
     }
 
     public static IrCodeRaw asApiGIrCodeRaw(InfraredModel.GIrCodeRaw grpc) {
         IrCodeRaw api = new IrCodeRaw();
         api.setId(grpc.getId());
-        api.setCodesetName(grpc.getCodesetName());
+        /*api.setCodesetName(grpc.getCodesetName());
         api.setFunctionName(grpc.getFunctionName());
         api.setPower(grpc.getPower());
         api.setMode(grpc.getMode());
@@ -112,7 +112,7 @@ public class InfraredModelConverter {
         api.setPowerful(grpc.getPowerful());
         api.setIrFreq(grpc.getIrFreq());
         api.setIrCode(grpc.getIrCode());
-        api.setAreaToken(grpc.getAreaToken());
+        api.setAreaToken(grpc.getAreaToken());*/
         return api;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 
 @Service
 public class IrCodeRawServiceImpl implements IrCodeRawService {
@@ -22,5 +22,15 @@ public class IrCodeRawServiceImpl implements IrCodeRawService {
     @Override
     public void createIrCodeRaw(IrCodeRaw irCodeRaw) {
         irCodeRawRepository.save(irCodeRaw);
+    }
+
+    @Override
+    public Page<Map> getIrCodeRawFilter(Map<String, String> irCodeRawFilter, int page, int size) {
+        return irCodeRawRepository.getIrCodeRawFilter(irCodeRawFilter, page, size);
+    }
+
+    @Override
+    public Map createInfraredCodeRaw(Map<String, String> irCodeRawMapping) {
+        return irCodeRawRepository.saveIrCodeRaw(irCodeRawMapping);
     }
 }

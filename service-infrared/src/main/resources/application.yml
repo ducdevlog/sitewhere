@@ -4,7 +4,7 @@ spring:
       config:
         watch:
           enabled: true
-      host: ${consul.host:consul}
+      host: ${consul.host:171.244.38.134}
       port: ${consul.port:8500}
       discovery:
         prefer-ip-address: false

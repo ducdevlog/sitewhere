@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -15,11 +16,20 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IrCodeRaw {
-    @Field("ID")
+//    @Field("ID")
     private String id;
-    @Field("CODESET_NAME")
-    private String codesetName;
-    @Field("FUNCTION_NAME")
+//    @Field("CODESET_NAME")
+//    private String codesetName;
+//    @Field("AREA_TOKEN")
+//    private String areaToken;
+//    @Field("IR_FREQ")
+//    private String irFreq;
+//    @Field("IR_CODE")
+//    private String irCode;
+
+    private JSONObject otherFields;
+
+    /*@Field("FUNCTION_NAME")
     private String functionName;
     @Field("POWER")
     private String power;
@@ -46,32 +56,28 @@ public class IrCodeRaw {
     @Field("ECONO")
     private String econo;
     @Field("POWERFUL")
-    private String powerful;
-    @Field("IR_FREQ")
-    private String irFreq;
-    @Field("IR_CODE")
-    private String irCode;
-    @Field("AREA_TOKEN")
-    private String areaToken;
+    private String powerful;*/
+
+
 
     public static IrCodeRaw of(IrCodeRawDto irCodeRawDto) {
         return IrCodeRaw.builder()
                 .id(irCodeRawDto.getId())
-                .codesetName(irCodeRawDto.getCodesetName())
-                .functionName(irCodeRawDto.getFunctionName())
-                .power(irCodeRawDto.getPower())
-                .mode(irCodeRawDto.getMode())
-                .fan(irCodeRawDto.getFan())
-                .temp(irCodeRawDto.getTemp())
-                .timerMins(irCodeRawDto.getTimerMins())
-                .sleep(irCodeRawDto.getSleep())
-                .led(irCodeRawDto.getLed())
-                .comfort(irCodeRawDto.getComfort())
-                .econo(irCodeRawDto.getEcono())
-                .powerful(irCodeRawDto.getPowerful())
-                .irFreq(irCodeRawDto.getIrFreq())
-                .irCode(irCodeRawDto.getIrCode())
-                .areaToken(irCodeRawDto.getAreaToken())
+                //.codesetName(irCodeRawDto.getCodesetName())
+                //.functionName(irCodeRawDto.getFunctionName())
+                //.power(irCodeRawDto.getPower())
+                //.mode(irCodeRawDto.getMode())
+                //.fan(irCodeRawDto.getFan())
+                //.temp(irCodeRawDto.getTemp())
+                //.timerMins(irCodeRawDto.getTimerMins())
+                //.sleep(irCodeRawDto.getSleep())
+                //.led(irCodeRawDto.getLed())
+                //.comfort(irCodeRawDto.getComfort())
+                //.econo(irCodeRawDto.getEcono())
+                //.powerful(irCodeRawDto.getPowerful())
+                //.irFreq(irCodeRawDto.getIrFreq())
+                //.irCode(irCodeRawDto.getIrCode())
+                //.areaToken(irCodeRawDto.getAreaToken())
                 .build();
     }
 }
