@@ -55,4 +55,6 @@ public interface IDeviceStateSearchCriteria extends ISearchCriteria {
      * @return
      */
     public List<UUID> getAssetIds();
+
+    public int getInterval();
 }

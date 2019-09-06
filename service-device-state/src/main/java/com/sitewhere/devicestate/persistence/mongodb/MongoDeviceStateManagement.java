@@ -7,8 +7,11 @@
  */
 package com.sitewhere.devicestate.persistence.mongodb;
 
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.mongodb.client.AggregateIterable;
+import com.sitewhere.rest.model.device.event.DeviceEventStatistic;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
@@ -34,6 +37,12 @@ import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.search.device.IDeviceStateSearchCriteria;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
+
+import static com.mongodb.client.model.Aggregates.match;
+import static com.mongodb.client.model.Aggregates.project;
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
+import static org.apache.zookeeper.ZooDefs.OpCode.exists;
 
 /**
  * Device state management implementation that uses MongoDB for persistence.
@@ -191,6 +200,28 @@ public class MongoDeviceStateManagement extends TenantEngineLifecycleComponent i
 	Document sort = new Document(MongoDeviceState.PROP_LAST_INTERACTION_DATE, 1);
 	return MongoPersistence.search(IDeviceState.class, states, query, sort, criteria, LOOKUP);
     }
+
+	@Override
+	public List<IDeviceState> getStatusDeviceStates(IDeviceStateSearchCriteria criteria) throws SiteWhereException {
+		List<IDeviceState> returns = new ArrayList<>();
+		MongoCollection<Document> states = getMongoClient().getDeviceStatesCollection();
+		AggregateIterable<Document> output = states.aggregate(Arrays.asList(match(and(exists("last", true), eq("dtid", "781e5f0b-63b7-477b-8104-de905ddb35a5"))), project(fields(include("dvid", "dtid", "asid", "csid", "arid", "assd", "last"), computed("statis", eq("$cond", and(gte("if", Arrays.asList("$last",
+				new SimpleDateFormat("EEE MMMMM dd yyyy HH:mm:ss").format(new java.util.Date().getTime() - criteria.getInterval() * 60 * 1000))), eq("then", "ONLINE"), eq("else", "OFFLINE"))))))));
+		DeviceState deviceState;
+		for (Document document : output) {
+			deviceState = new DeviceState();
+			if (document.get("dvid") != null) deviceState.setDeviceId((UUID) document.get("dvid"));
+			if (document.get("dtid") != null) deviceState.setDeviceTypeId((UUID) document.get("dtid"));
+			if (document.get("asid") != null) deviceState.setAssetId((UUID) document.get("asid"));
+			if (document.get("csid") != null) deviceState.setCustomerId((UUID) document.get("csid"));
+			if (document.get("arid") != null) deviceState.setAreaId((UUID) document.get("arid"));
+			if (document.get("assd") != null) deviceState.setDeviceAssignmentId((UUID) document.get("assd"));
+			if (document.get("last") != null) deviceState.setLastInteractionDate((Date) document.get("last"));
+			if (document.get("status") != null) deviceState.setStatus((String) document.get("status"));
+			returns.add(deviceState);
+		}
+		return returns;
+	}
 
     /*
      * @see

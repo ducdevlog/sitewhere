@@ -65,6 +65,8 @@ public class DeviceState implements IDeviceState {
     /** Map of last alert event ids by alert type */
     private Map<String, UUID> lastAlertEventIds = new HashMap<>();
 
+    private String status;
+
     /*
      * @see com.sitewhere.spi.device.state.IDeviceState#getId()
      */
@@ -209,5 +211,13 @@ public class DeviceState implements IDeviceState {
 
     public void setLastAlertEventIds(Map<String, UUID> lastAlertEventIds) {
 	this.lastAlertEventIds = lastAlertEventIds;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -170,6 +170,9 @@ public class DeviceStateModelConverter {
 	if (api.getAssetIds() != null) {
 	    grpc.addAllAssetId(CommonModelConverter.asGrpcUuids(api.getAssetIds()));
 	}
+	if (api.getInterval() > 0) {
+		grpc.setInterval(api.getInterval());
+	}
 	grpc.setPageNumber(api.getPageNumber());
 	grpc.setPageSize(api.getPageSize());
 	return grpc.build();

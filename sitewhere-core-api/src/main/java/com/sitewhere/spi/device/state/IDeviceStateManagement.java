@@ -7,6 +7,7 @@
  */
 package com.sitewhere.spi.device.state;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.spi.SiteWhereException;
@@ -59,6 +60,7 @@ public interface IDeviceStateManagement extends ITenantEngineLifecycleComponent 
     public ISearchResults<IDeviceState> searchDeviceStates(IDeviceStateSearchCriteria criteria)
 	    throws SiteWhereException;
 
+    public List<IDeviceState> getStatusDeviceStates(IDeviceStateSearchCriteria criteria) throws SiteWhereException;
     /**
      * Update existing device state.
      * 
