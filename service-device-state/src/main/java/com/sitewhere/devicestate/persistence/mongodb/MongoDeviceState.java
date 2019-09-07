@@ -69,6 +69,8 @@ public class MongoDeviceState implements MongoConverter<IDeviceState> {
     /** Attribute name for map element value */
     public static final String PROP_VALUE = "valu";
 
+	public static final String PROP_STATUS = "status";
+
     /*
      * (non-Javadoc)
      * 
@@ -141,6 +143,7 @@ public class MongoDeviceState implements MongoConverter<IDeviceState> {
 	UUID customerId = (UUID) source.get(PROP_CUSTOMER_ID);
 	UUID areaId = (UUID) source.get(PROP_AREA_ID);
 	UUID assetId = (UUID) source.get(PROP_ASSET_ID);
+	String status = (String) source.get(PROP_STATUS);
 	Date lastInteractionDate = (Date) source.get(PROP_LAST_INTERACTION_DATE);
 	Date presenceMissingDate = (Date) source.get(PROP_PRESENCE_MISSING_DATE);
 	UUID lastLocationEventId = (UUID) source.get(PROP_LAST_LOCATION_ID);
@@ -152,6 +155,7 @@ public class MongoDeviceState implements MongoConverter<IDeviceState> {
 	target.setCustomerId(customerId);
 	target.setAreaId(areaId);
 	target.setAssetId(assetId);
+	target.setStatus(status);
 	target.setLastInteractionDate(lastInteractionDate);
 	target.setPresenceMissingDate(presenceMissingDate);
 	target.setLastLocationEventId(lastLocationEventId);
