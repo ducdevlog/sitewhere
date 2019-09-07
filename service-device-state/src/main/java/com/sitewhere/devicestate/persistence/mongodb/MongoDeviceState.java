@@ -143,7 +143,7 @@ public class MongoDeviceState implements MongoConverter<IDeviceState> {
 	UUID customerId = (UUID) source.get(PROP_CUSTOMER_ID);
 	UUID areaId = (UUID) source.get(PROP_AREA_ID);
 	UUID assetId = (UUID) source.get(PROP_ASSET_ID);
-	String status = (String) source.get(PROP_STATUS);
+	String status =  source.containsKey(PROP_STATUS) ? (String) source.get(PROP_STATUS) : null;
 	Date lastInteractionDate = (Date) source.get(PROP_LAST_INTERACTION_DATE);
 	Date presenceMissingDate = (Date) source.get(PROP_PRESENCE_MISSING_DATE);
 	UUID lastLocationEventId = (UUID) source.get(PROP_LAST_LOCATION_ID);
