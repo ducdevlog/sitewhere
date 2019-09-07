@@ -151,9 +151,10 @@ public class MqttConfig {
                         if (CollectionUtils.isEmpty(infraredDeviceTypeBrands)) {
                             InfraredDeviceTypeBrand infraredDeviceTypeBrand = new InfraredDeviceTypeBrand(idMax, infraredLearningDto.getTypeCode(), infraredLearningDto.getBrandName());
                             deviceTypeBrandService.createInfraredDeviceTypeBrand(infraredDeviceTypeBrand);
+                        } else {
+                            idMax = infraredDeviceTypeBrands.get(0).getId();
                         }
                         String codeSet = StringUtils.isEmpty(infraredLearningDto.getCodesetName()) ? "1R_VSM_" + (new Date()).getTime() : infraredLearningDto.getCodesetName();
-                        idMax = idMax == null ? infraredDeviceTypeBrands.get(0).getId() : idMax;
                         List<InfraredDeviceCodeset> infraredDeviceCodesets = deviceCodesetService.getDeviceCodesetByDeviceTypeBrandIdAndCodesetName(idMax, codeSet);
                         if  (CollectionUtils.isEmpty(infraredDeviceCodesets)) deviceCodesetService.createInfraredDeviceCodeset(new InfraredDeviceCodeset(null, idMax, codeSet));
                         if (infraredLearningDto.getLstData() != null && infraredLearningDto.getLstData().size() > 0) {
