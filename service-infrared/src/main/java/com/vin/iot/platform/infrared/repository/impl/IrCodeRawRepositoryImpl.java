@@ -2,7 +2,6 @@ package com.vin.iot.platform.infrared.repository.impl;
 
 import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.repository.IrCodeRawRepositoryCustom;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
@@ -87,7 +85,7 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
     }
 
     @Override
-    public Page<Map> getIrCodeRawFilter(Map<String, String> irCodeRawFilter, int page, int size) {
+    public Page<Map> getIrCodeRawFilter(Map<String, Object> irCodeRawFilter, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Query query = new Query().with(pageable).with(new Sort(Sort.Direction.DESC, "ID"));
         irCodeRawFilter.keySet().stream().map(s -> Criteria.where(s).is(irCodeRawFilter.get(s))).forEach(query::addCriteria);
@@ -97,7 +95,7 @@ public class IrCodeRawRepositoryImpl implements IrCodeRawRepositoryCustom {
     }
 
     @Override
-    public Map saveIrCodeRaw(Map<String, String> irCodeRawMapping) {
+    public Map saveIrCodeRaw(Map irCodeRawMapping) {
         return mongoTemplate.save(irCodeRawMapping, "ir_code_raw");
     }
 }

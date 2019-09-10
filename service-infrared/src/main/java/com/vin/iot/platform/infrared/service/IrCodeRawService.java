@@ -10,7 +10,7 @@ public interface IrCodeRawService {
 
     void createIrCodeRaw(IrCodeRaw apiRequest);
 
-    Page<Map> getIrCodeRawFilter(Map<String, String> irCodeRawFilter, int page, int size);
+    Page<Map> getIrCodeRawFilter(Map<String, Object> irCodeRawFilter, int page, int size);
 
-    Map createInfraredCodeRaw(Map<String, String> irCodeRawMapping);
+    Map createInfraredCodeRaw(Map<String, Object> irCodeRawMapping);
 }

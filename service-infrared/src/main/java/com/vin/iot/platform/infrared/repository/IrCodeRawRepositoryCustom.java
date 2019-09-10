@@ -8,7 +8,7 @@ import java.util.Map;
 public interface IrCodeRawRepositoryCustom {
     Page<IrCodeRaw> getIrCodeRaws(IrCodeRaw irCodeRaw, int page, int size);
 
-    Page<Map> getIrCodeRawFilter(Map<String, String> irCodeRawFilter, int page, int size);
+    Page<Map> getIrCodeRawFilter(Map<String, Object> irCodeRawFilter, int page, int size);
 
-    Map saveIrCodeRaw(Map<String, String> irCodeRawMapping);
+    Map saveIrCodeRaw(Map<String, Object> irCodeRawMapping);
 }

@@ -25,12 +25,12 @@ public class IrCodeRawServiceImpl implements IrCodeRawService {
     }
 
     @Override
-    public Page<Map> getIrCodeRawFilter(Map<String, String> irCodeRawFilter, int page, int size) {
+    public Page<Map> getIrCodeRawFilter(Map<String, Object> irCodeRawFilter, int page, int size) {
         return irCodeRawRepository.getIrCodeRawFilter(irCodeRawFilter, page, size);
     }
 
     @Override
-    public Map createInfraredCodeRaw(Map<String, String> irCodeRawMapping) {
+    public Map createInfraredCodeRaw(Map<String, Object> irCodeRawMapping) {
         return irCodeRawRepository.saveIrCodeRaw(irCodeRawMapping);
     }
 }

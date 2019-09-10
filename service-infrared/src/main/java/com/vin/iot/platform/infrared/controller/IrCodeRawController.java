@@ -14,12 +14,11 @@ package com.vin.iot.platform.infrared.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vin.iot.platform.infrared.aspect.LogAround;
-import com.vin.iot.platform.infrared.controller.dto.ServiceResponse;
-import com.vin.iot.platform.infrared.domain.IrCodeRaw;
 import com.vin.iot.platform.infrared.service.IrCodeRawService;
 import com.vin.iot.platform.infrared.utils.ResponseFactory;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("infrared")
 public class IrCodeRawController {
@@ -39,7 +39,7 @@ public class IrCodeRawController {
     @ApiOperation(value = "Get Infrared Code Raw")
     @GetMapping(value = "/irCodeRaw", produces = "application/json")
     @LogAround(message = "Get Infrared Code Raw")
-    public ResponseEntity<?> getInfraredCodeRaw(
+    public ResponseEntity getInfraredCodeRaw(
             @ApiParam(value = "Infrared Code Raw Filter", required = false) @RequestParam(required = false) String irCodeRawFilter,
             @ApiParam(value = "Page", required = false) @RequestParam(required = false, defaultValue = "0") int page,
             @ApiParam(value = "Size", required = false) @RequestParam(required = false, defaultValue = "500") int size) {
@@ -47,7 +47,7 @@ public class IrCodeRawController {
             Map map = mapper.readValue(irCodeRawFilter, Map.class);
             return ResponseFactory.success(irCodeRawService.getIrCodeRawFilter(map, page, size));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error parser Json", new Throwable(e));
         }
         return ResponseFactory.error(HttpStatus.BAD_REQUEST, "", 404);
     }
@@ -55,13 +55,13 @@ public class IrCodeRawController {
     @ApiOperation(value = "Save Infrared Code Raw")
     @PostMapping(value = "/irCodeRaw", produces = "application/json")
     @LogAround(message = "Save Infrared Code Raw")
-    public ResponseEntity<?> createInfraredCodeRaw(
+    public ResponseEntity createInfraredCodeRaw(
             @ApiParam(value = "Infrared Code Raw Filter", required = false) @RequestParam(required = false) String irCodeRawFilter) {
         try {
             Map map = mapper.readValue(irCodeRawFilter, Map.class);
             return ResponseFactory.success(irCodeRawService.createInfraredCodeRaw(map));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error parser Json", new Throwable(e));
         }
         return ResponseFactory.error(HttpStatus.BAD_REQUEST, "", 404);
 
