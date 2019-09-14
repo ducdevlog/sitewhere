@@ -408,10 +408,11 @@ public class Devices extends RestControllerBase {
 	    @ApiParam(value = "Include assignment information if associated", required = false) @RequestParam(required = false, defaultValue = "false") boolean includeAssignment,
 	    @ApiParam(value = "Page number", required = false) @RequestParam(required = false, defaultValue = "1") int page,
 	    @ApiParam(value = "Page size", required = false) @RequestParam(required = false, defaultValue = "100") int pageSize,
+	    @ApiParam(value = "Criteria Extend", required = false) @RequestParam(required = false) String criteriaExtend,
 	    @ApiParam(value = "Start date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
 	    @ApiParam(value = "End date", required = false) @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate)
 	    throws SiteWhereException {
-	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, deviceTokens, excludeAssigned, page, pageSize,
+	IDeviceSearchCriteria criteria = new DeviceSearchCriteria(deviceType, deviceTokens, excludeAssigned, page, pageSize, criteriaExtend,
 		startDate, endDate);
 	ISearchResults<IDevice> results = getDeviceManagement().listDevices(criteria);
 	DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());

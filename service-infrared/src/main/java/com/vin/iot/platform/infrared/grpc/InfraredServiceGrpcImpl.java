@@ -1,15 +1,21 @@
 package com.vin.iot.platform.infrared.grpc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.protobuf.Any;
+import com.sitewhere.grpc.model.InfraredModel;
 import com.sitewhere.grpc.service.*;
 import com.vin.iot.platform.infrared.domain.*;
 import com.vin.iot.platform.infrared.service.*;
+import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @GRpcService
 @Slf4j
@@ -96,6 +102,38 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
         if (irCodeRaws != null) {
             response.setResults(Math.toIntExact(irCodeRaws.getTotalElements()));
             irCodeRaws.stream().map(InfraredModelConverter::asGrpcIrCodeRaw).forEach(response::addIrCodeRaw);
+        }
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
+    public void getIrCodeRawFilter(GIrCodeRawFilterRequest request,
+                                   StreamObserver<GIrCodeRawFilterResponse> responseObserver) {
+        log.info("server received {}", request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map filter = null;
+        try {
+            filter = objectMapper.readValue(request.getIrCodeRawFilter(), Map.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Page<Map> irCodeRaws = irCodeRawService.getIrCodeRawFilter(filter, request.getPage(), request.getSize());
+        GIrCodeRawFilterResponse.Builder response = GIrCodeRawFilterResponse.newBuilder();
+        for (Map<String, Object> irCodeRaw : irCodeRaws.getContent()) {
+            InfraredModel.GIrCodeRawMap.Builder builder = InfraredModel.GIrCodeRawMap.newBuilder();
+            for (Map.Entry<String, Object> entry : irCodeRaw.entrySet()) {
+                if (entry.getValue() instanceof Integer) {
+                    builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalInteger.newBuilder().setValue((Integer) entry.getValue()).build()));
+                } else if (entry.getValue() instanceof Double) {
+                    builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalDouble.newBuilder().setValue((Double) entry.getValue()).build()));
+                } else if (entry.getValue() instanceof Boolean) {
+                    builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalBoolean.newBuilder().setValue((Boolean) entry.getValue()).build()));
+                } else if (entry.getValue() instanceof String) {
+                    builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalString.newBuilder().setValue((String) entry.getValue()).build()));
+                }
+            }
+            response.addGIrCodeRawMap(builder);
         }
         log.info("server responded {}", response);
         responseObserver.onNext(response.build());

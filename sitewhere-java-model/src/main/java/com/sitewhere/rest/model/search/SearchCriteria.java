@@ -26,6 +26,8 @@ public class SearchCriteria implements ISearchCriteria {
     /** Number of records in a page of results */
     private Integer pageSize;
 
+    private String criteria;
+
     public SearchCriteria() {
 	this(1, 100);
     }
@@ -33,6 +35,12 @@ public class SearchCriteria implements ISearchCriteria {
     public SearchCriteria(int pageNumber, int pageSize) {
 	this.pageNumber = pageNumber;
 	this.pageSize = pageSize;
+    }
+
+    public SearchCriteria(int pageNumber, int pageSize, String criteria) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.criteria = criteria;
     }
 
     public Integer getPageNumber() {
@@ -49,5 +57,13 @@ public class SearchCriteria implements ISearchCriteria {
 
     public void setPageSize(Integer pageSize) {
 	this.pageSize = pageSize;
+    }
+
+    public String getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
     }
 }

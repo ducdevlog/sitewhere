@@ -17,6 +17,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @SiteWhereCrossOrigin
@@ -78,6 +79,17 @@ public class Infrared extends RestControllerBase {
     ) throws SiteWhereException {
         IrCodeRaw irCodeRaw = new IrCodeRaw(codesetName, functionName, power, mode, fan, temp, swing, timer, timerDelay, led, comfort, econo, powerful, sleep, sleepMins, null, null, null, areaToken);
         return getInfraredManagement().getIrCodeRaw(irCodeRaw, page, size);
+    }
+
+    @RequestMapping(value = "/irCodeRawFilter", method = RequestMethod.GET)
+    @ApiOperation(value = "Get list Infrared Code Raw")
+    @Secured({ SiteWhereRoles.REST })
+    public List<Map> getInfraredDeviceCodesetFilter(
+            @ApiParam(value = "Infrared Filter", required = false) @RequestParam(required = false) String irCodeRawFilter,
+            @ApiParam(value = "Infrared page", required = false) @RequestParam(required = false, defaultValue = "0") int page,
+            @ApiParam(value = "Infrared size", required = false) @RequestParam(required = false, defaultValue = "200") int size
+    ) throws SiteWhereException {
+        return getInfraredManagement().getIrCodeRawFilter(irCodeRawFilter, page, size);
     }
 
     private IInfraredManagement getInfraredManagement() {

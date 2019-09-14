@@ -27,4 +27,6 @@ public interface ISearchCriteria {
      * @return
      */
     public Integer getPageSize();
+
+    public String getCriteria();
 }

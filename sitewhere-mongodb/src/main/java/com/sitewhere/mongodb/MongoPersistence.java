@@ -7,9 +7,12 @@
  */
 package com.sitewhere.mongodb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -259,7 +262,7 @@ public class MongoPersistence {
      * @param query
      * @param criteria
      */
-    public static void addDateSearchCriteria(Document query, String dateField, IDateRangeSearchCriteria criteria) {
+    public static void addDateSearchCriteria(Document query, String dateField, IDateRangeSearchCriteria criteria) throws SiteWhereException {
 	if ((criteria.getStartDate() == null) && (criteria.getEndDate() == null)) {
 	    return;
 	}
@@ -270,6 +273,18 @@ public class MongoPersistence {
 	if (criteria.getEndDate() != null) {
 	    dateClause.append("$lte", criteria.getEndDate());
 	}
+	if (criteria.getCriteria() != null) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			Map<String, Object> map = mapper.readValue(criteria.getCriteria(), Map.class);
+			for (Map.Entry<String, Object> filter : map.entrySet()) {
+				dateClause.append(filter.getKey(), filter.getValue());
+			}
+		} catch (IOException e) {
+			throw new SiteWhereException(ErrorCode.Error, "Error parser filter.", e);
+		}
+	}
+
 	query.put(dateField, dateClause);
     }
 

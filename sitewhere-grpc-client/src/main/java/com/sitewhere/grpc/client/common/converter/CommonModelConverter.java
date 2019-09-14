@@ -150,7 +150,7 @@ public class CommonModelConverter {
      * @throws SiteWhereException
      */
     public static SearchCriteria asApiSearchCriteria(GPaging paging) throws SiteWhereException {
-	return new SearchCriteria(paging.getPageNumber(), paging.getPageSize());
+	return new SearchCriteria(paging.getPageNumber(), paging.getPageSize(), paging.getCriteria());
     }
 
     /**

@@ -5,6 +5,7 @@ package com.sitewhere.grpc.model;
 option java_outer_classname = "InfraredModel";
 
 import "google/protobuf/struct.proto";
+import "google/protobuf/any.proto";
 
 // ####################
 // ### EXTENDED    ###
@@ -152,4 +153,24 @@ message GIrCodeRawLearn {
 	string brandName = 20;
 	string clientId = 21;
 	string areaToken = 22;
+}
+
+message GIrCodeRawMap {
+	map<string, google.protobuf.Any> dataFilter = 1;
+}
+
+message GOptionalInteger {
+	int32 value = 1;
+}
+
+message GOptionalDouble {
+	double value = 1;
+}
+
+message GOptionalBoolean {
+	bool value = 1;
+}
+
+message GOptionalString {
+	string value = 1;
 }

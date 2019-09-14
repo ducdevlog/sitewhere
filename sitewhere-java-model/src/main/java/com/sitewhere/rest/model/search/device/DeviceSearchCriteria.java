@@ -43,6 +43,14 @@ public class DeviceSearchCriteria extends DateRangeSearchCriteria implements IDe
 	this.excludeAssigned = excludeAssigned;
     }
 
+    public DeviceSearchCriteria(String deviceType, List<String> deviceTokens, boolean excludeAssigned, int pageNumber, int pageSize, String criteriaExtend, Date startDate, Date endDate) {
+        super(pageNumber, pageSize, startDate, endDate);
+        this.deviceTypeToken = deviceTypeToken;
+        this.deviceTokens = deviceTokens;
+        this.excludeAssigned = excludeAssigned;
+        this.setCriteria(criteriaExtend);
+    }
+
     /*
      * @see
      * com.sitewhere.spi.search.device.IDeviceSearchCriteria#getDeviceTypeToken()

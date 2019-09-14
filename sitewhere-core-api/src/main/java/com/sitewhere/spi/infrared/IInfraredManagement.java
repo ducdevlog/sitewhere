@@ -16,6 +16,7 @@ import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.server.lifecycle.ITenantEngineLifecycleComponent;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
 
@@ -30,6 +31,8 @@ public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
     public IInfraredDeviceCodeset createInfraredDeviceCodeset(InfraredDeviceCodeset infraredDeviceCodeset) throws SiteWhereException;
 
     public ISearchResults<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) throws SiteWhereException;
+
+    public List<Map> getIrCodeRawFilter(String irCodeRaw, int page, int size) throws SiteWhereException;
 
     public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException;
 

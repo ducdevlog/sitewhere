@@ -8,10 +8,12 @@
 
 package com.sitewhere.grpc.client.infrared;
 
+import com.google.protobuf.Any;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.MultitenantApiChannel;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IInfraredApiChannel;
+import com.sitewhere.grpc.model.InfraredModel;
 import com.sitewhere.grpc.service.*;
 import com.sitewhere.rest.model.infrared.InfraredDeviceCodeset;
 import com.sitewhere.rest.model.infrared.InfraredDeviceTypeBrand;
@@ -26,7 +28,9 @@ import com.sitewhere.spi.search.ISearchResults;
 import com.sitewhere.spi.tracing.ITracerProvider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChannel>
@@ -140,6 +144,40 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             return rawISearchResults;
         } catch (Throwable t) {
             throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawMethod(), t);
+        }
+    }
+
+    @Override
+    public List<Map> getIrCodeRawFilter(String irCodeRawFilter, int page, int size) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawFilterMethod());
+            GIrCodeRawFilterRequest.Builder grequest = GIrCodeRawFilterRequest.newBuilder();
+            grequest.setIrCodeRawFilter(irCodeRawFilter);
+            grequest.setPage(page);
+            grequest.setSize(size);
+            GIrCodeRawFilterResponse gresponse = getGrpcChannel().getBlockingStub().getIrCodeRawFilter(grequest.build());
+            List<Map> iIrCodeRaws = new ArrayList<>();
+            if (gresponse.getGIrCodeRawMapCount() > 0) {
+                for (InfraredModel.GIrCodeRawMap gIrCodeRawMap : gresponse.getGIrCodeRawMapList()) {
+                    Map irCodeRaw = new HashMap();
+                    for (Map.Entry<String, Any>  entry : gIrCodeRawMap.getDataFilterMap().entrySet()) {
+                        if (entry.getValue().is(InfraredModel.GOptionalInteger.class)) {
+                            irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalInteger.class).getValue());
+                        } else if (entry.getValue().is(InfraredModel.GOptionalDouble.class)) {
+                            irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalDouble.class).getValue());
+                        } else if (entry.getValue().is(InfraredModel.GOptionalBoolean.class)) {
+                            irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalBoolean.class).getValue());
+                        } else if (entry.getValue().is(InfraredModel.GOptionalString.class)) {
+                            irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalString.class).getValue());
+                        }
+                    }
+                    iIrCodeRaws.add(irCodeRaw);
+                }
+            }
+            GrpcUtils.logClientMethodResponse(InfraredGrpc.getGetIrCodeRawFilterMethod(), iIrCodeRaws);
+            return iIrCodeRaws;
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawFilterMethod(), t);
         }
     }
 
