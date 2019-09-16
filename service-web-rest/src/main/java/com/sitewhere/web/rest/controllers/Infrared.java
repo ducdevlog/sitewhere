@@ -84,7 +84,7 @@ public class Infrared extends RestControllerBase {
     @RequestMapping(value = "/irCodeRawFilter", method = RequestMethod.GET)
     @ApiOperation(value = "Get list Infrared Code Raw")
     @Secured({ SiteWhereRoles.REST })
-    public List<Map> getInfraredDeviceCodesetFilter(
+    public List<Map<String, Object>> getInfraredDeviceCodesetFilter(
             @ApiParam(value = "Infrared Filter", required = false) @RequestParam(required = false) String irCodeRawFilter,
             @ApiParam(value = "Infrared page", required = false) @RequestParam(required = false, defaultValue = "0") int page,
             @ApiParam(value = "Infrared size", required = false) @RequestParam(required = false, defaultValue = "200") int size

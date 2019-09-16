@@ -148,7 +148,7 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     }
 
     @Override
-    public List<Map> getIrCodeRawFilter(String irCodeRawFilter, int page, int size) throws SiteWhereException {
+    public List<Map<String, Object>> getIrCodeRawFilter(String irCodeRawFilter, int page, int size) throws SiteWhereException {
         try {
             GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawFilterMethod());
             GIrCodeRawFilterRequest.Builder grequest = GIrCodeRawFilterRequest.newBuilder();
@@ -156,10 +156,10 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             grequest.setPage(page);
             grequest.setSize(size);
             GIrCodeRawFilterResponse gresponse = getGrpcChannel().getBlockingStub().getIrCodeRawFilter(grequest.build());
-            List<Map> iIrCodeRaws = new ArrayList<>();
+            List<Map<String, Object>> iIrCodeRaws = new ArrayList<>();
             if (gresponse.getGIrCodeRawMapCount() > 0) {
                 for (InfraredModel.GIrCodeRawMap gIrCodeRawMap : gresponse.getGIrCodeRawMapList()) {
-                    Map irCodeRaw = new HashMap();
+                    Map<String, Object> irCodeRaw = new HashMap();
                     for (Map.Entry<String, Any>  entry : gIrCodeRawMap.getDataFilterMap().entrySet()) {
                         if (entry.getValue().is(InfraredModel.GOptionalInteger.class)) {
                             irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalInteger.class).getValue());

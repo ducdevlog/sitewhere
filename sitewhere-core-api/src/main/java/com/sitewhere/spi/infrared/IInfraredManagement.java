@@ -32,7 +32,7 @@ public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
 
     public ISearchResults<IIrCodeRaw> getIrCodeRaw(IrCodeRaw irCodeRaw, int page, int size) throws SiteWhereException;
 
-    public List<Map> getIrCodeRawFilter(String irCodeRaw, int page, int size) throws SiteWhereException;
+    public List<Map<String, Object>> getIrCodeRawFilter(String irCodeRaw, int page, int size) throws SiteWhereException;
 
     public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException;
 
