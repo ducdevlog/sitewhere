@@ -159,7 +159,7 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
             List<Map<String, Object>> iIrCodeRaws = new ArrayList<>();
             if (gresponse.getGIrCodeRawMapCount() > 0) {
                 for (InfraredModel.GIrCodeRawMap gIrCodeRawMap : gresponse.getGIrCodeRawMapList()) {
-                    Map<String, Object> irCodeRaw = new HashMap();
+                    Map<String, Object> irCodeRaw = new HashMap<>();
                     for (Map.Entry<String, Any>  entry : gIrCodeRawMap.getDataFilterMap().entrySet()) {
                         if (entry.getValue().is(InfraredModel.GOptionalInteger.class)) {
                             irCodeRaw.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalInteger.class).getValue());
