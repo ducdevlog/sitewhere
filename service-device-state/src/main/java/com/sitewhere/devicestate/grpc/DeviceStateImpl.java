@@ -13,19 +13,7 @@ import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.client.devicestate.DeviceStateModelConverter;
 import com.sitewhere.grpc.client.spi.server.IGrpcApiImplementation;
 import com.sitewhere.grpc.model.DeviceStateModel.GDeviceStateSearchResults;
-import com.sitewhere.grpc.service.DeviceStateGrpc;
-import com.sitewhere.grpc.service.GCreateDeviceStateRequest;
-import com.sitewhere.grpc.service.GCreateDeviceStateResponse;
-import com.sitewhere.grpc.service.GDeleteDeviceStateRequest;
-import com.sitewhere.grpc.service.GDeleteDeviceStateResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateResponse;
-import com.sitewhere.grpc.service.GSearchDeviceStatesRequest;
-import com.sitewhere.grpc.service.GSearchDeviceStatesResponse;
-import com.sitewhere.grpc.service.GUpdateDeviceStateRequest;
-import com.sitewhere.grpc.service.GUpdateDeviceStateResponse;
+import com.sitewhere.grpc.service.*;
 import com.sitewhere.spi.device.state.IDeviceState;
 import com.sitewhere.spi.device.state.IDeviceStateManagement;
 import com.sitewhere.spi.device.state.request.IDeviceStateCreateRequest;
@@ -33,6 +21,8 @@ import com.sitewhere.spi.microservice.IMicroservice;
 import com.sitewhere.spi.search.ISearchResults;
 
 import io.grpc.stub.StreamObserver;
+
+import java.util.List;
 
 /**
  * Implements server logic for device state GRPC requests.
@@ -156,6 +146,24 @@ public class DeviceStateImpl extends DeviceStateGrpc.DeviceStateImplBase impleme
 	    GrpcUtils.handleServerMethodExit(DeviceStateGrpc.getSearchDeviceStatesMethod());
 	}
     }
+
+	public void getDeviceStates(GGetDeviceStatesRequest request, StreamObserver<GGetDeviceStatesResponse> responseObserver) {
+		try {
+			GrpcUtils.handleServerMethodEntry(this, DeviceStateGrpc.getGetDeviceStatesMethod());
+			List<IDeviceState> apiResult = getDeviceStateManagement().getStatusDeviceStates(
+					DeviceStateModelConverter.asApiDeviceStateSearchCriteria(request.getCriteria()));
+			GGetDeviceStatesResponse.Builder response = GGetDeviceStatesResponse.newBuilder();
+			for (IDeviceState api : apiResult) {
+				response.addResults(DeviceStateModelConverter.asGrpcDeviceState(api));
+			}
+			responseObserver.onNext(response.build());
+			responseObserver.onCompleted();
+		} catch (Throwable e) {
+			GrpcUtils.handleServerMethodException(DeviceStateGrpc.getGetDeviceStatesMethod(), e, responseObserver);
+		} finally {
+			GrpcUtils.handleServerMethodExit(DeviceStateGrpc.getGetDeviceStatesMethod());
+		}
+	}
 
     /*
      * @see com.sitewhere.grpc.service.DeviceStateGrpc.DeviceStateImplBase#

@@ -36,6 +36,8 @@ public class DeviceStateSearchCriteria extends SearchCriteria implements IDevice
     /** Asset ids to be included */
     private List<UUID> assetIds;
 
+    private int interval = 1;
+
     public DeviceStateSearchCriteria() {
 	super();
     }
@@ -105,5 +107,14 @@ public class DeviceStateSearchCriteria extends SearchCriteria implements IDevice
 
     public void setLastInteractionDateBefore(Date lastInteractionDateBefore) {
 	this.lastInteractionDateBefore = lastInteractionDateBefore;
+    }
+
+    @Override
+    public int getInterval() {
+        return interval;
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 }

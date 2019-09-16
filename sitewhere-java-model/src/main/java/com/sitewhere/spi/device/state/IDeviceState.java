@@ -102,4 +102,6 @@ public interface IDeviceState extends Serializable {
      * @return
      */
     public Map<String, UUID> getLastAlertEventIds();
+
+    public String getStatus();
 }

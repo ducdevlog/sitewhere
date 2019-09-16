@@ -9,6 +9,7 @@ package com.sitewhere.devicestate.grpc;
 
 import java.util.UUID;
 
+import com.sitewhere.grpc.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,19 +18,6 @@ import com.sitewhere.devicestate.spi.microservice.IDeviceStateTenantEngine;
 import com.sitewhere.grpc.client.GrpcContextKeys;
 import com.sitewhere.grpc.client.GrpcUtils;
 import com.sitewhere.grpc.client.spi.server.IGrpcRouter;
-import com.sitewhere.grpc.service.DeviceStateGrpc;
-import com.sitewhere.grpc.service.GCreateDeviceStateRequest;
-import com.sitewhere.grpc.service.GCreateDeviceStateResponse;
-import com.sitewhere.grpc.service.GDeleteDeviceStateRequest;
-import com.sitewhere.grpc.service.GDeleteDeviceStateResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateResponse;
-import com.sitewhere.grpc.service.GSearchDeviceStatesRequest;
-import com.sitewhere.grpc.service.GSearchDeviceStatesResponse;
-import com.sitewhere.grpc.service.GUpdateDeviceStateRequest;
-import com.sitewhere.grpc.service.GUpdateDeviceStateResponse;
 import com.sitewhere.spi.microservice.multitenant.TenantEngineNotAvailableException;
 
 import io.grpc.stub.StreamObserver;
@@ -127,6 +115,14 @@ public class DeviceStateRouter extends DeviceStateGrpc.DeviceStateImplBase
 	    engine.searchDeviceStates(request, responseObserver);
 	}
     }
+
+    @Override
+	public void getDeviceStates(GGetDeviceStatesRequest request, StreamObserver<GGetDeviceStatesResponse> responseObserver) {
+		DeviceStateGrpc.DeviceStateImplBase engine = getTenantImplementation(responseObserver);
+		if (engine != null) {
+			engine.getDeviceStates(request, responseObserver);
+		}
+	}
 
     /*
      * @see com.sitewhere.grpc.service.DeviceStateGrpc.DeviceStateImplBase#

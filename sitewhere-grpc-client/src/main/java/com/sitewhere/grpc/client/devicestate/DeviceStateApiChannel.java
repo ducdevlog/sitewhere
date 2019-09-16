@@ -7,6 +7,8 @@
  */
 package com.sitewhere.grpc.client.devicestate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.sitewhere.grpc.client.GrpcUtils;
@@ -14,19 +16,8 @@ import com.sitewhere.grpc.client.MultitenantApiChannel;
 import com.sitewhere.grpc.client.common.converter.CommonModelConverter;
 import com.sitewhere.grpc.client.spi.IApiDemux;
 import com.sitewhere.grpc.client.spi.client.IDeviceStateApiChannel;
-import com.sitewhere.grpc.service.DeviceStateGrpc;
-import com.sitewhere.grpc.service.GCreateDeviceStateRequest;
-import com.sitewhere.grpc.service.GCreateDeviceStateResponse;
-import com.sitewhere.grpc.service.GDeleteDeviceStateRequest;
-import com.sitewhere.grpc.service.GDeleteDeviceStateResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateByDeviceAssignmentIdResponse;
-import com.sitewhere.grpc.service.GGetDeviceStateRequest;
-import com.sitewhere.grpc.service.GGetDeviceStateResponse;
-import com.sitewhere.grpc.service.GSearchDeviceStatesRequest;
-import com.sitewhere.grpc.service.GSearchDeviceStatesResponse;
-import com.sitewhere.grpc.service.GUpdateDeviceStateRequest;
-import com.sitewhere.grpc.service.GUpdateDeviceStateResponse;
+import com.sitewhere.grpc.model.DeviceStateModel;
+import com.sitewhere.grpc.service.*;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.state.IDeviceState;
 import com.sitewhere.spi.device.state.request.IDeviceStateCreateRequest;
@@ -149,7 +140,26 @@ public class DeviceStateApiChannel extends MultitenantApiChannel<DeviceStateGrpc
 	}
     }
 
-    /*
+	@Override
+	public List<IDeviceState> getStatusDeviceStates(IDeviceStateSearchCriteria criteria) throws SiteWhereException {
+		try {
+			GrpcUtils.handleClientMethodEntry(this, DeviceStateGrpc.getGetDeviceStateMethod());
+			GGetDeviceStatesRequest.Builder grequest = GGetDeviceStatesRequest.newBuilder();
+			grequest.setCriteria(DeviceStateModelConverter.asGrpcDeviceStateSearchCriteria(criteria));
+			GGetDeviceStatesResponse gresponse = getGrpcChannel().getBlockingStub()
+					.getDeviceStates(grequest.build());
+			List<IDeviceState> deviceStates = new ArrayList<>();
+			for (DeviceStateModel.GDeviceState gDeviceState : gresponse.getResultsList()) {
+				deviceStates.add(DeviceStateModelConverter.asApiDeviceState(gDeviceState));
+			}
+			GrpcUtils.logClientMethodResponse(DeviceStateGrpc.getGetDeviceStateMethod(), gresponse.getResultsList());
+			return deviceStates;
+		} catch (Throwable t) {
+			throw GrpcUtils.handleClientMethodException(DeviceStateGrpc.getGetDeviceStateMethod(), t);
+		}
+	}
+
+	/*
      * @see
      * com.sitewhere.spi.device.state.IDeviceStateManagement#updateDeviceState(java.
      * util.UUID, com.sitewhere.spi.device.state.request.IDeviceStateCreateRequest)

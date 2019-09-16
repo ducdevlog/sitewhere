@@ -79,6 +79,38 @@ public class DeviceStates extends RestControllerBase {
 	return new SearchResults<IDeviceState>(results, matches.getNumResults());
     }
 
+	@RequestMapping(value = "/get", method = RequestMethod.POST)
+	@ApiOperation(value = "List device states matching criteria")
+	@Secured({ SiteWhereRoles.REST })
+	public List<IDeviceState> getDeviceStates(
+			@ApiParam(value = "Include device information", required = false) @RequestParam(defaultValue = "false") boolean includeDevice,
+			@ApiParam(value = "Include device type information", required = false) @RequestParam(defaultValue = "false") boolean includeDeviceType,
+			@ApiParam(value = "Include device assignment information", required = false) @RequestParam(defaultValue = "false") boolean includeDeviceAssignment,
+			@ApiParam(value = "Include customer information", required = false) @RequestParam(defaultValue = "false") boolean includeCustomer,
+			@ApiParam(value = "Include area information", required = false) @RequestParam(defaultValue = "false") boolean includeArea,
+			@ApiParam(value = "Include asset information", required = false) @RequestParam(defaultValue = "false") boolean includeAsset,
+			@ApiParam(value = "Include event details", required = false) @RequestParam(defaultValue = "false") boolean includeEventDetails,
+			@RequestBody DeviceStateSearchCriteria criteria) throws SiteWhereException {
+
+		// Perform search.
+		List<IDeviceState> matches = getDeviceStateManagement().getStatusDeviceStates(criteria);
+		DeviceStateMarshalHelper helper = new DeviceStateMarshalHelper(getDeviceManagement(),
+				getDeviceEventManagement());
+		helper.setIncludeDevice(includeDevice);
+		helper.setIncludeDeviceType(includeDeviceType);
+		helper.setIncludeDeviceAssignment(includeDeviceAssignment);
+		helper.setIncludeCustomer(includeCustomer);
+		helper.setIncludeArea(includeArea);
+		helper.setIncludeAsset(includeAsset);
+		helper.setIncludeEventDetails(includeEventDetails);
+
+		List<IDeviceState> results = new ArrayList<>();
+		for (IDeviceState assn : matches) {
+			results.add(helper.convert(assn, getAssetManagement()));
+		}
+		return results;
+	}
+
     private IDeviceManagement getDeviceManagement() {
 	return getMicroservice().getDeviceManagementApiDemux().getApiChannel();
     }
