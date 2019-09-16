@@ -1,7 +1,7 @@
 spring:
   cloud:
     zookeeper:
-      connect-string: 171.244.38.134:2181
+      connect-string: zookeeper:2181
       config:
         watch:
           enabled: true
