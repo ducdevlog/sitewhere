@@ -35,6 +35,8 @@ service Infrared {
 
 	rpc GetIrCodeRawFilter(GIrCodeRawFilterRequest) returns (GIrCodeRawFilterResponse) {}
 
+	rpc CreateInfraredCodeRaw(GCreateInfraredCodeRawRequest) returns (GCreateInfraredCodeRawResponse) {}
+
 	// Create IrCodeRaw
 	rpc CreateIrCodeRaw(GIrCodeRawCreateRequest) returns (GIrCodeRawCreateResponse) {}
 
@@ -111,6 +113,14 @@ message GIrCodeRawFilterRequest {
 
 message GIrCodeRawFilterResponse {
 	repeated com.sitewhere.grpc.model.GIrCodeRawMap GIrCodeRawMap = 1;
+}
+
+message GCreateInfraredCodeRawRequest {
+	string irCodeRaw = 1;
+}
+
+message GCreateInfraredCodeRawResponse {
+	com.sitewhere.grpc.model.GIrCodeRawMap GIrCodeRawMap = 1;
 }
 
 message GIrCodeRawCreateRequest {

@@ -34,6 +34,8 @@ public interface IInfraredManagement extends ITenantEngineLifecycleComponent {
 
     public List<Map<String, Object>> getIrCodeRawFilter(String irCodeRaw, int page, int size) throws SiteWhereException;
 
+    public Map<String, Object> createInfraredCodeRaw(String irCodeRaw) throws SiteWhereException;
+
     public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException;
 
     public IrCodeRaw createIrCodeRawLearn(IrCodeRaw irCodeRaw) throws SiteWhereException;

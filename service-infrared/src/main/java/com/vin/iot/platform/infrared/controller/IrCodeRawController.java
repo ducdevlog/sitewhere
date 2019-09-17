@@ -56,9 +56,9 @@ public class IrCodeRawController {
     @PostMapping(value = "/irCodeRaw", produces = "application/json")
     @LogAround(message = "Save Infrared Code Raw")
     public ResponseEntity createInfraredCodeRaw(
-            @ApiParam(value = "Infrared Code Raw Filter", required = false) @RequestParam(required = false) String irCodeRawFilter) {
+            @ApiParam(value = "Infrared Code Raw Filter", required = false) @RequestParam(required = false) String irCodeRaw) {
         try {
-            Map map = mapper.readValue(irCodeRawFilter, Map.class);
+            Map map = mapper.readValue(irCodeRaw, Map.class);
             return ResponseFactory.success(irCodeRawService.createInfraredCodeRaw(map));
         } catch (IOException e) {
             log.error("Error parser Json", new Throwable(e));

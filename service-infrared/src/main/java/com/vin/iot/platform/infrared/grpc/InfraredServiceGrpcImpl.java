@@ -118,7 +118,7 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Page<Map> irCodeRaws = irCodeRawService.getIrCodeRawFilter(filter, request.getPage(), request.getSize());
+        Page<Map<String, Object>> irCodeRaws = irCodeRawService.getIrCodeRawFilter(filter, request.getPage(), request.getSize());
         GIrCodeRawFilterResponse.Builder response = GIrCodeRawFilterResponse.newBuilder();
         for (Map<String, Object> irCodeRaw : irCodeRaws.getContent()) {
             InfraredModel.GIrCodeRawMap.Builder builder = InfraredModel.GIrCodeRawMap.newBuilder();
@@ -135,6 +135,36 @@ public class InfraredServiceGrpcImpl extends InfraredGrpc.InfraredImplBase {
             }
             response.addGIrCodeRawMap(builder);
         }
+        log.info("server responded {}", response);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
+
+    public void createInfraredCodeRaw(com.sitewhere.grpc.service.GCreateInfraredCodeRawRequest request,
+                                      io.grpc.stub.StreamObserver<com.sitewhere.grpc.service.GCreateInfraredCodeRawResponse> responseObserver) {
+        log.info("server received {}", request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map filter = null;
+        try {
+            filter = objectMapper.readValue(request.getIrCodeRaw(), Map.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Map<String, Object> irCodeRaw = irCodeRawService.createInfraredCodeRaw(filter);
+        GCreateInfraredCodeRawResponse.Builder response = GCreateInfraredCodeRawResponse.newBuilder();
+        InfraredModel.GIrCodeRawMap.Builder builder = InfraredModel.GIrCodeRawMap.newBuilder();
+        for (Map.Entry<String, Object> entry : irCodeRaw.entrySet()) {
+            if (entry.getValue() instanceof Integer) {
+                builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalInteger.newBuilder().setValue((Integer) entry.getValue()).build()));
+            } else if (entry.getValue() instanceof Double) {
+                builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalDouble.newBuilder().setValue((Double) entry.getValue()).build()));
+            } else if (entry.getValue() instanceof Boolean) {
+                builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalBoolean.newBuilder().setValue((Boolean) entry.getValue()).build()));
+            } else if (entry.getValue() instanceof String) {
+                builder.putDataFilter(entry.getKey(), Any.pack(InfraredModel.GOptionalString.newBuilder().setValue((String) entry.getValue()).build()));
+            }
+        }
+        response.setGIrCodeRawMap(builder);
         log.info("server responded {}", response);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();

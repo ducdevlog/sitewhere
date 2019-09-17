@@ -182,6 +182,32 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     }
 
     @Override
+    public Map<String, Object> createInfraredCodeRaw(String irCodeRaw) throws SiteWhereException {
+        try {
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawFilterMethod());
+            GCreateInfraredCodeRawRequest.Builder grequest = GCreateInfraredCodeRawRequest.newBuilder();
+            grequest.setIrCodeRaw(irCodeRaw);
+            GCreateInfraredCodeRawResponse gresponse = getGrpcChannel().getBlockingStub().createInfraredCodeRaw(grequest.build());
+            Map<String, Object> iIrCodeRaws = new HashMap<>();
+            for (Map.Entry<String, Any>  entry : gresponse.getGIrCodeRawMap().getDataFilterMap().entrySet()) {
+                if (entry.getValue().is(InfraredModel.GOptionalInteger.class)) {
+                    iIrCodeRaws.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalInteger.class).getValue());
+                } else if (entry.getValue().is(InfraredModel.GOptionalDouble.class)) {
+                    iIrCodeRaws.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalDouble.class).getValue());
+                } else if (entry.getValue().is(InfraredModel.GOptionalBoolean.class)) {
+                    iIrCodeRaws.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalBoolean.class).getValue());
+                } else if (entry.getValue().is(InfraredModel.GOptionalString.class)) {
+                    iIrCodeRaws.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalString.class).getValue());
+                }
+            }
+            GrpcUtils.logClientMethodResponse(InfraredGrpc.getGetIrCodeRawFilterMethod(), iIrCodeRaws);
+            return iIrCodeRaws;
+        } catch (Throwable t) {
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawFilterMethod(), t);
+        }
+    }
+
+    @Override
     public IIrCodeRaw createIrCodeRaw(IrCodeRaw irCodeRaw) throws SiteWhereException {
         try {
             GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateIrCodeRawMethod());
