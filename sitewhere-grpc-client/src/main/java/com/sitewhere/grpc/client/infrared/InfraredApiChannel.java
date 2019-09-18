@@ -184,7 +184,7 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
     @Override
     public Map<String, Object> createInfraredCodeRaw(String irCodeRaw) throws SiteWhereException {
         try {
-            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getGetIrCodeRawFilterMethod());
+            GrpcUtils.handleClientMethodEntry(this, InfraredGrpc.getCreateInfraredCodeRawMethod());
             GCreateInfraredCodeRawRequest.Builder grequest = GCreateInfraredCodeRawRequest.newBuilder();
             grequest.setIrCodeRaw(irCodeRaw);
             GCreateInfraredCodeRawResponse gresponse = getGrpcChannel().getBlockingStub().createInfraredCodeRaw(grequest.build());
@@ -200,10 +200,10 @@ public class InfraredApiChannel extends MultitenantApiChannel<InfraredGrpcChanne
                     iIrCodeRaws.put(entry.getKey(), entry.getValue().unpack(InfraredModel.GOptionalString.class).getValue());
                 }
             }
-            GrpcUtils.logClientMethodResponse(InfraredGrpc.getGetIrCodeRawFilterMethod(), iIrCodeRaws);
+            GrpcUtils.logClientMethodResponse(InfraredGrpc.getCreateInfraredCodeRawMethod(), iIrCodeRaws);
             return iIrCodeRaws;
         } catch (Throwable t) {
-            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getGetIrCodeRawFilterMethod(), t);
+            throw GrpcUtils.handleClientMethodException(InfraredGrpc.getCreateInfraredCodeRawMethod(), t);
         }
     }
 
