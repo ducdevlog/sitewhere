@@ -96,7 +96,7 @@ public class Infrared extends RestControllerBase {
     @ApiOperation(value = "Get list Infrared Code Raw")
     @Secured({ SiteWhereRoles.REST })
     public Map<String, Object> createIrCodeRaw(
-            @ApiParam(value = "Infrared Filter", required = false) @RequestParam(required = false) String irCodeRawFilter
+            @ApiParam(value = "Infrared Filter", required = false) @RequestBody(required = false) String irCodeRawFilter
     ) throws SiteWhereException {
         return getInfraredManagement().createInfraredCodeRaw(irCodeRawFilter);
     }
