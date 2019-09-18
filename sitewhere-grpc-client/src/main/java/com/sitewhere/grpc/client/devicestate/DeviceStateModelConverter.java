@@ -277,6 +277,9 @@ public class DeviceStateModelConverter {
 		grpc.putLastAlertEventIds(key, CommonModelConverter.asGrpcUuid(api.getLastAlertEventIds().get(key)));
 	    }
 	}
+		if (api.getStatus() != null) {
+			grpc.setStatus(api.getStatus());
+		}
 	return grpc.build();
     }
 }
