@@ -205,7 +205,7 @@ public class MongoDeviceStateManagement extends TenantEngineLifecycleComponent i
 	public List<IDeviceState> getStatusDeviceStates(IDeviceStateSearchCriteria criteria) throws SiteWhereException {
 		List<IDeviceState> returns = new ArrayList<>();
 		MongoCollection<Document> states = getMongoClient().getDeviceStatesCollection();
-		AggregateIterable<Document> output = states.aggregate(Arrays.asList(match(and(exists("last", true), in("dtid", criteria.getDeviceTypeIds()))), project(fields(include("dvid", "dtid", "asid", "csid", "arid", "assd", "last"), computed("statis", eq("$cond", and(gte("if", Arrays.asList("$last",
+		AggregateIterable<Document> output = states.aggregate(Arrays.asList(match(and(exists("last", true), in("dtid", criteria.getDeviceTypeIds()))), project(fields(include("dvid", "dtid", "asid", "csid", "arid", "assd", "last"), computed("status", eq("$cond", and(gte("if", Arrays.asList("$last",
 				new SimpleDateFormat("EEE MMMMM dd yyyy HH:mm:ss").format(new java.util.Date(new java.util.Date().getTime() - criteria.getInterval() * 60 * 1000)))), eq("then", "ONLINE"), eq("else", "OFFLINE"))))))));
 		DeviceState deviceState;
 		for (Document document : output) {

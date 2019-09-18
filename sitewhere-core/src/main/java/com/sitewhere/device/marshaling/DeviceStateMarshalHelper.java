@@ -97,6 +97,7 @@ public class DeviceStateMarshalHelper {
 	result.setLastLocationEventId(source.getLastLocationEventId());
 	result.getLastMeasurementEventIds().putAll(source.getLastMeasurementEventIds());
 	result.getLastAlertEventIds().putAll(source.getLastAlertEventIds());
+	result.setStatus(source.getStatus());
 
 	addAssignmentDetail(source, assetManagement, result);
 	addEventDetail(source, assetManagement, result);
