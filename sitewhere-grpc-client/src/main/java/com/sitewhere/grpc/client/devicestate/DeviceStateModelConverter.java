@@ -213,7 +213,7 @@ public class DeviceStateModelConverter {
 	api.setLastInteractionDate(CommonModelConverter.asApiDate(grpc.getLastInteractionDate()));
 	api.setPresenceMissingDate(CommonModelConverter.asApiDate(grpc.getPresenceMissingDate()));
 	api.setLastLocationEventId(CommonModelConverter.asApiUuid(grpc.getLastLocationEventId()));
-
+	api.setStatus(grpc.getStatus());
 	Map<String, GUUID> lastMeasurementIds = grpc.getLastMeasurementEventIdsMap();
 	for (String key : lastMeasurementIds.keySet()) {
 	    api.getLastMeasurementEventIds().put(key, CommonModelConverter.asApiUuid(lastMeasurementIds.get(key)));
