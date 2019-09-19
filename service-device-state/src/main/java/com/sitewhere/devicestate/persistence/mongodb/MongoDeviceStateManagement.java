@@ -38,10 +38,10 @@ import com.sitewhere.spi.search.device.IDeviceStateSearchCriteria;
 import com.sitewhere.spi.server.lifecycle.ILifecycleProgressMonitor;
 import com.sitewhere.spi.server.lifecycle.LifecycleComponentType;
 
-import static com.mongodb.client.model.Aggregates.match;
-import static com.mongodb.client.model.Aggregates.project;
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.descending;
 import static org.apache.zookeeper.ZooDefs.OpCode.exists;
 
 /**
@@ -205,8 +205,17 @@ public class MongoDeviceStateManagement extends TenantEngineLifecycleComponent i
 	public List<IDeviceState> getStatusDeviceStates(IDeviceStateSearchCriteria criteria) throws SiteWhereException {
 		List<IDeviceState> returns = new ArrayList<>();
 		MongoCollection<Document> states = getMongoClient().getDeviceStatesCollection();
-		AggregateIterable<Document> output = states.aggregate(Arrays.asList(match(and(exists("last", true), in("dtid", criteria.getDeviceTypeIds()))), project(fields(include("dvid", "dtid", "asid", "csid", "arid", "assd", "last"), computed("status", eq("$cond", and(gte("if", Arrays.asList("$last",
-				new java.util.Date(new java.util.Date().getTime() - criteria.getInterval() * 60 * 1000))), eq("then", "ONLINE"), eq("else", "OFFLINE"))))))));
+		Integer pageSize = criteria.getPageSize() == null ? 100 : criteria.getPageSize();
+		Integer pageNumber = criteria.getPageNumber() == null ? 0 : criteria.getPageNumber();
+		int skip = pageSize * pageNumber;
+		AggregateIterable<Document> output = states.aggregate(Arrays.asList(
+				match(and(exists("last", true), in("dtid", criteria.getDeviceTypeIds()))),
+				project(fields(include("dvid", "dtid", "asid", "csid", "arid", "assd", "last"), computed("status", eq("$cond", and(gte("if", Arrays.asList("$last",
+				new java.util.Date(new java.util.Date().getTime() - criteria.getInterval() * 60 * 1000))), eq("then", "ONLINE"), eq("else", "OFFLINE")))))),
+				skip(skip),
+				limit(pageSize),
+				sort(descending("_id"))
+		));
 		DeviceState deviceState;
 		for (Document document : output) {
 			deviceState = new DeviceState();
