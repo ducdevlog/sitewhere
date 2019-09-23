@@ -208,8 +208,8 @@ public class MongoDeviceEventManagement extends TenantEngineLifecycleComponent i
 	MongoCollection<Document> events = getMongoClient().getEventsCollection();
 	Document query = new Document(getFieldForIndex(index), new Document("$in", entityIds))
 		.append(MongoDeviceEvent.PROP_EVENT_TYPE, DeviceEventType.Measurement.name());
-	MongoPersistence.addDateSearchCriteria(query, MongoDeviceEvent.PROP_EVENT_DATE, criteria);
-	Document sort = new Document(MongoDeviceEvent.PROP_EVENT_DATE, -1);
+	MongoPersistence.addDateSearchCriteria(query, MongoDeviceEvent.PROP_RECEIVED_DATE, criteria);
+	Document sort = new Document(MongoDeviceEvent.PROP_RECEIVED_DATE, -1);
 	return MongoPersistence.search(IDeviceMeasurement.class, events, query, sort, criteria, LOOKUP);
     }
 
