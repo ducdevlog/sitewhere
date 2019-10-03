@@ -151,7 +151,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 	    deviceCreate.setGatewayId(request.getGatewayId());
 	    deviceCreate.setHardwareId(request.getHardwareId());
 	    deviceCreate.setItemChannelLink(request.getItemChannelLink());
-		if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
+		/*if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
 			Map<String, String> configurations = new HashMap<>();
 			configurations.putAll(request.getConfigurationGateway());
 			configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + (deviceCreate.getToken() == null ? "default" : deviceCreate.getToken()) );
@@ -166,7 +166,7 @@ public class DeviceRegistrationManager extends TenantEngineLifecycleComponent im
 			configurations.put("username", deviceCreate.getToken());
 			configurations.put("password", deviceCreate.getToken());
 			deviceCreate.setConfigurationGateway(configurations);
-		}
+		}*/
 		//deviceCreate.setConfigurationGateway(request.getConfigurationGateway());
 	    deviceCreate.setMetadata(request.getMetadata());
 

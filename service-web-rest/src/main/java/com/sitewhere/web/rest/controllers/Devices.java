@@ -101,13 +101,13 @@ public class Devices extends RestControllerBase {
     @Secured({ SiteWhereRoles.REST })
     public IDevice createDevice(@RequestBody DeviceCreateRequest request, HttpServletRequest servletRequest)
 	    throws SiteWhereException {
-    	if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
+    	/*if (request.getConfigurationGateway() != null && request.getConfigurationGateway().size() > 0) {
 			request.getConfigurationGateway().put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
 		} else {
     		Map<String, String> configurations = new HashMap<>();
     		configurations.put("siteWhereTopic", "SiteWhere/default/topic/json/" + request.getToken());
     		request.setConfigurationGateway(configurations);
-		}
+		}*/
 	 	Device result = (Device) getDeviceManagement().createDevice(request);
 		DeviceMarshalHelper helper = new DeviceMarshalHelper(getDeviceManagement());
 		if (result != null && StringUtils.isNotEmpty(request.getGatewayId())) {
@@ -137,7 +137,7 @@ public class Devices extends RestControllerBase {
 		} else {
 			helper.setIncludeAssignment(false);
 		}
-		try {
+		/*try {
 			MqttUserCreateRequest mqttUser = new MqttUserCreateRequest();
 			mqttUser.setUsername(result.getToken());
 			mqttUser.setPassword(result.getToken());
@@ -150,7 +150,7 @@ public class Devices extends RestControllerBase {
 			getMqttAclManagement().createMqttAcl(mqttAcl);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	return helper.convert(result, getAssetManagement());
     }
 
